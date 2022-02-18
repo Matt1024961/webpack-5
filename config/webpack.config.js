@@ -3,7 +3,7 @@ const glob = require('glob');
 const webpack = require(`webpack`);
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-
+const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require(`html-webpack-plugin`);
 const PurgeCSSPlugin = require('purgecss-webpack-plugin');
 
@@ -39,6 +39,13 @@ module.exports = (env, argv) => {
 
       new MiniCssExtractPlugin({
         filename: `styles.[contenthash].css`,
+      }),
+
+      new CopyPlugin({
+        patterns: [
+          { from: 'src/assets', to: 'assets' },
+          //{ from: 'other', to: 'public' },
+        ],
       }),
 
       new PurgeCSSPlugin({

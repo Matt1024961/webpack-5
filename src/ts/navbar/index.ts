@@ -1,7 +1,11 @@
+import { Logger } from 'typescript-logger';
+
 const template = require('./template.html').default;
 
 export class Navbar {
-  constructor(querySelector: string) {
+  private logger: Logger;
+  constructor(querySelector: string, logger: Logger) {
+    this.logger = logger;
     this.render(querySelector);
   }
   render(querySelector: string) {
@@ -10,5 +14,6 @@ export class Navbar {
     const temp = htmlDoc.querySelector(`#template`);
     const node = document.importNode(temp, true);
     document.body.querySelector(querySelector).innerHTML = node.innerHTML;
+    this.logger.info('Navigation Bar rendered');
   }
 }
