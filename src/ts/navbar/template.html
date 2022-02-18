@@ -1,0 +1,71 @@
+<template id="template"
+  ><nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
+            <i class="reboot nav-loading fas fa-bars" title="Menu"></i>
+            <span>Menu</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="#"> Information</a>
+            </li>
+            <li><a class="dropdown-item" href="#">Save XBRL Instance</a></li>
+            <li><a class="dropdown-item" href="#">Save XBRL Zip File</a></li>
+            <li><a class="dropdown-item" href="#">Open as HTML</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Help</a></li>
+            <li><a class="dropdown-item" href="#">Version: </a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">
+            <i class="fas fa-layer-group" title="Sections"></i>
+            <span>Sections</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <form class="d-flex">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">
+            <i class="fas fa-list-alt" title="Data"></i>
+            <span>Data</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">
+            <i class="fas fa-tags" title="Tags"></i>
+            <span>Tags</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">
+            <i class="fas fa-filter" title="More Filters"></i>
+            <span>More Filters</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav mr-auto d-flex">
+        <li class="nav-item">
+          <a class="nav-link">
+            <span>Facts</span>
+            <span class="badge bg-secondary">####</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</template>

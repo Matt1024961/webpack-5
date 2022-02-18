@@ -1,0 +1,115 @@
+const path = require(`path`);
+const glob = require('glob');
+const webpack = require(`webpack`);
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
+const HtmlWebpackPlugin = require(`html-webpack-plugin`);
+const PurgeCSSPlugin = require('purgecss-webpack-plugin');
+
+module.exports = (env, argv) => {
+  const PATHS = {
+    src: path.join(__dirname, '../src'),
+  };
+  // console.log(glob.sync(`${path.join(__dirname, '../src')}/**/*`,  { nodir: true }));
+  //   console.log(
+  //     glob.sync(`${path.join(__dirname, '../src')}/**/*`, {
+  //       nodir: true,
+  //     })
+  //   );
+  return {
+    mode: argv.mode,
+
+    entry: `./src/ts/index.ts`,
+
+    devtool: `source-map`,
+
+    plugins: [
+      new HtmlWebpackPlugin({
+        title:
+          argv.mode === `production` ? `Inline XBRL Viewer` : `DEVELOPMENT!`,
+        inject: `head`,
+        hash: true,
+        template: `./src/index.html`,
+        filename: `index.html`,
+      }),
+      new webpack.BannerPlugin(
+        `Some simple comment that will be at the top of the bundle(s)`
+      ),
+
+      new MiniCssExtractPlugin({
+        filename: `styles.[contenthash].css`,
+      }),
+
+      new PurgeCSSPlugin({
+        paths: glob.sync(`${path.join(__dirname, '../src')}/**/*`, {
+          nodir: true,
+        }),
+      }),
+    ],
+
+    output: {
+      filename:
+        argv.mode === `production` ? `bundle.[contenthash].js` : `bundle.js`,
+      path: path.resolve(__dirname, `../dist`),
+      clean: true,
+    },
+
+    module: {
+      rules: [
+        // load TS
+        {
+          test: /\.tsx?$/,
+          loader: `ts-loader`,
+          options: {
+            configFile: path.resolve(__dirname, `tsconfig.json`),
+          },
+          exclude: path.resolve(__dirname, `../node_modules`),
+        },
+        // load SCSS
+        {
+          test: /\.s[ac]ss$/i,
+          use: [
+            argv.mode === `production`
+              ? MiniCssExtractPlugin.loader
+              : `style-loader`,
+            'css-loader',
+          ],
+        },
+        // load html
+        {
+          test: /\.html$/i,
+          loader: 'html-loader',
+        },
+        // load image(s)
+        {
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: `asset/resource`,
+        },
+        // load font(s)
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/i,
+          type: `asset/resource`,
+        },
+      ],
+    },
+
+    resolve: {
+      extensions: [`.tsx`, `.ts`, `.js`],
+    },
+
+    devServer: {
+      open: true,
+      compress: true,
+      port: 3000,
+      static: path.resolve(__dirname, `../dist`),
+      watchFiles: [`./src/**/*.html`, `./src/**/*.scss`, `./src/**/*.ts`],
+      client: {
+        overlay: true,
+        progress: true,
+      },
+    },
+
+    optimization: {},
+  };
+};
