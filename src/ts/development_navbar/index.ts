@@ -6,25 +6,47 @@ export class DevelopmentNavbar {
   private logger: Logger;
   constructor(querySelector: string, logger: Logger) {
     this.logger = logger;
-    this.render(querySelector);
+    this.init(querySelector);
   }
 
-  developmentMode(): void {
-    this.logger.info('Navigation Bar development mode');
+  init(querySelector: string): void {
+    fetch(`./assets/development-locations.json`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        this.render(querySelector, data);
+      });
   }
-
-  render(querySelector: string) {
+  render(
+    querySelector: string,
+    developmentData: { single: Array<string>; multi: Array<string> }
+  ) {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     const temp = htmlDoc.querySelector(`#template`);
     const node = document.importNode(temp, true);
-    if (process.env.NODE_ENV === 'production') {
-      node.querySelectorAll('[data-development]').forEach(e => e.remove());
-    } else {
-      this.developmentMode()
-    }
+    developmentData.single.forEach((current) => {
+      const list = node.querySelector(`[single]`);
+      const li = document.createElement(`li`);
+      const a = document.createElement(`a`);
+      a.setAttribute(`class`, `dropdown-item`);
+      a.setAttribute(`href`, `?doc=/assets/example-1/${current[0]}`);
+      a.setAttribute(`target`, `_blank`);
+      const text = document.createTextNode(current[0]);
+      list.appendChild(li).appendChild(a).appendChild(text);
+    });
+    developmentData.multi.forEach((current) => {
+      const list = node.querySelector(`[multi]`);
+      const li = document.createElement(`li`);
+      const a = document.createElement(`a`);
+      a.setAttribute(`class`, `dropdown-item`);
+      a.setAttribute(`href`, `?doc=/assets/example-1/${current[0]}`);
+      a.setAttribute(`target`, `_blank`);
+      const text = document.createTextNode(current[0]);
+      list.appendChild(li).appendChild(a).appendChild(text);
+    });
     document.body.querySelector(querySelector).append(node);
-    //document.body.querySelector(querySelector).innerHTML = node.innerHTML;
-    this.logger.info('Navigation Bar rendered');
+    this.logger.info('Development Navigation Bar rendered');
   }
 }

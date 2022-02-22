@@ -2,16 +2,12 @@ const path = require(`path`);
 const glob = require('glob');
 const webpack = require(`webpack`);
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require(`html-webpack-plugin`);
 const PurgeCSSPlugin = require('purgecss-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = (env, argv) => {
-  const PATHS = {
-    src: path.join(__dirname, '../src'),
-  };
-
   return {
     mode: argv.mode,
 
@@ -37,15 +33,17 @@ module.exports = (env, argv) => {
       }),
 
       new CopyPlugin({
-        patterns: [
-          { from: 'src/assets', to: 'assets' },
-        ],
+        patterns: [{ from: 'src/assets', to: 'assets' }],
       }),
 
       new PurgeCSSPlugin({
         paths: glob.sync(`${path.join(__dirname, '../src')}/**/*`, {
           nodir: true,
         }),
+      }),
+
+      new ESLintPlugin({
+        extensions: ['ts']
       }),
     ],
 

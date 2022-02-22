@@ -20,23 +20,27 @@ export class FilingUrl {
           .then((data) => {
             // send this data somewhere to be processed
             const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(data, `application/xhtml+xml`);
+            const htmlDoc = parser.parseFromString(
+              data,
+              `application/xhtml+xml`
+            );
             const temp = htmlDoc.querySelector(`body`);
             const node = document.importNode(temp, true);
             // we should now fix the XHTML
-            node.querySelectorAll(`[contextRef]`).forEach((current, index) => {
-              current.classList.add("active-fact");
-            })
+            node.querySelectorAll(`[contextRef]`).forEach((current) => {
+              current.classList.add('active-fact');
+            });
             document.querySelector(`#filing`).innerHTML = node.innerHTML;
-            console.log(params[property]);
-            const dataJson = `${params[property].substring(0, params[property].lastIndexOf(`/`))}/Data.json`;
+            const dataJson = `${params[property].substring(
+              0,
+              params[property].lastIndexOf(`/`)
+            )}/Data.json`;
             fetch(dataJson)
               .then((response) => {
                 return response.json();
               })
               .then((data) => {
                 // send this data somewhere to be processed
-
                 console.log(data.facts);
               });
           });
