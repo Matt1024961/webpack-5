@@ -11,12 +11,7 @@ module.exports = (env, argv) => {
   const PATHS = {
     src: path.join(__dirname, '../src'),
   };
-  // console.log(glob.sync(`${path.join(__dirname, '../src')}/**/*`,  { nodir: true }));
-  //   console.log(
-  //     glob.sync(`${path.join(__dirname, '../src')}/**/*`, {
-  //       nodir: true,
-  //     })
-  //   );
+
   return {
     mode: argv.mode,
 
@@ -44,7 +39,6 @@ module.exports = (env, argv) => {
       new CopyPlugin({
         patterns: [
           { from: 'src/assets', to: 'assets' },
-          //{ from: 'other', to: 'public' },
         ],
       }),
 
@@ -81,6 +75,7 @@ module.exports = (env, argv) => {
               ? MiniCssExtractPlugin.loader
               : `style-loader`,
             'css-loader',
+            `sass-loader`,
           ],
         },
         // load html
@@ -102,7 +97,7 @@ module.exports = (env, argv) => {
     },
 
     resolve: {
-      extensions: [`.tsx`, `.ts`, `.js`],
+      extensions: [`.tsx`, `.ts`, `.js`, '.scss'],
     },
 
     devServer: {

@@ -1,2 +1,11 @@
 @import '~bootstrap';
 
+.active-fact {
+    border-top: 1px red solid;
+    border-bottom: 1px red solid;
+
+    &:hover {
+        background-color:rgba(255,0,0,0.3);
+        cursor: pointer;
+      }
+}

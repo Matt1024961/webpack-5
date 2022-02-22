@@ -8,12 +8,23 @@ export class Navbar {
     this.logger = logger;
     this.render(querySelector);
   }
+
+  developmentMode(): void {
+    this.logger.info('Navigation Bar development mode');
+  }
+
   render(querySelector: string) {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     const temp = htmlDoc.querySelector(`#template`);
     const node = document.importNode(temp, true);
-    document.body.querySelector(querySelector).innerHTML = node.innerHTML;
+    if (process.env.NODE_ENV === 'production') {
+      node.querySelectorAll('[data-development]').forEach(e => e.remove());
+    } else {
+      this.developmentMode()
+    }
+    document.body.querySelector(querySelector).append(node);
+    //document.body.querySelector(querySelector).innerHTML = node.innerHTML;
     this.logger.info('Navigation Bar rendered');
   }
 }
