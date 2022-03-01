@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Wed Feb 23 2022 08:02:11 GMT-0700 (Mountain Standard Time)
-const webpackConfig = require('./webpack.config.spec');
-
+const webpackConfig = require('./webpack.config')();
+delete webpackConfig.entry;
 module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -14,7 +14,7 @@ module.exports = function (config) {
     // list of files / patterns to load in the browser
     files: [
       {
-        pattern: '../src/**/*.spec.ts',
+        pattern: '../src/ts/**/*.ts',
         watched: false,
         type: 'js',
       },
@@ -26,14 +26,18 @@ module.exports = function (config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://www.npmjs.com/search?q=keywords:karma-preprocessor
     preprocessors: {
-      '../src/**/*.spec.ts': ['webpack'],
+      '../src/ts/**/*.ts': ['webpack'],
     },
 
     mime: {
       'text/x-typescript': ['ts', 'tsx'],
     },
 
-    webpack: webpackConfig,
+    webpack: {
+      plugins: webpackConfig.plugins,
+      module: webpackConfig.module,
+      resolve: webpackConfig.resolve,
+    },
 
     webpackMiddleware: {
       noInfo: true,
@@ -41,7 +45,7 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://www.npmjs.com/search?q=keywords:karma-reporter
-    reporters: ['progress', 'coverage'],
+    reporters: ['progress'],
 
     // web server port
     port: 9876,
@@ -62,7 +66,7 @@ module.exports = function (config) {
       'Chrome',
       'ChromeHeadless',
       // 'ChromeCanary',
-      // 'Firefox',
+      'Firefox',
       // 'Safari',
       // 'PhantomJS',
       // 'Opera',

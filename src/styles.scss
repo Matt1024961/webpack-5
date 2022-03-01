@@ -1,11 +1,15 @@
 @import '~bootstrap';
 
-.active-fact {
-    border-top: 1px red solid;
-    border-bottom: 1px red solid;
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts/';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '~@fortawesome/fontawesome-free/scss/solid.scss';
 
-    &:hover {
-        background-color:rgba(255,0,0,0.3);
-        cursor: pointer;
-      }
+.active-fact {
+  border-top: 1px red solid;
+  border-bottom: 1px red solid;
+
+  &:hover {
+    background-color: rgba(255, 0, 0, 0.3);
+    cursor: pointer;
+  }
 }

@@ -1,6 +1,5 @@
 import { Logger } from 'typescript-logger';
-
-const template = require('./template.html').default;
+import template from './template.html';
 
 export class DevelopmentNavbar {
   private logger: Logger;

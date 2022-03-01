@@ -7,15 +7,11 @@ const HtmlWebpackPlugin = require(`html-webpack-plugin`);
 const PurgeCSSPlugin = require('purgecss-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
-module.exports = (env, argv) => {
-  console.log(env);
-  console.log(argv);
+module.exports = (env, argv = { mode: `development` }) => {
   return {
     mode: argv.mode,
 
     entry: `./src/ts/index.ts`,
-
-    devtool: `source-map`,
 
     plugins: [
       new HtmlWebpackPlugin({
@@ -31,12 +27,14 @@ module.exports = (env, argv) => {
       ),
 
       new MiniCssExtractPlugin({
-        filename: `styles.[contenthash].css`,
+        filename: `styles.[contenthash].min.css`,
       }),
 
-      new CopyPlugin({
-        patterns: [{ from: 'src/assets', to: 'assets' }],
-      }),
+      argv.mode === 'development'
+        ? new CopyPlugin({
+            patterns: [{ from: 'src/assets', to: 'assets' }],
+          })
+        : false,
 
       new PurgeCSSPlugin({
         paths: glob.sync(`${path.join(__dirname, '../src')}/**/*`, {
@@ -47,11 +45,13 @@ module.exports = (env, argv) => {
       new ESLintPlugin({
         extensions: ['ts'],
       }),
-    ],
+    ].filter(Boolean),
 
     output: {
       filename:
-        argv.mode === `production` ? `bundle.[contenthash].js` : `bundle.js`,
+        argv.mode === `production`
+          ? `bundle.[contenthash].min.js`
+          : `bundle.js`,
       path: path.resolve(__dirname, `../dist`),
       clean: true,
     },
@@ -60,12 +60,12 @@ module.exports = (env, argv) => {
       rules: [
         // load TS
         {
-          test: /\.ts?$/,
+          test: /\.tsx?$/,
           loader: `ts-loader`,
           options: {
             configFile: path.resolve(__dirname, `tsconfig.json`),
           },
-          exclude: path.resolve(__dirname, `../node_modules`),
+          exclude: [path.resolve(__dirname, `../node_modules`)],
         },
         // load SCSS
         {
@@ -82,6 +82,9 @@ module.exports = (env, argv) => {
         {
           test: /\.html$/i,
           loader: 'html-loader',
+          options: {
+            esModule: true,
+          },
         },
         // load image(s)
         {
@@ -97,10 +100,10 @@ module.exports = (env, argv) => {
     },
 
     resolve: {
-      extensions: [`.tsx`, `.ts`, `.js`, '.scss'],
+      extensions: [`.tsx`, `.ts`, `jsx`, `.js`, '.scss'],
     },
 
-    devtool: `inline-source-map`,
+    devtool: argv.mode === `production` ? `source-map` : `inline-source-map`,
 
     devServer: {
       open: true,
@@ -114,6 +117,9 @@ module.exports = (env, argv) => {
       },
     },
 
-    optimization: {},
+    optimization: {
+      minimize: true,
+      usedExports: true,
+    },
   };
 };

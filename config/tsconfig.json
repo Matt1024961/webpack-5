@@ -7,5 +7,7 @@
     "target": "es5",
     "allowJs": true,
     "moduleResolution": "node"
-  }
+  },
+  "include": ["../src/**/*.ts", "../src/**/*.html"],
+  "files": ["typings.d.ts"]
 }
