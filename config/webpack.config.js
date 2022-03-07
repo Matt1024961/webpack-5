@@ -113,7 +113,7 @@ module.exports = (env, argv = { mode: `development` }) => {
       watchFiles: [`./src/**/*.html`, `./src/**/*.scss`, `./src/**/*.ts`],
       client: {
         overlay: true,
-        progress: true,
+        // progress: true,
       },
     },
 

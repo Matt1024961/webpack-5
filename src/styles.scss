@@ -4,12 +4,44 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts/';
 @import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
 @import '~@fortawesome/fontawesome-free/scss/solid.scss';
 
+$navbar-height: 45px;
+$sec-color: #003768;
 .active-fact {
-  border-top: 1px red solid;
-  border-bottom: 1px red solid;
+  border-top: 2px red solid !important;
+  border-bottom: 2px red solid !important;
 
   &:hover {
-    background-color: rgba(255, 0, 0, 0.3);
-    cursor: pointer;
+    background-color: rgba(255, 0, 0, 0.3) !important;
+    cursor: pointer !important;
   }
+}
+
+.navbar-sec {
+  height: $navbar-height;
+  background-color: $sec-color;
+}
+.nav-link {
+  color: $white;
+  &:hover {
+    color: $white;
+    cursor: pointer !important;
+    background: linear-gradient($white, $white) bottom 5px center/ 90% 1px
+      no-repeat;
+  }
+  &:visited {
+    color: $white;
+  }
+  &:focus {
+    color: $white;
+  }
+}
+#error {
+  margin-top: $navbar-height;
+  .alert {
+    border-radius: 0;
+  }
+}
+
+.offcanvas {
+  top: $navbar-height;
 }

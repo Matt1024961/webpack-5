@@ -3,7 +3,7 @@ import { LoggerManager } from 'typescript-logger';
 import Navbar from './';
 
 describe('Hello', () => {
-  it('Renders header', () => {
+  it('Renders Navbar', () => {
     const logger = LoggerManager.create('Inline XBRL Viewer');
     const navbar = new Navbar(`#navbar`, logger);
     console.log(navbar);

@@ -1,11 +1,12 @@
 import { Logger } from 'typescript-logger';
 import template from './template.html';
 
-export default class Navbar {
+export default class Sections {
   private logger: Logger;
   constructor(querySelector: string, logger: Logger) {
     this.logger = logger;
     this.render(querySelector);
+    this.listeners();
   }
 
   render(querySelector: string) {
@@ -23,5 +24,26 @@ export default class Navbar {
     } else {
       this.logger.warn('Navigation Bar NOT rendered');
     }
+  }
+
+  listeners(): void {
+    const offcanvas = document.getElementById('sections-offcanvas');
+    const idsToAlter = [`error`, `warning`, `filing`];
+    offcanvas.addEventListener('show.bs.offcanvas', function () {
+      idsToAlter.forEach((current) => {
+        Object.assign(document.getElementById(current).style, {
+          marginLeft: `400px`,
+          transition: `margin 100ms`,
+        });
+      });
+    });
+    offcanvas.addEventListener('hidden.bs.offcanvas', function () {
+      idsToAlter.forEach((current) => {
+        Object.assign(document.getElementById(current).style, {
+          marginLeft: `0px`,
+          transition: `margin 100ms`,
+        });
+      });
+    });
   }
 }

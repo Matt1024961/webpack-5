@@ -1,45 +1,34 @@
-<section id="template">
-  <nav class="navbar navbar-expand-lg navbar-light bg-warning">
-    <div class="container-fluid">
-      <ul class="navbar-nav mr-auto">
+<nav
+  template
+  class="navbar navbar-expand-lg fixed-bottom navbar-light bg-warning"
+>
+  <div class="container-fluid">
+    <span class="navbar-brand" href="#">
+      <i class="nav-loading fas fa-code" title="Development"></i>
+      <span>Development</span>
+    </span>
+    <ul class="navbar-nav mx-auto">
+      <div class="btn-group dropup">
         <li class="nav-item">
-          <a class="nav-link">
-            <i class="nav-loading fas fa-code" title="Development"></i>
-            <span>Development</span>
+          <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
+            <i class="nav-loading fas fa-check" title="Filings"></i>
+            <span>Filings</span>
           </a>
+          <ul class="dropdown-menu" single></ul>
         </li>
-        <div class="btn-group">
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-            >
-              <i class="nav-loading fas fa-check" title="Filings"></i>
-              <span>Filings</span>
-            </a>
-            <ul class="dropdown-menu" single></ul>
-          </li>
-        </div>
-        <div class="btn-group">
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-            >
-              <i
-                class="nav-loading fas fa-check-double"
-                title="Multi Filings"
-              ></i>
-              <span>Multi Filings</span>
-            </a>
-            <ul class="dropdown-menu" multi></ul>
-          </li>
-        </div>
-      </ul>
-    </div>
-  </nav>
-</section>
+      </div>
+      <div class="btn-group dropup">
+        <li class="nav-item">
+          <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
+            <i
+              class="nav-loading fas fa-check-double"
+              title="Multi Filings"
+            ></i>
+            <span>Multi Filings</span>
+          </a>
+          <ul class="dropdown-menu" multi></ul>
+        </li>
+      </div>
+    </ul>
+  </div>
+</nav>
