@@ -27,7 +27,7 @@ export default class Tags {
     }
 
     listeners(): void {
-        document.querySelectorAll('[name="tags-radio"]').forEach((current) => {
+        document.querySelectorAll('[name="tags-radios"]').forEach((current) => {
             current.addEventListener(`change`, () => {
                 console.log(current.getAttribute(`value`));
             })
