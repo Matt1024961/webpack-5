@@ -1,4 +1,7 @@
 import { Logger } from 'typescript-logger';
+import Data from '../filters/data';
+import MoreFilters from '../filters/more_filters';
+import Tags from '../filters/tags';
 import template from './template.html';
 
 export default class Navbar {
@@ -6,6 +9,9 @@ export default class Navbar {
   constructor(querySelector: string, logger: Logger) {
     this.logger = logger;
     this.render(querySelector);
+    new Data(`[template-data]`, logger);
+    new Tags(`[template-tags]`, logger);
+    new MoreFilters(`[template-more-filters]`, logger);
   }
 
   render(querySelector: string) {
