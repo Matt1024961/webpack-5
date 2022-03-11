@@ -2,6 +2,8 @@
 // Generated on Wed Feb 23 2022 08:02:11 GMT-0700 (Mountain Standard Time)
 const webpackConfig = require('./webpack.config')();
 delete webpackConfig.entry;
+// delete webpackConfig.plugins[4];
+// webpackConfig.plugins.filter(Boolean);
 module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -13,6 +15,11 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     files: [
+      {
+        pattern: '../src/**/*.html',
+        watched: false,
+        type: 'html',
+      },
       {
         pattern: '../src/ts/**/*.ts',
         watched: false,
@@ -34,6 +41,7 @@ module.exports = function (config) {
     },
 
     webpack: {
+      mode: `production`,
       plugins: webpackConfig.plugins,
       module: webpackConfig.module,
       resolve: webpackConfig.resolve,
@@ -45,7 +53,7 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://www.npmjs.com/search?q=keywords:karma-reporter
-    reporters: ['progress'],
+    reporters: ['mocha'],
 
     // web server port
     port: 9876,
@@ -84,23 +92,3 @@ module.exports = function (config) {
     failOnEmptyTestSuite: false,
   });
 };
-
-// module.exports = function (config) {
-//   config.set({
-//     browsers: ['Chrome'],
-//     singleRun: true,
-//     frameworks: ['webpack'],
-//     files: [
-//       { pattern: './../src/**/*.spec.ts', watched: false, type: 'js' },
-//       //   { pattern: 'test/**/*_test.js', watched: false },
-//     ],
-//     preprocessors: {
-//       './../src/*.spec.ts': ['webpack'],
-//       'test/**/*_test.js': ['webpack'],
-//     },
-//     webpack: {
-//       // Any custom webpack configuration...
-//     },
-//     plugins: ['karma-webpack'],
-//   });
-// };

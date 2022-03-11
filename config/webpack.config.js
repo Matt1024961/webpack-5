@@ -7,7 +7,7 @@ const HtmlWebpackPlugin = require(`html-webpack-plugin`);
 const PurgeCSSPlugin = require('purgecss-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
-module.exports = (env, argv = { mode: `development` }) => {
+module.exports = (env, argv = { mode: `production` }) => {
   return {
     mode: argv.mode,
 
@@ -120,6 +120,9 @@ module.exports = (env, argv = { mode: `development` }) => {
     optimization: {
       minimize: true,
       usedExports: true,
+    },
+    performance: {
+      hints: false,
     },
   };
 };

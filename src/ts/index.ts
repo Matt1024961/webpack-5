@@ -1,12 +1,14 @@
 // import '../styles.scss';
 import 'bootstrap';
 import '@popperjs/core';
+import { Tooltip } from 'bootstrap';
 import { LoggerManager } from 'typescript-logger';
 import '../styles.scss';
-import { DevelopmentNavbar } from './development_navbar';
-import Navbar from './navbar';
+import { DevelopmentNavbar } from './ui/development_navbar';
+import Navbar from './ui/navbar';
 import { FilingUrl } from './filing-url';
-import Sections from './sections';
+import Sections from './ui/sections';
+import Facts from './ui/facts';
 
 (() => {
   const logger = LoggerManager.create('Inline XBRL Viewer', `#003768`);
@@ -19,14 +21,16 @@ import Sections from './sections';
     new DevelopmentNavbar(`#development_navbar`, logger);
   }
   logger.info('Application Begin');
-  new FilingUrl(logger);
+  //new FilingUrl(logger);
   new Navbar(`#navbar`, logger);
   new Sections(`#sections`, logger);
+  new Facts(`#facts`, logger);
+  new FilingUrl(logger);
 
-
-  // const myOffcanvas = document.getElementById('sections-offcanvas');
-  // console.log(myOffcanvas);
-  // myOffcanvas.addEventListener('hidden.bs.offcanvas', function () {
-  //   // do something...
-  // });
+  // turn on all tooltips
+  Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]')).forEach(
+    (tooltipTriggerEl: Element) => {
+      new Tooltip(tooltipTriggerEl);
+    }
+  );
 })();

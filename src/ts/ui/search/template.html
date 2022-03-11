@@ -1,0 +1,203 @@
+<form template class="d-flex" id="global-search">
+  <fieldset>
+    <div class="input-group dropdown">
+      <button
+        class="btn btn-outline-light"
+        id="search-dropdown"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <i class="fas fa-cog"></i>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="search-dropdown">
+        <fieldset class="px-1">
+          <!-- Include Fact Name -->
+          <li>
+            <div class="form-check">
+              <input
+                checked
+                name="search-checks"
+                class="form-check-input"
+                type="checkbox"
+                value="0"
+                id="search-radio-0"
+              />
+              <label class="form-check-label" for="search-radio-0">
+                Include Fact Name
+              </label>
+            </div>
+          </li>
+          <!-- Include Fact Content -->
+          <li>
+            <div class="form-check">
+              <input
+                checked
+                name="search-checks"
+                class="form-check-input"
+                type="checkbox"
+                value="1"
+                id="search-radio-1"
+              />
+              <label class="form-check-label" for="search-radio-1">
+                Include Fact Content
+              </label>
+            </div>
+          </li>
+          <!-- Include Fact Labels -->
+          <li>
+            <div class="form-check">
+              <input
+                checked
+                name="search-checks"
+                class="form-check-input"
+                type="checkbox"
+                value="2"
+                id="search-radio-2"
+              />
+              <label class="form-check-label" for="search-radio-2">
+                Include Labels
+              </label>
+            </div>
+          </li>
+          <!-- Include Fact Definitions -->
+          <li>
+            <div class="form-check">
+              <input
+                name="search-checks"
+                class="form-check-input"
+                type="checkbox"
+                value="3"
+                id="search-radio-3"
+              />
+              <label class="form-check-label" for="search-radio-3">
+                Include Definitions
+              </label>
+            </div>
+          </li>
+          <!-- Include Fact Dimensions -->
+          <li>
+            <div class="form-check">
+              <input
+                name="search-checks"
+                class="form-check-input"
+                type="checkbox"
+                value="4"
+                id="search-radio-4"
+              />
+              <label class="form-check-label" for="search-radio-4">
+                Include Dimensions
+              </label>
+            </div>
+          </li>
+          <div class="bg-light border p-1">
+            <span class="dropdown-item-text">Reference Options</span>
+            <!-- Include Topic -->
+            <li>
+              <div class="form-check">
+                <input
+                  name="search-checks"
+                  class="form-check-input"
+                  type="checkbox"
+                  value="5"
+                  id="search-radio-5"
+                />
+                <label class="form-check-label" for="search-radio-5">
+                  Include Topic
+                </label>
+              </div>
+            </li>
+            <!-- Include Sub-Topic -->
+            <li>
+              <div class="form-check">
+                <input
+                  name="search-checks"
+                  class="form-check-input"
+                  type="checkbox"
+                  value="6"
+                  id="search-radio-6"
+                />
+                <label class="form-check-label" for="search-radio-6">
+                  Include Sub-Topic
+                </label>
+              </div>
+            </li>
+            <!-- Include Paragraph -->
+            <li>
+              <div class="form-check">
+                <input
+                  name="search-checks"
+                  class="form-check-input"
+                  type="checkbox"
+                  value="7"
+                  id="search-radio-7"
+                />
+                <label class="form-check-label" for="search-radio-7">
+                  Include Paragraph
+                </label>
+              </div>
+            </li>
+            <!-- Include Publisher -->
+            <li>
+              <div class="form-check">
+                <input
+                  name="search-checks"
+                  class="form-check-input"
+                  type="checkbox"
+                  value="8"
+                  id="search-radio-8"
+                />
+                <label class="form-check-label" for="search-radio-8">
+                  Include Publisher
+                </label>
+              </div>
+            </li>
+            <!-- Include Sections -->
+            <li>
+              <div class="form-check">
+                <input
+                  name="search-checks"
+                  class="form-check-input"
+                  type="checkbox"
+                  value="9"
+                  id="search-radio-9"
+                />
+                <label class="form-check-label" for="search-radio-9">
+                  Include Section
+                </label>
+              </div>
+            </li>
+          </div>
+          <!-- Match Case -->
+          <li>
+            <div class="form-check">
+              <input
+                name="search-checks"
+                class="form-check-input"
+                type="checkbox"
+                value="10"
+                id="search-radio-10"
+              />
+              <label class="form-check-label" for="search-radio-10">
+                Match Case
+              </label>
+            </div>
+          </li>
+        </fieldset>
+      </ul>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search Facts"
+        aria-label="Example text with button addon"
+        aria-describedby="button-addon1"
+      />
+      <button class="btn btn-outline-light" type="button">
+        <i class="fas fa-times-circle"></i>
+      </button>
+      <button class="btn btn-outline-light" type="submit">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+  </fieldset>
+</form>

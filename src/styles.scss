@@ -19,6 +19,11 @@ $sec-color: #003768;
 .navbar-sec {
   height: $navbar-height;
   background-color: $sec-color;
+  z-index: 2000;
+}
+.modal-header {
+  background-color: $sec-color;
+  color: $white;
 }
 .nav-link {
   color: $white;
@@ -35,6 +40,7 @@ $sec-color: #003768;
     color: $white;
   }
 }
+
 #error {
   margin-top: $navbar-height;
   .alert {
@@ -44,4 +50,32 @@ $sec-color: #003768;
 
 .offcanvas {
   top: $navbar-height;
+}
+
+.no-text-decoration {
+  text-decoration: none;
+}
+
+.drag {
+  cursor: move;
+}
+
+.click {
+  cursor: pointer;
+}
+
+#error .alert {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+#warning .alert {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.nav-link.disabled,
+#global-search fieldset:disabled .btn {
+  border-color: #ff8300;
+  color: #ff8300;
+  opacity: 1;
 }

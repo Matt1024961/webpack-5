@@ -1,0 +1,34 @@
+<nav template class="navbar navbar-expand-lg fixed-top navbar-sec">
+  <div class="container-fluid">
+    <ul class="navbar-nav mr-auto">
+      <!-- Menu -->
+      <div class="btn-group dropdown" template-menu>
+      </div>
+      <!-- Sections -->
+      <li class="nav-item mx-1">
+        <a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#sections-offcanvas" aria-controls="sections">
+          <i class="fas fa-layer-group" title="Sections"></i>
+          <span>Sections</span>
+        </a>
+      </li>
+      <!-- Search -->
+      <li class="nav-item mx-1" template-search></li>
+      <!-- Data -->
+      <div class="btn-group dropdown" template-data></div>
+      <!-- Tags -->
+      <div class="btn-group dropdown" template-tags></div>
+      <!-- More Filters -->
+      <div class="btn-group dropdown" template-more-filters></div>
+    </ul>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#facts-offcanvas" aria-controls="facts">
+          <span>Facts</span>
+          <span id="active-fact-count" class="badge bg-secondary">####</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  </ul>
+  </div>
+</nav>
