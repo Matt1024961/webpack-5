@@ -2,8 +2,7 @@
   <div class="container-fluid">
     <ul class="navbar-nav mr-auto">
       <!-- Menu -->
-      <div class="btn-group dropdown" template-menu>
-      </div>
+      <sec-menu class="btn-group dropdown"></sec-menu>
       <!-- Sections -->
       <li class="nav-item mx-1">
         <a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#sections-offcanvas" aria-controls="sections">
@@ -12,9 +11,10 @@
         </a>
       </li>
       <!-- Search -->
+      <sec-search class="nav-item mx-1"></sec-search>
       <li class="nav-item mx-1" template-search></li>
       <!-- Data -->
-      <div class="btn-group dropdown" template-data></div>
+      <sec-data class="btn-group dropdown"></sec-data>
       <!-- Tags -->
       <div class="btn-group dropdown" template-tags></div>
       <!-- More Filters -->

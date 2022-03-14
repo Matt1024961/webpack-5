@@ -1,7 +1,7 @@
 import { Logger } from 'typescript-logger';
 import { Xhtml } from '../xhtml';
-import { Error } from '../ui/error';
-import { Warning } from '../ui/warning';
+import { Error } from '../components/error';
+import { Warning } from '../components/warning';
 
 export class FilingUrl {
   private logger: Logger;

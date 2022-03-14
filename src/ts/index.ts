@@ -4,14 +4,23 @@ import '@popperjs/core';
 import { Tooltip } from 'bootstrap';
 import { LoggerManager } from 'typescript-logger';
 import '../styles.scss';
-import { DevelopmentNavbar } from './ui/development_navbar';
-import Navbar from './ui/navbar';
+import { DevelopmentNavbar } from './components/development_navbar';
+import Navbar from './components/navbar';
 import { FilingUrl } from './filing-url';
-import Sections from './ui/sections';
-import Facts from './ui/facts';
+import Sections from './components/sections';
+import Facts from './components/facts';
+import { Data } from './components/data';
+import { Menu } from './components/menu';
 
 (() => {
+  // // here we hadd all custom HTML components
+  // customElements.define('sec-data', Data(logger));
+
   const logger = LoggerManager.create('Inline XBRL Viewer', `#003768`);
+
+  // here we hadd all custom HTML components
+  customElements.define('sec-menu', Menu);
+  customElements.define('sec-data', Data);
 
   if (process.env.NODE_ENV === 'production') {
     // we are in production mode
