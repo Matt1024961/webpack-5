@@ -1,31 +1,30 @@
-import { Logger } from 'typescript-logger';
 import template from './template.html';
 
-export class DevelopmentNavbar {
-  private logger: Logger;
-  constructor(querySelector: string, logger: Logger) {
-    this.logger = logger;
-    this.init(querySelector);
+export class DevelopmentNavbar extends HTMLElement {
+  constructor() {
+    super();
   }
 
-  init(querySelector: string): void {
+  connectedCallback() {
+    this.init();
+  }
+
+  init(): void {
     fetch(`./assets/development-locations.json`)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        this.render(querySelector, data);
+        this.render(data);
       });
   }
   render(
-    querySelector: string,
     developmentData: { single: Array<string>; multi: Array<string> }
   ) {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (
-      htmlDoc.querySelector(`[template]`) &&
-      document.body.querySelector(querySelector)
+      htmlDoc.querySelector(`[template]`)
     ) {
       const selector = htmlDoc.querySelector(`[template]`);
       const node = document.importNode(selector, true);
@@ -50,10 +49,10 @@ export class DevelopmentNavbar {
         const text = document.createTextNode(current[0]);
         list.appendChild(li).appendChild(a).appendChild(text);
       });
-      document.body.querySelector(querySelector).append(node);
-      this.logger.info('Development Navigation Bar rendered');
+      this.append(node);
+      // this.logger.info('Development Navigation Bar rendered');
     } else {
-      this.logger.warn('Development Navigation Bar NOT rendered');
+      //  this.logger.warn('Development Navigation Bar NOT rendered');
     }
   }
 }

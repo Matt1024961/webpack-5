@@ -1,46 +1,47 @@
-import { Logger } from 'typescript-logger';
 import template from './template.html';
 
-export default class Sections {
-  private logger: Logger;
-  constructor(querySelector: string, logger: Logger) {
-    this.logger = logger;
-    this.render(querySelector);
+export class SectionsMenu extends HTMLElement {
+
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    this.render();
     this.listeners();
   }
 
-  render(querySelector: string) {
+  render() {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
-    if (
-      htmlDoc.querySelector(`[template]`) &&
-      document.body.querySelector(querySelector)
-    ) {
+    if (htmlDoc.querySelector(`[template`)) {
       const selector = htmlDoc.querySelector(`[template]`);
       const node = document.importNode(selector, true);
       node.removeAttribute(`template`);
-      document.body.querySelector(querySelector).append(node);
-      this.logger.info('Sections Menu rendered');
+      this.append(node);
+      //this.logger.info('Data Filter Bar rendered');
     } else {
-      this.logger.warn('Sections Menu NOT rendered');
+      //this.logger.warn('Data Filter NOT rendered');
     }
   }
 
   listeners(): void {
     const offcanvas = document.querySelector('#sections-offcanvas');
     if (offcanvas) {
-      const idsToAlter = [`error`, `warning`, `filing`];
+      const tagsToAlter = [`sec-error`, `sec-warning`, `sec-filing`];
       offcanvas.addEventListener('show.bs.offcanvas', function () {
-        idsToAlter.forEach((current) => {
-          Object.assign(document.getElementById(current).style, {
+        tagsToAlter.forEach((current) => {
+          const tag = document.querySelector(current) as HTMLElement;
+          Object.assign(tag.style, {
             marginLeft: `400px`,
             transition: `margin 100ms`,
           });
         });
       });
       offcanvas.addEventListener('hidden.bs.offcanvas', function () {
-        idsToAlter.forEach((current) => {
-          Object.assign(document.getElementById(current).style, {
+        tagsToAlter.forEach((current) => {
+          const tag = document.querySelector(current) as HTMLElement;
+          Object.assign(tag.style, {
             marginLeft: `0px`,
             transition: `margin 100ms`,
           });

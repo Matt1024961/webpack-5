@@ -58,14 +58,15 @@ export class Xhtml {
   }
 
   render(node: HTMLBodyElement): void {
-    document.querySelector(`#filing`).append(node);
-    document.querySelector(`#active-fact-count`).innerHTML = node
-      .querySelectorAll(`[contextRef]`)
-      .length.toString();
+    console.log(node);
+    // document.querySelector(`#filing`).append(node);
+    // document.querySelector(`#active-fact-count`).innerHTML = node
+    //   .querySelectorAll(`[contextRef]`)
+    //   .length.toString();
 
-    this.logger.info(
-      `XHTML Filing rendered with ${node.querySelectorAll(`[contextRef]`).length
-      } facts`
-    );
+    // this.logger.info(
+    //   `XHTML Filing rendered with ${node.querySelectorAll(`[contextRef]`).length
+    //   } facts`
+    // );
   }
 }
