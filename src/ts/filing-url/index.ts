@@ -21,14 +21,14 @@ export class FilingUrl {
     // redline: false
     redline: boolean | null;
   } = {
-    filingURL: null,
-    filing: null,
-    dataURL: null,
-    data: `Data.json`,
-    filingHost: null,
-    host: window.location.origin,
-    redline: null,
-  };
+      filingURL: null,
+      filing: null,
+      dataURL: null,
+      data: `Data.json`,
+      filingHost: null,
+      host: window.location.origin,
+      redline: null,
+    };
   constructor(logger: Logger) {
     this.logger = logger;
     this.init();
@@ -121,6 +121,7 @@ export class FilingUrl {
                 );
               }
               if (event.data.dataerror) {
+                // console.log(event.data.dataerror);
                 new Warning(
                   `#warning`,
                   `No supporting file was found (${this.urls.dataURL}).`,
@@ -139,7 +140,7 @@ export class FilingUrl {
                 new Xhtml(params[property], event.data.xhtml, this.logger);
               }
               if (event.data.data) {
-                console.log(event.data.data);
+                // console.log(event.data.data);
               }
             };
           } else {
@@ -164,9 +165,8 @@ export class FilingUrl {
     }
     let filingURLLog = `Filing URL Data: `;
     Object.keys(this.urls).forEach((current: string) => {
-      filingURLLog += `\n ${current}: ${
-        this.urls[current as keyof typeof this.urls]
-      }`;
+      filingURLLog += `\n ${current}: ${this.urls[current as keyof typeof this.urls]
+        }`;
     });
     this.logger.info(filingURLLog);
     this.logger.info('Filing URL Complete');

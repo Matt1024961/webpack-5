@@ -18,7 +18,6 @@ export class Xhtml {
     const htmlDoc = parser.parseFromString(xhtml, `application/xhtml+xml`);
     const temp = htmlDoc.querySelector(`body`);
     let node = document.importNode(temp, true);
-    console.log(this.url);
     // we now fix the XHTML
     node = this.fixXhtml(node);
     // we now update the XHTML
@@ -65,8 +64,7 @@ export class Xhtml {
       .length.toString();
 
     this.logger.info(
-      `XHTML Filing rendered with ${
-        node.querySelectorAll(`[contextRef]`).length
+      `XHTML Filing rendered with ${node.querySelectorAll(`[contextRef]`).length
       } facts`
     );
   }
