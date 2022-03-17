@@ -1,3 +1,4 @@
+import { FilingUrl } from '../../../filing-url';
 import template from './template.html';
 
 export class Navbar extends HTMLElement {
@@ -8,6 +9,7 @@ export class Navbar extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    new FilingUrl();
   }
   render() {
     const parser = new DOMParser();

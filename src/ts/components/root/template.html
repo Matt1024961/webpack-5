@@ -1,101 +1,31 @@
-<li template class="nav-item mx-1">
-  <a class="nav-link disabled" href="#" role="button" data-bs-toggle="dropdown">
-    <i class="fas fa-list-alt" title="Data"></i>
-    <span>Data</span>
-  </a>
-  <ul class="dropdown-menu">
-    <form>
-      <fieldset class="mx-1">
-        <li class="my-1">
-          <div class="form-check">
-            <input
-              name="data-radios"
-              class="form-check-input"
-              type="radio"
-              name="all"
-              id="data-radio-0"
-              value="0"
-              checked
-            />
-            <label class="form-check-label" for="data-radio-0"> All </label>
-          </div>
-        </li>
-        <li class="my-1">
-          <div class="form-check">
-            <input
-              name="data-radios"
-              class="form-check-input"
-              type="radio"
-              name="all"
-              id="data-radio-1"
-              value="1"
-            />
-            <label class="form-check-label" for="data-radio-1">
-              Amounts Only
-            </label>
-          </div>
-        </li>
-        <li class="my-1">
-          <div class="form-check">
-            <input
-              name="data-radios"
-              class="form-check-input"
-              type="radio"
-              name="all"
-              id="data-radio-2"
-              value="2"
-            />
-            <label class="form-check-label" for="data-radio-2">
-              Text Only
-            </label>
-          </div>
-        </li>
-        <li class="my-1">
-          <div class="form-check">
-            <input
-              name="data-radios"
-              class="form-check-input"
-              type="radio"
-              name="all"
-              id="data-radio-0"
-              value="3"
-            />
-            <label class="form-check-label" for="data-radio-0">
-              Calculations Only
-            </label>
-          </div>
-        </li>
-        <li class="my-1">
-          <div class="form-check">
-            <input
-              name="data-radios"
-              class="form-check-input"
-              type="radio"
-              name="all"
-              id="data-radio-0"
-              value="4"
-            />
-            <label class="form-check-label" for="data-radio-0">
-              Negatives Only
-            </label>
-          </div>
-        </li>
-        <li class="my-1">
-          <div class="form-check">
-            <input
-              name="data-radios"
-              class="form-check-input"
-              type="radio"
-              name="all"
-              id="data-radio-0"
-              value="5"
-            />
-            <label class="form-check-label" for="data-radio-0">
-              Additional Items Only
-            </label>
-          </div>
-        </li>
-      </fieldset>
-    </form>
-  </ul>
-</li>
+<div template>
+  <section id="dev-navbar-container">
+    <sec-dev-navbar></sec-dev-navbar>
+  </section>
+
+  <section id="navbar-container">
+    <sec-navbar></sec-navbar>
+  </section>
+
+  <section id="error-container"></section>
+
+  <section id="warning-container"></section>
+
+  <section id="sections-menu-container">
+    <sec-sections-menu></sec-sections-menu>
+  </section>
+
+  <section id="help-menu-container">
+    <sec-help-menu></sec-help-menu>
+  </section>
+
+  <section id="facts-menu-container">
+    <sec-facts-menu></sec-facts-menu>
+  </section>
+
+  <section id="filing-container">
+    <sec-filing></sec-filing>
+  </section>
+
+  <sec-modal></sec-modal>
+</div>

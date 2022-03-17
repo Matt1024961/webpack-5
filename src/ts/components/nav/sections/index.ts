@@ -7,11 +7,6 @@ export class Sections extends HTMLElement {
   constructor() {
     super();
   }
-  // constructor(querySelector: string, logger: Logger) {
-  //   this.logger = logger;
-  //   this.render(querySelector);
-  //   this.listeners();
-  // }
 
   connectedCallback() {
     this.render();

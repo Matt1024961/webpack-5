@@ -1,6 +1,6 @@
 import template from './template.html';
 
-export class SectionsMenu extends HTMLElement {
+export class FactsMenu extends HTMLElement {
   constructor() {
     super();
   }
@@ -13,38 +13,47 @@ export class SectionsMenu extends HTMLElement {
   render() {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
-    if (htmlDoc.querySelector(`[template`)) {
+    if (htmlDoc.querySelector(`[template]`)) {
       const selector = htmlDoc.querySelector(`[template]`);
       const node = document.importNode(selector, true);
       node.removeAttribute(`template`);
       this.append(node);
-      //this.logger.info('Data Filter Bar rendered');
+      //this.logger.info('Facts Menu rendered');
     } else {
-      //this.logger.warn('Data Filter NOT rendered');
+      //this.logger.warn('Facts Menu NOT rendered');
     }
   }
 
   listeners(): void {
-    const offcanvas = document.querySelector('#sections-offcanvas');
+    const offcanvas = document.querySelector('#facts-offcanvas');
     if (offcanvas) {
-      const tagsToAlter = [`sec-error`, `sec-warning`, `#filing-container`];
-      offcanvas.addEventListener('show.bs.offcanvas', function () {
+      const tagsToAlter = [
+        `#error-container`,
+        `#warning-container`,
+        `#filing-container`,
+      ];
+      offcanvas.addEventListener('show.bs.offcanvas', () => {
+        // add <sec-facts-menu-pagination></sec-facts-menu-single>
+        const pagination = document.createElement(`sec-facts-menu-pagination`);
+        this.querySelector(`#facts-offcanvas .offcanvas-body`).append(
+          pagination
+        );
         tagsToAlter.forEach((current) => {
           const tag = document.querySelector(current) as HTMLElement;
           if (tag) {
             Object.assign(tag.style, {
-              marginLeft: `400px`,
+              marginRight: `400px`,
               transition: `margin 100ms`,
             });
           }
         });
       });
-      offcanvas.addEventListener('hidden.bs.offcanvas', function () {
+      offcanvas.addEventListener('hidden.bs.offcanvas', () => {
         tagsToAlter.forEach((current) => {
           const tag = document.querySelector(current) as HTMLElement;
           if (tag) {
             Object.assign(tag.style, {
-              marginLeft: `0px`,
+              marginRight: `0px`,
               transition: `margin 100ms`,
             });
           }

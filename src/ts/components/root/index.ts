@@ -1,16 +1,29 @@
+import { StoreLogger } from '../../store/logger';
 import template from './template.html';
 
-export class Data extends HTMLElement {
+export class Root extends HTMLElement {
   constructor() {
     super();
   }
 
   connectedCallback() {
     this.render();
-    this.listeners();
+  }
+
+  disconnectedCallback() {
+    // console.log(`disconnectedCallback`);
+  }
+
+  adoptedCallback() {
+    // console.log(`adoptedCallback`);
+  }
+
+  attributeChangedCallback() {
+    // console.log(`attributeChangedCallback`);
   }
 
   render() {
+    const storeLogger: StoreLogger = StoreLogger.getInstance();
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template`)) {
@@ -18,20 +31,9 @@ export class Data extends HTMLElement {
       const node = document.importNode(selector, true);
       node.removeAttribute(`template`);
       this.append(node);
-      //this.logger.info('Data Filter Bar rendered');
+      storeLogger.info('Root Application rendered');
     } else {
-      //this.logger.warn('Data Filter NOT rendered');
-    }
-  }
-
-  listeners(): void {
-    const inputs = document.querySelectorAll('[name="data-radios"]');
-    if (inputs) {
-      inputs.forEach((current) => {
-        current.addEventListener(`change`, () => {
-          console.log(current.getAttribute(`value`));
-        });
-      });
+      storeLogger.info('Root Application NOT rendered');
     }
   }
 }

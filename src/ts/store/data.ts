@@ -1,6 +1,7 @@
 import * as moment from 'moment';
-
+import { DataJSON } from '../types/data-json';
 import { documentInfo as documentInfoType } from '../types/data-json';
+
 import { facts as factsType } from '../types/data-json';
 import { edgarRendererReports as edgarRendererReportsType } from '../types/data-json';
 import { entity as entityType } from '../types/data-json';
@@ -16,7 +17,7 @@ import { references as referencesType } from '../types/data-json';
 
 export class StoreData {
   private _documentInfo: documentInfoType;
-  private _facts: factsType;
+  private _facts: Array<factsType>;
   private _edgarRendererReports: edgarRendererReportsType;
   private _entity: entityType;
   private _filterAxis: filterAxisType;
@@ -27,6 +28,7 @@ export class StoreData {
   private _filterUnits: filterUnitsType;
   private _labels: labelsType;
   private _references: referencesType;
+  private _simplePeriods: Array<string>;
 
   private static instance: StoreData;
 
@@ -41,6 +43,78 @@ export class StoreData {
     return StoreData.instance;
   }
 
+  public getFilingFacts(input: string) {
+    return this._facts.map((current) => {
+      if (current[`ixv:files`] && current[`ixv:files`].includes(input)) {
+        return current;
+      }
+    });
+  }
+
+  public getFilingFactsPaginationTemplate(
+    input: string,
+    start: number,
+    end: number,
+    amount = 10
+  ) {
+    return {
+      total: this._facts.length,
+      start: start,
+      end: end,
+      totalPages: Math.ceil(this._facts.length / amount),
+      currentPage: start * amount,
+    };
+  }
+
+  public getFilingFactsPagination(input: string, start: number, end: number) {
+    return this._facts
+      .map((current) => {
+        if (current[`ixv:files`] && current[`ixv:files`].includes(input)) {
+          return current;
+        }
+      })
+      .slice(start, end);
+  }
+
+  public getFactByID(input: string) {
+    return this._facts.find((element) => {
+      return element.id === input;
+    });
+  }
+
+  public getIsCustomTag(input: factsType): boolean {
+    // console.log(input[`ixv:factAttributes`][0][1]);
+    return input[`ixv:factAttributes`][0][1].startsWith(`clx:`);
+  }
+
+  public getIsDimension(input: factsType): boolean {
+    return Object.prototype.hasOwnProperty.call(input, `dimensions`);
+  }
+
+  public getIsAdditional(input: factsType): boolean {
+    //console.log(input);
+    // eslint-disable-next-line no-prototype-builtins
+    return input.hasOwnProperty(`dimensions`);
+  }
+
+  public setAllData(input: DataJSON) {
+    this.edgarRendererReports = input['ixv:edgarRendererReports'];
+    this.entity = input['ixv:entity'];
+    this.filterAxis = input['ixv:filterAxis'];
+    this.filterBalance = input['ixv:filterBalance'];
+    this.filterMembers = input['ixv:filterMembers'];
+    this.filterPeriods = input['ixv:filterPeriods'];
+    this.filterScale = input['ixv:filterScale'];
+    this.filterUnits = input['ixv:filterUnits'];
+    this.labels = input['ixv:labels'];
+    this.references = input['ixv:references'];
+    this.facts = input.facts;
+  }
+
+  public getSimplePeriod(input: number) {
+    return this._simplePeriods[input];
+  }
+
   public get documentInfo() {
     return this._documentInfo;
   }
@@ -53,13 +127,11 @@ export class StoreData {
     return this._facts;
   }
 
-  public set facts(input: factsType) {
+  public set facts(input: Array<factsType>) {
     // set up the data for success
-    //console.log(input);
-    // input.forEach((current) => {
-    //   console.log(current);
-    // });
-    // console.log(input.length);
+    input.forEach((current) => {
+      current[`active`] = true;
+    });
     this._facts = input;
   }
 
@@ -114,37 +186,22 @@ export class StoreData {
 
   public set filterPeriods(input: filterPeriodsType) {
     // set up the data for success
-    const periods: { [key: string]: Array<string> } = {};
-    input.forEach((current) => {
+    const simplePeriods: Array<string> = [];
+    input.forEach((current, index) => {
       if (current.includes(`/`)) {
         const dates = current.split(`/`);
         const difference = Math.ceil(
           moment(dates[1]).diff(moment(dates[0]), 'months', true)
         );
-        const year = moment(dates[0]).format(`YYYY`);
-        if (periods && !Object.prototype.hasOwnProperty.call(year, 'key')) {
-          periods[year] = [
-            `${difference} months ending ${moment(dates[0]).format(
-              `MM/DD/YYYY`
-            )}`,
-          ];
-        } else {
-          periods[year].push(
-            `${difference} months ending ${moment(dates[0]).format(
-              `MM/DD/YYYY`
-            )}`
-          );
-        }
+        simplePeriods[index] = `${difference} months ending ${moment(
+          dates[0]
+        ).format(`MM/DD/YYYY`)}`;
       } else {
-        const year = moment(current).format(`YYYY`);
-        if (periods && !Object.prototype.hasOwnProperty.call(year, 'key')) {
-          periods[year] = [`As of ${moment(current).format(`MM/DD/YYYY`)}`];
-        } else {
-          periods[year].push(`As of ${moment(current).format(`MM/DD/YYYY`)}`);
-        }
+        simplePeriods[index] = `As of ${moment(current).format(`MM/DD/YYYY`)}`;
       }
     });
-    console.log(periods);
+    this._simplePeriods = simplePeriods;
+    //console.log(periods);
     this._filterPeriods = input;
   }
 

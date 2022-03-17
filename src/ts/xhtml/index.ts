@@ -1,29 +1,20 @@
-import { Logger } from 'typescript-logger';
-
 export class Xhtml {
-  private logger: Logger;
   private url: string;
-  constructor(url: string, xhtml: string, logger: Logger) {
-    this.url = `${new URL(url, document.baseURI).href.substring(
-      0,
-      new URL(url, document.baseURI).href.lastIndexOf(`/`)
-    )}`;
-    this.logger = logger;
-    this.init(xhtml);
+  constructor(url: string) {
+    this.url = url;
   }
-  init(xhtml: string): void {
+  
+  init(xhtml: string) {
     // we set the xhtml string to a nodelist
-
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(xhtml, `application/xhtml+xml`);
+
     const temp = htmlDoc.querySelector(`body`);
     let node = document.importNode(temp, true);
     // we now fix the XHTML
     node = this.fixXhtml(node);
     // we now update the XHTML
-    node = this.updateXhtml(node);
-    // we now add the XHTML to the document
-    this.render(node);
+    return this.updateXhtml(node);
   }
 
   fixXhtml(node: HTMLBodyElement): HTMLBodyElement {
@@ -55,18 +46,5 @@ export class Xhtml {
       });
     });
     return node;
-  }
-
-  render(node: HTMLBodyElement): void {
-    console.log(node);
-    // document.querySelector(`#filing`).append(node);
-    // document.querySelector(`#active-fact-count`).innerHTML = node
-    //   .querySelectorAll(`[contextRef]`)
-    //   .length.toString();
-
-    // this.logger.info(
-    //   `XHTML Filing rendered with ${node.querySelectorAll(`[contextRef]`).length
-    //   } facts`
-    // );
   }
 }

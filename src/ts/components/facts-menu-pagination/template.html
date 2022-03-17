@@ -1,0 +1,53 @@
+<div template>
+  <form id="facts-menu-pagination-form" class="pb-2">
+    <div
+      class="btn-group btn-group-sm float-start"
+      role="group"
+      aria-label="Pagination Previous/Next"
+    >
+      <button
+        name="prev"
+        prev-button
+        type="button"
+        class="btn btn-outline-dark"
+      >
+        Prev
+      </button>
+      <button
+        name="next"
+        next-button
+        type="button"
+        class="btn btn-outline-dark"
+      >
+        Next
+      </button>
+    </div>
+
+    <div
+      class="btn-group btn-group-sm float-end"
+      role="group"
+      aria-label="Pagination Previous/Next"
+    >
+      <button prev-button type="button" class="btn btn-outline-dark">
+        <i class="reboot fas fa-lg fa-angle-double-left"></i>
+      </button>
+      <button first-button type="button" class="btn btn-outline-dark">
+        <i class="reboot fas fa-lg fa-angle-left"></i>
+      </button>
+      <button next-button type="button" class="btn btn-outline-dark">
+        <i class="reboot fas fa-lg fa-angle-right"></i>
+      </button>
+      <button last-button type="button" class="btn btn-outline-dark">
+        <i class="reboot fas fa-lg fa-angle-double-right"></i>
+      </button>
+    </div>
+
+    <div class="clear-both"></div>
+    <select
+      select-template
+      class="form-select mt-2"
+      aria-label="Page Selection"
+    ></select>
+  </form>
+  <sec-facts-menu-single></sec-facts-menu-single>
+</div>

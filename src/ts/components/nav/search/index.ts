@@ -1,28 +1,26 @@
-import { Logger } from 'typescript-logger';
 import template from './template.html';
 
-export default class Search {
-  private logger: Logger;
-  constructor(querySelector: string, logger: Logger) {
-    this.logger = logger;
-    this.render(querySelector);
+export class Search extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    this.render();
     this.listeners();
   }
 
-  render(querySelector: string) {
+  render() {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
-    if (
-      htmlDoc.querySelector(`[template]`) &&
-      document.body.querySelector(querySelector)
-    ) {
+    if (htmlDoc.querySelector(`[template]`)) {
       const selector = htmlDoc.querySelector(`[template]`);
       const node = document.importNode(selector, true);
       node.removeAttribute(`template`);
-      document.body.querySelector(querySelector).append(node);
-      this.logger.info('More Filters Filter Bar rendered');
+      this.append(node);
+      //this.logger.info('More Filters Filter Bar rendered');
     } else {
-      this.logger.warn('More Filters NOT rendered');
+      //this.logger.warn('More Filters NOT rendered');
     }
   }
 

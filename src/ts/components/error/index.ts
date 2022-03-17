@@ -1,46 +1,42 @@
-import { Logger } from 'typescript-logger';
+import { StoreLogger } from '../../store/logger';
 import template from './template.html';
 
-export class Error {
-  private message: string;
-  private logger: Logger;
-  private disable: boolean;
-  constructor(
-    querySelector: string,
-    message = `An Error has occured.`,
-    disabledApplication = false,
-    logger: Logger
-  ) {
-    this.message = message;
-    this.logger = logger;
-    this.disable = disabledApplication;
-    this.init(querySelector);
+export class Error extends HTMLElement {
+  constructor() {
+    super();
   }
 
-  init(querySelector: string): void {
-    this.render(querySelector);
-    if (this.disable) {
-      this.disableApplication();
-    }
+  connectedCallback() {
+    this.render();
   }
 
-  render(querySelector: string): void {
+  disconnectedCallback() {
+    // console.log(`disconnectedCallback`);
+  }
+
+  adoptedCallback() {
+    // console.log(`adoptedCallback`);
+  }
+
+  attributeChangedCallback() {
+    // console.log(`attributeChangedCallback`);
+  }
+
+  render(): void {
+    const storeLogger: StoreLogger = StoreLogger.getInstance();
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
-    if (
-      htmlDoc.querySelector(`[template]`) &&
-      document.body.querySelector(querySelector)
-    ) {
+    if (htmlDoc.querySelector(`[template]`)) {
       const selector = htmlDoc.querySelector(`[template]`);
       const node = document.importNode(selector, true);
       node.removeAttribute(`template`);
-      const textToAdd = document.createTextNode(this.message);
+      const textToAdd = document.createTextNode(this.getAttribute(`message`));
       node.querySelector(`[error-text]`).appendChild(textToAdd);
       node.removeAttribute(`error-text`);
-      document.body.querySelector(querySelector).append(node);
-      this.logger.info('Error Banner rendered');
+      this.append(node);
+      storeLogger.info(`Error Banner rendered`);
     } else {
-      this.logger.warn('Error Banner NOT rendered');
+      storeLogger.warn(`Error Banner NOT rendered`);
     }
   }
 

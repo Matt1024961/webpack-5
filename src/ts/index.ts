@@ -1,51 +1,48 @@
-// import '../styles.scss';
 import 'bootstrap';
 import '@popperjs/core';
-import { Tooltip } from 'bootstrap';
-import { LoggerManager } from 'typescript-logger';
 import '../styles.scss';
-import { DevelopmentNavbar } from './components/development_navbar';
-import { Navbar } from './components/navbar';
-import { FilingUrl } from './filing-url';
-import { Sections } from './components/sections';
-// import Facts from './components/facts';
-import { Data } from './components/data';
-import { Menu } from './components/menu';
+import { DevelopmentNavbar } from './components/nav/development_navbar';
+import { Navbar } from './components/nav/navbar';
+import { Sections } from './components/nav/sections';
+import { Data } from './components/nav/data';
+import { Menu } from './components/nav/menu';
 import { SectionsMenu } from './components/sections-menu';
+import { Root } from './components/root';
+import { Search } from './components/nav/search';
+import { Tags } from './components/nav/tags';
+import { MoreFilters } from './components/nav/more_filters';
+import { Facts } from './components/nav/facts';
+import { FactsMenu } from './components/facts-menu';
+import { FactsMenuSingle } from './components/facts-menu-single';
+import { FactsMenuPagination } from './components/facts-menu-pagination';
+import { StoreLogger } from './store/logger';
+import { Warning } from './components/warning';
+import { Error } from './components/error';
+import { Filing } from './components/filing';
 
 (() => {
-  // // here we hadd all custom HTML components
-  // customElements.define('sec-data', Data(logger));
-
-  const logger = LoggerManager.create('Inline XBRL Viewer', `#003768`);
-
   // here we hadd all custom HTML components
-  // customElements.define(`sec-dev-navbar`, DevelopmentNavbar);
+  customElements.define('sec-root', Root);
   customElements.define('sec-navbar', Navbar);
   customElements.define('sec-menu', Menu);
   customElements.define(`sec-sections`, Sections);
   customElements.define(`sec-sections-menu`, SectionsMenu);
+  customElements.define(`sec-search`, Search);
   customElements.define('sec-data', Data);
+  customElements.define('sec-tags', Tags);
+  customElements.define('sec-more-filters', MoreFilters);
+  customElements.define('sec-facts', Facts);
+  customElements.define('sec-facts-menu', FactsMenu);
+  customElements.define('sec-facts-menu-pagination', FactsMenuPagination);
+  customElements.define('sec-facts-menu-single', FactsMenuSingle);
+  customElements.define(`sec-error`, Error);
+  customElements.define(`sec-warning`, Warning);
+  customElements.define(`sec-filing`, Filing);
 
-  if (process.env.NODE_ENV === 'production') {
-    // we are in production mode
-    LoggerManager.setProductionMode();
-  } else {
+  if (process.env.NODE_ENV !== 'production') {
     // we are in development mode
     customElements.define(`sec-dev-navbar`, DevelopmentNavbar);
-    //new DevelopmentNavbar(`#development_navbar`, logger);
   }
-  logger.info('Application Begin');
-  //new FilingUrl(logger);
-  //new Navbar(`#navbar`, logger);
-  // new Sections(`#sections`, logger);
-  //new Facts(`#facts`, logger);
-  new FilingUrl(logger);
-
-  // turn on all tooltips
-  Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]')).forEach(
-    (tooltipTriggerEl: Element) => {
-      new Tooltip(tooltipTriggerEl);
-    }
-  );
+  const storeLogger: StoreLogger = StoreLogger.getInstance();
+  storeLogger.info(`Application Begin`);
 })();

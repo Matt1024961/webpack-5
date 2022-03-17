@@ -41,7 +41,7 @@ $sec-color: #003768;
   }
 }
 
-#error {
+#error-container {
   margin-top: $navbar-height;
   .alert {
     border-radius: 0;
@@ -64,18 +64,32 @@ $sec-color: #003768;
   cursor: pointer;
 }
 
-#error .alert {
+.single-fact-menu {
+  text-decoration: none;
+  color: $black;
+  &:hover {
+    border-color: $black !important;
+    color: $black;
+  }
+}
+
+#error-container .alert {
   margin-bottom: 0;
   margin-top: 0;
 }
-#warning .alert {
+#warning-container .alert {
   margin-bottom: 0;
   margin-top: 0;
 }
 
 .nav-link.disabled,
-#global-search fieldset:disabled .btn {
+#global-search fieldset:disabled .btn,
+#global-search fieldset:disabled .form-control {
   border-color: #ff8300;
   color: #ff8300;
   opacity: 1;
+}
+
+.clear-both {
+  clear: both;
 }

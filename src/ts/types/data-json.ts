@@ -1,6 +1,6 @@
 export type DataJSON = {
   documentInfo: documentInfo;
-  facts: facts;
+  facts: Array<facts>;
   'ixv:edgarRendererReports': edgarRendererReports;
   'ixv:entity': entity;
   'ixv:filterAxis': filterAxis;
@@ -40,8 +40,8 @@ export type documentInfo = {
   taxonomy: [];
 };
 
-export type facts = Array<{
-  dimension: {
+export type facts = {
+  dimensions: {
     concept: string;
     period: number;
   };
@@ -53,7 +53,8 @@ export type facts = Array<{
   'ixv:files': Array<string>;
   'ixv:standardLabel': string;
   value: string;
-}>;
+  active: null | boolean;
+};
 
 export type edgarRendererReports = {
   [key: string]: {
