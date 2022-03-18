@@ -44,11 +44,13 @@ export class StoreData {
   }
 
   public getFilingFacts(input: string) {
-    return this._facts.map((current) => {
-      if (current[`ixv:files`] && current[`ixv:files`].includes(input)) {
-        return current;
-      }
-    });
+    return this._facts
+      .map((current) => {
+        if (current[`ixv:files`] && current[`ixv:files`].includes(input)) {
+          return current;
+        }
+      })
+      .filter(Boolean);
   }
 
   public getFilingFactsPaginationTemplate(
@@ -57,23 +59,19 @@ export class StoreData {
     end: number,
     amount = 10
   ) {
+    const factsForThisInput = this.getFilingFacts(input).length;
+
     return {
-      total: this._facts.length,
+      total: factsForThisInput,
       start: start,
       end: end,
-      totalPages: Math.ceil(this._facts.length / amount),
+      totalPages: Math.ceil(factsForThisInput / amount),
       currentPage: start * amount,
     };
   }
 
   public getFilingFactsPagination(input: string, start: number, end: number) {
-    return this._facts
-      .map((current) => {
-        if (current[`ixv:files`] && current[`ixv:files`].includes(input)) {
-          return current;
-        }
-      })
-      .slice(start, end);
+    return this.getFilingFacts(input).slice(start, end+1);
   }
 
   public getFactByID(input: string) {

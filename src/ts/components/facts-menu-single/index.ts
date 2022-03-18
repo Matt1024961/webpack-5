@@ -6,9 +6,13 @@ import { facts as factsType } from '../../types/data-json';
 import template from './template.html';
 
 export class FactsMenuSingle extends HTMLElement {
-
-  private pagination = { start: 0, end: 10, amount: 10 };
-
+  private pagination = {
+    start: 0,
+    end: 9,
+    amount: 10,
+    page: 0,
+    totalPages: 0,
+  };
   static get observedAttributes() {
     return [`pagination`];
   }
@@ -28,7 +32,6 @@ export class FactsMenuSingle extends HTMLElement {
     newValue: string | null
   ) {
     this.pagination = JSON.parse(newValue);
-    console.log(this.pagination);
     this.empty();
     this.render();
   }
@@ -49,51 +52,62 @@ export class FactsMenuSingle extends HTMLElement {
         this.pagination.end
       );
       if (facts) {
-        facts.forEach((current) => {
-          // select the [template]
-          const selector = htmlDoc.querySelector(`[template]`);
-          const node = document.importNode(selector, true);
-          node.removeAttribute(`template`);
+        // console.log(`FACTS: ${facts.length}`);
+        facts.forEach((current, index, array) => {
+          if (current) {
+            // select the [template]
+            const selector = htmlDoc.querySelector(`[template]`);
+            const node = document.importNode(selector, true);
+            node.removeAttribute(`template`);
 
-          // add the fact id to the <a> tag
-          if (current && current.id) {
-            node
-              .querySelector(`[fact-action]`)
-              .setAttribute(`fact-id`, current.id);
-            node.removeAttribute(`[fact-name]`);
-          }
+            // add the fact id to the <a> tag
+            if (current && current.id) {
+              node
+                .querySelector(`[fact-action]`)
+                .setAttribute(`fact-id`, current.id);
+              node.removeAttribute(`[fact-name]`);
+            }
 
-          // add the fact name
-          const factName = document.createTextNode(
-            current[`ixv:standardLabel`]
-          );
-          node.querySelector(`[fact-name]`).appendChild(factName);
-          node.removeAttribute(`fact-name`);
+            // add the fact name
+            const factName = document.createTextNode(
+              current[`ixv:standardLabel`]
+            );
+            node.querySelector(`[fact-name]`).appendChild(factName);
+            node.removeAttribute(`fact-name`);
 
-          // add the fact period
-          const factPeriod = document.createTextNode(
-            storeData.getSimplePeriod(
-              parseInt(current[`ixv:factAttributes`][3][1])
-            )
-          );
-          node.querySelector(`[fact-period]`).appendChild(factPeriod);
-          node.removeAttribute(`fact-period`);
+            // add the fact period
+            const factPeriod = document.createTextNode(
+              storeData.getSimplePeriod(
+                parseInt(current[`ixv:factAttributes`][3][1])
+              )
+            );
+            node.querySelector(`[fact-period]`).appendChild(factPeriod);
+            node.removeAttribute(`fact-period`);
 
-          // add the fact value
-          const factValue = document.createTextNode(current.value);
-          node.querySelector(`[fact-value]`).appendChild(factValue);
-          node.removeAttribute(`fact-value`);
+            // add the fact value
+            const factValue = document.createTextNode(
+              current[`ixv:factAttributes`][2][1]
+                ? `Click To See This Fact`
+                : current.value
+            );
+            node.querySelector(`[fact-value]`).appendChild(factValue);
+            node.removeAttribute(`fact-value`);
 
-          // add the fact quick info
-          const factQuickInfo = document.createTextNode(
-            `${storeData.getIsCustomTag(current as factsType) ? `C` : ``}
+            // add the fact quick info
+            const factQuickInfo = document.createTextNode(
+              `${storeData.getIsCustomTag(current as factsType) ? `C` : ``}
             ${storeData.getIsDimension(current as factsType) ? `D` : ``}
             ${storeData.getIsAdditional(current as factsType) ? `A` : ``}`
-          );
-          node.querySelector(`[fact-quick-info]`).appendChild(factQuickInfo);
-          node.removeAttribute(`fact-quick-info`);
+            );
+            node.querySelector(`[fact-quick-info]`).appendChild(factQuickInfo);
+            node.removeAttribute(`fact-quick-info`);
 
-          this.append(node);
+            this.append(node);
+          } else {
+            console.log(current);
+            console.log(index);
+            console.log(array);
+          }
         });
       }
     } else {
