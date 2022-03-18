@@ -6,6 +6,13 @@ import { facts as factsType } from '../../types/data-json';
 import template from './template.html';
 
 export class FactsMenuSingle extends HTMLElement {
+
+  private pagination = { start: 0, end: 10, amount: 10 };
+
+  static get observedAttributes() {
+    return [`pagination`];
+  }
+
   constructor() {
     super();
   }
@@ -15,13 +22,32 @@ export class FactsMenuSingle extends HTMLElement {
     this.listeners();
   }
 
+  attributeChangedCallback(
+    name: string,
+    oldValue: string | null,
+    newValue: string | null
+  ) {
+    this.pagination = JSON.parse(newValue);
+    console.log(this.pagination);
+    this.empty();
+    this.render();
+  }
+
+  empty() {
+    this.innerHTML = ``;
+  }
+
   render() {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       const storeData: StoreData = StoreData.getInstance();
       const storeUrl: StoreUrl = StoreUrl.getInstance();
-      const facts = storeData.getFilingFactsPagination(storeUrl.filing, 0, 10);
+      const facts = storeData.getFilingFactsPagination(
+        storeUrl.filing,
+        this.pagination.start,
+        this.pagination.end
+      );
       if (facts) {
         facts.forEach((current) => {
           // select the [template]
