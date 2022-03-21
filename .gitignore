@@ -3,3 +3,5 @@
 /dist
 
 tsconfig.json
+
+/tests_output
