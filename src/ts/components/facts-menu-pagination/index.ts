@@ -35,7 +35,6 @@ export class FactsMenuPagination extends HTMLElement {
   }
 
   updateTemplate() {
-    // console.log(this.pagination);
 
     (this.querySelector(`[select-template]`) as HTMLInputElement).value =
       this.pagination.page.toString();
@@ -116,6 +115,24 @@ export class FactsMenuPagination extends HTMLElement {
           console.log(`previous fact!`);
         } else if (current.hasAttribute(`next-fact`)) {
           //
+          console.log(`next fact`);
+          const currentlySelected = document.querySelector(`[fact-id].selected`);
+          if (currentlySelected) {
+            if (currentlySelected.nextSibling) {
+              console.log(currentlySelected.nextSibling);
+              (currentlySelected.nextSibling as HTMLElement).classList.add(`selected`)
+            } else {
+              // 
+            }
+            //  console.log((currentlySelected.nextSibling as HTMLElement).classList.add(`selected`));
+          } else {
+            console.log(document.querySelector(`[fact-id]`).classList);
+            document.querySelector(`[fact-id]`).classList.add(`selected`);
+          }
+          // document.querySelectorAll(`[fact-id]`).forEach((nestedCurrent) => {
+          //   nestedCurrent.classList.remove(`selected`);
+          // });
+          // current.classList.add(`selected`);
         } else if (current.hasAttribute(`first-page`)) {
           //
           this.pagination.start = 0;

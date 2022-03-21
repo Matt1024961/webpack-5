@@ -34,6 +34,7 @@ export class FactsMenuSingle extends HTMLElement {
     this.pagination = JSON.parse(newValue);
     this.empty();
     this.render();
+    this.listeners();
   }
 
   empty() {
@@ -119,10 +120,17 @@ export class FactsMenuSingle extends HTMLElement {
     const facts = this.querySelectorAll(`[fact-id]`);
     const storeData: StoreData = StoreData.getInstance();
     facts.forEach((current) => {
+      //current.classList.remove(`selected`);
       current.addEventListener(`click`, () => {
+        current.classList.remove(`selected`);
         const fact = storeData.getFactByID(current.getAttribute(`fact-id`));
-        if (fact && document.querySelector(fact.id)) {
-          document.querySelector(fact.id).scrollIntoView();
+        console.log(fact.id);
+        if (fact && document.querySelector(`#${fact.id}`)) {
+          this.querySelectorAll(`[fact-id]`).forEach((nestedCurrent) => {
+            nestedCurrent.classList.remove(`selected`);
+          });
+          current.classList.add(`selected`);
+          document.querySelector(`#${fact.id}`).scrollIntoView();
         } else {
           this.showWarning(`This Fact can not be found on this Filing!`);
         }

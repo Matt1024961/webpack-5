@@ -46,7 +46,7 @@ export class StoreData {
   public getFilingFacts(input: string) {
     return this._facts
       .map((current) => {
-        if (current[`ixv:files`] && current[`ixv:files`].includes(input)) {
+        if (current[`active`] && current[`ixv:files`] && current[`ixv:files`].includes(input)) {
           return current;
         }
       })
@@ -71,7 +71,7 @@ export class StoreData {
   }
 
   public getFilingFactsPagination(input: string, start: number, end: number) {
-    return this.getFilingFacts(input).slice(start, end+1);
+    return this.getFilingFacts(input).slice(start, end + 1);
   }
 
   public getFactByID(input: string) {
