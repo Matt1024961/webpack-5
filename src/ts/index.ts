@@ -19,6 +19,7 @@ import { StoreLogger } from './store/logger';
 import { Warning } from './components/warning';
 import { Error } from './components/error';
 import { Filing } from './components/filing';
+import { Fact } from './components/modals/fact';
 
 (() => {
   // here we hadd all custom HTML components
@@ -38,6 +39,7 @@ import { Filing } from './components/filing';
   customElements.define(`sec-error`, Error);
   customElements.define(`sec-warning`, Warning);
   customElements.define(`sec-filing`, Filing);
+  customElements.define(`sec-modal-fact`, Fact);
 
   if (process.env.NODE_ENV !== 'production') {
     // we are in development mode

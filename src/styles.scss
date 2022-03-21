@@ -98,13 +98,20 @@ $sec-color: #003768;
   clear: both;
 }
 
-.page-link{
+.page-link {
   color: $black;
   border-radius: 0;
   border-color: $black;
-  &:hover{
+  &:hover {
     color: $white;
     background-color: $black;
     border-color: $black;
   }
+}
+
+.fact-count {
+  top: 10px;
+  right: 0;
+  font-size: 3rem;
+  color: $gray-500;
 }

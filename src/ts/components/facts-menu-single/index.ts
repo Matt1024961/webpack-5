@@ -53,7 +53,6 @@ export class FactsMenuSingle extends HTMLElement {
         this.pagination.end
       );
       if (facts) {
-        // console.log(`FACTS: ${facts.length}`);
         facts.forEach((current, index, array) => {
           if (current) {
             // select the [template]
@@ -103,6 +102,13 @@ export class FactsMenuSingle extends HTMLElement {
             node.querySelector(`[fact-quick-info]`).appendChild(factQuickInfo);
             node.removeAttribute(`fact-quick-info`);
 
+            // add the fact count
+            const factCount = document.createTextNode(
+              `${this.pagination.start + index + 1}`
+            );
+            node.querySelector(`[fact-count]`).appendChild(factCount);
+            node.removeAttribute(`fact-count`);
+
             this.append(node);
           } else {
             console.log(current);
@@ -124,13 +130,15 @@ export class FactsMenuSingle extends HTMLElement {
       current.addEventListener(`click`, () => {
         current.classList.remove(`selected`);
         const fact = storeData.getFactByID(current.getAttribute(`fact-id`));
-        console.log(fact.id);
         if (fact && document.querySelector(`#${fact.id}`)) {
           this.querySelectorAll(`[fact-id]`).forEach((nestedCurrent) => {
             nestedCurrent.classList.remove(`selected`);
           });
+          const modal = document.createElement(`sec-modal-fact`);
+          modal.setAttribute(`fact-id`, fact.id);
+          document.querySelector(`#modal-container`).append(modal);
+
           current.classList.add(`selected`);
-          document.querySelector(`#${fact.id}`).scrollIntoView();
         } else {
           this.showWarning(`This Fact can not be found on this Filing!`);
         }

@@ -69,6 +69,10 @@
     "moment": "^2.29.1",
     "typescript-logger": "^5.0.1"
   },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=14"
+  },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
     "plugins": [

@@ -1,10 +1,15 @@
 <div template>
   <a fact-action class="click single-fact-menu border p-2 d-block">
-    <span fact-quick-info class="float-end badge bg-secondary"></span>
-    <div class="float-start">
+    <div class="float-end">
+      <span fact-quick-info class="badge bg-secondary"></span>
+    </div>
+    <div class="float-start w-75">
       <p fact-name class="fw-bold mb-0"></p>
       <p fact-period class="mb-0"></p>
       <p fact-value class="fs-6 mb-0"></p>
+    </div>
+    <div class="position-relative">
+      <span fact-count class="fact-count position-absolute"></span>
     </div>
     <div class="clear-both"></div>
   </a>
