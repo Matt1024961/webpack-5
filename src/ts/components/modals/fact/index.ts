@@ -13,7 +13,7 @@ export class Fact extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    // this.listeners();
+    this.listeners();
   }
 
   attributeChangedCallback(
@@ -41,9 +41,20 @@ export class Fact extends HTMLElement {
     } else {
       //this.logger.warn('Data Filter NOT rendered');
     }
-    const myModal = new bootstrap.Modal(this.querySelector(`#fact-modal`), {
+  }
+
+  listeners() {
+    const thisModal = new bootstrap.Modal(this.querySelector(`#fact-modal`), {
+      backdrop: `static`,
       keyboard: true,
     });
-    myModal.show();
+    thisModal.show();
+
+    this.querySelector(`#dialog-box-close`).addEventListener(`click`, () => {
+      thisModal.hide();
+      document.querySelectorAll(`[fact-id]`).forEach((nestedCurrent) => {
+        nestedCurrent.classList.remove(`selected`);
+      });
+    });
   }
 }

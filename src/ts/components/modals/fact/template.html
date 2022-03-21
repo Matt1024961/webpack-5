@@ -12,31 +12,44 @@
       <div class="modal-header py-0">
         <p class="modal-title lead" id="fact-modal-label">Attributes</p>
         <div class="modal-actions">
-          <i
+          <button
             id="fact-modal-drag"
+            class="btn btn-sm drag"
+            type="button"
             title="Click and drag to move this Dialog Box."
-            class="fas fa-arrows-alt m-1 drag d-none d-sm-inline-block"
             tabindex="-1"
             data-bs-toggle="tooltip"
             data-bs-placement="bottom"
-          ></i>
-          <i
+          >
+            <i
+              class="fas fa-arrows-alt"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+            >
+            </i>
+          </button>
+          <button
             id="dialog-box-copy-content"
+            class="btn btn-sm"
+            type="button"
             title="Click to Copy all Dialog Box Content."
-            class="fas fa-copy m-1 click"
             tabindex="-1"
             data-bs-toggle="tooltip"
             data-bs-placement="bottom"
-          ></i>
-          <i
+          >
+            <i class="fas fa-copy"></i>
+          </button>
+          <button
             id="dialog-box-close"
-            data-name="Fact Modal"
+            class="btn btn-sm"
+            type="button"
             title="Click to Close this Dialog Box."
-            class="fas fa-times m-1 click"
             tabindex="-1"
             data-bs-toggle="tooltip"
             data-bs-placement="bottom"
-          ></i>
+          >
+            <i class="fas fa-times"></i>
+          </button>
         </div>
       </div>
       <div class="modal-body">

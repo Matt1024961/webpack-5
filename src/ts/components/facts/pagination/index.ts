@@ -1,6 +1,6 @@
 // import { Logger } from 'typescript-logger';
-import { StoreData } from '../../store/data';
-import { StoreUrl } from '../../store/url';
+import { StoreData } from '../../../store/data';
+import { StoreUrl } from '../../../store/url';
 //import { facts as factsType } from '../../types/data-json';
 
 import template from './template.html';

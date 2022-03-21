@@ -115,3 +115,11 @@ $sec-color: #003768;
   font-size: 3rem;
   color: $gray-500;
 }
+
+.modal-actions {
+  .btn {
+    color: $white;
+    margin: 0.25rem;
+    padding: 0;
+  }
+}
