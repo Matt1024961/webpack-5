@@ -45,7 +45,7 @@ export class Fact extends HTMLElement {
 
   listeners() {
     const thisModal = new bootstrap.Modal(this.querySelector(`#fact-modal`), {
-      backdrop: `static`,
+      backdrop: false,
       keyboard: true,
     });
     thisModal.show();

@@ -1,53 +1,23 @@
-<div
-  template
-  class="modal fade"
-  id="fact-modal"
-  tabindex="-1"
-  aria-labelledby="fact-modal-label"
-  aria-hidden="true"
-  data-bs-backdrop="false"
->
+<div template class="modal fade position-fixed" id="fact-modal" tabindex="-1" aria-labelledby="fact-modal-label"
+  aria-hidden="true" data-bs-backdrop="false">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header py-0">
         <p class="modal-title lead" id="fact-modal-label">Attributes</p>
         <div class="modal-actions">
-          <button
-            id="fact-modal-drag"
-            class="btn btn-sm drag"
-            type="button"
-            title="Click and drag to move this Dialog Box."
-            tabindex="-1"
-            data-bs-toggle="tooltip"
-            data-bs-placement="bottom"
-          >
-            <i
-              class="fas fa-arrows-alt"
-              data-bs-toggle="tooltip"
-              data-bs-placement="bottom"
-            >
+          <button id="fact-modal-drag" class="btn btn-sm drag" type="button"
+            title="Click and drag to move this Dialog Box." tabindex="-1" data-bs-toggle="tooltip"
+            data-bs-placement="bottom">
+            <i class="fas fa-arrows-alt" data-bs-toggle="tooltip" data-bs-placement="bottom">
             </i>
           </button>
-          <button
-            id="dialog-box-copy-content"
-            class="btn btn-sm"
-            type="button"
-            title="Click to Copy all Dialog Box Content."
-            tabindex="-1"
-            data-bs-toggle="tooltip"
-            data-bs-placement="bottom"
-          >
+          <button id="dialog-box-copy-content" class="btn btn-sm" type="button"
+            title="Click to Copy all Dialog Box Content." tabindex="-1" data-bs-toggle="tooltip"
+            data-bs-placement="bottom">
             <i class="fas fa-copy"></i>
           </button>
-          <button
-            id="dialog-box-close"
-            class="btn btn-sm"
-            type="button"
-            title="Click to Close this Dialog Box."
-            tabindex="-1"
-            data-bs-toggle="tooltip"
-            data-bs-placement="bottom"
-          >
+          <button id="dialog-box-close" class="btn btn-sm" type="button" title="Click to Close this Dialog Box."
+            tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="bottom">
             <i class="fas fa-times"></i>
           </button>
         </div>
@@ -153,28 +123,12 @@
       </div>
       <div class="modal-footer">
         <div class="carousel-indicators">
-          <button
-            type="button"
-            data-bs-target="#fact-carousel"
-            data-bs-slide-to="0"
-            class="active bg-primary"
-            aria-current="true"
-            aria-label="Slide 1"
-          ></button>
-          <button
-            type="button"
-            data-bs-target="#fact-carousel"
-            data-bs-slide-to="1"
-            class="bg-primary"
-            aria-label="Slide 2"
-          ></button>
-          <button
-            type="button"
-            data-bs-target="#fact-carousel"
-            data-bs-slide-to="2"
-            class="bg-primary"
-            aria-label="Slide 3"
-          ></button>
+          <button type="button" data-bs-target="#fact-carousel" data-bs-slide-to="0" class="active bg-primary"
+            aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#fact-carousel" data-bs-slide-to="1" class="bg-primary"
+            aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#fact-carousel" data-bs-slide-to="2" class="bg-primary"
+            aria-label="Slide 3"></button>
         </div>
       </div>
     </div>

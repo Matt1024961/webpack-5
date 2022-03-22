@@ -6,6 +6,12 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts/';
 
 $navbar-height: 45px;
 $sec-color: #003768;
+
+body {
+  overflow: auto !important;
+  padding-right: 0 !important;
+}
+
 .active-fact {
   border-top: 2px red solid !important;
   border-bottom: 2px red solid !important;
@@ -114,6 +120,13 @@ $sec-color: #003768;
   right: 0;
   font-size: 3rem;
   color: $gray-500;
+}
+
+.modal {
+  top: 25%;
+  left: 35vw;
+  width: 30vw;
+  height: 50vh;
 }
 
 .modal-actions {
