@@ -10,19 +10,7 @@ export class Error extends HTMLElement {
     this.render();
   }
 
-  disconnectedCallback() {
-    // console.log(`disconnectedCallback`);
-  }
-
-  adoptedCallback() {
-    // console.log(`adoptedCallback`);
-  }
-
-  attributeChangedCallback() {
-    // console.log(`attributeChangedCallback`);
-  }
-
-  render(): void {
+  render() {
     const storeLogger: StoreLogger = StoreLogger.getInstance();
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);

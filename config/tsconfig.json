@@ -6,7 +6,8 @@
     "module": "es2020",
     "target": "es2015",
     "allowJs": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "suppressImplicitAnyIndexErrors": true
   },
   "include": ["../src/**/*.ts", "../src/**/*.html"],
   "files": ["typings.d.ts"]

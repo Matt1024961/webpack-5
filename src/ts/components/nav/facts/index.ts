@@ -2,6 +2,8 @@ import { StoreUrl } from '../../../store/url';
 import { StoreData } from '../../../store/data';
 import { DataJSON } from '../../../types/data-json';
 import template from './template.html';
+import { WarningClass } from '../../../warning';
+import { Attributes } from '../../../store/attributes';
 
 export class Facts extends HTMLElement {
   static get observedAttributes() {
@@ -39,9 +41,8 @@ export class Facts extends HTMLElement {
 
         worker.onmessage = (event) => {
           if (event.data.dataerror) {
-            this.showWarning(
-              `No supporting file was found (${storeUrl.dataURL}).`
-            );
+            const warning = new WarningClass();
+            warning.show(`No supporting file was found (${storeUrl.dataURL}).`);
           }
           if (event.data.data as DataJSON) {
             const storeData: StoreData = StoreData.getInstance();
@@ -50,6 +51,8 @@ export class Facts extends HTMLElement {
               storeData.getFilingFacts(storeUrl.filing).length.toString()
             );
             this.enableApplication();
+            const attributes = new Attributes();
+            attributes.setActiveFact();
           }
         };
       } else {
@@ -113,17 +116,5 @@ export class Facts extends HTMLElement {
     document.querySelectorAll(`#global-search fieldset`).forEach((current) => {
       current.removeAttribute(`disabled`);
     });
-  }
-
-  showError(message: string): void {
-    const error = document.createElement(`sec-error`);
-    error.setAttribute(`message`, message);
-    document.querySelector(`#error-container`).appendChild(error);
-  }
-
-  showWarning(message: string) {
-    const warning = document.createElement(`sec-warning`);
-    warning.setAttribute(`message`, message);
-    document.querySelector(`#warning-container`).appendChild(warning);
   }
 }

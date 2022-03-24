@@ -1,9 +1,6 @@
 // Karma configuration
-// Generated on Wed Feb 23 2022 08:02:11 GMT-0700 (Mountain Standard Time)
 const webpackConfig = require('./webpack.config')();
 delete webpackConfig.entry;
-// delete webpackConfig.plugins[4];
-// webpackConfig.plugins.filter(Boolean);
 module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -11,7 +8,7 @@ module.exports = function (config) {
 
     // frameworks to use
     // available frameworks: https://www.npmjs.com/search?q=keywords:karma-adapter
-    frameworks: ['mocha', `webpack`],
+    frameworks: ['jasmine', `webpack`],
 
     // list of files / patterns to load in the browser
     files: [
@@ -53,7 +50,7 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://www.npmjs.com/search?q=keywords:karma-reporter
-    reporters: ['mocha'],
+    reporters: [`kjhtml`],
 
     // web server port
     port: 9876,
@@ -71,10 +68,10 @@ module.exports = function (config) {
     // start these browsers
     // available browser launchers: https://www.npmjs.com/search?q=keywords:karma-launcher
     browsers: [
-      'Chrome',
+      // 'Chrome', //
       'ChromeHeadless',
       // 'ChromeCanary',
-      'Firefox',
+      // 'Firefox', //
       // 'Safari',
       // 'PhantomJS',
       // 'Opera',

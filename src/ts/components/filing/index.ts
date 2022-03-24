@@ -1,3 +1,5 @@
+import { ErrorClass } from '../../error';
+import { Attributes } from '../../store/attributes';
 import { StoreLogger } from '../../store/logger';
 import { StoreUrl } from '../../store/url';
 import { Xhtml } from '../../xhtml';
@@ -12,15 +14,15 @@ export class Filing extends HTMLElement {
   }
 
   connectedCallback() {
-    console.log(`connectedCallback`);
+    //
   }
 
   disconnectedCallback() {
-    console.log(`disconnectedCallback`);
+    //
   }
 
   adoptedCallback() {
-    console.log(`adoptedCallback`);
+    //
   }
 
   attributeChangedCallback(
@@ -44,15 +46,17 @@ export class Filing extends HTMLElement {
 
         worker.onmessage = (event) => {
           if (event.data.xhtmlerror) {
-            this.showError(
+            const error = new ErrorClass();
+            error.show(
               `Inline XBRL requires a URL param (doc | file) that correlates to a Financial Report.`
             );
-            this.showError(`Inline XBRL is not usable in this state.`);
+            error.show(`Inline XBRL is not usable in this state.`);
           }
           if (event.data.xhtml) {
             // send the XHTML to be updated / fixed
             const xhtml = new Xhtml(storeUrl.filingURL);
             this.render(xhtml.init(event.data.xhtml));
+            this.listeners();
           }
         };
       } else {
@@ -63,19 +67,15 @@ export class Filing extends HTMLElement {
 
   render(xhtml: Node): void {
     const storeLogger: StoreLogger = StoreLogger.getInstance();
-    storeLogger.info(`Filing rendered`);
     this.append(xhtml);
+    storeLogger.info(`Filing rendered`);
   }
 
-  showError(message: string): void {
-    const error = document.createElement(`sec-error`);
-    error.setAttribute(`message`, message);
-    document.querySelector(`#error-container`).appendChild(error);
-  }
-
-  showWarning(message: string) {
-    const warning = document.createElement(`sec-warning`);
-    warning.setAttribute(`message`, message);
-    document.querySelector(`#warning-container`).appendChild(warning);
+  listeners() {
+    const attributes = new Attributes();
+    //attributes.setActiveFact();
+    document.addEventListener('scroll', () => {
+      attributes.setActiveFact();
+    });
   }
 }

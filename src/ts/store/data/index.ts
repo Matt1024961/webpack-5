@@ -1,19 +1,19 @@
 import * as moment from 'moment';
-import { DataJSON } from '../types/data-json';
-import { documentInfo as documentInfoType } from '../types/data-json';
+import { DataJSON } from '../../types/data-json';
+import { documentInfo as documentInfoType } from '../../types/data-json';
 
-import { facts as factsType } from '../types/data-json';
-import { edgarRendererReports as edgarRendererReportsType } from '../types/data-json';
-import { entity as entityType } from '../types/data-json';
+import { facts as factsType } from '../../types/data-json';
+import { edgarRendererReports as edgarRendererReportsType } from '../../types/data-json';
+import { entity as entityType } from '../../types/data-json';
 
-import { filterAxis as filterAxisType } from '../types/data-json';
-import { filterBalance as filterBalanceType } from '../types/data-json';
-import { filterMembers as filterMembersType } from '../types/data-json';
-import { filterPeriods as filterPeriodsType } from '../types/data-json';
-import { filterScale as filterScaleType } from '../types/data-json';
-import { filterUnits as filterUnitsType } from '../types/data-json';
-import { labels as labelsType } from '../types/data-json';
-import { references as referencesType } from '../types/data-json';
+import { filterAxis as filterAxisType } from '../../types/data-json';
+import { filterBalance as filterBalanceType } from '../../types/data-json';
+import { filterMembers as filterMembersType } from '../../types/data-json';
+import { filterPeriods as filterPeriodsType } from '../../types/data-json';
+import { filterScale as filterScaleType } from '../../types/data-json';
+import { filterUnits as filterUnitsType } from '../../types/data-json';
+import { labels as labelsType } from '../../types/data-json';
+import { references as referencesType } from '../../types/data-json';
 
 export class StoreData {
   private _documentInfo: documentInfoType;
@@ -43,10 +43,28 @@ export class StoreData {
     return StoreData.instance;
   }
 
+  public getFilingFactsIDs(input: string) {
+    return this._facts
+      .map((current) => {
+        if (
+          current[`active`] &&
+          current[`ixv:files`] &&
+          current[`ixv:files`].includes(input)
+        ) {
+          return current.id;
+        }
+      })
+      .filter(Boolean);
+  }
+
   public getFilingFacts(input: string) {
     return this._facts
       .map((current) => {
-        if (current[`active`] && current[`ixv:files`] && current[`ixv:files`].includes(input)) {
+        if (
+          current[`active`] &&
+          current[`ixv:files`] &&
+          current[`ixv:files`].includes(input)
+        ) {
           return current;
         }
       })
@@ -72,6 +90,16 @@ export class StoreData {
 
   public getFilingFactsPagination(input: string, start: number, end: number) {
     return this.getFilingFacts(input).slice(start, end + 1);
+  }
+
+  public setFilingFactsActive(input: Array<string>) {
+    return this._facts.forEach((element) => {
+      if (input.includes(element.id)) {
+        element.active = true;
+      } else {
+        element.active = false;
+      }
+    });
   }
 
   public getFactByID(input: string) {

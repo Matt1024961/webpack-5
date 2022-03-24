@@ -6,7 +6,7 @@ import { Navbar } from './components/nav/navbar';
 import { Sections } from './components/nav/sections';
 import { Data } from './components/nav/data';
 import { Menu } from './components/nav/menu';
-import { SectionsMenu } from './components/sections-menu';
+import { SectionsMenu } from './components/sections';
 import { Root } from './components/root';
 import { Search } from './components/nav/search';
 import { Tags } from './components/nav/tags';

@@ -1,19 +1,11 @@
 import * as moment from 'moment';
 import { DataJSON } from '../types/data-json';
-import { StoreData } from '../store/data';
 export class Data {
   private data: DataJSON;
   constructor(data: DataJSON) {
     this.data = data;
   }
   init(): DataJSON {
-    // const storeData: StoreData = StoreData.getInstance();
-    // console.log(this.data);
-    // storeData.documentInfo = this.data.documentInfo;
-    // storeData.facts = this.data.facts;
-    // storeData.edgarRendererReports = this.data['ixv:edgarRendererReports'];
-    // console.log(storeData.facts);
-
     // put all this below logic into the datastore singleton class
     const periods: { [key: string]: Array<string> } = {};
     this.data['ixv:filterPeriods'].forEach((current) => {

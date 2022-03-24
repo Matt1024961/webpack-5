@@ -3,7 +3,7 @@ export class Xhtml {
   constructor(url: string) {
     this.url = url;
   }
-  
+
   init(xhtml: string) {
     // we set the xhtml string to a nodelist
     const parser = new DOMParser();
@@ -14,6 +14,7 @@ export class Xhtml {
     // we now fix the XHTML
     node = this.fixXhtml(node);
     // we now update the XHTML
+    return node;
     return this.updateXhtml(node);
   }
 

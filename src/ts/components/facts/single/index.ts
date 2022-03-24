@@ -1,7 +1,7 @@
-// import { Logger } from 'typescript-logger';
 import { StoreData } from '../../../store/data';
 import { StoreUrl } from '../../../store/url';
 import { facts as factsType } from '../../../types/data-json';
+import { WarningClass } from '../../../warning';
 
 import template from './template.html';
 
@@ -140,21 +140,10 @@ export class FactsMenuSingle extends HTMLElement {
 
           current.classList.add(`selected`);
         } else {
-          this.showWarning(`This Fact can not be found on this Filing!`);
+          const warning = new WarningClass();
+          warning.show(`This Fact can not be found on this Filing!`);
         }
       });
     });
-  }
-
-  showError(message: string): void {
-    const error = document.createElement(`sec-error`);
-    error.setAttribute(`message`, message);
-    document.querySelector(`#error-container`).appendChild(error);
-  }
-
-  showWarning(message: string) {
-    const warning = document.createElement(`sec-warning`);
-    warning.setAttribute(`message`, message);
-    document.querySelector(`#warning-container`).appendChild(warning);
   }
 }

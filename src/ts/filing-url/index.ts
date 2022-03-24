@@ -1,3 +1,4 @@
+import { ErrorClass } from '../error';
 import { StoreLogger } from '../store/logger';
 import { StoreUrl } from '../store/url';
 export class FilingUrl {
@@ -14,10 +15,11 @@ export class FilingUrl {
 
     if (Object.keys(params).length === 0) {
       // report NO FILING error
-      this.showError(
+      const error = new ErrorClass();
+      error.show(
         `Inline XBRL requires a URL param (doc | file) that correlates to a Financial Report.`
       );
-      this.showError(`Inline XBRL is not usable in this state.`);
+      error.show(`Inline XBRL is not usable in this state.`);
     }
 
     this.findProperties(params, storeUrl);
@@ -64,10 +66,11 @@ export class FilingUrl {
 
         if (storeUrl.filingHost !== storeUrl.host) {
           // report CORS error
-          this.showError(
+          const error = new ErrorClass();
+          error.show(
             `The protocol, host name and port number of the "doc | file" field (${storeUrl.filingHost}), if provided, must be identical to that of the Inline XBRL viewer(${storeUrl.host})`
           );
-          this.showError(`Inline XBRL is not usable in this state.`);
+          error.show(`Inline XBRL is not usable in this state.`);
         } else {
           const filingContainer = document.querySelector(
             `#filing-container sec-filing`
@@ -86,23 +89,12 @@ export class FilingUrl {
         }
       } else {
         // report NO FILING error
-        this.showError(
+        const error = new ErrorClass();
+        error.show(
           `Inline XBRL requires a URL param (doc | file) that correlates to a Financial Report.`
         );
-        this.showError(`Inline XBRL is not usable in this state.`);
+        error.show(`Inline XBRL is not usable in this state.`);
       }
     }
-  }
-
-  showError(message: string): void {
-    const error = document.createElement(`sec-error`);
-    error.setAttribute(`message`, message);
-    document.querySelector(`#error-container`).appendChild(error);
-  }
-
-  showWarning(message: string) {
-    const warning = document.createElement(`sec-warning`);
-    warning.setAttribute(`message`, message);
-    document.querySelector(`#warning-container`).appendChild(warning);
   }
 }
