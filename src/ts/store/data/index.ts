@@ -14,6 +14,7 @@ import { filterScale as filterScaleType } from '../../types/data-json';
 import { filterUnits as filterUnitsType } from '../../types/data-json';
 import { labels as labelsType } from '../../types/data-json';
 import { references as referencesType } from '../../types/data-json';
+import { ixdsFiles as ixdsFilesType } from '../../types/data-json';
 
 export class StoreData {
   private _documentInfo: documentInfoType;
@@ -29,14 +30,13 @@ export class StoreData {
   private _labels: labelsType;
   private _references: referencesType;
   private _simplePeriods: Array<string>;
+  private _ixdsFiles: ixdsFilesType;
 
   private static instance: StoreData;
 
   private constructor() {
     //
   }
-
-  
 
   public static getInstance(): StoreData {
     if (!StoreData.instance) {
@@ -71,9 +71,7 @@ export class StoreData {
             return current;
           }
         } else {
-          if (
-            current[`active`]
-          ) {
+          if (current[`active`]) {
             return current;
           }
         }
@@ -145,6 +143,7 @@ export class StoreData {
     this.labels = input['ixv:labels'];
     this.references = input['ixv:references'];
     this.facts = input.facts;
+    this.ixdsFiles = input[`ixv:ixdsFiles`];
   }
 
   public getSimplePeriod(input: number) {
@@ -275,5 +274,13 @@ export class StoreData {
   public set references(input: referencesType) {
     // set up the data for success
     this._references = input;
+  }
+
+  public set ixdsFiles(input: ixdsFilesType) {
+    this._ixdsFiles = input;
+  }
+
+  public get ixdsFiles() {
+    return this._ixdsFiles;
   }
 }

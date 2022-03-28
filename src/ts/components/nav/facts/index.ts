@@ -47,6 +47,9 @@ export class Facts extends HTMLElement {
           if (event.data.data as DataJSON) {
             const storeData: StoreData = StoreData.getInstance();
             storeData.setAllData(event.data.data);
+            if (storeData.ixdsFiles.length > 1) {
+              document.querySelector(`sec-links`).setAttribute(`multiple`, ``);
+            }
             this.updateFactsCount(
               storeData.getFilingFacts(storeUrl.filing).length.toString()
             );

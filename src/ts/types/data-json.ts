@@ -11,6 +11,7 @@ export type DataJSON = {
   'ixv:filterUnits': filterUnits;
   'ixv:labels': labels;
   'ixv:references': references;
+  'ixv:ixdsFiles': ixdsFiles;
 };
 
 export type documentInfo = {
@@ -100,3 +101,5 @@ export type filterUnits = Array<string>;
 export type labels = Array<Array<string>>;
 
 export type references = Array<Array<string>>;
+
+export type ixdsFiles = Array<string>;

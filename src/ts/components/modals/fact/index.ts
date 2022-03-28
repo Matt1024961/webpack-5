@@ -1,12 +1,11 @@
 import * as bootstrap from 'bootstrap';
-import { Logger } from 'typescript-logger';
 import template from './template.html';
 
 export class Fact extends HTMLElement {
-  private logger: Logger;
   static get observedAttributes() {
     return [`fact-id`];
   }
+
   constructor() {
     super();
   }
