@@ -31,4 +31,8 @@ export class StoreLogger {
   public warn(message: string): void {
     this.logger.warn(`${message}`);
   }
+
+  public log(message: string): void {
+    this.logger.log(`${message}`);
+  }
 }

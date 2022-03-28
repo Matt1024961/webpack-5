@@ -66,14 +66,14 @@ export class Filing extends HTMLElement {
   }
 
   render(xhtml: Node): void {
-    const storeLogger: StoreLogger = StoreLogger.getInstance();
+    console.log(xhtml);
     this.append(xhtml);
+    const storeLogger: StoreLogger = StoreLogger.getInstance();
     storeLogger.info(`Filing rendered`);
   }
 
   listeners() {
     const attributes = new Attributes();
-    //attributes.setActiveFact();
     document.addEventListener('scroll', () => {
       attributes.setActiveFact();
     });

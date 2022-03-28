@@ -1,3 +1,5 @@
+import { StoreUrl } from "../store/url";
+
 export class Xhtml {
   private url: string;
   constructor(url: string) {
@@ -19,13 +21,23 @@ export class Xhtml {
   }
 
   fixXhtml(node: HTMLBodyElement): HTMLBodyElement {
+    const storeUrl: StoreUrl = StoreUrl.getInstance();
+    const src = storeUrl.filingURL.substring(0, storeUrl.filingURL.lastIndexOf('/'));
+    console.log(src);
     node.querySelectorAll(`[href]`).forEach((current) => {
       this.fixURL(current);
     });
+    node.querySelectorAll(`[src]`).forEach((current) => {
+      const currentSRC = current.getAttribute(`src`);
+      current.setAttribute(`src`, `${src}/${currentSRC}`)
+
+      //this.fixURL(current);
+    })
     return node;
   }
 
   fixURL(current: Element): void {
+
     const href = current.getAttribute(`href`);
     if (href.startsWith(`http`)) {
       // console.log(href);

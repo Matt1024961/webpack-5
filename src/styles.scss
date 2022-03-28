@@ -145,3 +145,7 @@ body {
     padding: 0;
   }
 }
+
+.content-visibility > *{
+  content-visibility: auto;
+}

@@ -2,11 +2,15 @@ import { facts } from '../../types/data-json';
 
 const filterFacts = (facts: Array<facts>, search: string) => {
   const filteredFacts = facts
-    .map((element) => {
-      return element.value.includes(search) ? element.id : false;
-    })
-    .filter(Boolean);
+    .filter((element) => {
+      if (element.value) {
+        return element.value.includes(search) ? element.id : false;
+      } else {
+        return false;
+      }
+    });
 
+  console.log(filteredFacts);
   self.postMessage({
     filteredFacts,
   });

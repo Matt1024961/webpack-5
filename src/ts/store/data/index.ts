@@ -36,6 +36,8 @@ export class StoreData {
     //
   }
 
+  
+
   public static getInstance(): StoreData {
     if (!StoreData.instance) {
       StoreData.instance = new StoreData();
@@ -57,15 +59,23 @@ export class StoreData {
       .filter(Boolean);
   }
 
-  public getFilingFacts(input: string) {
+  public getFilingFacts(input: string, multiFiling = false) {
     return this._facts
       .map((current) => {
-        if (
-          current[`active`] &&
-          current[`ixv:files`] &&
-          current[`ixv:files`].includes(input)
-        ) {
-          return current;
+        if (multiFiling) {
+          if (
+            current[`active`] &&
+            current[`ixv:files`] &&
+            current[`ixv:files`].includes(input)
+          ) {
+            return current;
+          }
+        } else {
+          if (
+            current[`active`]
+          ) {
+            return current;
+          }
         }
       })
       .filter(Boolean);

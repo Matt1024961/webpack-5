@@ -1,9 +1,9 @@
 import { StoreUrl } from '../../../store/url';
 import { StoreData } from '../../../store/data';
 import { DataJSON } from '../../../types/data-json';
-import template from './template.html';
 import { WarningClass } from '../../../warning';
 import { Attributes } from '../../../store/attributes';
+import template from './template.html';
 
 export class Facts extends HTMLElement {
   static get observedAttributes() {

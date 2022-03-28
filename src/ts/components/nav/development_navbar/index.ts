@@ -34,9 +34,9 @@ export class DevelopmentNavbar extends HTMLElement {
         const li = document.createElement(`li`);
         const a = document.createElement(`a`);
         a.setAttribute(`class`, `dropdown-item`);
-        a.setAttribute(`href`, `?doc=/assets/example-1/${current[0]}`);
+        a.setAttribute(`href`, `?doc=${current}`);
         a.setAttribute(`target`, `_blank`);
-        const text = document.createTextNode(current[0]);
+        const text = document.createTextNode(current);
         list.appendChild(li).appendChild(a).appendChild(text);
       });
       developmentData.multi.forEach((current) => {
@@ -44,7 +44,7 @@ export class DevelopmentNavbar extends HTMLElement {
         const li = document.createElement(`li`);
         const a = document.createElement(`a`);
         a.setAttribute(`class`, `dropdown-item`);
-        a.setAttribute(`href`, `?doc=/assets/example-1/${current[0]}`);
+        a.setAttribute(`href`, `?doc=${current[0]}`);
         a.setAttribute(`target`, `_blank`);
         const text = document.createTextNode(current[0]);
         list.appendChild(li).appendChild(a).appendChild(text);
