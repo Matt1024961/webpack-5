@@ -66,7 +66,7 @@ export class Filing extends HTMLElement {
   }
 
   render(xhtml: Node): void {
-    console.log(xhtml);
+    // console.log(xhtml);
     this.append(xhtml);
     const storeLogger: StoreLogger = StoreLogger.getInstance();
     storeLogger.info(`Filing rendered`);

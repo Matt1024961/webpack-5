@@ -1,3 +1,4 @@
+import { StoreData } from '../../../store/data';
 import template from './template.html';
 
 export class Links extends HTMLElement {
@@ -7,16 +8,61 @@ export class Links extends HTMLElement {
   constructor() {
     super();
   }
-
+  connectedCallback() {
+    //
+    this.render();
+  }
   attributeChangedCallback(
     name: string,
     oldValue: string | null,
     newValue: string | null
   ) {
     if (newValue) {
-      this.render();
+      this.update();
       this.listeners();
     }
+  }
+
+  update() {
+    const storeData: StoreData = StoreData.getInstance();
+    this.querySelector(`.fade`).classList.add(`show`);
+    storeData.ixdsFiles.forEach((current, index) => {
+      console.log(current);
+
+      const li = document.createElement(`li`);
+      li.classList.add(`my-1`);
+
+      const div = document.createElement(`div`)
+      div.classList.add(`form-check`);
+
+      const input = document.createElement(`input`)
+      input.classList.add(`form-check-input`);
+      input.setAttribute(`name`, `links-radios`);
+      input.setAttribute(`type`, `radio`);
+      input.setAttribute(`value`, `${index}`);
+      input.setAttribute(`checked`, `false`);
+
+
+      const label = document.createElement(`label`);
+      label.classList.add(`form-check-label`)
+
+
+      const text = document.createTextNode(current);
+
+      label.append(text);
+
+      div.append(input);
+      div.append(label);
+      li.append(div);
+
+      this.querySelector(`fieldset`).append(li);
+
+    });
+
+    //     <label class="form-check-label" for="data-radio-0"> All </label>
+    //   </div>
+    // </li>
+    console.log(this);
   }
 
   render() {
@@ -27,9 +73,8 @@ export class Links extends HTMLElement {
       const node = document.importNode(selector, true);
       node.removeAttribute(`template`);
       this.append(node);
-      //this.logger.info('Data Filter Bar rendered');
     } else {
-      //this.logger.warn('Data Filter NOT rendered');
+      // 
     }
   }
 
