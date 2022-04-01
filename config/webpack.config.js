@@ -22,9 +22,9 @@ module.exports = (env, argv = { mode: `production` }) => {
         template: `./src/index.html`,
         filename: `index.html`,
       }),
-      new webpack.BannerPlugin(
-        `Some simple comment that will be at the top of the bundle(s)`
-      ),
+      new webpack.BannerPlugin({
+        banner: `Created by staff of the U.S. Securities and Exchange Commission.\nData and content created by government employees within the scope of their employment\nare not subject to domestic copyright protection. 17 U.S.C. 105.`,
+      }),
 
       new MiniCssExtractPlugin({
         filename: `styles.[contenthash].min.css`,

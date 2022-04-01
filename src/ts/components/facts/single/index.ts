@@ -1,3 +1,4 @@
+import { ConstantApplication } from '../../../store/application';
 import { StoreData } from '../../../store/data';
 import { StoreUrl } from '../../../store/url';
 import { facts as factsType } from '../../../types/data-json';
@@ -6,13 +7,8 @@ import { WarningClass } from '../../../warning';
 import template from './template.html';
 
 export class FactsMenuSingle extends HTMLElement {
-  private pagination = {
-    start: 0,
-    end: 9,
-    amount: 10,
-    page: 0,
-    totalPages: 0,
-  };
+  private pagination = ConstantApplication.fact_menu_pagination;
+
   static get observedAttributes() {
     return [`pagination`];
   }
@@ -79,7 +75,7 @@ export class FactsMenuSingle extends HTMLElement {
             const factPeriod = document.createTextNode(
               storeData.getSimplePeriod(
                 parseInt(current[`ixv:factAttributes`][3][1])
-              )
+              ).text
             );
             node.querySelector(`[fact-period]`).appendChild(factPeriod);
             node.removeAttribute(`fact-period`);

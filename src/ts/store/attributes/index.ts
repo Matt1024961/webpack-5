@@ -7,7 +7,7 @@ export class Attributes {
     //
   }
 
-  setActiveFact() {
+  setProperAttribute() {
     const storeFilter: StoreFilter = StoreFilter.getInstance();
     const allFacts = document.querySelectorAll(`[contextRef]`);
     const visibleFacts = { count: 0 };
@@ -42,7 +42,7 @@ export class Attributes {
       rect.top >= 0 &&
       rect.left >= 0 &&
       rect.bottom <=
-      (window.innerHeight || document.documentElement.clientHeight) &&
+        (window.innerHeight || document.documentElement.clientHeight) &&
       rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
   };
@@ -50,5 +50,5 @@ export class Attributes {
   isHidden = (id: string): boolean => {
     const storeData: StoreData = StoreData.getInstance();
     return storeData.getFactByID(id)[`ixv:hidden`] ? true : false;
-  }
+  };
 }

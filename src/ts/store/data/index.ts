@@ -29,7 +29,10 @@ export class StoreData {
   private _filterUnits: filterUnitsType;
   private _labels: labelsType;
   private _references: referencesType;
-  private _simplePeriods: Array<string>;
+  private _simplePeriods: Array<{ value: number; text: string }>;
+  private _complexPeriods: {
+    [key: string]: Array<{ value: number; text: string }>;
+  };
   private _ixdsFiles: ixdsFilesType;
 
   private static instance: StoreData;
@@ -43,6 +46,30 @@ export class StoreData {
       StoreData.instance = new StoreData();
     }
     return StoreData.instance;
+  }
+
+  public getForFilter(input: string) {
+    //
+    return {
+      edgarRendererReports: this.edgarRendererReports,
+      entity: this.entity,
+      filterAxis: this.filterAxis,
+      filterBalance: this.filterBalance,
+      filterMembers: this.filterMembers,
+      filterPeriods: this.filterPeriods,
+      filterScale: this.filterScale,
+      filterUnits: this.filterUnits,
+      labels: this.labels,
+      references: this.references,
+      ixdsFiles: this.ixdsFiles,
+      facts: this.facts.filter((element) => {
+        if (element[`ixv:files`]) {
+          return element[`ixv:files`].includes(input);
+        } else {
+          return true;
+        }
+      }),
+    };
   }
 
   public getFilingFactsIDs(input: string) {
@@ -117,7 +144,6 @@ export class StoreData {
   }
 
   public getIsCustomTag(input: factsType): boolean {
-    // console.log(input[`ixv:factAttributes`][0][1]);
     return input[`ixv:factAttributes`][0][1].startsWith(`clx:`);
   }
 
@@ -126,7 +152,6 @@ export class StoreData {
   }
 
   public getIsAdditional(input: factsType): boolean {
-    //console.log(input);
     // eslint-disable-next-line no-prototype-builtins
     return input.hasOwnProperty(`dimensions`);
   }
@@ -221,23 +246,76 @@ export class StoreData {
 
   public set filterPeriods(input: filterPeriodsType) {
     // set up the data for success
-    const simplePeriods: Array<string> = [];
+
+    const complexPeriods: {
+      [key: string]: Array<{ value: number; text: string }>;
+    } = {};
+
+    const simplePeriods: Array<{ value: number; text: string }> = [];
     input.forEach((current, index) => {
       if (current.includes(`/`)) {
         const dates = current.split(`/`);
         const difference = Math.ceil(
           moment(dates[1]).diff(moment(dates[0]), 'months', true)
         );
-        simplePeriods[index] = `${difference} months ending ${moment(
-          dates[0]
-        ).format(`MM/DD/YYYY`)}`;
+        simplePeriods[index] = {
+          value: index,
+          text: `${difference} months ending ${moment(dates[0]).format(
+            `MM/DD/YYYY`
+          )}`,
+        };
+        const year = moment(dates[0]).format(`YYYY`);
+        // eslint-disable-next-line no-prototype-builtins
+        if (!complexPeriods.hasOwnProperty(year)) {
+          complexPeriods[year] = [
+            {
+              value: index,
+              text: `${difference} months ending ${moment(dates[0]).format(
+                `MM/DD/YYYY`
+              )}`,
+            },
+          ];
+        } else {
+          complexPeriods[year].push({
+            value: index,
+            text: `${difference} months ending ${moment(dates[0]).format(
+              `MM/DD/YYYY`
+            )}`,
+          });
+        }
       } else {
-        simplePeriods[index] = `As of ${moment(current).format(`MM/DD/YYYY`)}`;
+        simplePeriods[index] = {
+          value: index,
+          text: `As of ${moment(current).format(`MM/DD/YYYY`)}`,
+        };
+        const year = moment(current).format(`YYYY`);
+        // eslint-disable-next-line no-prototype-builtins
+        if (!complexPeriods.hasOwnProperty(year)) {
+          complexPeriods[year] = [
+            {
+              value: index,
+              text: `As of ${moment(current).format(`MM/DD/YYYY`)}`,
+            },
+          ];
+        } else {
+          complexPeriods[year].push({
+            value: index,
+            text: `As of ${moment(current).format(`MM/DD/YYYY`)}`,
+          });
+        }
       }
     });
+    this._complexPeriods = complexPeriods;
     this._simplePeriods = simplePeriods;
-    //console.log(periods);
     this._filterPeriods = input;
+  }
+
+  public get simplePeriods() {
+    return this._simplePeriods;
+  }
+
+  public get complexPeriods() {
+    return this._complexPeriods;
   }
 
   public get filterScale() {

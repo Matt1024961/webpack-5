@@ -33,11 +33,15 @@ export class FactsMenu extends HTMLElement {
         `#filing-container`,
       ];
       offcanvas.addEventListener('show.bs.offcanvas', () => {
-        // add <sec-facts-menu-pagination></sec-facts-menu-single>
-        const pagination = document.createElement(`sec-facts-menu-pagination`);
-        this.querySelector(`#facts-offcanvas .offcanvas-body`).append(
-          pagination
-        );
+        if (!document.querySelector(`sec-facts-menu-pagination`)) {
+          // add <sec-facts-menu-pagination></sec-facts-menu-single>
+          const pagination = document.createElement(
+            `sec-facts-menu-pagination`
+          );
+          this.querySelector(`#facts-offcanvas .offcanvas-body`).append(
+            pagination
+          );
+        }
         tagsToAlter.forEach((current) => {
           const tag = document.querySelector(current) as HTMLElement;
           if (tag) {

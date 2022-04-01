@@ -1,8 +1,4 @@
-import { ErrorClass } from '../../../error';
-import { Attributes } from '../../../store/attributes';
-import { StoreData } from '../../../store/data';
 import { StoreFilter } from '../../../store/filter';
-import { StoreUrl } from '../../../store/url';
 import template from './template.html';
 
 export class Search extends HTMLElement {
@@ -33,62 +29,52 @@ export class Search extends HTMLElement {
     const form = this.querySelector('#global-search') as HTMLFormElement;
     const inputs = this.querySelectorAll('[name="search-checks"]');
     const clearButton = this.querySelector(`[name="clear-button"]`);
-    // const checkedInputs = document.querySelectorAll('[name="search-checks"]:checked');
     if (form) {
       form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        const searchInput = form.elements['search-input'];
-        const storeFilter: StoreFilter = StoreFilter.getInstance();
-        storeFilter.search = searchInput.value;
-
-        if (window.Worker) {
-          const storeUrl: StoreUrl = StoreUrl.getInstance();
-          const storeData: StoreData = StoreData.getInstance();
-          const worker = new Worker(
-            new URL('./../../../worker/filter', import.meta.url)
-          );
-          worker.postMessage({
-            facts: storeData.getFilingFacts(storeUrl.filing),
-            search: storeFilter.search,
-          });
-
-          worker.onmessage = (event) => {
-            if (event.data) {
-              storeData.setFilingFactsActive(event.data.filteredFacts);
-              const attributes = new Attributes();
-              attributes.setActiveFact();
-            }
-          };
-        } else {
-          const error = new ErrorClass();
-          error.show(
-            `Your Browser does not have the functionality to do this.`
-          );
-        }
-        console.log(searchInput.value);
+        this.searchSubmit(form, event);
       });
     }
     if (inputs) {
       inputs.forEach((current) => {
         current.addEventListener(`change`, () => {
-          const checkedInputs = document.querySelectorAll(
-            '[name="search-checks"]:checked'
-          );
-          const userOptions = Array.from(checkedInputs).map((checked) => {
-            return parseInt(checked.getAttribute(`value`), 10);
-          });
-          console.log(userOptions);
+          this.searchOptionChange();
         });
       });
     }
     if (clearButton) {
-      console.log();
       clearButton.addEventListener(`click`, (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        console.log(event);
+        this.searchClear(form, event);
       });
     }
+  }
+
+  searchSubmit(form: HTMLFormElement, event: SubmitEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.searchOptionChange();
+    const searchInput = form.elements['search-input'];
+    const storeFilter: StoreFilter = StoreFilter.getInstance();
+    storeFilter.search = searchInput.value as string;
+  }
+
+  searchOptionChange() {
+    const checkedInputs = this.querySelectorAll(
+      '[name="search-checks"]:checked'
+    );
+    const searchOptions = Array.from(checkedInputs).map((checked) => {
+      return parseInt(checked.getAttribute(`value`), 10);
+    });
+    const storeFilter: StoreFilter = StoreFilter.getInstance();
+    storeFilter.searchOptions = searchOptions;
+  }
+
+  searchClear(form: HTMLFormElement, event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    (
+      this.querySelector(`[name="search-input"]`) as HTMLInputElement
+    ).value = ``;
+    const storeFilter: StoreFilter = StoreFilter.getInstance();
+    storeFilter.search = ``;
   }
 }

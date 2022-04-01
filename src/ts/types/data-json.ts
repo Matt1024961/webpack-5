@@ -53,6 +53,7 @@ export type facts = {
   'ixv:factLabels': number;
   'ixv:files': Array<string>;
   'ixv:standardLabel': string;
+  'ixv:hidden': boolean;
   value: string;
   active: null | boolean;
 };

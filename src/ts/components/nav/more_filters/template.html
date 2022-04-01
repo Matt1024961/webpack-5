@@ -1,5 +1,11 @@
 <li template class="nav-item mx-1">
-  <a class="nav-link disabled" href="#" role="button" data-bs-toggle="dropdown">
+  <a
+    class="nav-link disabled"
+    href="#"
+    id="more-filters-button"
+    role="button"
+    data-bs-toggle="dropdown"
+  >
     <i class="fas fa-filter" title="More Filters"></i>
     <span>More Filters</span>
   </a>
@@ -16,7 +22,7 @@
             aria-controls="more-filters-accordion-0"
           >
             <span>Periods</span>
-            <span class="badge bg-secondary">12</span>
+            <span class="badge bg-secondary" period-count></span>
           </a>
 
           <div
@@ -24,7 +30,12 @@
             class="accordion-collapse collapse"
             data-bs-parent="#more-filters-accordion"
           >
-            <div class="accordion-body">Periods!</div>
+            <div class="p-1">
+              <fieldset
+                class="px-1 more-filters-options"
+                period-options
+              ></fieldset>
+            </div>
           </div>
         </div>
         <!-- Measures -->
@@ -37,7 +48,7 @@
             aria-controls="more-filters-accordion-1"
           >
             <span>Measures</span>
-            <span class="badge bg-secondary">12</span>
+            <span class="badge bg-secondary" measures-count></span>
           </a>
 
           <div
@@ -58,7 +69,7 @@
             aria-controls="more-filters-accordion-2"
           >
             <span>Axis</span>
-            <span class="badge bg-secondary">12</span>
+            <span class="badge bg-secondary" axis-count></span>
           </a>
 
           <div
@@ -66,7 +77,12 @@
             class="accordion-collapse collapse"
             data-bs-parent="#more-filters-accordion"
           >
-            <div class="accordion-body">Axis!</div>
+            <div class="p-1">
+              <fieldset
+                class="px-1 more-filters-options"
+                axis-options
+              ></fieldset>
+            </div>
           </div>
         </div>
         <!-- Members -->
@@ -79,7 +95,7 @@
             aria-controls="more-filters-accordion-3"
           >
             <span>Members</span>
-            <span class="badge bg-secondary">12</span>
+            <span class="badge bg-secondary" members-count></span>
           </a>
 
           <div
@@ -87,7 +103,12 @@
             class="accordion-collapse collapse"
             data-bs-parent="#more-filters-accordion"
           >
-            <div class="accordion-body">Members!</div>
+            <div class="p-1">
+              <fieldset
+                class="px-1 more-filters-options"
+                members-options
+              ></fieldset>
+            </div>
           </div>
         </div>
         <!-- Scale -->
@@ -100,7 +121,7 @@
             aria-controls="more-filters-accordion-4"
           >
             <span>Scale</span>
-            <span class="badge bg-secondary">12</span>
+            <span class="badge bg-secondary" scale-count></span>
           </a>
 
           <div
@@ -108,7 +129,12 @@
             class="accordion-collapse collapse"
             data-bs-parent="#more-filters-accordion"
           >
-            <div class="accordion-body">Scales!</div>
+            <div class="p-1">
+              <fieldset
+                class="px-1 more-filters-options"
+                scale-options
+              ></fieldset>
+            </div>
           </div>
         </div>
         <!-- Balance -->
@@ -121,7 +147,7 @@
             aria-controls="more-filters-accordion-5"
           >
             <span>Balance</span>
-            <span class="badge bg-secondary">12</span>
+            <span class="badge bg-secondary" balance-count></span>
           </a>
 
           <div
@@ -129,7 +155,12 @@
             class="accordion-collapse collapse"
             data-bs-parent="#more-filters-accordion"
           >
-            <div class="accordion-body">Balances!</div>
+            <div class="p-1">
+              <fieldset
+                class="px-1 more-filters-options"
+                balance-options
+              ></fieldset>
+            </div>
           </div>
         </div>
       </div>

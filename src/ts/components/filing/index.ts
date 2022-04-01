@@ -75,7 +75,7 @@ export class Filing extends HTMLElement {
   listeners() {
     const attributes = new Attributes();
     document.addEventListener('scroll', () => {
-      attributes.setActiveFact();
+      attributes.setProperAttribute();
     });
   }
 }

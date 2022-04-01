@@ -48,14 +48,16 @@ export class Facts extends HTMLElement {
             const storeData: StoreData = StoreData.getInstance();
             storeData.setAllData(event.data.data);
             if (storeData.ixdsFiles.length > 1) {
-              document.querySelector(`sec-links`).setAttribute(`multiple`, `multiple`);
+              document
+                .querySelector(`sec-links`)
+                .setAttribute(`multiple`, `multiple`);
             }
             this.updateFactsCount(
               storeData.getFilingFacts(storeUrl.filing).length.toString()
             );
             this.enableApplication();
             const attributes = new Attributes();
-            attributes.setActiveFact();
+            attributes.setProperAttribute();
           }
         };
       } else {

@@ -1,3 +1,4 @@
+import { StoreFilter } from '../../../store/filter';
 import template from './template.html';
 
 export class Data extends HTMLElement {
@@ -29,9 +30,15 @@ export class Data extends HTMLElement {
     if (inputs) {
       inputs.forEach((current) => {
         current.addEventListener(`change`, () => {
-          console.log(current.getAttribute(`value`));
+          this.dataOptionChange(current.getAttribute(`value`));
         });
       });
     }
+  }
+  
+  dataOptionChange(input: string) {
+    const option = parseInt(input, 10);
+    const storeFilter: StoreFilter = StoreFilter.getInstance();
+    storeFilter.data = option;
   }
 }

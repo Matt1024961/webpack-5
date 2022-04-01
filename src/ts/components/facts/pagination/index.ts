@@ -1,4 +1,5 @@
 // import { Logger } from 'typescript-logger';
+import { ConstantApplication } from '../../../store/application';
 import { StoreData } from '../../../store/data';
 import { StoreUrl } from '../../../store/url';
 //import { facts as factsType } from '../../types/data-json';
@@ -6,13 +7,7 @@ import { StoreUrl } from '../../../store/url';
 import template from './template.html';
 
 export class FactsMenuPagination extends HTMLElement {
-  private pagination = {
-    start: 0,
-    end: 9,
-    amount: 10,
-    page: 0,
-    totalPages: 0,
-  };
+  private pagination = ConstantApplication.fact_menu_pagination;
   static get observedAttributes() {
     return [`pagination`];
   }

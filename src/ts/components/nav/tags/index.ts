@@ -1,3 +1,4 @@
+import { StoreFilter } from '../../../store/filter';
 import template from './template.html';
 
 export class Tags extends HTMLElement {
@@ -29,9 +30,16 @@ export class Tags extends HTMLElement {
     if (radios) {
       radios.forEach((current) => {
         current.addEventListener(`change`, () => {
-          console.log(current.getAttribute(`value`));
+          this.tagOptionChange(current.getAttribute(`value`));
         });
       });
     }
   }
+  
+  tagOptionChange(input: string) {
+    const option = parseInt(input, 10);
+    const storeFilter: StoreFilter = StoreFilter.getInstance();
+    storeFilter.tags = option;
+  }
+
 }
