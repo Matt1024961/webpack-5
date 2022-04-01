@@ -7,7 +7,6 @@ const filterFacts = (data: StoreData, allFilters: allFilters) => {
   let activateFact = false;
   let counter = 0;
   data.facts.forEach((current) => {
-    // the user has entered something into the search box
     if (allFilters.search) {
       // the user has entered something into the search box
       const regex = new RegExp(
