@@ -8,6 +8,10 @@ const filterFacts = (data: StoreData, allFilters: allFilters) => {
   data.facts.forEach((current) => {
     let activateFact = true;
 
+    if (activateFact && allFilters.data) {
+      activateFact = dataRadio(allFilters.data, current);
+    }
+
     if (allFilters.search) {
       // the user has entered something into the search box
       const regex = new RegExp(
@@ -16,7 +20,6 @@ const filterFacts = (data: StoreData, allFilters: allFilters) => {
       );
 
       if (activateFact && allFilters.searchOptions.includes(0)) {
-
         activateFact = searchFactName(
           regex,
           current[`ixv:factAttributes`][0][1]
@@ -43,36 +46,57 @@ const filterFacts = (data: StoreData, allFilters: allFilters) => {
       }
 
       if (activateFact && allFilters.searchOptions.includes(4)) {
-        // eslint-disable-next-line no-prototype-builtins
-        console.log(searchFactDimensions(regex, current, data.facts));
-        activateFact = searchFactDimensions(regex, current, data.facts);
+        activateFact = searchFactDimensions(regex, current);
+      }
+
+      if (activateFact && allFilters.searchOptions.includes(5)) {
+        activateFact = searchFactReferenceOptions(
+          regex,
+          data.references[current[`ixv:factReferences`]],
+          `Topic`
+        );
+      }
+
+      if (activateFact && allFilters.searchOptions.includes(6)) {
+        activateFact = searchFactReferenceOptions(
+          regex,
+          data.references[current[`ixv:factReferences`]],
+          `SubTopic`
+        );
+      }
+
+      if (activateFact && allFilters.searchOptions.includes(7)) {
+        activateFact = searchFactReferenceOptions(
+          regex,
+          data.references[current[`ixv:factReferences`]],
+          `Paragraph`
+        );
+      }
+
+      if (activateFact && allFilters.searchOptions.includes(8)) {
+        activateFact = searchFactReferenceOptions(
+          regex,
+          data.references[current[`ixv:factReferences`]],
+          `Publisher`
+        );
+      }
+
+      if (activateFact && allFilters.searchOptions.includes(9)) {
+        activateFact = searchFactReferenceOptions(
+          regex,
+          data.references[current[`ixv:factReferences`]],
+          `Section`
+        );
       }
     }
 
     if (activateFact) {
-      console.log(activateFact);
       counter++;
     }
     current.active = activateFact;
   });
   console.log(`Active facts: ${counter}`);
 
-  // searchOptions
-  // 0 => fact name
-  // element[`ixv:factAttributes][0][1]
-  // 1 => fact content
-  // element.value
-  // 2 => labels
-  // element[`ixv:standardLabel`]
-  // 3 => definitions
-
-  // 4 => dimensions
-  // 5 => topic
-  // 6 => sub-topic
-  // 7 => paragraph
-  // 8 => publisher
-  // 9 => section
-  // 10 => match case (for regex)
   const filteredFacts = [`123`];
 
   self.postMessage({
@@ -112,30 +136,79 @@ function searchFactDefinition(
   return (regex as RegExp).test(factDefinitionAsString);
 }
 
-function searchFactDimensions(
-  regex: RegExp,
-  fact: facts,
-  allFacts: Array<facts>
-) {
+function searchFactDimensions(regex: RegExp, fact: facts) {
   // eslint-disable-next-line no-prototype-builtins
   if (fact.hasOwnProperty(`dimensions`)) {
-    const found = allFacts.filter((element) => {
-      return element[`ixv:factAttributes`][0][1] === fact.dimensions.concept;
-    });
-    if (found) {
-      const factValuesAsString = found.reduce((accumulator, current) => {
-        if (current.value) {
-          const newValue = current.value
-            .replace(/( |<([^>]+)>)/gi, ` `)
-            .replace(/ +(?= )/g, ``);
-
-          return (accumulator += ` ${newValue}`);
-        }
-      }, ``);
-      return (regex as RegExp).test(factValuesAsString);
+    delete fact.dimensions.concept;
+    delete fact.dimensions.period;
+    delete fact.dimensions.unit;
+    delete fact.dimensions.language;
+    const dimensionValues = Object.values(fact.dimensions);
+    if (dimensionValues.length) {
+      const dimensionValuesAsString = dimensionValues.reduce(
+        (accumulator, current) => {
+          return (accumulator += ` ${current}`);
+        },
+        ``
+      );
+      return (regex as RegExp).test(dimensionValuesAsString as string);
     }
   }
   return false;
+}
+
+function searchFactReferenceOptions(
+  regex: RegExp,
+  factLabels: Array<string>,
+  arrayKey: string
+): boolean {
+  if (factLabels) {
+    const factTopicsAsString = factLabels
+      .reduce((accumulator, current) => {
+        if (current[0] === arrayKey) {
+          return (accumulator += ` ${current[1]}`);
+        } else {
+          return accumulator;
+        }
+      }, ``)
+      .trim();
+    console.log(factTopicsAsString);
+    return (regex as RegExp).test(factTopicsAsString as string);
+  }
+  return false;
+}
+
+function dataRadio(option: number, fact: facts): boolean {
+  switch (option) {
+    case 0: {
+      // All
+      return true;
+    }
+    case 1: {
+      // Amounts Only
+      return fact[`ixv:isnumeric`];
+    }
+    case 2: {
+      // Text Only
+      return fact[`ixv:istextonly`];
+    }
+    case 3: {
+      // Calculations Only
+      alert(`inspect!`);
+      return fact[`ixv:factCalculations`][1] === null ? false : true;
+    }
+    case 4: {
+      // Negatives Only
+      return fact[`ixv:isnegativesonly`];
+    }
+    case 5: {
+      // Additional Items Only
+      return fact[`ixv:hidden`];
+    }
+  }
+  // console.log(option);
+  // console.log(fact);
+  return true;
 }
 
 self.onmessage = ({ data: { data, allFilters } }) => {

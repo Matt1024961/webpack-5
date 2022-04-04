@@ -45,6 +45,8 @@ export type facts = {
   dimensions: {
     concept: string;
     period: number;
+    unit?: number;
+    language?: string;
   };
   id: string;
   'ixv:contextref': string;
@@ -54,6 +56,10 @@ export type facts = {
   'ixv:files': Array<string>;
   'ixv:standardLabel': string;
   'ixv:hidden': boolean;
+  'ixv:factReferences': number;
+  'ixv:isnumeric': boolean;
+  'ixv:istextonly': boolean;
+  'ixv:isnegativesonly': boolean,
   value: string;
   active: null | boolean;
 };
