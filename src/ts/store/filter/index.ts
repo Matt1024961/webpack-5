@@ -44,6 +44,8 @@ export class StoreFilter {
   }
 
   public filterFacts() {
+    document.querySelector(`sec-facts`).setAttribute(`loading`, ``);
+
     if (window.Worker) {
       const storeUrl: StoreUrl = StoreUrl.getInstance();
       const storeData: StoreData = StoreData.getInstance();
@@ -58,9 +60,11 @@ export class StoreFilter {
 
       worker.onmessage = (event) => {
         if (event.data) {
-          storeData.setFilingFactsActive(event.data.filteredFacts);
+          storeData.setFilingFactsActive(event.data.activeFacts);
           const attributes = new Attributes();
           attributes.setProperAttribute();
+          document.querySelector(`sec-facts`).setAttribute(`update-count`, ``);
+          console.log(`set facts UI`);
         }
       };
     } else {

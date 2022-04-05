@@ -7,7 +7,7 @@ import template from './template.html';
 
 export class Facts extends HTMLElement {
   static get observedAttributes() {
-    return [`data-href`];
+    return [`data-href`, `update-count`, `loading`];
   }
 
   constructor() {
@@ -52,9 +52,7 @@ export class Facts extends HTMLElement {
                 .querySelector(`sec-links`)
                 .setAttribute(`multiple`, `multiple`);
             }
-            this.updateFactsCount(
-              storeData.getFilingFacts(storeUrl.filing).length.toString()
-            );
+            this.updateFactsCount();
             this.enableApplication();
             const attributes = new Attributes();
             attributes.setProperAttribute();
@@ -63,6 +61,15 @@ export class Facts extends HTMLElement {
       } else {
         // storeLogger.info('NOT Using a WebWorker');
       }
+    }
+    if (name === `update-count` && newValue === ``) {
+      this.updateFactsCount();
+      this.removeAttribute(`update-count`);
+    }
+
+    if (name === `loading` && newValue === ``) {
+      this.updateFactsLoading();
+      this.removeAttribute(`loading`)
     }
   }
 
@@ -80,10 +87,28 @@ export class Facts extends HTMLElement {
     }
   }
 
-  updateFactsCount(input: string) {
-    const textToAdd = document.createTextNode(input);
+  updateFactsLoading() {
+    const icon = document.createElement(`i`);
+    icon.classList.add(`fa-solid`);
+    icon.classList.add(`fa-spinner`);
+    icon.classList.add(`fa-spin`);
+
     this.querySelector(`[template-count]`).firstElementChild.replaceWith(
-      textToAdd
+      icon
+    );
+  }
+
+  updateFactsCount() {
+    const storeUrl: StoreUrl = StoreUrl.getInstance();
+    const storeData: StoreData = StoreData.getInstance();
+    const factCount = storeData.getFilingFacts(storeUrl.filing).length;
+    const textToAdd = document.createTextNode(`${factCount}`);
+    const span = document.createElement(`span`);
+
+    span.append(textToAdd);
+
+    this.querySelector(`[template-count]`).firstElementChild.replaceWith(
+      span
     );
   }
 
@@ -123,3 +148,5 @@ export class Facts extends HTMLElement {
     });
   }
 }
+
+// 22% increase

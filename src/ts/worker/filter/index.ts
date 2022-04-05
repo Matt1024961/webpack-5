@@ -1,11 +1,11 @@
+//import { Fact } from '../../components/modals/fact';
 import { StoreData } from '../../store/data';
 import { facts } from '../../types/data-json';
 
 import { allFilters } from '../../types/filter';
 
 const filterFacts = (data: StoreData, allFilters: allFilters) => {
-  let counter = 0;
-  data.facts.forEach((current) => {
+  const activeFacts = data.facts.map((current) => {
     let activateFact = true;
 
     if (activateFact && allFilters.data) {
@@ -91,16 +91,12 @@ const filterFacts = (data: StoreData, allFilters: allFilters) => {
     }
 
     if (activateFact) {
-      counter++;
+      return current.id;
     }
-    current.active = activateFact;
-  });
-  console.log(`Active facts: ${counter}`);
-
-  const filteredFacts = [`123`];
+  }).filter(Boolean);
 
   self.postMessage({
-    filteredFacts,
+    activeFacts,
   });
 };
 
@@ -194,7 +190,7 @@ function dataRadio(option: number, fact: facts): boolean {
     }
     case 3: {
       // Calculations Only
-      alert(`inspect!`);
+      console.error(`inspect!`);
       return fact[`ixv:factCalculations`][1] === null ? false : true;
     }
     case 4: {
