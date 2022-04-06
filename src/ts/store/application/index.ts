@@ -7,4 +7,14 @@ export const ConstantApplication = {
     page: 0,
     totalPages: 0,
   },
+  enableApplication: () => {
+    document
+      .querySelectorAll(`#navbar-container .nav-link`)
+      .forEach((current) => {
+        current.classList.remove(`disabled`);
+      });
+    document.querySelectorAll(`#global-search fieldset`).forEach((current) => {
+      current.removeAttribute(`disabled`);
+    });
+  },
 };

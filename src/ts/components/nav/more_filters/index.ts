@@ -3,10 +3,14 @@ import { ErrorClass } from '../../../error';
 import { StoreData } from '../../../store/data';
 import { StoreFilter } from '../../../store/filter';
 import { Scale } from '../../../store/scale';
+import { moreFilters } from '../../../types/filter';
 import template from './template.html';
 
 export class MoreFilters extends HTMLElement {
   private populated = false;
+  static get observedAttributes() {
+    return [`reset`];
+  }
   constructor() {
     super();
   }
@@ -14,6 +18,28 @@ export class MoreFilters extends HTMLElement {
   connectedCallback() {
     this.render();
     this.listeners();
+  }
+
+  attributeChangedCallback(
+    name: string,
+    oldValue: string | null,
+    newValue: string | null
+  ) {
+    if (name === `reset` && newValue) {
+      this.reset();
+      this.removeAttribute(`reset`);
+    }
+  }
+
+  reset() {
+    const inputs = this.querySelectorAll('[type="checkbox"]:checked');
+    inputs.forEach((current, index) => {
+      (current as HTMLInputElement).checked = false;
+      if (index === inputs.length - 1) {
+        const event = new Event('change');
+        current.dispatchEvent(event);
+      }
+    });
   }
 
   render() {
@@ -37,7 +63,6 @@ export class MoreFilters extends HTMLElement {
       moreFiltersButton.addEventListener(`show.bs.dropdown`, () => {
         if (!this.populated) {
           this.populateDropdownOptions();
-          // this.listenersForCheckBoxes();
         }
       });
     }
@@ -64,7 +89,15 @@ export class MoreFilters extends HTMLElement {
         [found.key]: Array.from(
           this.querySelectorAll(`[name="${name}"]:checked`)
         ).map((current) => {
-          return parseInt(current.getAttribute(`value`));
+          if (
+            name === `balance-options` ||
+            name === `axis-options` ||
+            name === `members-options`
+          ) {
+            return current.getAttribute(`value`);
+          } else {
+            return parseInt(current.getAttribute(`value`));
+          }
         }),
       };
       const updatedFilter = Object.assign(
@@ -72,6 +105,7 @@ export class MoreFilters extends HTMLElement {
         userSelectedCheckBoxes
       );
       storeFilter.moreFilters = updatedFilter;
+      this.updateNotification(updatedFilter);
     } else if (name === `periods-year-options`) {
       const totalCheckBoxes = Array.from(
         this.querySelectorAll(
@@ -90,16 +124,44 @@ export class MoreFilters extends HTMLElement {
       const checkAllBoxes =
         totalCheckBoxes.length === checkedCheckBoxes.length ? false : true;
 
-      totalCheckBoxes.forEach((checkbox: HTMLInputElement) => {
+      totalCheckBoxes.forEach((checkbox: HTMLInputElement, index) => {
         checkbox.checked = checkAllBoxes;
-        const event = new Event('change');
-        checkbox.dispatchEvent(event);
+        if (index === totalCheckBoxes.length - 1) {
+          const event = new Event('change');
+          checkbox.dispatchEvent(event);
+        }
       });
     } else {
       const error = new ErrorClass();
       error.show(
         `An internal error has occured, the option you have selected does not exsist.`
       );
+    }
+  }
+
+  updateNotification(userFilters: moreFilters): void {
+    const filtersActive = Object.values(userFilters).reduce(
+      (accumulator, current) => {
+        return (accumulator += current.length);
+      },
+      0
+    );
+    if (filtersActive > 0) {
+      this.querySelector(`.nav-link [filter-count]`)?.remove();
+      const span = document.createElement(`span`);
+      span.setAttribute(`filter-count`, ``);
+      span.classList.add(`badge`);
+      span.classList.add(`bg-warning`);
+      span.classList.add(`text-dark`);
+
+      const text = document.createTextNode(`${filtersActive}`);
+
+      span.append(text);
+      this.querySelector(`.nav-link`).append(span);
+      this.querySelector(`.nav-link`).classList.add(`text-warning`);
+    } else {
+      this.querySelector(`.nav-link`).classList.remove(`text-warning`);
+      this.querySelector(`.nav-link [filter-count]`).remove();
     }
   }
 
@@ -255,7 +317,7 @@ export class MoreFilters extends HTMLElement {
       const input = document.createElement(`input`);
       input.setAttribute(`name`, `balance-options`);
       input.setAttribute(`type`, `checkbox`);
-      input.setAttribute(`value`, `${index}`);
+      input.setAttribute(`value`, `${current}`);
       input.setAttribute(`id`, `balance-checkbox-${index}`);
       input.classList.add(`form-check-input`);
       input.classList.add(`me-1`);
@@ -296,7 +358,7 @@ export class MoreFilters extends HTMLElement {
         const input = document.createElement(`input`);
         input.setAttribute(`name`, `scale-options`);
         input.setAttribute(`type`, `checkbox`);
-        input.setAttribute(`value`, `${index}`);
+        input.setAttribute(`value`, `${current}`);
         input.setAttribute(`id`, `scale-checkbox-${index}`);
         input.classList.add(`form-check-input`);
         input.classList.add(`me-1`);
@@ -334,7 +396,7 @@ export class MoreFilters extends HTMLElement {
       const input = document.createElement(`input`);
       input.setAttribute(`name`, `members-options`);
       input.setAttribute(`type`, `checkbox`);
-      input.setAttribute(`value`, `${index}`);
+      input.setAttribute(`value`, `${current}`);
       input.setAttribute(`id`, `members-checkbox-${index}`);
       input.classList.add(`form-check-input`);
       input.classList.add(`me-1`);
@@ -376,7 +438,7 @@ export class MoreFilters extends HTMLElement {
       const input = document.createElement(`input`);
       input.setAttribute(`name`, `axis-options`);
       input.setAttribute(`type`, `checkbox`);
-      input.setAttribute(`value`, `${index}`);
+      input.setAttribute(`value`, `${current}`);
       input.setAttribute(`id`, `axis-checkbox-${index}`);
       input.classList.add(`form-check-input`);
       input.classList.add(`me-1`);

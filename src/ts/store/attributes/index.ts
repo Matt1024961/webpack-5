@@ -9,7 +9,7 @@ export class Attributes {
 
   setProperAttribute() {
     const storeFilter: StoreFilter = StoreFilter.getInstance();
-    const allFacts = document.querySelectorAll(`[contextRef]`);
+    const allFacts = Array.from(document.querySelectorAll(`[contextRef]`));
     const visibleFacts = { count: 0 };
     if (!storeFilter.search) {
       allFacts.forEach((element: Element) => {

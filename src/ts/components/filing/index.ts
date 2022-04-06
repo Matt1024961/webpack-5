@@ -1,20 +1,20 @@
-import { ErrorClass } from '../../error';
 import { Attributes } from '../../store/attributes';
 import { StoreLogger } from '../../store/logger';
-import { StoreUrl } from '../../store/url';
-import { Xhtml } from '../../xhtml';
+import template from './template.html';
 
 export class Filing extends HTMLElement {
+  private logger: StoreLogger;
   static get observedAttributes() {
-    return [`filing-href`];
+    return [`xhtml`];
   }
 
   constructor() {
     super();
+    this.logger = StoreLogger.getInstance();
   }
 
   connectedCallback() {
-    //
+    this.loading();
   }
 
   disconnectedCallback() {
@@ -30,50 +30,41 @@ export class Filing extends HTMLElement {
     oldValue: string | null,
     newValue: string | null
   ) {
-    const storeUrl: StoreUrl = StoreUrl.getInstance();
-    if (
-      name === `filing-href` &&
-      oldValue !== newValue &&
-      newValue === storeUrl.filingURL
-    ) {
-      if (window.Worker) {
-        const worker = new Worker(
-          new URL('./../../worker/xhtml', import.meta.url)
-        );
-        worker.postMessage({
-          xhtml: storeUrl.filingURL,
-        });
-
-        worker.onmessage = (event) => {
-          if (event.data.xhtmlerror) {
-            const error = new ErrorClass();
-            error.show(
-              `Inline XBRL requires a URL param (doc | file) that correlates to a Financial Report.`
-            );
-            error.show(`Inline XBRL is not usable in this state.`);
-          }
-          if (event.data.xhtml) {
-            // send the XHTML to be updated / fixed
-            const xhtml = new Xhtml(storeUrl.filingURL);
-            this.render(xhtml.init(event.data.xhtml));
-            this.listeners();
-          }
-        };
-      } else {
-        // storeLogger.info('NOT Using a WebWorker');
-      }
+    if (name === `xhtml` && newValue) {
+      this.render(newValue);
+      this.listeners();
+      this.removeAttribute(`xhtml`);
     }
   }
 
-  render(xhtml: Node): void {
-    // console.log(xhtml);
-    this.append(xhtml);
-    const storeLogger: StoreLogger = StoreLogger.getInstance();
-    storeLogger.info(`Filing rendered`);
+  loading(): void {
+    const parser = new DOMParser();
+    const htmlDoc = parser.parseFromString(template, `text/html`);
+    if (htmlDoc.querySelector(`[template]`)) {
+      const selector = htmlDoc.querySelector(`[template]`);
+      const node = document.importNode(selector, true);
+      node.removeAttribute(`template`);
+      this.append(node);
+      this.logger.info('Filing Loading Screen rendered');
+    } else {
+      this.logger.warn('Filing Loading Screen rendered');
+    }
+  }
+
+  render(xhtml: string): void {
+    const parser = new DOMParser();
+    const htmlDoc = parser.parseFromString(xhtml, `application/xhtml+xml`);
+
+    const temp = htmlDoc.querySelector(`body`);
+    const node = document.importNode(temp, true);
+
+    this.replaceWith(node);
+    this.logger.info(`Filing rendered`);
   }
 
   listeners() {
     const attributes = new Attributes();
+    attributes.setProperAttribute();
     document.addEventListener('scroll', () => {
       attributes.setProperAttribute();
     });

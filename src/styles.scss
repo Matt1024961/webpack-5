@@ -7,9 +7,33 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts/';
 $navbar-height: 45px;
 $sec-color: #003768;
 
-body {
+body:nth-child(1) {
   overflow: auto !important;
   padding-right: 0 !important;
+}
+
+#filing-container > body {
+  font-family: unset;
+  font-size: unset;
+  font-weight: unset;
+  line-height: unset;
+  color: unset;
+  text-align: unset;
+  background-color: unset;
+  -webkit-text-size-adjust: unset;
+  -webkit-tap-highlight-color: unset;
+  --bs-font-sans-serif: unset;
+  --bs-font-monospace: unset;
+  --bs-gradient: unset;
+  --bs-body-font-family: unset;
+  --bs-body-font-size: unset;
+  --bs-body-font-weight: unset;
+  --bs-body-line-height: unset;
+  --bs-body-color: unset;
+  box-sizing: unset;
+  > * {
+    box-sizing: unset !important;
+  }
 }
 
 [active-fact] {

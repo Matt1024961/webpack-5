@@ -1,13 +1,13 @@
 import { StoreUrl } from '../../../store/url';
 import { StoreData } from '../../../store/data';
-import { DataJSON } from '../../../types/data-json';
-import { WarningClass } from '../../../warning';
-import { Attributes } from '../../../store/attributes';
+// import { DataJSON } from '../../../types/data-json';
+// import { WarningClass } from '../../../warning';
+// import { Attributes } from '../../../store/attributes';
 import template from './template.html';
 
 export class Facts extends HTMLElement {
   static get observedAttributes() {
-    return [`data-href`, `update-count`, `loading`];
+    return [`update-count`, `loading`, `reset`];
   }
 
   constructor() {
@@ -24,52 +24,17 @@ export class Facts extends HTMLElement {
     oldValue: string | null,
     newValue: string | null
   ) {
-    const storeUrl: StoreUrl = StoreUrl.getInstance();
-
-    if (
-      name === `data-href` &&
-      oldValue !== newValue &&
-      newValue === storeUrl.dataURL
-    ) {
-      if (window.Worker) {
-        const worker = new Worker(
-          new URL('./../../../worker/data', import.meta.url)
-        );
-        worker.postMessage({
-          data: storeUrl.dataURL,
-        });
-
-        worker.onmessage = (event) => {
-          if (event.data.dataerror) {
-            const warning = new WarningClass();
-            warning.show(`No supporting file was found (${storeUrl.dataURL}).`);
-          }
-          if (event.data.data as DataJSON) {
-            const storeData: StoreData = StoreData.getInstance();
-            storeData.setAllData(event.data.data);
-            if (storeData.ixdsFiles.length > 1) {
-              document
-                .querySelector(`sec-links`)
-                .setAttribute(`multiple`, `multiple`);
-            }
-            this.updateFactsCount();
-            this.enableApplication();
-            const attributes = new Attributes();
-            attributes.setProperAttribute();
-          }
-        };
-      } else {
-        // storeLogger.info('NOT Using a WebWorker');
-      }
-    }
     if (name === `update-count` && newValue === ``) {
       this.updateFactsCount();
+      document
+        .querySelector(`sec-facts-menu-pagination`)
+        ?.setAttribute(`reset`, `true`);
       this.removeAttribute(`update-count`);
     }
 
     if (name === `loading` && newValue === ``) {
       this.updateFactsLoading();
-      this.removeAttribute(`loading`)
+      this.removeAttribute(`loading`);
     }
   }
 
@@ -93,9 +58,7 @@ export class Facts extends HTMLElement {
     icon.classList.add(`fa-spinner`);
     icon.classList.add(`fa-spin`);
 
-    this.querySelector(`[template-count]`).firstElementChild.replaceWith(
-      icon
-    );
+    this.querySelector(`[template-count]`).firstElementChild.replaceWith(icon);
   }
 
   updateFactsCount() {
@@ -107,9 +70,7 @@ export class Facts extends HTMLElement {
 
     span.append(textToAdd);
 
-    this.querySelector(`[template-count]`).firstElementChild.replaceWith(
-      span
-    );
+    this.querySelector(`[template-count]`).firstElementChild.replaceWith(span);
   }
 
   listeners(): void {
@@ -148,5 +109,3 @@ export class Facts extends HTMLElement {
     });
   }
 }
-
-// 22% increase

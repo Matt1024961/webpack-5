@@ -34,6 +34,7 @@ export class StoreData {
     [key: string]: Array<{ value: number; text: string }>;
   };
   private _ixdsFiles: ixdsFilesType;
+  private _ixvExtensionNamespaces: { [key: string]: string };
 
   private static instance: StoreData;
 
@@ -62,6 +63,7 @@ export class StoreData {
       labels: this.labels,
       references: this.references,
       ixdsFiles: this.ixdsFiles,
+      ixvExtensionNamespaces: this.ixvExtensionNamespaces,
       facts: this.facts.filter((element) => {
         if (element[`ixv:files`]) {
           return element[`ixv:files`].includes(input);
@@ -169,6 +171,7 @@ export class StoreData {
     this.references = input['ixv:references'];
     this.facts = input.facts;
     this.ixdsFiles = input[`ixv:ixdsFiles`];
+    this.ixvExtensionNamespaces = input[`ixv:extensionNamespaces`];
   }
 
   public getSimplePeriod(input: number) {
@@ -360,5 +363,13 @@ export class StoreData {
 
   public get ixdsFiles() {
     return this._ixdsFiles;
+  }
+
+  public set ixvExtensionNamespaces(input: { [key: string]: string }) {
+    this._ixvExtensionNamespaces = input;
+  }
+
+  public get ixvExtensionNamespaces() {
+    return this._ixvExtensionNamespaces;
   }
 }

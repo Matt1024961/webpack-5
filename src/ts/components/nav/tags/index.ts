@@ -2,6 +2,9 @@ import { StoreFilter } from '../../../store/filter';
 import template from './template.html';
 
 export class Tags extends HTMLElement {
+  static get observedAttributes() {
+    return [`reset`];
+  }
   constructor() {
     super();
   }
@@ -9,6 +12,24 @@ export class Tags extends HTMLElement {
   connectedCallback() {
     this.render();
     this.listeners();
+  }
+
+  attributeChangedCallback(
+    name: string,
+    oldValue: string | null,
+    newValue: string | null
+  ) {
+    if (name === `reset` && newValue) {
+      this.reset();
+      this.removeAttribute(`reset`);
+    }
+  }
+
+  reset() {
+    const inputs = this.querySelectorAll('[name="tags-radios"]');
+    (inputs[0] as HTMLInputElement).checked = true;
+    const event = new Event('change');
+    inputs[0].dispatchEvent(event);
   }
 
   render() {
@@ -35,11 +56,15 @@ export class Tags extends HTMLElement {
       });
     }
   }
-  
+
   tagOptionChange(input: string) {
     const option = parseInt(input, 10);
     const storeFilter: StoreFilter = StoreFilter.getInstance();
     storeFilter.tags = option;
+    if (option > 0) {
+      this.querySelector(`.nav-link`).classList.add(`text-warning`);
+    } else {
+      this.querySelector(`.nav-link`).classList.remove(`text-warning`);
+    }
   }
-
 }

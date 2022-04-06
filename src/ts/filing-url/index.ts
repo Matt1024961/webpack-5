@@ -1,6 +1,9 @@
 import { ErrorClass } from '../error';
+import { ConstantApplication } from '../store/application';
+import { StoreData } from '../store/data';
 import { StoreLogger } from '../store/logger';
 import { StoreUrl } from '../store/url';
+import { WarningClass } from '../warning';
 export class FilingUrl {
   constructor() {
     this.init();
@@ -72,20 +75,7 @@ export class FilingUrl {
           );
           error.show(`Inline XBRL is not usable in this state.`);
         } else {
-          const filingContainer = document.querySelector(
-            `#filing-container sec-filing`
-          );
-          if (filingContainer) {
-            filingContainer.setAttribute(`filing-href`, storeUrl.filingURL);
-          }
-          const factContainer = document.querySelector(
-            `#facts-container sec-facts`
-          );
-          if (factContainer) {
-            factContainer.setAttribute(`data-href`, storeUrl.dataURL);
-          } else {
-            console.log(`nonononohnonoonono`);
-          }
+          this.beginFetch();
         }
       } else {
         // report NO FILING error
@@ -95,6 +85,61 @@ export class FilingUrl {
         );
         error.show(`Inline XBRL is not usable in this state.`);
       }
+    }
+  }
+
+  beginFetch() {
+    const storeLogger: StoreLogger = StoreLogger.getInstance();
+    const storeUrl: StoreUrl = StoreUrl.getInstance();
+
+    storeLogger.info(`Begin Fetch of Both XHTML and JSON on Web Worker`);
+
+    if (window.Worker) {
+      const worker = new Worker(
+        new URL('./../worker/fetch/index', import.meta.url)
+      );
+      worker.postMessage({
+        xhtml: storeUrl.filingURL,
+        data: storeUrl.dataURL,
+      });
+      const enableapplication = { data: false, xhtml: false };
+      worker.onmessage = (event) => {
+        if (event.data.all) {
+          if (event.data.all[1].error) {
+            const warning = new WarningClass();
+            warning.show(`No supporting file was found (${storeUrl.dataURL}).`);
+          } else if (event.data.all[1].data) {
+            const storeData: StoreData = StoreData.getInstance();
+            storeData.setAllData(event.data.all[1].data);
+            const factContainer = document.querySelector(
+              `#facts-container sec-facts`
+            );
+            if (factContainer) {
+              factContainer.setAttribute(`update-count`, ``);
+              enableapplication.data = true;
+            }
+          }
+
+          if (event.data.all[0].error) {
+            const error = new ErrorClass();
+            error.show(
+              `Inline XBRL requires a URL param (doc | file) that correlates to a Financial Report.`
+            );
+            error.show(`Inline XBRL is not usable in this state.`);
+          } else if (event.data.all[0].data) {
+            const filingContainer = document.querySelector(
+              `#filing-container sec-filing`
+            );
+            if (filingContainer) {
+              filingContainer.setAttribute(`xhtml`, event.data.all[0].data);
+              enableapplication.xhtml = true;
+            }
+          }
+        }
+        if (enableapplication.data && enableapplication.xhtml) {
+          ConstantApplication.enableApplication();
+        }
+      };
     }
   }
 }

@@ -59,7 +59,10 @@ export type facts = {
   'ixv:factReferences': number;
   'ixv:isnumeric': boolean;
   'ixv:istextonly': boolean;
-  'ixv:isnegativesonly': boolean,
+  'ixv:isnegativesonly': boolean;
+  'ixv:extensionNamespaces': {
+    [key: string]: string
+  };
   value: string;
   active: null | boolean;
 };

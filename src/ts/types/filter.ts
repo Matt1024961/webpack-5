@@ -1,25 +1,23 @@
-import { MoreFilters } from '../components/nav/more_filters';
-
 export type allFilters = {
   search: search;
   searchOptions: searchOptions;
   data: data;
   tags: tags;
-  moreFilters: MoreFilters;
+  moreFilters: moreFilters;
 };
 export type search = null | string | RegExp;
 
 export type searchOptions = Array<number> | null;
 
-export type data = number;
+export type data = number | undefined;
 
-export type tags = number;
+export type tags = number | undefined;
 
-export type more_filters = {
+export type moreFilters = {
   periods: Array<number>;
   measures: Array<number>;
-  axis: Array<number>;
-  members: Array<number>;
+  axis: Array<string>;
+  members: Array<string>;
   scale: Array<number>;
-  balance: Array<number>;
+  balance: Array<string>;
 };

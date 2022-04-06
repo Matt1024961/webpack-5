@@ -9,7 +9,7 @@ import template from './template.html';
 export class FactsMenuPagination extends HTMLElement {
   private pagination = ConstantApplication.fact_menu_pagination;
   static get observedAttributes() {
-    return [`pagination`];
+    return [`pagination`, `reset`];
   }
   constructor() {
     super();
@@ -25,12 +25,23 @@ export class FactsMenuPagination extends HTMLElement {
     oldValue: string | null,
     newValue: string | null
   ) {
-    this.pagination = JSON.parse(newValue);
-    this.updateTemplate();
+    if (name === `pagination`) {
+      if (newValue) {
+        this.pagination = JSON.parse(newValue);
+        this.updateTemplate();
+      }
+    }
+    if (name === `reset` && newValue) {
+      this.innerHTML = ``;
+      this.pagination = ConstantApplication.fact_menu_pagination;
+      this.render();
+      this.listeners();
+      console.log(this.pagination);
+      this.removeAttribute(`reset`);
+    }
   }
 
   updateTemplate() {
-
     (this.querySelector(`[select-template]`) as HTMLInputElement).value =
       this.pagination.page.toString();
 
@@ -81,9 +92,8 @@ export class FactsMenuPagination extends HTMLElement {
         option.appendChild(optionText);
         node.querySelector(`[select-template]`).appendChild(option);
       });
-      // node.removeAttribute(`[select-template]`);
-
       this.append(node);
+
       this.querySelector(`sec-facts-menu-single`).setAttribute(
         `pagination`,
         JSON.stringify(this.pagination)
@@ -111,13 +121,16 @@ export class FactsMenuPagination extends HTMLElement {
         } else if (current.hasAttribute(`next-fact`)) {
           //
           console.log(`next fact`);
-          const currentlySelected = document.querySelector(`[fact-id].selected`);
+          const currentlySelected =
+            document.querySelector(`[fact-id].selected`);
           if (currentlySelected) {
             if (currentlySelected.nextSibling) {
               console.log(currentlySelected.nextSibling);
-              (currentlySelected.nextSibling as HTMLElement).classList.add(`selected`)
+              (currentlySelected.nextSibling as HTMLElement).classList.add(
+                `selected`
+              );
             } else {
-              // 
+              //
             }
             //  console.log((currentlySelected.nextSibling as HTMLElement).classList.add(`selected`));
           } else {

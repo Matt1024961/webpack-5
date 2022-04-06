@@ -21,6 +21,7 @@ import { Error } from './components/error';
 import { Filing } from './components/filing';
 import { Fact } from './components/modals/fact';
 import { Links } from './components/nav/links';
+import { ResetAllFilters } from './components/nav/reset_all_filters';
 
 (() => {
   // here we hadd all custom HTML components
@@ -33,6 +34,7 @@ import { Links } from './components/nav/links';
   customElements.define('sec-data', Data);
   customElements.define('sec-tags', Tags);
   customElements.define('sec-more-filters', MoreFilters);
+  customElements.define(`sec-reset-all-filters`, ResetAllFilters);
   customElements.define('sec-links', Links);
   customElements.define('sec-facts', Facts);
   customElements.define('sec-facts-menu', FactsMenu);
