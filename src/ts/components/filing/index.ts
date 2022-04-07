@@ -1,11 +1,12 @@
 import { Attributes } from '../../store/attributes';
 import { StoreLogger } from '../../store/logger';
+import { StoreXhtml } from '../../store/xhtml';
 import template from './template.html';
 
 export class Filing extends HTMLElement {
   private logger: StoreLogger;
   static get observedAttributes() {
-    return [`xhtml`];
+    return [`update`];
   }
 
   constructor() {
@@ -30,8 +31,8 @@ export class Filing extends HTMLElement {
     oldValue: string | null,
     newValue: string | null
   ) {
-    if (name === `xhtml` && newValue) {
-      this.render(newValue);
+    if (name === `update` && newValue) {
+      this.render();
       this.listeners();
       this.removeAttribute(`xhtml`);
     }
@@ -51,14 +52,9 @@ export class Filing extends HTMLElement {
     }
   }
 
-  render(xhtml: string): void {
-    const parser = new DOMParser();
-    const htmlDoc = parser.parseFromString(xhtml, `application/xhtml+xml`);
-
-    const temp = htmlDoc.querySelector(`body`);
-    const node = document.importNode(temp, true);
-
-    this.replaceWith(node);
+  render(): void {
+    const storeXhtml: StoreXhtml = StoreXhtml.getInstance();
+    this.replaceWith(storeXhtml.node);
     this.logger.info(`Filing rendered`);
   }
 

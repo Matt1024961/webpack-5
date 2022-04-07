@@ -28,8 +28,8 @@ export class Data extends HTMLElement {
   reset() {
     const inputs = this.querySelectorAll('[name="data-radios"]');
     (inputs[0] as HTMLInputElement).checked = true;
-    const event = new Event('change');
-    inputs[0].dispatchEvent(event);
+    this.querySelector(`.nav-link`).classList.remove(`text-warning`);
+    // the event will occur in ResetAllFilters
   }
 
   render() {

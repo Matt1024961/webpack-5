@@ -75,6 +75,6 @@ export class Search extends HTMLElement {
       this.querySelector(`[name="search-input"]`) as HTMLInputElement
     ).value = ``;
     const storeFilter: StoreFilter = StoreFilter.getInstance();
-    storeFilter.search = ``;
+    storeFilter.search = undefined;
   }
 }

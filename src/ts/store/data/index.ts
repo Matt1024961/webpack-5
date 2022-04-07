@@ -15,6 +15,7 @@ import { filterUnits as filterUnitsType } from '../../types/data-json';
 import { labels as labelsType } from '../../types/data-json';
 import { references as referencesType } from '../../types/data-json';
 import { ixdsFiles as ixdsFilesType } from '../../types/data-json';
+import { StoreFilter } from '../filter';
 
 export class StoreData {
   private _documentInfo: documentInfoType;
@@ -89,18 +90,37 @@ export class StoreData {
   }
 
   public getFilingFacts(input: string, multiFiling = false) {
+    const storeFilter: StoreFilter = StoreFilter.getInstance();
+    const highlight = storeFilter.search ? true : false;
     return this._facts
       .map((current) => {
         if (multiFiling) {
           if (
-            current[`active`] &&
+            highlight &&
+            current.highlight &&
+            current[`ixv:files`] &&
+            current[`ixv:files`].includes(input)
+          ) {
+            return current;
+          } else if (
+            !highlight &&
+            current.active &&
+            current[`ixv:files`] &&
+            current[`ixv:files`].includes(input)
+          ) {
+            return current;
+          }
+          if (
+            current.active &&
             current[`ixv:files`] &&
             current[`ixv:files`].includes(input)
           ) {
             return current;
           }
         } else {
-          if (current[`active`]) {
+          if (highlight && current.highlight) {
+            return current;
+          } else if (!highlight && current.active) {
             return current;
           }
         }
@@ -135,6 +155,16 @@ export class StoreData {
         element.active = true;
       } else {
         element.active = false;
+      }
+    });
+  }
+
+  public setFilingFactsHighlight(input: Array<string>) {
+    return this._facts.forEach((element) => {
+      if (input.includes(element.id)) {
+        element.highlight = true;
+      } else {
+        element.highlight = false;
       }
     });
   }
@@ -193,7 +223,8 @@ export class StoreData {
   public set facts(input: Array<factsType>) {
     // set up the data for success
     input.forEach((current) => {
-      current[`active`] = true;
+      current.active = true;
+      current.highlight = false;
     });
     this._facts = input;
   }

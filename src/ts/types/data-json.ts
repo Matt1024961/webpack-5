@@ -61,10 +61,11 @@ export type facts = {
   'ixv:istextonly': boolean;
   'ixv:isnegativesonly': boolean;
   'ixv:extensionNamespaces': {
-    [key: string]: string
+    [key: string]: string;
   };
   value: string;
   active: null | boolean;
+  highlight: null | boolean;
 };
 
 export type edgarRendererReports = {

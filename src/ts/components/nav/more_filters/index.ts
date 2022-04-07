@@ -33,13 +33,19 @@ export class MoreFilters extends HTMLElement {
 
   reset() {
     const inputs = this.querySelectorAll('[type="checkbox"]:checked');
-    inputs.forEach((current, index) => {
+    inputs.forEach((current) => {
       (current as HTMLInputElement).checked = false;
-      if (index === inputs.length - 1) {
-        const event = new Event('change');
-        current.dispatchEvent(event);
-      }
     });
+    const resetFilter: moreFilters = {
+      periods: [],
+      measures: [],
+      axis: [],
+      members: [],
+      scale: [],
+      balance: [],
+    };
+    this.updateNotification(resetFilter);
+    // the event will occur in ResetAllFilters
   }
 
   render() {
@@ -161,7 +167,7 @@ export class MoreFilters extends HTMLElement {
       this.querySelector(`.nav-link`).classList.add(`text-warning`);
     } else {
       this.querySelector(`.nav-link`).classList.remove(`text-warning`);
-      this.querySelector(`.nav-link [filter-count]`).remove();
+      this.querySelector(`.nav-link [filter-count]`)?.remove();
     }
   }
 

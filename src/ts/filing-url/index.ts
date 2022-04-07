@@ -3,6 +3,7 @@ import { ConstantApplication } from '../store/application';
 import { StoreData } from '../store/data';
 import { StoreLogger } from '../store/logger';
 import { StoreUrl } from '../store/url';
+import { StoreXhtml } from '../store/xhtml';
 import { WarningClass } from '../warning';
 export class FilingUrl {
   constructor() {
@@ -127,11 +128,13 @@ export class FilingUrl {
             );
             error.show(`Inline XBRL is not usable in this state.`);
           } else if (event.data.all[0].data) {
+            const storeXhtml: StoreXhtml = StoreXhtml.getInstance();
+            storeXhtml.node = event.data.all[0].data;
             const filingContainer = document.querySelector(
               `#filing-container sec-filing`
             );
             if (filingContainer) {
-              filingContainer.setAttribute(`xhtml`, event.data.all[0].data);
+              filingContainer.setAttribute(`update`, `true`);
               enableapplication.xhtml = true;
             }
           }

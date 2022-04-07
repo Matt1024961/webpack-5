@@ -44,9 +44,20 @@ export class StoreFilter {
     };
   }
 
+  public resetAllFilters() {
+    this._data = 0;
+    this._tags = 0;
+    this._moreFilters.axis = [];
+    this._moreFilters.balance = [];
+    this._moreFilters.measures = [];
+    this._moreFilters.periods = [];
+    this._moreFilters.scale = [];
+    this.filterFacts();
+  }
+
   public isFilterActive() {
     const allFilters = this.getAllFilters();
-    return (
+    return !(
       !allFilters.data &&
       !allFilters.tags &&
       !allFilters.moreFilters.axis.length &&
@@ -61,11 +72,11 @@ export class StoreFilter {
     const start = performance.now();
     document.querySelector(`sec-facts`).setAttribute(`loading`, ``);
     if (this.isFilterActive()) {
-      document.querySelector(`sec-reset-all-filters`).classList.add(`d-none`);
-    } else {
       document
         .querySelector(`sec-reset-all-filters`)
         .classList.remove(`d-none`);
+    } else {
+      document.querySelector(`sec-reset-all-filters`).classList.add(`d-none`);
     }
     if (window.Worker) {
       const storeUrl: StoreUrl = StoreUrl.getInstance();
@@ -81,7 +92,9 @@ export class StoreFilter {
 
       worker.onmessage = (event) => {
         if (event.data) {
-          storeData.setFilingFactsActive(event.data.activeFacts);
+          console.log(event.data.updatedFacts);
+          storeData.setFilingFactsActive(event.data.updatedFacts.filter);
+          storeData.setFilingFactsHighlight(event.data.updatedFacts.highlight);
           const attributes = new Attributes();
           attributes.setProperAttribute();
           document.querySelector(`sec-facts`).setAttribute(`update-count`, ``);
@@ -103,24 +116,29 @@ export class StoreFilter {
   }
 
   public set search(input: searchType) {
-    input = (input as string).replace(/[\\{}()[\]^$+*?.]/g, '\\$&');
-    const inputArray = input
-      .replace(/ and /gi, ` & `)
-      .replace(/ or /gi, ` | `)
-      .split(` `);
+    if (input) {
+      console.log(input);
+      input = (input as string).replace(/[\\{}()[\]^$+*?.]/g, '\\$&');
+      const inputArray = input
+        .replace(/ and /gi, ` & `)
+        .replace(/ or /gi, ` | `)
+        .split(` `);
 
-    if (inputArray.length > 1) {
-      input = inputArray.reduce((accumulator, current) => {
-        if (current === `|`) {
-          return `${accumulator}${current}`;
-        } else if (current === `&`) {
-          return accumulator;
-        } else {
-          return `${accumulator}(?=.*${current})`;
-        }
-      }, `^`);
+      if (inputArray.length > 1) {
+        input = inputArray.reduce((accumulator, current) => {
+          if (current === `|`) {
+            return `${accumulator}${current}`;
+          } else if (current === `&`) {
+            return accumulator;
+          } else {
+            return `${accumulator}(?=.*${current})`;
+          }
+        }, `^`);
+      }
+      this._search = input;
+    } else {
+      this._search = null;
     }
-    this._search = input;
     this.filterFacts();
   }
 

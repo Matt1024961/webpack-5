@@ -12,6 +12,8 @@ export class StoreUrl {
   private _host = window.location.origin;
   // redline: false
   private _redline: boolean | null;
+
+  private _baseURL: string | null;
   private static instance: StoreUrl;
 
   private constructor() {
@@ -25,11 +27,21 @@ export class StoreUrl {
     return StoreUrl.instance;
   }
 
+  public get baseURL() {
+    return this._baseURL;
+  }
+
+  public set baseURL(input: string) {
+    this._baseURL = input;
+  }
+
   public get filingURL() {
     return this._filingURL;
   }
 
   public set filingURL(input: string) {
+    const src = `${input.substring(0, input.lastIndexOf('/'))}/`;
+    this._baseURL = src;
     this._filingURL = input;
   }
 

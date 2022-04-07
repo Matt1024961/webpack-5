@@ -35,9 +35,6 @@ const fetchData = async (url: string) => {
 };
 
 self.onmessage = async ({ data: { xhtml, data } }) => {
-  console.log(data);
-  fetchXhtml(xhtml);
-  fetchData(data);
   await Promise.all([fetchXhtml(xhtml), fetchData(data)]).then(
     (allResponses) => {
       self.postMessage({

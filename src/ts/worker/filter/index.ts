@@ -4,11 +4,104 @@ import { facts } from '../../types/data-json';
 
 import { allFilters } from '../../types/filter';
 
-const filterFacts = (data: StoreData, allFilters: allFilters) => {
-  const activeFacts = data.facts
-    .map((current) => {
-      let activateFact = true;
+const filterFacts = (
+  data: StoreData,
+  allFilters: allFilters
+) => {
+  const updatedFacts = data.facts.reduce(
+    (
+      accumulator: { filter: Array<string>; highlight: Array<string> },
+      current
+    ) => {
+      // first we do all of the fact highlighting
+      if (!allFilters.search) {
+        // we all ZERO Fact IDs to the highlight array
+      } else {
+        // the user has entered something into the search box
+        let highlightFact = false;
+        const regex = new RegExp(
+          allFilters.search,
+          `m${allFilters.searchOptions.includes(10) ? '' : 'i'}`
+        );
 
+        if (!highlightFact && allFilters.searchOptions.includes(0)) {
+          if (current[`ixv:factAttributes`]) {
+            highlightFact = searchFactName(
+              regex,
+              current[`ixv:factAttributes`][0][1]
+            );
+          }
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(1)) {
+          highlightFact = searchFactContent(regex, current.value);
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(2)) {
+          highlightFact = searchFactLabels(
+            regex,
+            data.labels[current[`ixv:factLabels`]]
+          );
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(3)) {
+          // this is technically "Documentation"
+          highlightFact = searchFactDefinition(
+            regex,
+            data.labels[current[`ixv:factLabels`]]
+          );
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(4)) {
+          highlightFact = searchFactDimensions(regex, current);
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(5)) {
+          highlightFact = searchFactReferenceOptions(
+            regex,
+            data.references[current[`ixv:factReferences`]],
+            `Topic`
+          );
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(6)) {
+          highlightFact = searchFactReferenceOptions(
+            regex,
+            data.references[current[`ixv:factReferences`]],
+            `SubTopic`
+          );
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(7)) {
+          highlightFact = searchFactReferenceOptions(
+            regex,
+            data.references[current[`ixv:factReferences`]],
+            `Paragraph`
+          );
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(8)) {
+          highlightFact = searchFactReferenceOptions(
+            regex,
+            data.references[current[`ixv:factReferences`]],
+            `Publisher`
+          );
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(9)) {
+          highlightFact = searchFactReferenceOptions(
+            regex,
+            data.references[current[`ixv:factReferences`]],
+            `Section`
+          );
+        }
+
+        if (highlightFact) {
+          accumulator.highlight.push(current.id);
+        }
+      }
+      // second we do the fact filtering
+      let activateFact = true;
       if (activateFact && allFilters.data) {
         activateFact = dataRadio(allFilters.data, current);
       }
@@ -45,93 +138,18 @@ const filterFacts = (data: StoreData, allFilters: allFilters) => {
         activateFact = scaleCheck(allFilters.moreFilters.scale, current);
       }
 
-      if (allFilters.search) {
-        // the user has entered something into the search box
-        const regex = new RegExp(
-          allFilters.search,
-          `m${allFilters.searchOptions.includes(10) ? '' : 'i'}`
-        );
-
-        if (activateFact && allFilters.searchOptions.includes(0)) {
-          activateFact = searchFactName(
-            regex,
-            current[`ixv:factAttributes`][0][1]
-          );
-        }
-
-        if (activateFact && allFilters.searchOptions.includes(1)) {
-          activateFact = searchFactContent(regex, current.value);
-        }
-
-        if (activateFact && allFilters.searchOptions.includes(2)) {
-          activateFact = searchFactLabels(
-            regex,
-            data.labels[current[`ixv:factLabels`]]
-          );
-        }
-
-        if (activateFact && allFilters.searchOptions.includes(3)) {
-          // this is technically "Documentation"
-          activateFact = searchFactDefinition(
-            regex,
-            data.labels[current[`ixv:factLabels`]]
-          );
-        }
-
-        if (activateFact && allFilters.searchOptions.includes(4)) {
-          activateFact = searchFactDimensions(regex, current);
-        }
-
-        if (activateFact && allFilters.searchOptions.includes(5)) {
-          activateFact = searchFactReferenceOptions(
-            regex,
-            data.references[current[`ixv:factReferences`]],
-            `Topic`
-          );
-        }
-
-        if (activateFact && allFilters.searchOptions.includes(6)) {
-          activateFact = searchFactReferenceOptions(
-            regex,
-            data.references[current[`ixv:factReferences`]],
-            `SubTopic`
-          );
-        }
-
-        if (activateFact && allFilters.searchOptions.includes(7)) {
-          activateFact = searchFactReferenceOptions(
-            regex,
-            data.references[current[`ixv:factReferences`]],
-            `Paragraph`
-          );
-        }
-
-        if (activateFact && allFilters.searchOptions.includes(8)) {
-          activateFact = searchFactReferenceOptions(
-            regex,
-            data.references[current[`ixv:factReferences`]],
-            `Publisher`
-          );
-        }
-
-        if (activateFact && allFilters.searchOptions.includes(9)) {
-          activateFact = searchFactReferenceOptions(
-            regex,
-            data.references[current[`ixv:factReferences`]],
-            `Section`
-          );
-        }
-      }
-
       if (activateFact) {
-        return current.id;
+        accumulator.filter.push(current.id);
       }
-    })
-    .filter(Boolean);
+      return accumulator;
+    },
+    { filter: [], highlight: [] }
+  );
 
   self.postMessage({
-    activeFacts,
+    updatedFacts,
   });
+
 };
 
 const searchFactContent = (regex: RegExp, value: string): boolean => {
@@ -141,6 +159,7 @@ const searchFactContent = (regex: RegExp, value: string): boolean => {
   const newValue = value
     .replace(/( |<([^>]+)>)/gi, ` `)
     .replace(/ +(?= )/g, ``);
+
   return (regex as RegExp).test(newValue);
 };
 
@@ -205,7 +224,6 @@ const searchFactReferenceOptions = (
         }
       }, ``)
       .trim();
-    console.log(factTopicsAsString);
     return (regex as RegExp).test(factTopicsAsString as string);
   }
   return false;
@@ -227,7 +245,6 @@ const dataRadio = (option: number, fact: facts): boolean => {
     }
     case 3: {
       // Calculations Only
-      // console.error(`inspect!`);
       if (fact[`ixv:factCalculations`]) {
         return fact[`ixv:factCalculations`][1] === null ? false : true;
       }
@@ -322,6 +339,6 @@ const scaleCheck = (option: Array<number>, fact: facts): boolean => {
   }
 };
 
-self.onmessage = ({ data: { data, allFilters } }) => {
-  filterFacts(data, allFilters);
+self.onmessage = ({ data: { data,  allFilters } }) => {
+  filterFacts(data,  allFilters);
 };

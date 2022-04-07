@@ -1,3 +1,4 @@
+import { StoreFilter } from '../../../store/filter';
 import template from './template.html';
 
 export class ResetAllFilters extends HTMLElement {
@@ -27,18 +28,21 @@ export class ResetAllFilters extends HTMLElement {
   listeners(): void {
     const button = this.querySelector('.nav-link');
     if (button) {
-      button.addEventListener(`click`, () => {
+      button.addEventListener(`click`, (event) => {
+        event.preventDefault();
         this.resetAllFilters();
       });
     }
   }
 
   resetAllFilters() {
+    const storeFilter: StoreFilter = StoreFilter.getInstance();
     document.querySelector(`sec-data`)?.setAttribute(`reset`, `true`);
     document.querySelector(`sec-tags`)?.setAttribute(`reset`, `true`);
     document.querySelector(`sec-more-filters`)?.setAttribute(`reset`, `true`);
     document
       .querySelector(`sec-facts-menu-pagination`)
       ?.setAttribute(`reset`, `true`);
+    storeFilter.resetAllFilters();
   }
 }
