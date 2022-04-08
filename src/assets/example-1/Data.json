@@ -17746,7 +17746,7 @@
     ],
     [
      "ishtml",
-     false
+     true
     ],
     [
      "Period",
@@ -18726,7 +18726,7 @@
     ],
     [
      "ishtml",
-     false
+     true
     ],
     [
      "Period",
@@ -20149,7 +20149,7 @@
     ],
     [
      "ishtml",
-     false
+     true
     ],
     [
      "Period",
@@ -36558,7 +36558,7 @@
     ],
     [
      "ishtml",
-     false
+     true
     ],
     [
      "Period",
@@ -38034,7 +38034,7 @@
     ],
     [
      "ishtml",
-     false
+     true
     ],
     [
      "Period",
@@ -38229,7 +38229,7 @@
     ],
     [
      "ishtml",
-     false
+     true
     ],
     [
      "Period",
@@ -39167,7 +39167,7 @@
     ],
     [
      "ishtml",
-     false
+     true
     ],
     [
      "Period",
@@ -39607,7 +39607,7 @@
     ],
     [
      "ishtml",
-     false
+     true
     ],
     [
      "Period",
@@ -41022,7 +41022,7 @@
     ],
     [
      "ishtml",
-     false
+     true
     ],
     [
      "Period",
@@ -41636,7 +41636,7 @@
     ],
     [
      "ishtml",
-     false
+     true
     ],
     [
      "Period",
@@ -65099,7 +65099,7 @@
    "ixv:subGroupType": "details",
    "ixv:firstAnchorFacts": [],
    "ixv:uniqueAnchor": {
-    "contextRef": "ia3670733089649d2b389e5c66d5ed6b8_I20211225",
+    "contextRef": "ibb94ff28a54a43fca5736419830ef8a4_I20211225",
     "name": "us-gaap:RevenueRemainingPerformanceObligationPercentage",
     "unitRef": "number",
     "xsiNil": "false",
