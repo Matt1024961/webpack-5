@@ -15,10 +15,10 @@ export class Attributes {
     }
     if (storeFilter.isFilterActive()) {
       // some filters applied, apply attribute when fact is on screen
-      this.setActiveFilteredFact();
+      this.setActiveFilteredFact(storeFilter.search ? true : false);
     } else {
       // no filters applied, apply attribute when fact is on screen
-      this.setActiveFact();
+      this.setActiveFact(storeFilter.search ? true : false);
     }
   }
 
@@ -50,14 +50,18 @@ export class Attributes {
     );
   }
 
-  setActiveFact(): void {
+  setActiveFact(highlight: boolean): void {
     const allFacts = Array.from(document.querySelectorAll(`[contextRef]`));
     const visibleFacts = { count: 0 };
 
     allFacts.forEach((element: Element) => {
       if (this.isInViewPort(element) && !this.isHidden(element.id)) {
         visibleFacts.count++;
+        if (!highlight) {
+          element.removeAttribute(`highlight-fact`);
+        }
         element.setAttribute(`active-fact`, ``);
+
         element.addEventListener(`click`, (event) => {
           console.log(event);
           console.log(this);
@@ -72,7 +76,7 @@ export class Attributes {
     storeLogger.log(`Visible Active Facts in ViewPort: ${visibleFacts.count}`);
   }
 
-  setActiveFilteredFact(): void {
+  setActiveFilteredFact(highlight: boolean): void {
     const allFacts = Array.from(document.querySelectorAll(`[contextRef]`));
     const visibleFacts = { count: 0 };
     allFacts.forEach((element: Element) => {
@@ -82,6 +86,9 @@ export class Attributes {
         !this.isHidden(element.id)
       ) {
         visibleFacts.count++;
+        if (!highlight) {
+          element.removeAttribute(`highlight-fact`);
+        }
         element.setAttribute(`active-fact`, ``);
         element.addEventListener(`click`, (event) => {
           console.log(event);
@@ -114,7 +121,7 @@ export class Attributes {
       rect.top >= 0 &&
       rect.left >= 0 &&
       rect.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
+      (window.innerHeight || document.documentElement.clientHeight) &&
       rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
   };

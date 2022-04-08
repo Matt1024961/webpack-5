@@ -1,6 +1,8 @@
 import 'bootstrap';
 import '@popperjs/core';
 import '../styles.scss';
+import { detect } from 'detect-browser';
+
 import { DevelopmentNavbar } from './components/nav/development_navbar';
 import { Navbar } from './components/nav/navbar';
 import { Sections } from './components/nav/sections';
@@ -24,6 +26,12 @@ import { Links } from './components/nav/links';
 import { ResetAllFilters } from './components/nav/reset_all_filters';
 
 (() => {
+
+  const browser = detect();
+
+  console.log(browser);
+  const storeLogger: StoreLogger = StoreLogger.getInstance();
+  storeLogger.info(`Application Begin`);
   // here we hadd all custom HTML components
   customElements.define('sec-root', Root);
   customElements.define('sec-navbar', Navbar);
@@ -49,6 +57,4 @@ import { ResetAllFilters } from './components/nav/reset_all_filters';
     // we are in development mode
     customElements.define(`sec-dev-navbar`, DevelopmentNavbar);
   }
-  const storeLogger: StoreLogger = StoreLogger.getInstance();
-  storeLogger.info(`Application Begin`);
 })();

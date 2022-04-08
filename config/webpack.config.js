@@ -32,8 +32,8 @@ module.exports = (env, argv = { mode: `production` }) => {
 
       argv.mode === 'development'
         ? new CopyPlugin({
-            patterns: [{ from: 'src/assets', to: 'assets' }],
-          })
+          patterns: [{ from: 'src/assets', to: 'assets' }],
+        })
         : false,
 
       new PurgeCSSPlugin({
@@ -113,6 +113,7 @@ module.exports = (env, argv = { mode: `production` }) => {
       watchFiles: [`./src/**/*.html`, `./src/**/*.scss`, `./src/**/*.ts`],
       client: {
         overlay: true,
+        logging: `none`
         // progress: true,
       },
     },

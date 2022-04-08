@@ -92,7 +92,6 @@ export class StoreFilter {
 
       worker.onmessage = (event) => {
         if (event.data) {
-          console.log(event.data.updatedFacts);
           storeData.setFilingFactsActive(event.data.updatedFacts.filter);
           storeData.setFilingFactsHighlight(event.data.updatedFacts.highlight);
           const attributes = new Attributes();
@@ -117,7 +116,6 @@ export class StoreFilter {
 
   public set search(input: searchType) {
     if (input) {
-      console.log(input);
       input = (input as string).replace(/[\\{}()[\]^$+*?.]/g, '\\$&');
       const inputArray = input
         .replace(/ and /gi, ` & `)
