@@ -1,14 +1,17 @@
 import { StoreLogger } from '../../../store/logger';
+import { BaseModal } from '../base-modal';
 import template from './template.html';
 
-export class Information extends HTMLElement {
+export class Information extends BaseModal {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    this.render();
-    this.listeners();
+    BaseModal.prototype.render.call(this);
+    BaseModal.prototype.listeners.call(this);
+    // this.render();
+    // this.listeners();
   }
 
   render() {

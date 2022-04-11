@@ -1,4 +1,5 @@
 import * as bootstrap from 'bootstrap';
+import { StoreLogger } from '../../../store/logger';
 import template from './template.html';
 
 export class BaseModal extends HTMLElement {
@@ -12,7 +13,7 @@ export class BaseModal extends HTMLElement {
   }
 
   render() {
-    console.log(`what?`);
+    const storeLogger: StoreLogger = StoreLogger.getInstance();
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template`)) {
@@ -20,15 +21,23 @@ export class BaseModal extends HTMLElement {
       const node = document.importNode(selector, true);
       node.removeAttribute(`template`);
       this.append(node);
-      //this.logger.info('Data Filter Bar rendered');
+      storeLogger.info('Base Modal rendered');
     } else {
-      //this.logger.warn('Data Filter NOT rendered');
+      storeLogger.error('Base Modal NOT rendered');
     }
   }
 
   listeners() {
+
+    this.querySelector(`#sec-modal`).addEventListener(`show.bs.modal`, () => {
+      console.log(`dis!`);
+      console.log(document.querySelector(`body`));
+      document.querySelector(`body`).style.removeProperty(`overflow`);
+      document.querySelector(`body`).style.removeProperty(`padding-right`);
+    });
+
     const thisModal = new bootstrap.Modal(this.querySelector(`#sec-modal`), {
-      backdrop: `static`,
+      backdrop: false,
       keyboard: true,
     });
     thisModal.show();
