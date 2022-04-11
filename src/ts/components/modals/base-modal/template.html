@@ -1,0 +1,97 @@
+<div
+  template
+  class="modal fade "
+  id="sec-modal"
+  tabindex="-1"
+  aria-labelledby="sec-modal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content h-100 w-100">
+      <div class="modal-header py-0">
+        <p class="modal-title lead" sec-modal-title></p>
+        <div class="modal-actions">
+          <button
+            id="sec-modal-drag"
+            class="btn btn-sm drag"
+            type="button"
+            title="Click and drag to move this Dialog Box."
+            tabindex="-1"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+          >
+            <i
+              class="fas fa-arrows-alt"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+            >
+            </i>
+          </button>
+          <button
+            id="dialog-box-copy-content"
+            class="btn btn-sm"
+            type="button"
+            title="Click to Copy all Dialog Box Content."
+            tabindex="-1"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+          >
+            <i class="fas fa-copy"></i>
+          </button>
+          <button
+            id="dialog-box-close"
+            class="btn btn-sm"
+            type="button"
+            title="Click to Close this Dialog Box."
+            tabindex="-1"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div id="modal-carousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <table class="table"></table>
+            </div>
+            <div class="carousel-item">
+              <table class="table"></table>
+            </div>
+            <div class="carousel-item">
+              <table class="table"></table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="carousel-indicators">
+          <button
+            type="button"
+            data-bs-target="#modal-carousel"
+            data-bs-slide-to="0"
+            class="active bg-primary"
+            aria-current="true"
+            aria-label="Slide 1"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#modal-carousel"
+            data-bs-slide-to="1"
+            class="bg-primary"
+            aria-label="Slide 2"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#modal-carousel"
+            data-bs-slide-to="2"
+            class="bg-primary"
+            aria-label="Slide 3"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

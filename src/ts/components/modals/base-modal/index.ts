@@ -1,11 +1,7 @@
 import * as bootstrap from 'bootstrap';
 import template from './template.html';
 
-export class Fact extends HTMLElement {
-  static get observedAttributes() {
-    return [`fact-id`];
-  }
-
+export class BaseModal extends HTMLElement {
   constructor() {
     super();
   }
@@ -15,17 +11,8 @@ export class Fact extends HTMLElement {
     this.listeners();
   }
 
-  attributeChangedCallback(
-    name: string,
-    oldValue: string | null,
-    newValue: string | null
-  ) {
-    console.log(newValue);
-    document.querySelector(`#${newValue}`).scrollIntoView();
-
-  }
-
   render() {
+    console.log(`what?`);
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template`)) {
@@ -40,8 +27,8 @@ export class Fact extends HTMLElement {
   }
 
   listeners() {
-    const thisModal = new bootstrap.Modal(this.querySelector(`#fact-modal`), {
-      backdrop: false,
+    const thisModal = new bootstrap.Modal(this.querySelector(`#sec-modal`), {
+      backdrop: `static`,
       keyboard: true,
     });
     thisModal.show();

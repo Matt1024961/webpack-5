@@ -35,4 +35,8 @@ export class StoreLogger {
   public log(message: string): void {
     this.logger.log(`${message}`);
   }
+
+  public error(message: string): void {
+    this.logger.error(`${message}`);
+  }
 }

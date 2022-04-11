@@ -1,46 +1,32 @@
-import { Logger } from 'typescript-logger';
+import { StoreLogger } from '../../../store/logger';
 import template from './template.html';
 
-export default class Information {
-  private logger: Logger;
-  constructor(querySelector: string, logger: Logger) {
-    this.logger = logger;
-    this.render(querySelector);
-    this.listeners(querySelector);
+export class Information extends HTMLElement {
+  constructor() {
+    super();
   }
 
-  render(querySelector: string) {
+  connectedCallback() {
+    this.render();
+    this.listeners();
+  }
+
+  render() {
+    const storeLogger: StoreLogger = StoreLogger.getInstance();
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
-    if (
-      htmlDoc.querySelector(`[template]`) &&
-      document.body.querySelector(querySelector)
-    ) {
+    if (htmlDoc.querySelector(`[template`)) {
       const selector = htmlDoc.querySelector(`[template]`);
       const node = document.importNode(selector, true);
       node.removeAttribute(`template`);
-      document.body.querySelector(querySelector).append(node);
-      this.logger.info('Modal Information rendered');
+      this.append(node);
+      storeLogger.info('Information Modal rendered');
     } else {
-      this.logger.warn('Modal Information NOT rendered');
+      storeLogger.error('Information Modal NOT rendered');
     }
   }
 
-  listeners(querySelector: string) {
-    const modal = document.body.querySelector(querySelector);
-    const carousel = document.querySelector('#information-carousel');
-
-    if (modal) {
-      modal.addEventListener('hidden.bs.modal', function (event) {
-        console.log(event);
-        // do something...
-      });
-    }
-    if (carousel) {
-      carousel.addEventListener('slide.bs.carousel', (event) => {
-        console.log(event);
-        // do something...
-      });
-    }
+  listeners() {
+    //
   }
 }

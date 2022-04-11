@@ -23,6 +23,8 @@ import { Filing } from './components/filing';
 import { Fact } from './components/modals/fact';
 import { Links } from './components/nav/links';
 import { ResetAllFilters } from './components/nav/reset_all_filters';
+import { Information } from './components/modals/information';
+import { BaseModal } from './components/modals/base-modal';
 
 (() => {
   const storeLogger: StoreLogger = StoreLogger.getInstance();
@@ -46,7 +48,11 @@ import { ResetAllFilters } from './components/nav/reset_all_filters';
   customElements.define(`sec-error`, Error);
   customElements.define(`sec-warning`, Warning);
   customElements.define(`sec-filing`, Filing);
+  // all the modals
+  customElements.define(`sec-modal-base`, BaseModal);
   customElements.define(`sec-modal-fact`, Fact);
+  customElements.define(`sec-modal-information`, Information);
+  // end all the modals
 
   if (process.env.NODE_ENV !== 'production') {
     // we are in development mode

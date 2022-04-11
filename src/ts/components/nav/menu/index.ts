@@ -1,6 +1,5 @@
 import { ConstantApplication } from '../../../store/application';
-// import { Logger } from 'typescript-logger';
-// import Information from '../../modals/information';
+import { StoreLogger } from '../../../store/logger';
 import template from './template.html';
 
 export class Menu extends HTMLElement {
@@ -10,12 +9,15 @@ export class Menu extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    this.listeners();
   }
 
   render() {
+    const storeLogger: StoreLogger = StoreLogger.getInstance();
+
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
-    if (htmlDoc.querySelector(`[template`)) {
+    if (htmlDoc.querySelector(`[template]`)) {
       const selector = htmlDoc.querySelector(`[template]`);
       const node = document.importNode(selector, true);
       node.removeAttribute(`template`);
@@ -23,9 +25,31 @@ export class Menu extends HTMLElement {
       node.querySelector(`[template-version]`).appendChild(textToAdd);
       node.removeAttribute(`template-version`);
       this.append(node);
-      //this.logger.info('Data Filter Bar rendered');
+      storeLogger.info('Menu Button rendered');
     } else {
-      //this.logger.warn('Data Filter NOT rendered');
+      storeLogger.error('Menu Button NOT rendered');
+    }
+  }
+
+  listeners() {
+    const modal = this.querySelectorAll(`[modal]`);
+    modal.forEach((current) => {
+      current.addEventListener(`click`, () => {
+        this.modal(current.getAttribute(`modal`));
+      });
+    });
+  }
+
+  modal(modalType: string): void {
+    switch (modalType) {
+      case `information`: {
+        const modal = document.createElement(`sec-modal-information`);
+        document.querySelector(`#modal-container`).append(modal);
+        break;
+      }
+      default: {
+        console.log(`error!`);
+      }
     }
   }
 }
