@@ -29,24 +29,36 @@ export class BaseModal extends HTMLElement {
 
   listeners() {
 
-    this.querySelector(`#sec-modal`).addEventListener(`show.bs.modal`, () => {
-      console.log(`dis!`);
-      console.log(document.querySelector(`body`));
-      document.querySelector(`body`).style.removeProperty(`overflow`);
-      document.querySelector(`body`).style.removeProperty(`padding-right`);
-    });
-
     const thisModal = new bootstrap.Modal(this.querySelector(`#sec-modal`), {
       backdrop: false,
       keyboard: true,
     });
     thisModal.show();
 
-    this.querySelector(`#dialog-box-close`).addEventListener(`click`, () => {
+    const modalClose = this.querySelector(`#modal-close`);
+    const modalDrag = this.querySelector(`#modal-drag`);
+
+    modalClose?.addEventListener(`click`, () => {
       thisModal.hide();
-      document.querySelectorAll(`[fact-id]`).forEach((nestedCurrent) => {
-        nestedCurrent.classList.remove(`selected`);
-      });
     });
+
+    modalDrag?.addEventListener(`mousedown`, (event: DragEvent) => {
+      this.dragging(this.querySelector(`#sec-modal`));
+    })
+  }
+
+  dragging(element: Element): void {
+    let selected = null;
+    let xPosition = 0;
+    let yPosition = 0;
+    let xElement = 0;
+    let yElement = 0;
+
+    const drag = (element) => {
+      xElement = (xPosition - selected.offsetLeft) + (selected.clientWidth / 2)
+      yElement = (yPosition - selected.offsetTop) + (selected.clientHeight / 2);
+    }
+
+    console.log();
   }
 }

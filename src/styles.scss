@@ -7,7 +7,7 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts/';
 $navbar-height: 45px;
 $sec-color: #003768;
 
-body:nth-child(1) {
+body {
   overflow: auto !important;
   padding-right: 0 !important;
 }
@@ -57,7 +57,7 @@ body:nth-child(1) {
   // border-right: 2px red solid !important;
 
   &::before {
-    content:"\A";
+    content: "\A";
     border-style: solid;
     border-width: 10px 15px 10px 0;
     border-color: transparent #dd4397 transparent transparent;
