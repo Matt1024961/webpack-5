@@ -12,7 +12,12 @@ body:nth-child(1) {
   padding-right: 0 !important;
 }
 
-#filing-container > body {
+#filing-container {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#filing-container>body {
   font-family: unset;
   font-size: unset;
   font-weight: unset;
@@ -31,7 +36,8 @@ body:nth-child(1) {
   --bs-body-line-height: unset;
   --bs-body-color: unset;
   box-sizing: unset;
-  > * {
+
+  >* {
     box-sizing: unset !important;
   }
 }
@@ -46,9 +52,34 @@ body:nth-child(1) {
   }
 }
 
+[active-fact-block] {
+  // border-left: 2px red solid !important;
+  // border-right: 2px red solid !important;
+
+  &::before {
+    content:"\A";
+    border-style: solid;
+    border-width: 10px 15px 10px 0;
+    border-color: transparent #dd4397 transparent transparent;
+    position: absolute;
+    left: -15px;
+  }
+
+  &::after {
+    float: right;
+    content: 'do eet!'
+  }
+
+  &:hover {
+    background-color: rgba(255, 0, 0, 0.3) !important;
+    cursor: pointer !important;
+  }
+}
+
 [active-filtered-fact] {
   border-top: 2px green solid !important;
   border-bottom: 2px green solid !important;
+
   &:hover {
     background-color: rgba(255, 0, 0, 0.3) !important;
     cursor: pointer !important;
@@ -65,21 +96,25 @@ body:nth-child(1) {
   background-color: $sec-color;
   z-index: 2000;
 }
+
 .modal-header {
   background-color: $sec-color;
   color: $white;
 }
+
 .nav-link {
   color: $white;
+
   &:hover {
     color: $white;
     cursor: pointer !important;
-    background: linear-gradient($white, $white) bottom 5px center/ 90% 1px
-      no-repeat;
+    background: linear-gradient($white, $white) bottom 5px center/ 90% 1px no-repeat;
   }
+
   &:visited {
     color: $white;
   }
+
   &:focus {
     color: $white;
   }
@@ -87,6 +122,7 @@ body:nth-child(1) {
 
 #error-container {
   margin-top: $navbar-height;
+
   .alert {
     border-radius: 0;
   }
@@ -111,10 +147,12 @@ body:nth-child(1) {
 .single-fact-menu {
   text-decoration: none;
   color: $black;
+
   &:hover {
     border-color: $black !important;
     color: $black;
   }
+
   &.selected {
     border-color: $sec-color !important;
     border-width: 5px !important;
@@ -125,6 +163,7 @@ body:nth-child(1) {
   margin-bottom: 0;
   margin-top: 0;
 }
+
 #warning-container .alert {
   margin-bottom: 0;
   margin-top: 0;
@@ -146,6 +185,7 @@ body:nth-child(1) {
   color: $black;
   border-radius: 0;
   border-color: $black;
+
   &:hover {
     color: $white;
     background-color: $black;
@@ -174,13 +214,16 @@ body:nth-child(1) {
     padding: 0;
   }
 }
+
 #more-filters-accordion {
   width: 300px;
 }
+
 .more-filters-options {
   max-height: 150px;
   overflow: auto;
 }
-.content-visibility > * {
+
+.content-visibility>* {
   content-visibility: auto;
 }

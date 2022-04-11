@@ -7171,7 +7171,8 @@
   }
  ],
  "ixv:ixdsFiles": [
-  "clx-20210630.htm"
+  "clx-20210630.htm",
+  "test.htm"
  ],
  "ixv:extensionNamespaces": {
   "clx": "http://www.clorox.com/20210630"

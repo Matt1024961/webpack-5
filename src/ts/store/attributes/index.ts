@@ -60,7 +60,11 @@ export class Attributes {
         if (!highlight) {
           element.removeAttribute(`highlight-fact`);
         }
-        element.setAttribute(`active-fact`, ``);
+        if (this.factIssTextBlock(element.id)) {
+          element.setAttribute(`active-fact-block`, ``);
+        } else {
+          element.setAttribute(`active-fact`, ``);
+        }
 
         element.addEventListener(`click`, (event) => {
           console.log(event);
@@ -89,7 +93,11 @@ export class Attributes {
         if (!highlight) {
           element.removeAttribute(`highlight-fact`);
         }
-        element.setAttribute(`active-fact`, ``);
+        if (this.factIssTextBlock(element.id)) {
+          element.setAttribute(`active-fact-block`, ``);
+        } else {
+          element.setAttribute(`active-fact`, ``);
+        }
         element.addEventListener(`click`, (event) => {
           console.log(event);
           console.log(this);
@@ -110,10 +118,16 @@ export class Attributes {
     const storeData: StoreData = StoreData.getInstance();
     return storeData.getFactByID(id).highlight ? true : false;
   };
+
   factIsActive = (id: string): boolean => {
     const storeData: StoreData = StoreData.getInstance();
     return storeData.getFactByID(id).active ? true : false;
   };
+
+  factIssTextBlock = (id: string): boolean => {
+    const storeData: StoreData = StoreData.getInstance();
+    return storeData.getFactByID(id)[`ixv:istextonly`] ? true : false;
+  }
 
   isInViewPort = (element: Element) => {
     const rect = element.getBoundingClientRect();
