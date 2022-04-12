@@ -1,4 +1,5 @@
 import * as bootstrap from 'bootstrap';
+
 import { StoreLogger } from '../../../store/logger';
 import template from './template.html';
 
@@ -28,37 +29,64 @@ export class BaseModal extends HTMLElement {
   }
 
   listeners() {
-
     const thisModal = new bootstrap.Modal(this.querySelector(`#sec-modal`), {
       backdrop: false,
       keyboard: true,
     });
     thisModal.show();
 
+    const modalCarousel = this.querySelector(`#modal-carousel`);
+
     const modalClose = this.querySelector(`#modal-close`);
-    const modalDrag = this.querySelector(`#modal-drag`);
+
+    modalCarousel.addEventListener(
+      'slide.bs.carousel',
+      (event: CarouselEvent) => {
+        const oldActiveIndicator = this.querySelector(
+          `[data-bs-slide-to="${event.from}"]`
+        );
+        const newActiveIndicator = this.querySelector(
+          `[data-bs-slide-to="${event.to}"]`
+        );
+
+        oldActiveIndicator?.classList.remove(`active`);
+        newActiveIndicator?.classList.add(`active`);
+      }
+    );
 
     modalClose?.addEventListener(`click`, () => {
       thisModal.hide();
     });
 
-    modalDrag?.addEventListener(`mousedown`, (event: DragEvent) => {
-      this.dragging(this.querySelector(`#sec-modal`));
-    })
+    this.initDragging(
+      this.querySelector(`#modal-drag`),
+      this.querySelector(`#sec-modal`)
+    );
   }
 
-  dragging(element: Element): void {
-    let selected = null;
-    let xPosition = 0;
-    let yPosition = 0;
-    let xElement = 0;
-    let yElement = 0;
+  initDragging(elementToClick: HTMLElement, elementToDrag: HTMLElement): void {
+    let dragStartX: number, dragStartY: number;
+    let objInitLeft: number, objInitTop: number;
+    let inDrag = false;
 
-    const drag = (element) => {
-      xElement = (xPosition - selected.offsetLeft) + (selected.clientWidth / 2)
-      yElement = (yPosition - selected.offsetTop) + (selected.clientHeight / 2);
-    }
+    elementToClick.addEventListener('mousedown', (event) => {
+      inDrag = true;
+      objInitLeft = elementToDrag.offsetLeft;
+      objInitTop = elementToDrag.offsetTop;
+      dragStartX = event.pageX;
+      dragStartY = event.pageY;
+    });
 
-    console.log();
+    document.addEventListener('mousemove', (event) => {
+      if (!inDrag) {
+        return;
+      }
+      elementToDrag.style.left = objInitLeft + event.pageX - dragStartX + 'px';
+      elementToDrag.style.top = objInitTop + event.pageY - dragStartY + 'px';
+    });
+
+    document.addEventListener('mouseup', function () {
+      inDrag = false;
+    });
   }
 }

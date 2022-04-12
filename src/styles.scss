@@ -17,7 +17,7 @@ body {
   padding-right: 15px;
 }
 
-#filing-container>body {
+#filing-container > body {
   font-family: unset;
   font-size: unset;
   font-weight: unset;
@@ -37,7 +37,7 @@ body {
   --bs-body-color: unset;
   box-sizing: unset;
 
-  >* {
+  > * {
     box-sizing: unset !important;
   }
 }
@@ -57,7 +57,7 @@ body {
   // border-right: 2px red solid !important;
 
   &::before {
-    content: "\A";
+    content: '\A';
     border-style: solid;
     border-width: 10px 15px 10px 0;
     border-color: transparent #dd4397 transparent transparent;
@@ -67,7 +67,7 @@ body {
 
   &::after {
     float: right;
-    content: 'do eet!'
+    content: 'do eet!';
   }
 
   &:hover {
@@ -108,7 +108,8 @@ body {
   &:hover {
     color: $white;
     cursor: pointer !important;
-    background: linear-gradient($white, $white) bottom 5px center/ 90% 1px no-repeat;
+    background: linear-gradient($white, $white) bottom 5px center/ 90% 1px
+      no-repeat;
   }
 
   &:visited {
@@ -224,14 +225,38 @@ body {
   overflow: auto;
 }
 
-.content-visibility>* {
+.content-visibility > * {
   content-visibility: auto;
 }
 
-// .modal-backdrop {
-//   display: none !important;
-// }
-// .modal-open .modal {
-//     width: 300px;
-//     margin: 0 auto;
-// }
+.carousel-indicators {
+  margin-bottom: 9px;
+
+  [data-bs-target] {
+    border: 0;
+  }
+
+  a.active {
+    background-color: $sec-color !important;
+    padding: 1px;
+  }
+
+  a:not(.active) {
+    background-color: $white !important;
+    border: 1px solid $sec-color;
+  }
+  .carousel-control-prev {
+    height: 25px;
+    color: $black;
+    margin-top: -10px;
+    text-indent: initial;
+    opacity: 1;
+  }
+  .carousel-control-next {
+    height: 25px;
+    color: $black;
+    margin-top: -10px;
+    text-indent: initial;
+    opacity: 1;
+  }
+}
