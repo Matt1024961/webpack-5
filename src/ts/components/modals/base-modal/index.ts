@@ -8,10 +8,10 @@ export class BaseModal extends HTMLElement {
     super();
   }
 
-  connectedCallback() {
-    this.render();
-    this.listeners();
-  }
+  // connectedCallback() {
+  //   this.render();
+  //   this.listeners();
+  // }
 
   render() {
     const storeLogger: StoreLogger = StoreLogger.getInstance();
@@ -28,7 +28,8 @@ export class BaseModal extends HTMLElement {
     }
   }
 
-  listeners() {
+  listeners(modalTitles: Array<string> = []) {
+    console.log(modalTitles);
     const thisModal = new bootstrap.Modal(this.querySelector(`#sec-modal`), {
       backdrop: false,
       keyboard: true,
@@ -38,6 +39,13 @@ export class BaseModal extends HTMLElement {
     const modalCarousel = this.querySelector(`#modal-carousel`);
 
     const modalClose = this.querySelector(`#modal-close`);
+
+    const modalTitle = this.querySelector(`[sec-modal-title]`);
+
+    const span = document.createElement(`span`);
+    const modalTitleText = document.createTextNode(modalTitles[0]);
+    span.append(modalTitleText);
+    modalTitle.firstElementChild.replaceWith(span);
 
     modalCarousel.addEventListener(
       'slide.bs.carousel',
@@ -51,6 +59,12 @@ export class BaseModal extends HTMLElement {
 
         oldActiveIndicator?.classList.remove(`active`);
         newActiveIndicator?.classList.add(`active`);
+
+        const span = document.createElement(`span`);
+        const modalTitleText = document.createTextNode(modalTitles[event.to]);
+        span.append(modalTitleText);
+
+        modalTitle.firstElementChild.replaceWith(span);
       }
     );
 

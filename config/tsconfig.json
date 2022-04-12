@@ -7,8 +7,14 @@
     "target": "es2015",
     "allowJs": true,
     "moduleResolution": "node",
-    "suppressImplicitAnyIndexErrors": true
+    "suppressImplicitAnyIndexErrors": true,
+    "resolveJsonModule": true,
   },
-  "include": ["../src/**/*.ts", "../src/**/*.html"],
-  "files": ["typings.d.ts"]
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.html"
+  ],
+  "files": [
+    "typings.d.ts"
+  ]
 }

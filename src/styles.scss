@@ -17,7 +17,7 @@ body {
   padding-right: 15px;
 }
 
-#filing-container > body {
+#filing-container>body {
   font-family: unset;
   font-size: unset;
   font-weight: unset;
@@ -37,7 +37,7 @@ body {
   --bs-body-color: unset;
   box-sizing: unset;
 
-  > * {
+  >* {
     box-sizing: unset !important;
   }
 }
@@ -108,8 +108,7 @@ body {
   &:hover {
     color: $white;
     cursor: pointer !important;
-    background: linear-gradient($white, $white) bottom 5px center/ 90% 1px
-      no-repeat;
+    background: linear-gradient($white, $white) bottom 5px center/ 90% 1px no-repeat;
   }
 
   &:visited {
@@ -225,12 +224,12 @@ body {
   overflow: auto;
 }
 
-.content-visibility > * {
+.content-visibility>* {
   content-visibility: auto;
 }
 
 .carousel-indicators {
-  margin-bottom: 9px;
+  bottom: -16px;
 
   [data-bs-target] {
     border: 0;
@@ -245,17 +244,17 @@ body {
     background-color: $white !important;
     border: 1px solid $sec-color;
   }
+
   .carousel-control-prev {
     height: 25px;
     color: $black;
-    margin-top: -10px;
     text-indent: initial;
     opacity: 1;
   }
+
   .carousel-control-next {
     height: 25px;
     color: $black;
-    margin-top: -10px;
     text-indent: initial;
     opacity: 1;
   }

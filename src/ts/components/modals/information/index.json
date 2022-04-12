@@ -1,0 +1,14 @@
+{
+    "Company and Document": {
+        "Company Name": "dei:EntityRegistrantName",
+        "Central Index Key": "dei:EntityCentralIndexKey",
+        "Document Type": "dei:DocumentType",
+        "Period End Date": "dei:DocumentPeriodEndDate",
+        "Fiscal Year / Period Focus": "dei:DocumentFiscalYearFocus",
+        "Current Fiscal Year End": "dei:CurrentFiscalYearEndDate",
+        "Amendment / Description": "dei:AmendmentFlag"
+    },
+    "Tags": {},
+    "Files": {},
+    "Additional Items": {}
+}

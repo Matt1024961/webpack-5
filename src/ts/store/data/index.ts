@@ -175,6 +175,13 @@ export class StoreData {
     });
   }
 
+  getFactValueByName(input: string) {
+    return this._facts.find((element) => {
+      //console.log(element[`ixv:factAttributes`][0][1]);
+      return element[`ixv:factAttributes`][0][1] === input;
+    });
+  }
+
   public getIsCustomTag(input: factsType): boolean {
     return input[`ixv:factAttributes`][0][1].startsWith(`clx:`);
   }

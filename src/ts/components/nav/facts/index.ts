@@ -97,15 +97,4 @@ export class Facts extends HTMLElement {
       });
     }
   }
-
-  enableApplication(): void {
-    document
-      .querySelectorAll(`#navbar-container .nav-link`)
-      .forEach((current) => {
-        current.classList.remove(`disabled`);
-      });
-    document.querySelectorAll(`#global-search fieldset`).forEach((current) => {
-      current.removeAttribute(`disabled`);
-    });
-  }
 }
