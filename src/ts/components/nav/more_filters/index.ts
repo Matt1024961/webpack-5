@@ -174,7 +174,7 @@ export class MoreFilters extends HTMLElement {
   populateDropdownOptions() {
     const storeData: StoreData = StoreData.getInstance();
     this.populatePeriods(storeData);
-    this.populateMeasures(storeData);
+    // this.populateMeasures(storeData);
     this.populateAxis(storeData);
     this.populateMembers(storeData);
     this.populateScale(storeData);

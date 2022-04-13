@@ -50,6 +50,7 @@ export class StoreFilter {
     this._moreFilters.axis = [];
     this._moreFilters.balance = [];
     this._moreFilters.measures = [];
+    this._moreFilters.members = [];
     this._moreFilters.periods = [];
     this._moreFilters.scale = [];
     this.filterFacts();
@@ -63,6 +64,7 @@ export class StoreFilter {
       !allFilters.moreFilters.axis.length &&
       !allFilters.moreFilters.balance.length &&
       !allFilters.moreFilters.measures.length &&
+      !allFilters.moreFilters.members.length &&
       !allFilters.moreFilters.periods.length &&
       !allFilters.moreFilters.scale.length
     );

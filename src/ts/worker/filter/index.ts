@@ -180,8 +180,10 @@ const searchFactDefinition = (
   regex: RegExp,
   factLabels: Array<string>
 ): boolean => {
-  const factDefinitionAsString = factLabels[0][1];
-  return (regex as RegExp).test(factDefinitionAsString);
+  if (factLabels && factLabels[0] && factLabels[0][1]) {
+    const factDefinitionAsString = factLabels[0][1];
+    return (regex as RegExp).test(factDefinitionAsString);
+  }
 };
 
 const searchFactDimensions = (regex: RegExp, fact: facts) => {
