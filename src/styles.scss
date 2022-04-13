@@ -17,7 +17,7 @@ body {
   padding-right: 15px;
 }
 
-#filing-container>body {
+#filing-container > body {
   font-family: unset;
   font-size: unset;
   font-weight: unset;
@@ -37,7 +37,7 @@ body {
   --bs-body-color: unset;
   box-sizing: unset;
 
-  >* {
+  > * {
     box-sizing: unset !important;
   }
 }
@@ -94,6 +94,7 @@ body {
 .navbar-sec {
   height: $navbar-height;
   background-color: $sec-color;
+  padding-right: 0 !important;
   z-index: 2000;
 }
 
@@ -108,7 +109,8 @@ body {
   &:hover {
     color: $white;
     cursor: pointer !important;
-    background: linear-gradient($white, $white) bottom 5px center/ 90% 1px no-repeat;
+    background: linear-gradient($white, $white) bottom 5px center/ 90% 1px
+      no-repeat;
   }
 
   &:visited {
@@ -224,7 +226,7 @@ body {
   overflow: auto;
 }
 
-.content-visibility>* {
+.content-visibility > * {
   content-visibility: auto;
 }
 

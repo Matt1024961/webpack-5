@@ -23,7 +23,7 @@ export class FilingUrl {
       error.show(
         `Inline XBRL requires a URL param (doc | file) that correlates to a Financial Report.`
       );
-      error.show(`Inline XBRL is not usable in this state.`);
+      error.show(`Inline XBRL is not usable in this state.`, true);
     }
 
     this.findProperties(params, storeUrl);
@@ -74,7 +74,7 @@ export class FilingUrl {
           error.show(
             `The protocol, host name and port number of the "doc | file" field (${storeUrl.filingHost}), if provided, must be identical to that of the Inline XBRL viewer(${storeUrl.host})`
           );
-          error.show(`Inline XBRL is not usable in this state.`);
+          error.show(`Inline XBRL is not usable in this state.`, true);
         } else {
           this.beginFetch();
         }
@@ -84,7 +84,7 @@ export class FilingUrl {
         error.show(
           `Inline XBRL requires a URL param (doc | file) that correlates to a Financial Report.`
         );
-        error.show(`Inline XBRL is not usable in this state.`);
+        error.show(`Inline XBRL is not usable in this state.`, true);
       }
     }
   }
@@ -126,7 +126,7 @@ export class FilingUrl {
             error.show(
               `Inline XBRL requires a URL param (doc | file) that correlates to a Financial Report.`
             );
-            error.show(`Inline XBRL is not usable in this state.`);
+            error.show(`Inline XBRL is not usable in this state.`, true);
           } else if (event.data.all[0].data) {
             const storeXhtml: StoreXhtml = StoreXhtml.getInstance();
             storeXhtml.node = event.data.all[0].data;
