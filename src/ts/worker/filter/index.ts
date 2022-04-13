@@ -4,10 +4,7 @@ import { facts } from '../../types/data-json';
 
 import { allFilters } from '../../types/filter';
 
-const filterFacts = (
-  data: StoreData,
-  allFilters: allFilters
-) => {
+const filterFacts = (data: StoreData, allFilters: allFilters) => {
   const updatedFacts = data.facts.reduce(
     (
       accumulator: { filter: Array<string>; highlight: Array<string> },
@@ -149,7 +146,6 @@ const filterFacts = (
   self.postMessage({
     updatedFacts,
   });
-
 };
 
 const searchFactContent = (regex: RegExp, value: string): boolean => {
@@ -172,7 +168,7 @@ const searchFactLabels = (
   factLabels: Array<string>
 ): boolean => {
   const factLabelsAsString = factLabels
-    .slice(1)
+    ?.slice(1)
     .reduce((accumulator, current) => {
       return (accumulator += ` ${current[1]}`);
     }, ``)
@@ -339,6 +335,6 @@ const scaleCheck = (option: Array<number>, fact: facts): boolean => {
   }
 };
 
-self.onmessage = ({ data: { data,  allFilters } }) => {
-  filterFacts(data,  allFilters);
+self.onmessage = ({ data: { data, allFilters } }) => {
+  filterFacts(data, allFilters);
 };
