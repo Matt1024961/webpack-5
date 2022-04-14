@@ -1,12 +1,13 @@
-import { ErrorClass } from '../../error';
+import { Database } from '../../database';
+// import { ErrorClass } from '../../error';
 import { search as searchType } from '../../types/filter';
 import { searchOptions as searchOptionType } from '../../types/filter';
 import { data as dataType } from '../../types/filter';
 import { tags as tagsType } from '../../types/filter';
 import { moreFilters as moreFiltersType } from '../../types/filter';
-import { Attributes } from '../attributes';
+// import { Attributes } from '../attributes';
 import { StoreData } from '../data';
-import { StoreLogger } from '../logger';
+// import { StoreLogger } from '../logger';
 import { StoreUrl } from '../url';
 
 export class StoreFilter {
@@ -70,8 +71,8 @@ export class StoreFilter {
     );
   }
 
-  public filterFacts() {
-    const start = performance.now();
+  public async filterFacts() {
+    //const start = performance.now();
     document.querySelector(`sec-facts`).setAttribute(`loading`, ``);
     if (this.isFilterActive()) {
       document
@@ -80,36 +81,45 @@ export class StoreFilter {
     } else {
       document.querySelector(`sec-reset-all-filters`).classList.add(`d-none`);
     }
-    if (window.Worker) {
-      const storeUrl: StoreUrl = StoreUrl.getInstance();
-      const storeData: StoreData = StoreData.getInstance();
-      const worker = new Worker(
-        new URL('./../../worker/filter', import.meta.url)
-      );
-      worker.postMessage({
-        data: storeData.getForFilter(storeUrl.filing),
-        facts: storeData.getFilingFacts(storeUrl.filing),
-        allFilters: this.getAllFilters(),
-      });
+    const storeUrl: StoreUrl = StoreUrl.getInstance();
+    const storeData: StoreData = StoreData.getInstance();
+    const db = new Database();
+    const dbCount = await db.getHighlight(
+      storeData.getForFilter(storeUrl.filing),
+      this.getAllFilters()
+    );
+    console.log(dbCount);
 
-      worker.onmessage = (event) => {
-        if (event.data) {
-          storeData.setFilingFactsActive(event.data.updatedFacts.filter);
-          storeData.setFilingFactsHighlight(event.data.updatedFacts.highlight);
-          const attributes = new Attributes();
-          attributes.setProperAttribute();
-          document.querySelector(`sec-facts`).setAttribute(`update-count`, ``);
-          const stop = performance.now();
-          const storeLogger: StoreLogger = StoreLogger.getInstance();
-          storeLogger.info(
-            `Filtering Facts took ${(stop - start).toFixed(2)} milliseconds.`
-          );
-        }
-      };
-    } else {
-      const error = new ErrorClass();
-      error.show(`Your Browser does not have the functionality to do this.`);
-    }
+    // if (window.Worker) {
+    //   const storeUrl: StoreUrl = StoreUrl.getInstance();
+    //   const storeData: StoreData = StoreData.getInstance();
+    //   const worker = new Worker(
+    //     new URL('./../../worker/filter', import.meta.url)
+    //   );
+    //   worker.postMessage({
+    //     data: storeData.getForFilter(storeUrl.filing),
+    //     facts: storeData.getFilingFacts(storeUrl.filing),
+    //     allFilters: this.getAllFilters(),
+    //   });
+
+    //   worker.onmessage = (event) => {
+    //     if (event.data) {
+    //       storeData.setFilingFactsActive(event.data.updatedFacts.filter);
+    //       storeData.setFilingFactsHighlight(event.data.updatedFacts.highlight);
+    //       const attributes = new Attributes();
+    //       attributes.setProperAttribute();
+    //       document.querySelector(`sec-facts`).setAttribute(`update-count`, ``);
+    //       const stop = performance.now();
+    //       const storeLogger: StoreLogger = StoreLogger.getInstance();
+    //       storeLogger.info(
+    //         `Filtering Facts took ${(stop - start).toFixed(2)} milliseconds.`
+    //       );
+    //     }
+    //   };
+    // } else {
+    //   const error = new ErrorClass();
+    //   error.show(`Your Browser does not have the functionality to do this.`);
+    // }
   }
 
   public get search() {

@@ -1,7 +1,10 @@
 import Dexie from 'dexie';
+//import { StoreData } from '../store/data';
 import { DataJSON } from '../types/data-json';
+// import { allFilters } from '../types/filter';
 export class Database extends Dexie {
   facts!: Dexie.Table<FactsTable, number>;
+
   constructor() {
     super('SEC - IXViewer');
     this.version(1).stores({
@@ -85,7 +88,14 @@ export class Database extends Dexie {
   }
 
   async getFactsCount() {
-    return this.table('facts').where(`active`).equals(1).count();
+    return await this.table('facts').where(`active`).equals(1).count();
+  }
+
+  async getHighlight(data: unknown, allFilters: unknown) {
+    console.log(data);
+
+    console.log(allFilters);
+    console.log(`and away we go`);
   }
 }
 // todo this goes elsewhere...obviously
