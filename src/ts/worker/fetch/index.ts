@@ -1,3 +1,4 @@
+import { Database } from '../../database';
 import { DataJSON } from '../../types/data-json';
 
 const fetchXhtml = async (url: string) => {
@@ -26,7 +27,10 @@ const fetchData = async (url: string) => {
         throw Error(response.status.toString());
       }
     })
-    .then((data: DataJSON) => {
+    .then(async (data: DataJSON) => {
+      const db = new Database();
+      await db.parseData(data);
+
       return { data };
     })
     .catch((error) => {

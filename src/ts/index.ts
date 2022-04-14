@@ -25,10 +25,13 @@ import { Links } from './components/nav/links';
 import { ResetAllFilters } from './components/nav/reset_all_filters';
 import { Information } from './components/modals/information';
 import { BaseModal } from './components/modals/base-modal';
+//import { Database } from './database';
 
 (() => {
   const storeLogger: StoreLogger = StoreLogger.getInstance();
   storeLogger.info(`Application Begin`);
+  // const db = new Database();
+  // db.createTables();
   // here we hadd all custom HTML components
   customElements.define('sec-root', Root);
   customElements.define('sec-navbar', Navbar);

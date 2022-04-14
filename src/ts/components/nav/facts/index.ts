@@ -1,8 +1,9 @@
-import { StoreUrl } from '../../../store/url';
-import { StoreData } from '../../../store/data';
+// import { StoreUrl } from '../../../store/url';
+// import { StoreData } from '../../../store/data';
 // import { DataJSON } from '../../../types/data-json';
 // import { WarningClass } from '../../../warning';
 // import { Attributes } from '../../../store/attributes';
+import { Database } from '../../../database';
 import template from './template.html';
 
 export class Facts extends HTMLElement {
@@ -61,11 +62,10 @@ export class Facts extends HTMLElement {
     this.querySelector(`[template-count]`).firstElementChild.replaceWith(icon);
   }
 
-  updateFactsCount() {
-    const storeUrl: StoreUrl = StoreUrl.getInstance();
-    const storeData: StoreData = StoreData.getInstance();
-    const factCount = storeData.getFilingFacts(storeUrl.filing).length;
-    const textToAdd = document.createTextNode(`${factCount}`);
+  async updateFactsCount() {
+    const db = new Database();
+    const dbCount = await db.getFactsCount();
+    const textToAdd = document.createTextNode(`${dbCount}`);
     const span = document.createElement(`span`);
 
     span.append(textToAdd);
