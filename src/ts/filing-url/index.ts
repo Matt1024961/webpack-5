@@ -1,6 +1,6 @@
 import { ErrorClass } from '../error';
 import { ConstantApplication } from '../store/application';
-import { StoreData } from '../store/data';
+//import { StoreData } from '../store/data';
 import { StoreLogger } from '../store/logger';
 import { StoreUrl } from '../store/url';
 import { StoreXhtml } from '../store/xhtml';
@@ -110,8 +110,8 @@ export class FilingUrl {
             const warning = new WarningClass();
             warning.show(`No supporting file was found (${storeUrl.dataURL}).`);
           } else if (event.data.all[1].data) {
-            const storeData: StoreData = StoreData.getInstance();
-            storeData.setAllData(event.data.all[1].data);
+            // const storeData: StoreData = StoreData.getInstance();
+            // storeData.setAllData(event.data.all[1].data);
             const factContainer = document.querySelector(
               `#facts-container sec-facts`
             );

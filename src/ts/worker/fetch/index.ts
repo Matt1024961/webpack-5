@@ -19,6 +19,8 @@ const fetchXhtml = async (url: string) => {
 };
 
 const fetchData = async (url: string) => {
+  // const db = new Database();
+  // await db.clearFactsTable();
   return fetch(url)
     .then((response) => {
       if (response.status >= 200 && response.status <= 299) {
@@ -28,8 +30,7 @@ const fetchData = async (url: string) => {
       }
     })
     .then(async (data: DataJSON) => {
-      const db = new Database();
-      await db.parseData(data);
+      // db.parseData(data);
       return { data };
     })
     .catch((error) => {
@@ -38,8 +39,11 @@ const fetchData = async (url: string) => {
 };
 
 self.onmessage = async ({ data: { xhtml, data } }) => {
+  const db = new Database();
+  await db.clearFactsTable();
   await Promise.all([fetchXhtml(xhtml), fetchData(data)]).then(
-    (allResponses) => {
+    async (allResponses) => {
+      await db.parseData(allResponses[1][`data`]);
       self.postMessage({
         all: allResponses,
       });

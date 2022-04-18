@@ -11,24 +11,37 @@ export class Database extends Dexie {
     super('SEC - IXViewer');
     this.version(1).stores({
       // NOTE we do NOT index the fact VALUE, because it can be a huge string (hence bad for indexeddb)
-      // facts: `++id, tag`
-      facts: `htmlId, tag, isHtml,isNegative, isNumberic, isText, period, axes, members, measure, scale, decimals, balance, dimensions.concept, dimensions.period, dimensions.lang, dimensions.unit, dimensions.key, dimensions.value, contextref, isHidden, standardLabel, labels, calculations, active, highlight`,
+      facts: `++htmlId, isHtml, isNegative, isNumberic, isText, isHidden, isActive, isHighlight`,
       // any other tables?
     });
-
   }
 
-  async putData(input: Array<FactsTable>) {
+  async clearFactsTable(): Promise<void> {
+    await this.table('facts').clear();
+  }
+
+  async addData(input: FactsTable) {
     return await this.table('facts')
-      .bulkPut(input)
-      .catch((error) => {
-        console.log(error);
+      .add(input)
+      .catch(Dexie.BulkError, function (e) {
+        // Explicitely catching the bulkAdd() operation makes those successful
+        // additions commit despite that there were errors.
+        console.log(e);
+      });
+  }
+
+  async addBulkData(input: Array<FactsTable>) {
+    return await this.table('facts')
+      .bulkAdd(input)
+      .catch(Dexie.BulkError, function (e) {
+        // Explicitely catching the bulkAdd() operation makes those successful
+        // additions commit despite that there were errors.
+        console.log(e);
       });
   }
 
   async parseData(input: DataJSON) {
-    await this.table('facts').clear();
-    const arrayToBulkInsert = [];
+    let arrayToBulkInsert = [];
     for await (const current of input.facts) {
       const tempDimension: {
         key: Array<string | number>;
@@ -53,53 +66,62 @@ export class Database extends Dexie {
           tempDimension.key = dimensionKeys;
         }
       }
-      const factToPutIntoDB = {
-        // everything located in ixv:factAttributes
-        tag: current['ixv:factAttributes'][0][1],
-        isHtml: current['ixv:factAttributes'][2][1] ? 1 : 0,
-        period: input['ixv:filterPeriods'][current['ixv:factAttributes'][3][1]],
-        axes: current['ixv:factAttributes'][4][1],
-        members: current['ixv:factAttributes'][5][1],
-        measure: current['ixv:factAttributes'][6][1],
-        scale: current['ixv:factAttributes'][7][1],
-        decimals: current['ixv:factAttributes'][8][1],
-        balance: current['ixv:factAttributes'][9][1],
-        // END everything located in ixv:factAttributes
 
-        htmlId: current.id,
-        value: current.value,
-        dimensions: {
-          concept: current.dimensions.concept,
-          period: current.dimensions.period,
-          lang: current.dimensions.language,
-          unit: current.dimensions.unit,
-          value: tempDimension.value,
-          key: tempDimension.key,
-        },
-        contextref: current['ixv:contextref'],
-        isHidden: current['ixv:hidden'] ? 1 : 0,
-        standardLabel: current['ixv:standardLabel'],
-        labels: input['ixv:labels'][current['ixv:factLabels']],
-        calculations: current['ixv:factCalculations'][1],
-        isNegative: current['ixv:isnegativesonly'] ? 1 : 0,
-        isNumberic: current['ixv:isnumeric'] ? 1 : 0,
-        isText: current['ixv:istextonly'] ? 1 : 0,
-        active: 1,
-        highlight: 0,
-      };
-      arrayToBulkInsert.push(factToPutIntoDB);
+      if (current['ixv:factAttributes']) {
+        const factToPutIntoDB = {
+          // everything located in ixv:factAttributes
+          tag: current['ixv:factAttributes'][0][1],
+          isHtml: current['ixv:factAttributes'][2][1] ? 1 : 0,
+          period:
+            input['ixv:filterPeriods'][current['ixv:factAttributes'][3][1]],
+          axes: current['ixv:factAttributes'][4][1],
+          members: current['ixv:factAttributes'][5][1],
+          measure: current['ixv:factAttributes'][6][1],
+          scale: current['ixv:factAttributes'][7][1],
+          decimals: current['ixv:factAttributes'][8][1],
+          balance: current['ixv:factAttributes'][9][1],
+          // END everything located in ixv:factAttributes
+
+          htmlId: current.id,
+          value: current.value,
+          dimensions: {
+            concept: current.dimensions.concept,
+            period: current.dimensions.period,
+            lang: current.dimensions.language,
+            unit: current.dimensions.unit,
+            value: tempDimension.value,
+            key: tempDimension.key,
+          },
+          contextref: current['ixv:contextref'],
+          isHidden: current['ixv:hidden'] ? 1 : 0,
+          standardLabel: current['ixv:standardLabel'],
+          labels: input['ixv:labels'][current['ixv:factLabels']],
+          calculations: current['ixv:factCalculations'][1],
+          isNegative: current['ixv:isnegativesonly'] ? 1 : 0,
+          isNumberic: current['ixv:isnumeric'] ? 1 : 0,
+          isText: current['ixv:istextonly'] ? 1 : 0,
+          isActive: 1,
+          isHighlight: 0,
+        };
+        arrayToBulkInsert.push(factToPutIntoDB);
+        if (arrayToBulkInsert.length === 2500) {
+          await this.addBulkData(arrayToBulkInsert);
+          arrayToBulkInsert = [];
+        }
+      } else {
+        console.log(current);
+      }
     }
-    await this.putData(arrayToBulkInsert);
-    return;
+    return await this.addBulkData(arrayToBulkInsert);
   }
 
   async getFactsCount() {
     const storeFilter: StoreFilter = StoreFilter.getInstance();
     const allFilters = storeFilter.getAllFilters();
     if (allFilters.search) {
-      return await this.table('facts').where(`highlight`).equals(1).count();
+      return await this.table('facts').where(`isHighlight`).equals(1).count();
     } else {
-      return await this.table('facts').where(`active`).equals(1).count();
+      return await this.table('facts').where(`isActive`).equals(1).count();
     }
   }
 
@@ -148,7 +170,10 @@ export class Database extends Dexie {
         }
       };
 
-      const searchFactDimensions = (regex: RegExp, dimensions: Array<string>) => {
+      const searchFactDimensions = (
+        regex: RegExp,
+        dimensions: Array<string>
+      ) => {
         if (dimensions) {
           const dimensionValuesAsString = dimensions.reduce(
             (accumulator, current) => {
@@ -181,99 +206,94 @@ export class Database extends Dexie {
         return false;
       };
 
-      await this.table(`facts`).filter((fact) => {
-        let highlightFact = false;
+      await this.table(`facts`)
+        .filter((fact) => {
+          let highlightFact = false;
 
-        if (!highlightFact && allFilters.searchOptions.includes(0)) {
-          if (fact.tag) {
-            highlightFact = searchFactName(
+          if (!highlightFact && allFilters.searchOptions.includes(0)) {
+            if (fact.tag) {
+              highlightFact = searchFactName(regex, fact.tag);
+            }
+          }
+
+          if (!highlightFact && allFilters.searchOptions.includes(1)) {
+            highlightFact = searchFactContent(regex, fact.value);
+          }
+
+          if (!highlightFact && allFilters.searchOptions.includes(2)) {
+            highlightFact = searchFactLabels(regex, fact.labels);
+          }
+
+          if (!highlightFact && allFilters.searchOptions.includes(3)) {
+            // this is technically "Documentation"
+            highlightFact = searchFactDefinition(regex, fact.labels);
+          }
+
+          if (!highlightFact && allFilters.searchOptions.includes(4)) {
+            highlightFact = searchFactDimensions(regex, fact.dimensionsValue);
+          }
+
+          if (!highlightFact && allFilters.searchOptions.includes(5)) {
+            highlightFact = searchFactReferenceOptions(
               regex,
-              fact.tag
+              fact.references,
+              `Topic`
             );
           }
-        }
 
-        if (!highlightFact && allFilters.searchOptions.includes(1)) {
-          highlightFact = searchFactContent(regex, fact.value);
-        }
+          if (!highlightFact && allFilters.searchOptions.includes(6)) {
+            highlightFact = searchFactReferenceOptions(
+              regex,
+              fact.references,
+              `SubTopic`
+            );
+          }
 
-        if (!highlightFact && allFilters.searchOptions.includes(2)) {
-          highlightFact = searchFactLabels(
-            regex,
-            fact.labels
-          );
-        }
+          if (!highlightFact && allFilters.searchOptions.includes(7)) {
+            highlightFact = searchFactReferenceOptions(
+              regex,
+              fact.references,
+              `Paragraph`
+            );
+          }
 
-        if (!highlightFact && allFilters.searchOptions.includes(3)) {
-          // this is technically "Documentation"
-          highlightFact = searchFactDefinition(
-            regex,
-            fact.labels
-          );
-        }
+          if (!highlightFact && allFilters.searchOptions.includes(8)) {
+            highlightFact = searchFactReferenceOptions(
+              regex,
+              fact.references,
+              `Publisher`
+            );
+          }
 
-        if (!highlightFact && allFilters.searchOptions.includes(4)) {
-          highlightFact = searchFactDimensions(regex, fact.dimensionsValue);
-        }
-
-        if (!highlightFact && allFilters.searchOptions.includes(5)) {
-          highlightFact = searchFactReferenceOptions(
-            regex,
-            fact.references,
-            `Topic`
-          );
-        }
-
-        if (!highlightFact && allFilters.searchOptions.includes(6)) {
-          highlightFact = searchFactReferenceOptions(
-            regex,
-            fact.references,
-            `SubTopic`
-          );
-        }
-
-        if (!highlightFact && allFilters.searchOptions.includes(7)) {
-          highlightFact = searchFactReferenceOptions(
-            regex,
-            fact.references,
-            `Paragraph`
-          );
-        }
-
-        if (!highlightFact && allFilters.searchOptions.includes(8)) {
-          highlightFact = searchFactReferenceOptions(
-            regex,
-            fact.references,
-            `Publisher`
-          );
-        }
-
-        if (!highlightFact && allFilters.searchOptions.includes(9)) {
-          highlightFact = searchFactReferenceOptions(
-            regex,
-            fact.references,
-            `Section`
-          );
-        }
-        return highlightFact;
-
-      }).toArray().then(async (result) => {
-        result.forEach(current => {
-          current.highlight = 1;
+          if (!highlightFact && allFilters.searchOptions.includes(9)) {
+            highlightFact = searchFactReferenceOptions(
+              regex,
+              fact.references,
+              `Section`
+            );
+          }
+          return highlightFact;
+        })
+        .modify({ isHighlight: 1 })
+        // .toArray()
+        // .then(async (result) => {
+        //   result.forEach((current) => {
+        //     current.isHighlight = 1;
+        //   });
+        //   await this.table(`facts`).bulkPut(result);
+        // })
+        .catch((error) => {
+          console.log(error);
         });
-        await this.table(`facts`).bulkPut(result);
-      }).catch(error => {
-        console.log(error);
-      });
     }
-
   }
 
   async getFactById(id: string): Promise<FactsTable> {
-    return await this.table('facts').get(id).catch(error => {
-      console.log(error);
-    });
-
+    return await this.table('facts')
+      .get(id)
+      .catch((error) => {
+        console.log(error);
+      });
   }
 }
 // todo this goes elsewhere...obviously
@@ -298,6 +318,6 @@ interface FactsTable {
   standardLabel?: unknown;
   labels?: unknown;
   calculations?: unknown;
-  active: number;
-  highlight: number;
+  isActive: number;
+  isHighlight: number;
 }
