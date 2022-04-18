@@ -6,9 +6,9 @@ import { data as dataType } from '../../types/filter';
 import { tags as tagsType } from '../../types/filter';
 import { moreFilters as moreFiltersType } from '../../types/filter';
 // import { Attributes } from '../attributes';
-import { StoreData } from '../data';
-// import { StoreLogger } from '../logger';
-import { StoreUrl } from '../url';
+//import { StoreData } from '../data';
+import { StoreLogger } from '../logger';
+//import { StoreUrl } from '../url';
 
 export class StoreFilter {
   private _search: searchType;
@@ -72,7 +72,7 @@ export class StoreFilter {
   }
 
   public async filterFacts() {
-    //const start = performance.now();
+    const start = performance.now();
     document.querySelector(`sec-facts`).setAttribute(`loading`, ``);
     if (this.isFilterActive()) {
       document
@@ -81,45 +81,19 @@ export class StoreFilter {
     } else {
       document.querySelector(`sec-reset-all-filters`).classList.add(`d-none`);
     }
-    const storeUrl: StoreUrl = StoreUrl.getInstance();
-    const storeData: StoreData = StoreData.getInstance();
+
     const db = new Database();
-    const dbCount = await db.getHighlight(
-      storeData.getForFilter(storeUrl.filing),
+    await db.getHighlight(
       this.getAllFilters()
     );
-    console.log(dbCount);
 
-    // if (window.Worker) {
-    //   const storeUrl: StoreUrl = StoreUrl.getInstance();
-    //   const storeData: StoreData = StoreData.getInstance();
-    //   const worker = new Worker(
-    //     new URL('./../../worker/filter', import.meta.url)
-    //   );
-    //   worker.postMessage({
-    //     data: storeData.getForFilter(storeUrl.filing),
-    //     facts: storeData.getFilingFacts(storeUrl.filing),
-    //     allFilters: this.getAllFilters(),
-    //   });
+    document.querySelector(`sec-facts`).setAttribute(`update-count`, ``);
+    const stop = performance.now();
+    const storeLogger: StoreLogger = StoreLogger.getInstance();
 
-    //   worker.onmessage = (event) => {
-    //     if (event.data) {
-    //       storeData.setFilingFactsActive(event.data.updatedFacts.filter);
-    //       storeData.setFilingFactsHighlight(event.data.updatedFacts.highlight);
-    //       const attributes = new Attributes();
-    //       attributes.setProperAttribute();
-    //       document.querySelector(`sec-facts`).setAttribute(`update-count`, ``);
-    //       const stop = performance.now();
-    //       const storeLogger: StoreLogger = StoreLogger.getInstance();
-    //       storeLogger.info(
-    //         `Filtering Facts took ${(stop - start).toFixed(2)} milliseconds.`
-    //       );
-    //     }
-    //   };
-    // } else {
-    //   const error = new ErrorClass();
-    //   error.show(`Your Browser does not have the functionality to do this.`);
-    // }
+    storeLogger.info(
+      `Filtering Facts took ${(stop - start).toFixed(2)} milliseconds.`
+    );
   }
 
   public get search() {

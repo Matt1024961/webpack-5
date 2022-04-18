@@ -1,6 +1,8 @@
 import Dexie from 'dexie';
+import { StoreFilter } from '../store/filter';
 //import { StoreData } from '../store/data';
 import { DataJSON } from '../types/data-json';
+import { allFilters } from '../types/filter';
 // import { allFilters } from '../types/filter';
 export class Database extends Dexie {
   facts!: Dexie.Table<FactsTable, number>;
@@ -10,9 +12,10 @@ export class Database extends Dexie {
     this.version(1).stores({
       // NOTE we do NOT index the fact VALUE, because it can be a huge string (hence bad for indexeddb)
       // facts: `++id, tag`
-      facts: `htmlId, tag, isHtml, period, axes, members, measure, scale, decimals, balance, dimensions.concept, dimensions.period, dimensions.lang, dimensions.unit, dimensions.key, dimensions.value, contextref, isHidden, standardLabel, labels, calculations, active, highlight`,
+      facts: `htmlId, tag, isHtml,isNegative, isNumberic, isText, period, axes, members, measure, scale, decimals, balance, dimensions.concept, dimensions.period, dimensions.lang, dimensions.unit, dimensions.key, dimensions.value, contextref, isHidden, standardLabel, labels, calculations, active, highlight`,
       // any other tables?
     });
+
   }
 
   async putData(input: Array<FactsTable>) {
@@ -78,6 +81,9 @@ export class Database extends Dexie {
         standardLabel: current['ixv:standardLabel'],
         labels: input['ixv:labels'][current['ixv:factLabels']],
         calculations: current['ixv:factCalculations'][1],
+        isNegative: current['ixv:isnegativesonly'] ? 1 : 0,
+        isNumberic: current['ixv:isnumeric'] ? 1 : 0,
+        isText: current['ixv:istextonly'] ? 1 : 0,
         active: 1,
         highlight: 0,
       };
@@ -88,20 +94,191 @@ export class Database extends Dexie {
   }
 
   async getFactsCount() {
-    return await this.table('facts').where(`active`).equals(1).count();
+    const storeFilter: StoreFilter = StoreFilter.getInstance();
+    const allFilters = storeFilter.getAllFilters();
+    if (allFilters.search) {
+      return await this.table('facts').where(`highlight`).equals(1).count();
+    } else {
+      return await this.table('facts').where(`active`).equals(1).count();
+    }
   }
 
-  async getHighlight(data: unknown, allFilters: unknown) {
-    console.log(data);
+  async getHighlight(allFilters: allFilters) {
+    if (allFilters.search) {
+      const regex = new RegExp(
+        allFilters.search,
+        `m${allFilters.searchOptions.includes(10) ? '' : 'i'}`
+      );
 
-    console.log(allFilters);
-    console.log(`and away we go`);
+      const searchFactName = (regex: RegExp, factName: string): boolean => {
+        return (regex as RegExp).test(factName);
+      };
+
+      const searchFactContent = (regex: RegExp, value: string): boolean => {
+        if (!value) {
+          return false;
+        }
+        const newValue = value
+          .replace(/( |<([^>]+)>)/gi, ` `)
+          .replace(/ +(?= )/g, ``);
+
+        return (regex as RegExp).test(newValue);
+      };
+
+      const searchFactLabels = (
+        regex: RegExp,
+        factLabels: Array<string>
+      ): boolean => {
+        const factLabelsAsString = factLabels
+          ?.slice(1)
+          .reduce((accumulator, current) => {
+            return (accumulator += ` ${current[1]}`);
+          }, ``)
+          .trim();
+        return (regex as RegExp).test(factLabelsAsString);
+      };
+
+      const searchFactDefinition = (
+        regex: RegExp,
+        factLabels: Array<string>
+      ): boolean => {
+        if (factLabels && factLabels[0] && factLabels[0][1]) {
+          const factDefinitionAsString = factLabels[0][1];
+          return (regex as RegExp).test(factDefinitionAsString);
+        }
+      };
+
+      const searchFactDimensions = (regex: RegExp, dimensions: Array<string>) => {
+        if (dimensions) {
+          const dimensionValuesAsString = dimensions.reduce(
+            (accumulator, current) => {
+              return (accumulator += ` ${current}`);
+            },
+            ``
+          );
+          return (regex as RegExp).test(dimensionValuesAsString as string);
+        }
+        return false;
+      };
+
+      const searchFactReferenceOptions = (
+        regex: RegExp,
+        factLabels: Array<string>,
+        arrayKey: string
+      ): boolean => {
+        if (factLabels) {
+          const factTopicsAsString = factLabels
+            .reduce((accumulator, current) => {
+              if (current[0] === arrayKey) {
+                return (accumulator += ` ${current[1]}`);
+              } else {
+                return accumulator;
+              }
+            }, ``)
+            .trim();
+          return (regex as RegExp).test(factTopicsAsString as string);
+        }
+        return false;
+      };
+
+      await this.table(`facts`).filter((fact) => {
+        let highlightFact = false;
+
+        if (!highlightFact && allFilters.searchOptions.includes(0)) {
+          if (fact.tag) {
+            highlightFact = searchFactName(
+              regex,
+              fact.tag
+            );
+          }
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(1)) {
+          highlightFact = searchFactContent(regex, fact.value);
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(2)) {
+          highlightFact = searchFactLabels(
+            regex,
+            fact.labels
+          );
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(3)) {
+          // this is technically "Documentation"
+          highlightFact = searchFactDefinition(
+            regex,
+            fact.labels
+          );
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(4)) {
+          highlightFact = searchFactDimensions(regex, fact.dimensionsValue);
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(5)) {
+          highlightFact = searchFactReferenceOptions(
+            regex,
+            fact.references,
+            `Topic`
+          );
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(6)) {
+          highlightFact = searchFactReferenceOptions(
+            regex,
+            fact.references,
+            `SubTopic`
+          );
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(7)) {
+          highlightFact = searchFactReferenceOptions(
+            regex,
+            fact.references,
+            `Paragraph`
+          );
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(8)) {
+          highlightFact = searchFactReferenceOptions(
+            regex,
+            fact.references,
+            `Publisher`
+          );
+        }
+
+        if (!highlightFact && allFilters.searchOptions.includes(9)) {
+          highlightFact = searchFactReferenceOptions(
+            regex,
+            fact.references,
+            `Section`
+          );
+        }
+        return highlightFact;
+
+      }).toArray().then(async (result) => {
+        result.forEach(current => {
+          current.highlight = 1;
+        });
+        await this.table(`facts`).bulkPut(result);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+
+  }
+
+  async getFactById(id: string): Promise<FactsTable> {
+    return await this.table('facts').get(id).catch(error => {
+      console.log(error);
+    });
+
   }
 }
 // todo this goes elsewhere...obviously
 interface FactsTable {
   tag?: string;
-  isHtml?: number;
   period?: unknown;
   axes?: unknown;
   members?: unknown;
@@ -114,6 +291,10 @@ interface FactsTable {
   dimensions?: unknown;
   contextref?: unknown;
   isHidden?: unknown;
+  isHtml?: number;
+  isNegative?: number;
+  isNumeric?: number;
+  isText?: number;
   standardLabel?: unknown;
   labels?: unknown;
   calculations?: unknown;

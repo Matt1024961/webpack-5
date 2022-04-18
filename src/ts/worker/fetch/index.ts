@@ -30,7 +30,6 @@ const fetchData = async (url: string) => {
     .then(async (data: DataJSON) => {
       const db = new Database();
       await db.parseData(data);
-
       return { data };
     })
     .catch((error) => {

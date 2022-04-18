@@ -1,4 +1,5 @@
-import { StoreData } from '../data';
+import { Database } from '../../database';
+//import { StoreData } from '../data';
 import { StoreFilter } from '../filter';
 import { StoreLogger } from '../logger';
 
@@ -50,12 +51,12 @@ export class Attributes {
     );
   }
 
-  setActiveFact(highlight: boolean): void {
+  async setActiveFact(highlight: boolean): Promise<void> {
     const allFacts = Array.from(document.querySelectorAll(`[contextRef]`));
     const visibleFacts = { count: 0 };
 
-    allFacts.forEach((element: Element) => {
-      if (this.isInViewPort(element) && !this.isHidden(element.id)) {
+    allFacts.forEach(async (element: Element) => {
+      if (this.isInViewPort(element) && !await this.isHidden(element.id)) {
         visibleFacts.count++;
         if (!highlight) {
           element.removeAttribute(`highlight-fact`);
@@ -114,19 +115,22 @@ export class Attributes {
     );
   }
 
-  factIsHighlighted = (id: string): boolean => {
-    const storeData: StoreData = StoreData.getInstance();
-    return storeData.getFactByID(id).highlight ? true : false;
+  factIsHighlighted = async (id: string): Promise<boolean> => {
+    const db = new Database();
+    return (await db.getFactById(id)).active ? true : false;
+
+    //const storeData: StoreData = StoreData.getInstance();
+    //return storeData.getFactByID(id).highlight ? true : false;
   };
 
-  factIsActive = (id: string): boolean => {
-    const storeData: StoreData = StoreData.getInstance();
-    return storeData.getFactByID(id).active ? true : false;
+  factIsActive = async (id: string): Promise<boolean> => {
+    const db = new Database();
+    return (await db.getFactById(id)).active ? true : false;
   };
 
-  factIssTextBlock = (id: string): boolean => {
-    const storeData: StoreData = StoreData.getInstance();
-    return storeData.getFactByID(id)[`ixv:istextonly`] ? true : false;
+  factIssTextBlock = async (id: string): Promise<boolean> => {
+    const db = new Database();
+    return (await db.getFactById(id)).isText ? true : false;
   }
 
   isInViewPort = (element: Element) => {
@@ -140,8 +144,8 @@ export class Attributes {
     );
   };
 
-  isHidden = (id: string): boolean => {
-    const storeData: StoreData = StoreData.getInstance();
-    return storeData.getFactByID(id)[`ixv:hidden`] ? true : false;
+  isHidden = async (id: string): Promise<boolean> => {
+    const db = new Database();
+    return (await db.getFactById(id)).isHidden ? true : false;
   };
 }
