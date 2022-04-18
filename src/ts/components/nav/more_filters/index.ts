@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import { Database } from '../../../database';
 import { ErrorClass } from '../../../error';
 import { StoreData } from '../../../store/data';
 import { StoreFilter } from '../../../store/filter';
@@ -190,9 +191,13 @@ export class MoreFilters extends HTMLElement {
     }
   }
 
-  populatePeriods(storeData: StoreData) {
+  async populatePeriods(storeData: StoreData) {
+    const db = new Database();
+    const periods = await db.getAllUniquePeriods();
+
+    console.log(periods.length);
     const periodCount = document.createTextNode(
-      `${storeData.filterPeriods.length}`
+      `${periods.length}`
     );
     this.querySelector(`[period-count]`).append(periodCount);
 

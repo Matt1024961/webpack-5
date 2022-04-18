@@ -24,14 +24,15 @@ export class Attributes {
   }
 
   setHighlightedFact(): void {
+    const db = new Database();
     const allFacts = Array.from(document.querySelectorAll(`[contextRef]`));
     const visibleFacts = { count: 0 };
 
-    allFacts.forEach((element: Element) => {
+    allFacts.forEach(async (element: Element) => {
       if (
-        this.factIsHighlighted(element.id) &&
         this.isInViewPort(element) &&
-        !this.isHidden(element.id)
+        await db.isFactHighlighted(element.id) &&
+        !await db.isFactHidden(element.id)
       ) {
         visibleFacts.count++;
         element.setAttribute(`highlight-fact`, ``);
@@ -51,16 +52,17 @@ export class Attributes {
     );
   }
 
-  async setActiveFact(highlight: boolean): Promise<void> {
+  setActiveFact(highlight: boolean): void {
+    const db = new Database();
     const allFacts = Array.from(document.querySelectorAll(`[contextRef]`));
     const visibleFacts = { count: 0 };
     allFacts.forEach(async (element: Element) => {
-      if (this.isInViewPort(element) && !(await this.isHidden(element.id))) {
+      if (this.isInViewPort(element) && !(await db.isFactHidden(element.id))) {
         visibleFacts.count++;
         if (!highlight) {
           element.removeAttribute(`highlight-fact`);
         }
-        if (await this.factIssTextBlock(element.id)) {
+        if (await db.isFactText(element.id)) {
           element.setAttribute(`active-fact-block`, ``);
         } else {
           element.setAttribute(`active-fact`, ``);
@@ -81,19 +83,20 @@ export class Attributes {
   }
 
   setActiveFilteredFact(highlight: boolean): void {
+    const db = new Database();
     const allFacts = Array.from(document.querySelectorAll(`[contextRef]`));
     const visibleFacts = { count: 0 };
     allFacts.forEach(async (element: Element) => {
       if (
-        this.factIsActive(element.id) &&
         this.isInViewPort(element) &&
-        !this.isHidden(element.id)
+        await db.isFactActive(element.id) &&
+        !await db.isFactHidden(element.id)
       ) {
         visibleFacts.count++;
         if (!highlight) {
           element.removeAttribute(`highlight-fact`);
         }
-        if (await this.factIssTextBlock(element.id)) {
+        if (await db.isFactText(element.id)) {
           element.setAttribute(`active-fact-block`, ``);
         } else {
           element.setAttribute(`active-fact`, ``);
@@ -114,37 +117,14 @@ export class Attributes {
     );
   }
 
-  factIsHighlighted = async (id: string): Promise<boolean> => {
-    const db = new Database();
-    return (await db.getFactById(id)).isHighlight ? true : false;
-
-    //const storeData: StoreData = StoreData.getInstance();
-    //return storeData.getFactByID(id).highlight ? true : false;
-  };
-
-  factIsActive = async (id: string): Promise<boolean> => {
-    const db = new Database();
-    return (await db.getFactById(id)).isActive ? true : false;
-  };
-
-  factIssTextBlock = async (id: string): Promise<boolean> => {
-    const db = new Database();
-    return (await db.getFactById(id)).isText ? true : false;
-  };
-
   isInViewPort = (element: Element) => {
     const rect = element.getBoundingClientRect();
     return (
       rect.top >= 0 &&
       rect.left >= 0 &&
       rect.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
+      (window.innerHeight || document.documentElement.clientHeight) &&
       rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
-  };
-
-  isHidden = async (id: string): Promise<boolean> => {
-    const db = new Database();
-    return (await db.getFactById(id)).isHidden ? true : false;
   };
 }

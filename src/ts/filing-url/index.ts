@@ -30,9 +30,8 @@ export class FilingUrl {
 
     let filingURLLog = `Filing URL Data: `;
     Object.keys(storeUrl).forEach((current: string) => {
-      filingURLLog += `\n ${current}: ${
-        storeUrl[current as keyof typeof storeUrl]
-      }`;
+      filingURLLog += `\n ${current}: ${storeUrl[current as keyof typeof storeUrl]
+        }`;
     });
     storeLogger.info(filingURLLog);
     storeLogger.info(`Filing URL Complete`);
@@ -110,8 +109,6 @@ export class FilingUrl {
             const warning = new WarningClass();
             warning.show(`No supporting file was found (${storeUrl.dataURL}).`);
           } else if (event.data.all[1].data) {
-            // const storeData: StoreData = StoreData.getInstance();
-            // storeData.setAllData(event.data.all[1].data);
             const factContainer = document.querySelector(
               `#facts-container sec-facts`
             );

@@ -12,6 +12,9 @@ export type DataJSON = {
   'ixv:labels': labels;
   'ixv:references': references;
   'ixv:ixdsFiles': ixdsFiles;
+  'ixv:extensionNamespaces': {
+    [key: string]: string;
+  };
 };
 
 export type documentInfo = {
@@ -60,9 +63,7 @@ export type facts = {
   'ixv:isnumeric': boolean;
   'ixv:istextonly': boolean;
   'ixv:isnegativesonly': boolean;
-  'ixv:extensionNamespaces': {
-    [key: string]: string;
-  };
+
   value: string;
   active: null | boolean;
   highlight: null | boolean;

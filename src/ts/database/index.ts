@@ -1,4 +1,5 @@
 import Dexie from 'dexie';
+//import { Facts } from '../components/nav/facts';
 import { StoreFilter } from '../store/filter';
 //import { StoreData } from '../store/data';
 import { DataJSON } from '../types/data-json';
@@ -10,24 +11,13 @@ export class Database extends Dexie {
   constructor() {
     super('SEC - IXViewer');
     this.version(1).stores({
-      // NOTE we do NOT index the fact VALUE, because it can be a huge string (hence bad for indexeddb)
-      facts: `++htmlId, isHtml, isNegative, isNumberic, isText, isHidden, isActive, isHighlight`,
-      // any other tables?
+      // NOTE we ONLY INDEX what is necessary
+      facts: `++htmlId, isHtml, isNegative, isNumberic, isText, isHidden, isActive, isHighlight, isCustom, period, [htmlId+isHidden], [htmlId+isHighlight], [htmlId+isText], [htmlId+isActive], [isHighlight+isActive]`,
     });
   }
 
   async clearFactsTable(): Promise<void> {
     await this.table('facts').clear();
-  }
-
-  async addData(input: FactsTable) {
-    return await this.table('facts')
-      .add(input)
-      .catch(Dexie.BulkError, function (e) {
-        // Explicitely catching the bulkAdd() operation makes those successful
-        // additions commit despite that there were errors.
-        console.log(e);
-      });
   }
 
   async addBulkData(input: Array<FactsTable>) {
@@ -42,6 +32,7 @@ export class Database extends Dexie {
 
   async parseData(input: DataJSON) {
     let arrayToBulkInsert = [];
+    const customTags = Object.keys(input['ixv:extensionNamespaces'])
     for await (const current of input.facts) {
       const tempDimension: {
         key: Array<string | number>;
@@ -98,8 +89,12 @@ export class Database extends Dexie {
           labels: input['ixv:labels'][current['ixv:factLabels']],
           calculations: current['ixv:factCalculations'][1],
           isNegative: current['ixv:isnegativesonly'] ? 1 : 0,
-          isNumberic: current['ixv:isnumeric'] ? 1 : 0,
+          isNumeric: current['ixv:isnumeric'] ? 1 : 0,
           isText: current['ixv:istextonly'] ? 1 : 0,
+          isCustom: customTags.includes(current[`ixv:factAttributes`][0][1].substr(
+            0,
+            current[`ixv:factAttributes`][0][1].indexOf(`:`)
+          )) ? 1 : 0,
           isActive: 1,
           isHighlight: 0,
         };
@@ -126,6 +121,9 @@ export class Database extends Dexie {
   }
 
   async getHighlight(allFilters: allFilters) {
+
+    await this.table(`facts`).where({ isHighlight: 0, isActive: 0 }).modify({ isHighlight: 1, isActive: 1 })
+
     if (allFilters.search) {
       const regex = new RegExp(
         allFilters.search,
@@ -275,17 +273,124 @@ export class Database extends Dexie {
           return highlightFact;
         })
         .modify({ isHighlight: 1 })
-        // .toArray()
-        // .then(async (result) => {
-        //   result.forEach((current) => {
-        //     current.isHighlight = 1;
-        //   });
-        //   await this.table(`facts`).bulkPut(result);
-        // })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      // user is not searching for anything, reset all isHighlights to 0 (FALSE)
+      await this.table(`facts`).where({ isHighlight: 1 }).modify({ isHighlight: 0 })
         .catch((error) => {
           console.log(error);
         });
     }
+
+    // second we do the fact filtering
+    await this.table(`facts`).where({ isHighlight: 0, isActive: 0 }).modify({ isHighlight: 1, isActive: 1 })
+
+    await this.table(`facts`)
+      .filter((fact) => {
+        const dataRadio = (option: number, fact: FactsTable): boolean => {
+          switch (option) {
+            case 0: {
+              // All
+              return true;
+            }
+            case 1: {
+              // Amounts Only
+              return fact.isNumeric ? true : false;
+            }
+            case 2: {
+              // Text Only
+              return fact.isText ? true : false;
+            }
+            case 3: {
+              // Calculations Only
+              if (fact.calculations) {
+                return fact.calculations[1] === null ? false : true;
+              }
+              break;
+            }
+            case 4: {
+              // Negatives Only
+              return fact.isNegative ? true : false;
+            }
+            case 5: {
+              // Additional Items 
+              return fact.isHidden ? true : false;
+            }
+          }
+          return true;
+        };
+
+        const tagsRadio = (
+          option: number,
+          fact: FactsTable,
+        ): boolean => {
+          switch (option) {
+            case 0: {
+              // All
+              return true;
+            }
+            case 1: {
+              // Standard Only
+              return fact.isCustom ? true : false;
+            }
+            case 2: {
+              // Custom Only
+              return fact.isCustom ? false : true;
+            }
+          }
+          return true;
+        };
+
+        const axisCheck = (option: Array<string>, fact: FactsTable): boolean => {
+          return option.some((element) =>
+            (fact.axes as Array<string>).includes(element)
+          );
+
+        };
+
+        // const balanceCheck = (option: Array<string>, fact: FactsTable): boolean => {
+        //   if (fact[`ixv:factAttributes`] && fact[`ixv:factAttributes`][9]) {
+        //     return option.includes(fact[`ixv:factAttributes`][9][1]);
+        //   }
+        // };
+
+        // const membersCheck = (option: Array<string>, fact: FactsTable): boolean => {
+        //   if (fact[`ixv:factAttributes`] && fact[`ixv:factAttributes`][5]) {
+        //     return option.some((element) =>
+        //       fact[`ixv:factAttributes`][5][1].includes(element)
+        //     );
+        //   }
+        // };
+
+
+        let activateFact = false;
+        if (!activateFact && allFilters.data) {
+          activateFact = dataRadio(allFilters.data, fact);
+        }
+
+        if (!activateFact && allFilters.tags) {
+          activateFact = tagsRadio(
+            allFilters.tags,
+            fact,
+          );
+        }
+
+        if (!activateFact && allFilters.tags) {
+          activateFact = axisCheck(
+            allFilters.moreFilters.axis,
+            fact,
+          );
+        }
+        return activateFact;
+      })
+      .modify({ isActive: 0 })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
   }
 
   async getFactById(id: string): Promise<FactsTable> {
@@ -295,9 +400,74 @@ export class Database extends Dexie {
         console.log(error);
       });
   }
+
+  async isFactHidden(id: string): Promise<boolean> {
+    try {
+      return await this.table('facts')
+        .where({
+          'htmlId': id,
+          'isHidden': 1
+        }).count() > 0;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async isFactActive(id: string): Promise<boolean> {
+    try {
+      return await this.table('facts')
+        .where({
+          'htmlId': id,
+          'isActive': 1
+        }).count() > 0;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async isFactHighlighted(id: string): Promise<boolean> {
+    try {
+      return await this.table('facts')
+        .where({
+          'htmlId': id,
+          'isHighlight': 1
+        }).count() > 0;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async isFactText(id: string): Promise<boolean> {
+    try {
+      return await this.table('facts')
+        .where({
+          'htmlId': id,
+          'isText': 1
+        }).count() > 0;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async isFactCustom(id: string): Promise<boolean> {
+    try {
+      return await this.table('facts')
+        .where({
+          'htmlId': id,
+          'custom': 1
+        }).count() > 0;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getAllUniquePeriods() {
+    return await this.table(`facts`).orderBy(`period`).uniqueKeys();
+  }
 }
 // todo this goes elsewhere...obviously
 interface FactsTable {
+  htmlId?: string;
   tag?: string;
   period?: unknown;
   axes?: unknown;
@@ -306,7 +476,6 @@ interface FactsTable {
   scale?: unknown;
   decimals?: unknown;
   balance?: unknown;
-  htmlId?: string;
   value?: string;
   dimensions?: unknown;
   contextref?: unknown;
@@ -315,6 +484,7 @@ interface FactsTable {
   isNegative?: number;
   isNumeric?: number;
   isText?: number;
+  isCustom?: number;
   standardLabel?: unknown;
   labels?: unknown;
   calculations?: unknown;
