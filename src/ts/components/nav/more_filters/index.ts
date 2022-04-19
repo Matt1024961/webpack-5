@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-//import * as moment from 'moment';
 import { Database } from '../../../database';
 import { ErrorClass } from '../../../error';
 import { StoreData } from '../../../store/data';
@@ -97,6 +95,7 @@ export class MoreFilters extends HTMLElement {
         [found.key]: Array.from(
           this.querySelectorAll(`[name="${name}"]:checked`)
         ).map((current) => {
+          console.log(current);
           if (
             name === `balance-options` ||
             name === `axis-options` ||
@@ -108,6 +107,7 @@ export class MoreFilters extends HTMLElement {
           }
         }),
       };
+      console.log(userSelectedCheckBoxes);
       const updatedFilter = Object.assign(
         storeFilter.moreFilters,
         userSelectedCheckBoxes
@@ -122,6 +122,7 @@ export class MoreFilters extends HTMLElement {
           )}"] [type="checkbox"]`
         )
       );
+      console.log(`here here here`);
       const checkedCheckBoxes = Array.from(
         this.querySelectorAll(
           `[data-bs-parent="#${current.getAttribute(
@@ -174,40 +175,43 @@ export class MoreFilters extends HTMLElement {
   }
 
   populateDropdownOptions() {
-    const storeData: StoreData = StoreData.getInstance();
-    this.populatePeriods(storeData);
+    this.populatePeriods();
     // this.populateMeasures(storeData);
-    // this.populateAxis(storeData);
-    // this.populateMembers(storeData);
-    // this.populateScale(storeData);
-    // this.populateBalance(storeData);
+    this.populateAxes();
+    // this.populateMembers();
+    // this.populateScale();
+    // this.populateBalance();
     this.populated = true;
     const checkboxes = this.querySelectorAll('input[type=checkbox]');
     if (checkboxes) {
       checkboxes.forEach((current) => {
         current.addEventListener(`change`, () => {
+          console.log(current);
           this.checkboxes(current);
         });
       });
     }
   }
 
-  async populatePeriods(storeData: StoreData) {
+  async populatePeriods() {
     const db = new Database();
     const periods = await db.getAllUniquePeriods() as Array<string>;
     const regex = new RegExp(/(\d{1,4}([.\-/])\d{1,2}([.\-/])\d{1,4})/g);
-    periods.forEach((current) => {
-      console.log((current).match(regex));
-    });
-    // console.log((periods[0] as string).match(regex));
-    // console.log(periods[0]);
-    //const test = moment(periods[0]);
-    //console.log(test);
-    console.log(periods.length);
+    const complexPeriods = periods.reduce((
+      accumulator: { [key: string]: Array<string> }, current) => {
+      const date = new Date((current).match(regex)[0]).getFullYear();
+      // eslint-disable-next-line no-prototype-builtins
+      if (!accumulator.hasOwnProperty(date)) {
+        accumulator[date] = [current];
+      } else {
+        accumulator[date].push(current);
+      }
+      return accumulator;
+    }, {});
     const periodCount = document.createTextNode(`${periods.length}`);
     this.querySelector(`[period-count]`).append(periodCount);
 
-    Object.keys(storeData.complexPeriods)
+    Object.keys(complexPeriods)
       .sort()
       .reverse()
       .forEach((current, index) => {
@@ -249,7 +253,7 @@ export class MoreFilters extends HTMLElement {
         span1.classList.add(`bg-secondary`);
 
         const badgeText = document.createTextNode(
-          `${storeData.complexPeriods[current].length}`
+          `${complexPeriods[current].length}`
         );
 
         span1.append(badgeText);
@@ -277,7 +281,7 @@ export class MoreFilters extends HTMLElement {
         fieldset.setAttribute(`period-options`, ``);
         fieldset.setAttribute(`value`, `${current}`);
 
-        storeData.complexPeriods[current].forEach((currentNest) => {
+        complexPeriods[current].forEach((currentNest) => {
           const div = document.createElement(`div`);
           div.classList.add(`w-100`);
           div.classList.add(`d-flex`);
@@ -286,7 +290,7 @@ export class MoreFilters extends HTMLElement {
           const input = document.createElement(`input`);
           input.setAttribute(`name`, `periods-options`);
           input.setAttribute(`type`, `checkbox`);
-          input.setAttribute(`value`, `${currentNest.value}`);
+          input.setAttribute(`value`, `${currentNest}`);
           input.setAttribute(`id`, `periods-checkbox-${index}`);
           input.classList.add(`form-check-input`);
           input.classList.add(`me-1`);
@@ -298,7 +302,7 @@ export class MoreFilters extends HTMLElement {
           label.classList.add(`text-break`);
           label.classList.add(`w-100`);
 
-          const text = document.createTextNode(currentNest.text);
+          const text = document.createTextNode(`${currentNest}`);
 
           label.append(text);
           div.append(input);
@@ -313,7 +317,7 @@ export class MoreFilters extends HTMLElement {
 
   // eslint-disable-next-line no-unused-vars
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  populateMeasures(storeData: StoreData) {
+  populateMeasures() {
     const measuresCount = document.createTextNode(`NEED INFO!`);
     this.querySelector(`[measures-count]`).append(measuresCount);
   }
@@ -441,11 +445,15 @@ export class MoreFilters extends HTMLElement {
     });
   }
 
-  populateAxis(storeData: StoreData) {
-    const axisCount = document.createTextNode(`${storeData.filterAxis.length}`);
+  async populateAxes() {
+    const db = new Database();
+    const filterAxis = await db.getAllUniqueAxes() as Array<string>;
+    console.log(filterAxis);
+
+    const axisCount = document.createTextNode(`${filterAxis.length}`);
     this.querySelector(`[axis-count]`).append(axisCount);
 
-    storeData.filterAxis.forEach((current, index) => {
+    filterAxis.forEach((current, index) => {
       const li = document.createElement(`li`);
       const div = document.createElement(`div`);
       div.classList.add(`w-100`);

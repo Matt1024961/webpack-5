@@ -13,7 +13,7 @@ export class Database extends Dexie {
     super('SEC - IXViewer');
     this.version(1).stores({
       // NOTE we ONLY INDEX what is necessary
-      facts: `++htmlId, isHtml, isNegative, isNumberic, isText, isHidden, isActive, isHighlight, isCustom, period, [htmlId+isHidden], [htmlId+isHighlight], [htmlId+isText], [htmlId+isActive], [isHighlight+isActive]`,
+      facts: `++htmlId, isHtml, isNegative, isNumberic, isText, isHidden, isActive, isHighlight, isCustom, period, axes, [htmlId+isHidden], [htmlId+isHighlight], [htmlId+isText], [htmlId+isActive], [isHighlight+isActive]`,
     });
   }
 
@@ -21,9 +21,9 @@ export class Database extends Dexie {
     await this.table('facts').clear();
   }
 
-  async addBulkData(input: Array<FactsTable>) {
+  async putBulkData(input: Array<FactsTable>) {
     return await this.table('facts')
-      .bulkAdd(input)
+      .bulkPut(input)
       .catch(Dexie.BulkError, function (error) {
         // Explicitely catching the bulkAdd() operation makes those successful
         // additions commit despite that there were errors.
@@ -106,14 +106,14 @@ export class Database extends Dexie {
         };
         arrayToBulkInsert.push(factToPutIntoDB);
         if (arrayToBulkInsert.length === 2500) {
-          await this.addBulkData(arrayToBulkInsert);
+          await this.putBulkData(arrayToBulkInsert);
           arrayToBulkInsert = [];
         }
       } else {
         console.log(current);
       }
     }
-    return await this.addBulkData(arrayToBulkInsert);
+    return await this.putBulkData(arrayToBulkInsert);
   }
 
   updatePeriod(input: string) {
@@ -493,6 +493,10 @@ export class Database extends Dexie {
 
   async getAllUniquePeriods(): Promise<IndexableType> {
     return await this.table(`facts`).orderBy(`period`).uniqueKeys();
+  }
+
+  async getAllUniqueAxes(): Promise<IndexableType> {
+    return await this.table(`facts`).orderBy(`axes`).uniqueKeys();
   }
 }
 // todo this goes elsewhere...obviously
