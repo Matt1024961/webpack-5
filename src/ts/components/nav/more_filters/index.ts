@@ -1,6 +1,5 @@
 import { Database } from '../../../database';
 import { ErrorClass } from '../../../error';
-import { StoreData } from '../../../store/data';
 import { StoreFilter } from '../../../store/filter';
 import { Scale } from '../../../store/scale';
 import { moreFilters } from '../../../types/filter';
@@ -95,19 +94,18 @@ export class MoreFilters extends HTMLElement {
         [found.key]: Array.from(
           this.querySelectorAll(`[name="${name}"]:checked`)
         ).map((current) => {
-          console.log(current);
           if (
             name === `balance-options` ||
             name === `axis-options` ||
-            name === `members-options`
+            name === `members-options` ||
+            name === `periods-options`
           ) {
             return current.getAttribute(`value`);
           } else {
-            return parseInt(current.getAttribute(`value`));
+            return parseInt(current.getAttribute(`value`), 10);
           }
         }),
       };
-      console.log(userSelectedCheckBoxes);
       const updatedFilter = Object.assign(
         storeFilter.moreFilters,
         userSelectedCheckBoxes
@@ -122,7 +120,6 @@ export class MoreFilters extends HTMLElement {
           )}"] [type="checkbox"]`
         )
       );
-      console.log(`here here here`);
       const checkedCheckBoxes = Array.from(
         this.querySelectorAll(
           `[data-bs-parent="#${current.getAttribute(
@@ -174,19 +171,17 @@ export class MoreFilters extends HTMLElement {
     }
   }
 
-  populateDropdownOptions() {
-    this.populatePeriods();
-    // this.populateMeasures(storeData);
-    this.populateAxes();
-    // this.populateMembers();
-    // this.populateScale();
-    // this.populateBalance();
+  async populateDropdownOptions() {
+    await this.populatePeriods();
+    await this.populateAxes();
+    await this.populateMembers();
+    await this.populateScale();
+    await this.populateBalance();
     this.populated = true;
     const checkboxes = this.querySelectorAll('input[type=checkbox]');
     if (checkboxes) {
       checkboxes.forEach((current) => {
         current.addEventListener(`change`, () => {
-          console.log(current);
           this.checkboxes(current);
         });
       });
@@ -195,19 +190,21 @@ export class MoreFilters extends HTMLElement {
 
   async populatePeriods() {
     const db = new Database();
-    const periods = await db.getAllUniquePeriods() as Array<string>;
+    const periods = (await db.getAllUniquePeriods()) as Array<string>;
     const regex = new RegExp(/(\d{1,4}([.\-/])\d{1,2}([.\-/])\d{1,4})/g);
-    const complexPeriods = periods.reduce((
-      accumulator: { [key: string]: Array<string> }, current) => {
-      const date = new Date((current).match(regex)[0]).getFullYear();
-      // eslint-disable-next-line no-prototype-builtins
-      if (!accumulator.hasOwnProperty(date)) {
-        accumulator[date] = [current];
-      } else {
-        accumulator[date].push(current);
-      }
-      return accumulator;
-    }, {});
+    const complexPeriods = periods.reduce(
+      (accumulator: { [key: string]: Array<string> }, current) => {
+        const date = new Date(current.match(regex)[0]).getFullYear();
+        // eslint-disable-next-line no-prototype-builtins
+        if (!accumulator.hasOwnProperty(date)) {
+          accumulator[date] = [current];
+        } else {
+          accumulator[date].push(current);
+        }
+        return accumulator;
+      },
+      {}
+    );
     const periodCount = document.createTextNode(`${periods.length}`);
     this.querySelector(`[period-count]`).append(periodCount);
 
@@ -315,20 +312,14 @@ export class MoreFilters extends HTMLElement {
       });
   }
 
-  // eslint-disable-next-line no-unused-vars
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  populateMeasures() {
-    const measuresCount = document.createTextNode(`NEED INFO!`);
-    this.querySelector(`[measures-count]`).append(measuresCount);
-  }
+  async populateBalance() {
+    const db = new Database();
+    const filterBalance = (await db.getAllUniqueBalances()) as Array<string>;
 
-  populateBalance(storeData: StoreData) {
-    const balanceCount = document.createTextNode(
-      `${storeData.filterBalance.length}`
-    );
+    const balanceCount = document.createTextNode(`${filterBalance.length}`);
     this.querySelector(`[balance-count]`).append(balanceCount);
 
-    storeData.filterBalance.forEach((current, index) => {
+    filterBalance.forEach((current, index) => {
       const li = document.createElement(`li`);
       const div = document.createElement(`div`);
       div.classList.add(`w-100`);
@@ -361,12 +352,13 @@ export class MoreFilters extends HTMLElement {
     });
   }
 
-  populateScale(storeData: StoreData) {
-    const scaleCount = document.createTextNode(
-      `${storeData.filterScale.length}`
-    );
+  async populateScale() {
+    const db = new Database();
+    const filterScale = (await db.getAllUniqueScales()) as Array<string>;
+
+    const scaleCount = document.createTextNode(`${filterScale.length}`);
     this.querySelector(`[scale-count]`).append(scaleCount);
-    storeData.filterScale
+    filterScale
       .sort()
       .reverse()
       .forEach((current, index) => {
@@ -402,12 +394,17 @@ export class MoreFilters extends HTMLElement {
       });
   }
 
-  populateMembers(storeData: StoreData) {
-    const membersCount = document.createTextNode(
-      `${storeData.filterMembers.length}`
-    );
+  async populateMembers() {
+    const db = new Database();
+    const filterMembers = (await db.getAllUniqueMembers()) as unknown as Array<
+      Array<string>
+    >;
+
+    const filterMembersSet = [...new Set(filterMembers.flat())];
+
+    const membersCount = document.createTextNode(`${filterMembersSet.length}`);
     this.querySelector(`[members-count]`).append(membersCount);
-    storeData.filterMembers.forEach((current, index) => {
+    filterMembersSet.forEach((current, index) => {
       const li = document.createElement(`li`);
       const div = document.createElement(`div`);
       div.classList.add(`w-100`);
@@ -434,7 +431,7 @@ export class MoreFilters extends HTMLElement {
         .replace(/([A-Z])/g, ` $1`)
         .trim();
 
-      const text = document.createTextNode(current);
+      const text = document.createTextNode(`${current}`);
 
       label.append(text);
       div.append(input);
@@ -447,13 +444,15 @@ export class MoreFilters extends HTMLElement {
 
   async populateAxes() {
     const db = new Database();
-    const filterAxis = await db.getAllUniqueAxes() as Array<string>;
-    console.log(filterAxis);
+    const filterAxis = (await db.getAllUniqueAxes()) as unknown as Array<
+      Array<string>
+    >;
+    const filterAxisSet = [...new Set(filterAxis.flat())];
 
-    const axisCount = document.createTextNode(`${filterAxis.length}`);
+    const axisCount = document.createTextNode(`${filterAxisSet.length}`);
     this.querySelector(`[axis-count]`).append(axisCount);
 
-    filterAxis.forEach((current, index) => {
+    filterAxisSet.forEach((current, index) => {
       const li = document.createElement(`li`);
       const div = document.createElement(`div`);
       div.classList.add(`w-100`);
@@ -479,7 +478,7 @@ export class MoreFilters extends HTMLElement {
         .substring(current.indexOf(`:`) + 1)
         .replace(/([A-Z])/g, ` $1`)
         .trim();
-      const text = document.createTextNode(current);
+      const text = document.createTextNode(`${current}`);
 
       label.append(text);
       div.append(input);

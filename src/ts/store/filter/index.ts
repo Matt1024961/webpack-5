@@ -5,6 +5,7 @@ import { searchOptions as searchOptionType } from '../../types/filter';
 import { data as dataType } from '../../types/filter';
 import { tags as tagsType } from '../../types/filter';
 import { moreFilters as moreFiltersType } from '../../types/filter';
+import { Attributes } from '../attributes';
 // import { Attributes } from '../attributes';
 //import { StoreData } from '../data';
 import { StoreLogger } from '../logger';
@@ -83,14 +84,14 @@ export class StoreFilter {
     }
 
     const db = new Database();
-    await db.getHighlight(
-      this.getAllFilters()
-    );
+    await db.getHighlight(this.getAllFilters());
 
     document.querySelector(`sec-facts`).setAttribute(`update-count`, ``);
+    const attributes = new Attributes();
+    attributes.setProperAttribute();
+
     const stop = performance.now();
     const storeLogger: StoreLogger = StoreLogger.getInstance();
-
     storeLogger.info(
       `Filtering Facts took ${(stop - start).toFixed(2)} milliseconds.`
     );

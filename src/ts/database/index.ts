@@ -13,7 +13,7 @@ export class Database extends Dexie {
     super('SEC - IXViewer');
     this.version(1).stores({
       // NOTE we ONLY INDEX what is necessary
-      facts: `++htmlId, isHtml, isNegative, isNumberic, isText, isHidden, isActive, isHighlight, isCustom, period, axes, [htmlId+isHidden], [htmlId+isHighlight], [htmlId+isText], [htmlId+isActive], [isHighlight+isActive]`,
+      facts: `++htmlId, isHtml, isNegative, isNumberic, isText, isHidden, isActive, isHighlight, isCustom, period, axes, members, scale, balance, [htmlId+isHidden], [htmlId+isHighlight], [htmlId+isText], [htmlId+isActive], [isHighlight+isActive]`,
     });
   }
 
@@ -58,7 +58,6 @@ export class Database extends Dexie {
           tempDimension.key = dimensionKeys;
         }
       }
-
       if (current['ixv:factAttributes']) {
         const factToPutIntoDB = {
           // everything located in ixv:factAttributes
@@ -70,7 +69,9 @@ export class Database extends Dexie {
           axes: current['ixv:factAttributes'][4][1],
           members: current['ixv:factAttributes'][5][1],
           measure: current['ixv:factAttributes'][6][1],
-          scale: current['ixv:factAttributes'][7][1],
+          scale: current['ixv:factAttributes'][7][1]
+            ? parseInt(current['ixv:factAttributes'][7][1], 10)
+            : null,
           decimals: current['ixv:factAttributes'][8][1],
           balance: current['ixv:factAttributes'][9][1],
           // END everything located in ixv:factAttributes
@@ -141,6 +142,8 @@ export class Database extends Dexie {
   }
 
   async getHighlight(allFilters: allFilters) {
+    // we always want to reset all isHighlight and isActive to true,
+    // then we programatically set to false as we filter
     await this.table(`facts`)
       .where({ isHighlight: 0, isActive: 0 })
       .modify({ isHighlight: 1, isActive: 1 });
@@ -330,10 +333,13 @@ export class Database extends Dexie {
             }
             case 3: {
               // Calculations Only
-              if (fact.calculations) {
-                return fact.calculations[1] === null ? false : true;
+              if (fact.calculations !== null && fact.calculations[1]) {
+                return true;
               }
-              break;
+              return false;
+              return (fact.calculations && fact.calculations[1]) === null
+                ? false
+                : true;
             }
             case 4: {
               // Negatives Only
@@ -369,24 +375,38 @@ export class Database extends Dexie {
           option: Array<string>,
           fact: FactsTable
         ): boolean => {
-          return option.some((element) =>
+          return !option.some((element) =>
             (fact.axes as Array<string>).includes(element)
           );
         };
 
-        // const balanceCheck = (option: Array<string>, fact: FactsTable): boolean => {
-        //   if (fact[`ixv:factAttributes`] && fact[`ixv:factAttributes`][9]) {
-        //     return option.includes(fact[`ixv:factAttributes`][9][1]);
-        //   }
-        // };
+        const balanceCheck = (
+          option: Array<string>,
+          fact: FactsTable
+        ): boolean => {
+          return !option.includes(fact.balance);
+        };
 
-        // const membersCheck = (option: Array<string>, fact: FactsTable): boolean => {
-        //   if (fact[`ixv:factAttributes`] && fact[`ixv:factAttributes`][5]) {
-        //     return option.some((element) =>
-        //       fact[`ixv:factAttributes`][5][1].includes(element)
-        //     );
-        //   }
-        // };
+        const membersCheck = (
+          option: Array<string>,
+          fact: FactsTable
+        ): boolean => {
+          return !option.some((element) => fact.members.includes(element));
+        };
+
+        const periodsCheck = (
+          option: Array<string>,
+          fact: FactsTable
+        ): boolean => {
+          return !option.includes(fact.period);
+        };
+
+        const scaleCheck = (
+          option: Array<number>,
+          fact: FactsTable
+        ): boolean => {
+          return !option.includes(fact.scale);
+        };
 
         let activateFact = false;
         if (!activateFact && allFilters.data) {
@@ -397,9 +417,26 @@ export class Database extends Dexie {
           activateFact = tagsRadio(allFilters.tags, fact);
         }
 
-        if (!activateFact && allFilters.tags) {
+        if (!activateFact && allFilters.moreFilters.axis.length) {
           activateFact = axisCheck(allFilters.moreFilters.axis, fact);
         }
+
+        if (!activateFact && allFilters.moreFilters.balance.length) {
+          activateFact = balanceCheck(allFilters.moreFilters.balance, fact);
+        }
+
+        if (!activateFact && allFilters.moreFilters.members.length) {
+          activateFact = membersCheck(allFilters.moreFilters.members, fact);
+        }
+
+        if (!activateFact && allFilters.moreFilters.periods.length) {
+          activateFact = periodsCheck(allFilters.moreFilters.periods, fact);
+        }
+
+        if (!activateFact && allFilters.moreFilters.scale.length) {
+          activateFact = scaleCheck(allFilters.moreFilters.scale, fact);
+        }
+
         return activateFact;
       })
       .modify({ isActive: 0 })
@@ -498,18 +535,30 @@ export class Database extends Dexie {
   async getAllUniqueAxes(): Promise<IndexableType> {
     return await this.table(`facts`).orderBy(`axes`).uniqueKeys();
   }
+
+  async getAllUniqueMembers(): Promise<IndexableType> {
+    return await this.table(`facts`).orderBy(`members`).uniqueKeys();
+  }
+
+  async getAllUniqueScales(): Promise<IndexableType> {
+    return await this.table(`facts`).orderBy(`scale`).uniqueKeys();
+  }
+
+  async getAllUniqueBalances(): Promise<IndexableType> {
+    return await this.table(`facts`).orderBy(`balance`).uniqueKeys();
+  }
 }
 // todo this goes elsewhere...obviously
 interface FactsTable {
   htmlId?: string;
   tag?: string;
-  period?: unknown;
+  period?: string;
   axes?: unknown;
-  members?: unknown;
+  members?: Array<string> | string;
   measure?: unknown;
-  scale?: unknown;
+  scale?: number;
   decimals?: unknown;
-  balance?: unknown;
+  balance?: string;
   value?: string;
   dimensions?: unknown;
   contextref?: unknown;

@@ -14,7 +14,7 @@ export type data = number | undefined;
 export type tags = number | undefined;
 
 export type moreFilters = {
-  periods: Array<number>;
+  periods: Array<string>;
   measures: Array<number>;
   axis: Array<string>;
   members: Array<string>;
