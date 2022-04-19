@@ -1,4 +1,5 @@
-import Dexie from 'dexie';
+import Dexie, { IndexableType } from 'dexie';
+import * as moment from 'moment';
 //import { Facts } from '../components/nav/facts';
 import { StoreFilter } from '../store/filter';
 //import { StoreData } from '../store/data';
@@ -23,16 +24,16 @@ export class Database extends Dexie {
   async addBulkData(input: Array<FactsTable>) {
     return await this.table('facts')
       .bulkAdd(input)
-      .catch(Dexie.BulkError, function (e) {
+      .catch(Dexie.BulkError, function (error) {
         // Explicitely catching the bulkAdd() operation makes those successful
         // additions commit despite that there were errors.
-        console.log(e);
+        console.error(error);
       });
   }
 
   async parseData(input: DataJSON) {
     let arrayToBulkInsert = [];
-    const customTags = Object.keys(input['ixv:extensionNamespaces'])
+    const customTags = Object.keys(input['ixv:extensionNamespaces']);
     for await (const current of input.facts) {
       const tempDimension: {
         key: Array<string | number>;
@@ -63,8 +64,9 @@ export class Database extends Dexie {
           // everything located in ixv:factAttributes
           tag: current['ixv:factAttributes'][0][1],
           isHtml: current['ixv:factAttributes'][2][1] ? 1 : 0,
-          period:
-            input['ixv:filterPeriods'][current['ixv:factAttributes'][3][1]],
+          period: this.updatePeriod(
+            input['ixv:filterPeriods'][current['ixv:factAttributes'][3][1]]
+          ),
           axes: current['ixv:factAttributes'][4][1],
           members: current['ixv:factAttributes'][5][1],
           measure: current['ixv:factAttributes'][6][1],
@@ -91,10 +93,14 @@ export class Database extends Dexie {
           isNegative: current['ixv:isnegativesonly'] ? 1 : 0,
           isNumeric: current['ixv:isnumeric'] ? 1 : 0,
           isText: current['ixv:istextonly'] ? 1 : 0,
-          isCustom: customTags.includes(current[`ixv:factAttributes`][0][1].substr(
-            0,
-            current[`ixv:factAttributes`][0][1].indexOf(`:`)
-          )) ? 1 : 0,
+          isCustom: customTags.includes(
+            current[`ixv:factAttributes`][0][1].substr(
+              0,
+              current[`ixv:factAttributes`][0][1].indexOf(`:`)
+            )
+          )
+            ? 1
+            : 0,
           isActive: 1,
           isHighlight: 0,
         };
@@ -110,6 +116,20 @@ export class Database extends Dexie {
     return await this.addBulkData(arrayToBulkInsert);
   }
 
+  updatePeriod(input: string) {
+    if (input.includes(`/`)) {
+      const dates = input.split(`/`);
+      const difference = Math.ceil(
+        moment(dates[1]).diff(moment(dates[0]), 'months', true)
+      );
+      return `${difference} months ending ${moment(dates[0]).format(
+        `MM/DD/YYYY`
+      )}`;
+    } else {
+      return `As of ${moment(input).format(`MM/DD/YYYY`)}`;
+    }
+  }
+
   async getFactsCount() {
     const storeFilter: StoreFilter = StoreFilter.getInstance();
     const allFilters = storeFilter.getAllFilters();
@@ -121,8 +141,9 @@ export class Database extends Dexie {
   }
 
   async getHighlight(allFilters: allFilters) {
-
-    await this.table(`facts`).where({ isHighlight: 0, isActive: 0 }).modify({ isHighlight: 1, isActive: 1 })
+    await this.table(`facts`)
+      .where({ isHighlight: 0, isActive: 0 })
+      .modify({ isHighlight: 1, isActive: 1 });
 
     if (allFilters.search) {
       const regex = new RegExp(
@@ -278,14 +299,18 @@ export class Database extends Dexie {
         });
     } else {
       // user is not searching for anything, reset all isHighlights to 0 (FALSE)
-      await this.table(`facts`).where({ isHighlight: 1 }).modify({ isHighlight: 0 })
+      await this.table(`facts`)
+        .where({ isHighlight: 1 })
+        .modify({ isHighlight: 0 })
         .catch((error) => {
           console.log(error);
         });
     }
 
     // second we do the fact filtering
-    await this.table(`facts`).where({ isHighlight: 0, isActive: 0 }).modify({ isHighlight: 1, isActive: 1 })
+    await this.table(`facts`)
+      .where({ isHighlight: 0, isActive: 0 })
+      .modify({ isHighlight: 1, isActive: 1 });
 
     await this.table(`facts`)
       .filter((fact) => {
@@ -315,17 +340,14 @@ export class Database extends Dexie {
               return fact.isNegative ? true : false;
             }
             case 5: {
-              // Additional Items 
+              // Additional Items
               return fact.isHidden ? true : false;
             }
           }
           return true;
         };
 
-        const tagsRadio = (
-          option: number,
-          fact: FactsTable,
-        ): boolean => {
+        const tagsRadio = (option: number, fact: FactsTable): boolean => {
           switch (option) {
             case 0: {
               // All
@@ -343,11 +365,13 @@ export class Database extends Dexie {
           return true;
         };
 
-        const axisCheck = (option: Array<string>, fact: FactsTable): boolean => {
+        const axisCheck = (
+          option: Array<string>,
+          fact: FactsTable
+        ): boolean => {
           return option.some((element) =>
             (fact.axes as Array<string>).includes(element)
           );
-
         };
 
         // const balanceCheck = (option: Array<string>, fact: FactsTable): boolean => {
@@ -364,24 +388,17 @@ export class Database extends Dexie {
         //   }
         // };
 
-
         let activateFact = false;
         if (!activateFact && allFilters.data) {
           activateFact = dataRadio(allFilters.data, fact);
         }
 
         if (!activateFact && allFilters.tags) {
-          activateFact = tagsRadio(
-            allFilters.tags,
-            fact,
-          );
+          activateFact = tagsRadio(allFilters.tags, fact);
         }
 
         if (!activateFact && allFilters.tags) {
-          activateFact = axisCheck(
-            allFilters.moreFilters.axis,
-            fact,
-          );
+          activateFact = axisCheck(allFilters.moreFilters.axis, fact);
         }
         return activateFact;
       })
@@ -389,8 +406,6 @@ export class Database extends Dexie {
       .catch((error) => {
         console.log(error);
       });
-
-
   }
 
   async getFactById(id: string): Promise<FactsTable> {
@@ -403,11 +418,14 @@ export class Database extends Dexie {
 
   async isFactHidden(id: string): Promise<boolean> {
     try {
-      return await this.table('facts')
-        .where({
-          'htmlId': id,
-          'isHidden': 1
-        }).count() > 0;
+      return (
+        (await this.table('facts')
+          .where({
+            htmlId: id,
+            isHidden: 1,
+          })
+          .count()) > 0
+      );
     } catch (error) {
       console.log(error);
     }
@@ -415,11 +433,14 @@ export class Database extends Dexie {
 
   async isFactActive(id: string): Promise<boolean> {
     try {
-      return await this.table('facts')
-        .where({
-          'htmlId': id,
-          'isActive': 1
-        }).count() > 0;
+      return (
+        (await this.table('facts')
+          .where({
+            htmlId: id,
+            isActive: 1,
+          })
+          .count()) > 0
+      );
     } catch (error) {
       console.log(error);
     }
@@ -427,11 +448,14 @@ export class Database extends Dexie {
 
   async isFactHighlighted(id: string): Promise<boolean> {
     try {
-      return await this.table('facts')
-        .where({
-          'htmlId': id,
-          'isHighlight': 1
-        }).count() > 0;
+      return (
+        (await this.table('facts')
+          .where({
+            htmlId: id,
+            isHighlight: 1,
+          })
+          .count()) > 0
+      );
     } catch (error) {
       console.log(error);
     }
@@ -439,11 +463,14 @@ export class Database extends Dexie {
 
   async isFactText(id: string): Promise<boolean> {
     try {
-      return await this.table('facts')
-        .where({
-          'htmlId': id,
-          'isText': 1
-        }).count() > 0;
+      return (
+        (await this.table('facts')
+          .where({
+            htmlId: id,
+            isText: 1,
+          })
+          .count()) > 0
+      );
     } catch (error) {
       console.log(error);
     }
@@ -451,17 +478,20 @@ export class Database extends Dexie {
 
   async isFactCustom(id: string): Promise<boolean> {
     try {
-      return await this.table('facts')
-        .where({
-          'htmlId': id,
-          'custom': 1
-        }).count() > 0;
+      return (
+        (await this.table('facts')
+          .where({
+            htmlId: id,
+            custom: 1,
+          })
+          .count()) > 0
+      );
     } catch (error) {
       console.log(error);
     }
   }
 
-  async getAllUniquePeriods() {
+  async getAllUniquePeriods(): Promise<IndexableType> {
     return await this.table(`facts`).orderBy(`period`).uniqueKeys();
   }
 }

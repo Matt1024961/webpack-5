@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+//import * as moment from 'moment';
 import { Database } from '../../../database';
 import { ErrorClass } from '../../../error';
 import { StoreData } from '../../../store/data';
@@ -176,10 +177,10 @@ export class MoreFilters extends HTMLElement {
     const storeData: StoreData = StoreData.getInstance();
     this.populatePeriods(storeData);
     // this.populateMeasures(storeData);
-    this.populateAxis(storeData);
-    this.populateMembers(storeData);
-    this.populateScale(storeData);
-    this.populateBalance(storeData);
+    // this.populateAxis(storeData);
+    // this.populateMembers(storeData);
+    // this.populateScale(storeData);
+    // this.populateBalance(storeData);
     this.populated = true;
     const checkboxes = this.querySelectorAll('input[type=checkbox]');
     if (checkboxes) {
@@ -193,12 +194,17 @@ export class MoreFilters extends HTMLElement {
 
   async populatePeriods(storeData: StoreData) {
     const db = new Database();
-    const periods = await db.getAllUniquePeriods();
-
+    const periods = await db.getAllUniquePeriods() as Array<string>;
+    const regex = new RegExp(/(\d{1,4}([.\-/])\d{1,2}([.\-/])\d{1,4})/g);
+    periods.forEach((current) => {
+      console.log((current).match(regex));
+    });
+    // console.log((periods[0] as string).match(regex));
+    // console.log(periods[0]);
+    //const test = moment(periods[0]);
+    //console.log(test);
     console.log(periods.length);
-    const periodCount = document.createTextNode(
-      `${periods.length}`
-    );
+    const periodCount = document.createTextNode(`${periods.length}`);
     this.querySelector(`[period-count]`).append(periodCount);
 
     Object.keys(storeData.complexPeriods)

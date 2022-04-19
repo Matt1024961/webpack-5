@@ -19,9 +19,10 @@ const fetchXhtml = async (url: string) => {
 };
 
 const fetchData = async (url: string) => {
-
+  const db = new Database();
+  await db.clearFactsTable();
   return fetch(url)
-    .then((response) => {
+    .then(async (response) => {
       if (response.status >= 200 && response.status <= 299) {
         return response.json();
       } else {
@@ -29,6 +30,7 @@ const fetchData = async (url: string) => {
       }
     })
     .then(async (data: DataJSON) => {
+      await db.parseData(data);
       return { data };
     })
     .catch((error) => {
