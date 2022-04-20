@@ -84,8 +84,7 @@ export class StoreFilter {
     }
 
     const db = new Database();
-    await db.getHighlight(this.getAllFilters());
-
+    await db.getHighlight(this.getAllFilters(), this.isFilterActive());
     document.querySelector(`sec-facts`).setAttribute(`update-count`, ``);
     const attributes = new Attributes();
     attributes.setProperAttribute();

@@ -1,3 +1,4 @@
+//import { Attributes } from '../../store/attributes';
 import { Attributes } from '../../store/attributes';
 import { StoreLogger } from '../../store/logger';
 import { StoreXhtml } from '../../store/xhtml';
@@ -56,13 +57,11 @@ export class Filing extends HTMLElement {
     const storeXhtml: StoreXhtml = StoreXhtml.getInstance();
     this.replaceWith(storeXhtml.node);
     this.logger.info(`Filing rendered`);
+    const attributes = new Attributes();
+    attributes.setProperAttribute();
   }
 
   listeners() {
-    const attributes = new Attributes();
-    attributes.setProperAttribute();
-    document.addEventListener('scroll', () => {
-      attributes.setProperAttribute();
-    });
+    //
   }
 }

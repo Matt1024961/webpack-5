@@ -141,12 +141,12 @@ export class Database extends Dexie {
     }
   }
 
-  async getHighlight(allFilters: allFilters) {
+  async getHighlight(allFilters: allFilters, isFilterActive: boolean) {
     // we always want to reset all isHighlight and isActive to true,
     // then we programatically set to false as we filter
-    await this.table(`facts`)
-      .where({ isHighlight: 0, isActive: 0 })
-      .modify({ isHighlight: 1, isActive: 1 });
+    // await this.table(`facts`)
+    //   .where({ isHighlight: 1, isActive: 1 })
+    //   .modify({ isHighlight: 0, isActive: 0 });
 
     if (allFilters.search) {
       const regex = new RegExp(
@@ -233,9 +233,9 @@ export class Database extends Dexie {
           let highlightFact = false;
 
           if (!highlightFact && allFilters.searchOptions.includes(0)) {
-            if (fact.tag) {
-              highlightFact = searchFactName(regex, fact.tag);
-            }
+            //if (fact.tag) {
+            highlightFact = searchFactName(regex, fact.tag);
+            //}
           }
 
           if (!highlightFact && allFilters.searchOptions.includes(1)) {
@@ -294,6 +294,7 @@ export class Database extends Dexie {
               `Section`
             );
           }
+
           return highlightFact;
         })
         .modify({ isHighlight: 1 })
@@ -311,138 +312,143 @@ export class Database extends Dexie {
     }
 
     // second we do the fact filtering
-    await this.table(`facts`)
-      .where({ isHighlight: 0, isActive: 0 })
-      .modify({ isHighlight: 1, isActive: 1 });
+    if (isFilterActive) {
 
-    await this.table(`facts`)
-      .filter((fact) => {
-        const dataRadio = (option: number, fact: FactsTable): boolean => {
-          switch (option) {
-            case 0: {
-              // All
-              return true;
-            }
-            case 1: {
-              // Amounts Only
-              return fact.isNumeric ? true : false;
-            }
-            case 2: {
-              // Text Only
-              return fact.isText ? true : false;
-            }
-            case 3: {
-              // Calculations Only
-              if (fact.calculations !== null && fact.calculations[1]) {
+      await this.table(`facts`)
+        .filter((fact) => {
+
+          const dataRadio = (option: number, fact: FactsTable): boolean => {
+            switch (option) {
+              case 0: {
+                // All
                 return true;
               }
-              return false;
-              return (fact.calculations && fact.calculations[1]) === null
-                ? false
-                : true;
+              case 1: {
+                // Amounts Only
+                return fact.isNumeric ? true : false;
+              }
+              case 2: {
+                // Text Only
+                return fact.isText ? false : true;
+              }
+              case 3: {
+                // Calculations Only
+                if (fact.calculations !== null && fact.calculations[1]) {
+                  return false;
+                }
+                return true;
+              }
+              case 4: {
+                // Negatives Only
+                return fact.isNegative ? false : true;
+              }
+              case 5: {
+                // Additional Items
+                return fact.isHidden ? false : true;
+              }
             }
-            case 4: {
-              // Negatives Only
-              return fact.isNegative ? true : false;
+          };
+
+          const tagsRadio = (option: number, fact: FactsTable): boolean => {
+            switch (option) {
+              case 0: {
+                // All
+                return false;
+              }
+              case 1: {
+                // Standard Only
+                return fact.isCustom ? false : true;
+              }
+              case 2: {
+                // Custom Only
+                return fact.isCustom ? true : false;
+              }
             }
-            case 5: {
-              // Additional Items
-              return fact.isHidden ? true : false;
-            }
+          };
+
+          const axisCheck = (
+            option: Array<string>,
+            fact: FactsTable
+          ): boolean => {
+            return option.some((element) =>
+              (fact.axes as Array<string>).includes(element)
+            );
+          };
+
+          const balanceCheck = (
+            option: Array<string>,
+            fact: FactsTable
+          ): boolean => {
+            return option.includes(fact.balance);
+          };
+
+          const membersCheck = (
+            option: Array<string>,
+            fact: FactsTable
+          ): boolean => {
+            return option.some((element) => fact.members.includes(element));
+          };
+
+          const periodsCheck = (
+            option: Array<string>,
+            fact: FactsTable
+          ): boolean => {
+            return option.includes(fact.period);
+          };
+
+          const scaleCheck = (
+            option: Array<number>,
+            fact: FactsTable
+          ): boolean => {
+            return option.includes(fact.scale);
+          };
+
+          let activateFact = false;
+          if (!activateFact && allFilters.data) {
+            activateFact = !dataRadio(allFilters.data, fact);
           }
-          return true;
-        };
 
-        const tagsRadio = (option: number, fact: FactsTable): boolean => {
-          switch (option) {
-            case 0: {
-              // All
-              return true;
-            }
-            case 1: {
-              // Standard Only
-              return fact.isCustom ? true : false;
-            }
-            case 2: {
-              // Custom Only
-              return fact.isCustom ? false : true;
-            }
+          if (!activateFact && allFilters.tags) {
+            activateFact = !tagsRadio(allFilters.tags, fact);
           }
-          return true;
-        };
 
-        const axisCheck = (
-          option: Array<string>,
-          fact: FactsTable
-        ): boolean => {
-          return !option.some((element) =>
-            (fact.axes as Array<string>).includes(element)
-          );
-        };
+          if (!activateFact && allFilters.moreFilters.axis.length) {
+            activateFact = axisCheck(allFilters.moreFilters.axis, fact);
+          }
 
-        const balanceCheck = (
-          option: Array<string>,
-          fact: FactsTable
-        ): boolean => {
-          return !option.includes(fact.balance);
-        };
+          if (!activateFact && allFilters.moreFilters.balance.length) {
+            activateFact = balanceCheck(allFilters.moreFilters.balance, fact);
+          }
 
-        const membersCheck = (
-          option: Array<string>,
-          fact: FactsTable
-        ): boolean => {
-          return !option.some((element) => fact.members.includes(element));
-        };
+          if (!activateFact && allFilters.moreFilters.members.length) {
+            activateFact = membersCheck(allFilters.moreFilters.members, fact);
+          }
 
-        const periodsCheck = (
-          option: Array<string>,
-          fact: FactsTable
-        ): boolean => {
-          return !option.includes(fact.period);
-        };
+          if (!activateFact && allFilters.moreFilters.periods.length) {
+            activateFact = periodsCheck(allFilters.moreFilters.periods, fact);
+          }
 
-        const scaleCheck = (
-          option: Array<number>,
-          fact: FactsTable
-        ): boolean => {
-          return !option.includes(fact.scale);
-        };
+          if (!activateFact && allFilters.moreFilters.scale.length) {
+            activateFact = scaleCheck(allFilters.moreFilters.scale, fact);
+          }
 
-        let activateFact = false;
-        if (!activateFact && allFilters.data) {
-          activateFact = dataRadio(allFilters.data, fact);
-        }
+          return activateFact;
 
-        if (!activateFact && allFilters.tags) {
-          activateFact = tagsRadio(allFilters.tags, fact);
-        }
-
-        if (!activateFact && allFilters.moreFilters.axis.length) {
-          activateFact = axisCheck(allFilters.moreFilters.axis, fact);
-        }
-
-        if (!activateFact && allFilters.moreFilters.balance.length) {
-          activateFact = balanceCheck(allFilters.moreFilters.balance, fact);
-        }
-
-        if (!activateFact && allFilters.moreFilters.members.length) {
-          activateFact = membersCheck(allFilters.moreFilters.members, fact);
-        }
-
-        if (!activateFact && allFilters.moreFilters.periods.length) {
-          activateFact = periodsCheck(allFilters.moreFilters.periods, fact);
-        }
-
-        if (!activateFact && allFilters.moreFilters.scale.length) {
-          activateFact = scaleCheck(allFilters.moreFilters.scale, fact);
-        }
-
-        return activateFact;
-      })
-      .modify({ isActive: 0 })
-      .catch((error) => {
-        console.log(error);
-      });
+        })
+        .modify({ isActive: 0 })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      console.log(`set all to active`);
+      await this.table(`facts`)
+        .where({ isActive: 0 })
+        .modify({ isActive: 1 })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    return;
   }
 
   async getFactById(id: string): Promise<FactsTable> {
