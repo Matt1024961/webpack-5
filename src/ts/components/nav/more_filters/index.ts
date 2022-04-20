@@ -189,7 +189,7 @@ export class MoreFilters extends HTMLElement {
   }
 
   async populatePeriods() {
-    const db = new Database();
+    const db: Database = Database.getInstance();
     const periods = (await db.getAllUniquePeriods()) as Array<string>;
     const regex = new RegExp(/(\d{1,4}([.\-/])\d{1,2}([.\-/])\d{1,4})/g);
     const complexPeriods = periods.reduce(
@@ -313,7 +313,7 @@ export class MoreFilters extends HTMLElement {
   }
 
   async populateBalance() {
-    const db = new Database();
+    const db: Database = Database.getInstance();
     const filterBalance = (await db.getAllUniqueBalances()) as Array<string>;
 
     const balanceCount = document.createTextNode(`${filterBalance.length}`);
@@ -353,7 +353,7 @@ export class MoreFilters extends HTMLElement {
   }
 
   async populateScale() {
-    const db = new Database();
+    const db: Database = Database.getInstance();
     const filterScale = (await db.getAllUniqueScales()) as Array<string>;
 
     const scaleCount = document.createTextNode(`${filterScale.length}`);
@@ -395,13 +395,24 @@ export class MoreFilters extends HTMLElement {
   }
 
   async populateMembers() {
-    const db = new Database();
+    const db: Database = Database.getInstance();
     const filterMembers = (await db.getAllUniqueMembers()) as unknown as Array<
       Array<string>
     >;
-
-    const filterMembersSet = [...new Set(filterMembers.flat())];
-
+    // we remove any possible duplicates, flatten the array, remove the prefix (us-gaap, etc.) and sort
+    const filterMembersSet = [
+      ...new Set(
+        filterMembers
+          .flat()
+          .map((current) => {
+            return current
+              .substring(current.indexOf(`:`) + 1)
+              .replace(/([A-Z])/g, ` $1`)
+              .trim();
+          })
+          .sort()
+      ),
+    ];
     const membersCount = document.createTextNode(`${filterMembersSet.length}`);
     this.querySelector(`[members-count]`).append(membersCount);
     filterMembersSet.forEach((current, index) => {
@@ -426,11 +437,6 @@ export class MoreFilters extends HTMLElement {
       label.classList.add(`w-100`);
       label.setAttribute(`for`, `members-checkbox-${index}`);
 
-      current = current
-        .substring(current.indexOf(`:`) + 1)
-        .replace(/([A-Z])/g, ` $1`)
-        .trim();
-
       const text = document.createTextNode(`${current}`);
 
       label.append(text);
@@ -443,11 +449,24 @@ export class MoreFilters extends HTMLElement {
   }
 
   async populateAxes() {
-    const db = new Database();
+    const db: Database = Database.getInstance();
     const filterAxis = (await db.getAllUniqueAxes()) as unknown as Array<
       Array<string>
     >;
-    const filterAxisSet = [...new Set(filterAxis.flat())];
+    // we remove any possible duplicates, flatten the array, remove the prefix (us-gaap, etc.) and sort
+    const filterAxisSet = [
+      ...new Set(
+        filterAxis
+          .flat()
+          .map((current) => {
+            return current
+              .substring(current.indexOf(`:`) + 1)
+              .replace(/([A-Z])/g, ` $1`)
+              .trim();
+          })
+          .sort()
+      ),
+    ];
 
     const axisCount = document.createTextNode(`${filterAxisSet.length}`);
     this.querySelector(`[axis-count]`).append(axisCount);
@@ -474,10 +493,6 @@ export class MoreFilters extends HTMLElement {
       label.classList.add(`w-100`);
       label.setAttribute(`for`, `axis-checkbox-${index}`);
 
-      current = current
-        .substring(current.indexOf(`:`) + 1)
-        .replace(/([A-Z])/g, ` $1`)
-        .trim();
       const text = document.createTextNode(`${current}`);
 
       label.append(text);

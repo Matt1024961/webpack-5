@@ -1,7 +1,4 @@
 import { Database } from '../../database';
-//import { StoreData } from '../data';
-// import { StoreFilter } from '../filter';
-//import { StoreLogger } from '../logger';
 
 export class Attributes {
   constructor() {
@@ -9,7 +6,7 @@ export class Attributes {
   }
 
   async setProperAttribute() {
-    const db = new Database();
+    const db: Database = Database.getInstance();
     const allFacts = Array.from(document.querySelectorAll(`[contextRef]`));
     for await (const element of allFacts) {
       const isfactHidden = await db.isFactHidden(element.id);
@@ -25,7 +22,7 @@ export class Attributes {
         if (isFactHighlight) {
           element.setAttribute(`highlight-fact`, ``);
         } else if (!isFactHighlight) {
-          element.removeAttribute(`highlight-fact`)
+          element.removeAttribute(`highlight-fact`);
         }
       }
     }

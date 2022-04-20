@@ -1,5 +1,5 @@
 // import { Logger } from 'typescript-logger';
-import { ConstantApplication } from '../../../store/application';
+import { ConstantApplication } from '../../../constants/application';
 import { StoreData } from '../../../store/data';
 import { StoreUrl } from '../../../store/url';
 //import { facts as factsType } from '../../types/data-json';

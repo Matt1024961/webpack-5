@@ -82,8 +82,8 @@ export class StoreFilter {
     } else {
       document.querySelector(`sec-reset-all-filters`).classList.add(`d-none`);
     }
-
-    const db = new Database();
+    const db: Database = Database.getInstance();
+    
     await db.getHighlight(this.getAllFilters(), this.isFilterActive());
     document.querySelector(`sec-facts`).setAttribute(`update-count`, ``);
     const attributes = new Attributes();

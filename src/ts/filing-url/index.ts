@@ -1,10 +1,11 @@
 import { ErrorClass } from '../error';
-import { ConstantApplication } from '../store/application';
+import { ConstantApplication } from '../constants/application';
 //import { StoreData } from '../store/data';
 import { StoreLogger } from '../store/logger';
 import { StoreUrl } from '../store/url';
 import { StoreXhtml } from '../store/xhtml';
 import { WarningClass } from '../warning';
+import { Database } from '../database';
 export class FilingUrl {
   constructor() {
     this.init();
@@ -30,8 +31,9 @@ export class FilingUrl {
 
     let filingURLLog = `Filing URL Data: `;
     Object.keys(storeUrl).forEach((current: string) => {
-      filingURLLog += `\n ${current}: ${storeUrl[current as keyof typeof storeUrl]
-        }`;
+      filingURLLog += `\n\t ${current}: ${
+        storeUrl[current as keyof typeof storeUrl]
+      }`;
     });
     storeLogger.info(filingURLLog);
     storeLogger.info(`Filing URL Complete`);
@@ -103,12 +105,24 @@ export class FilingUrl {
         data: storeUrl.dataURL,
       });
       const enableapplication = { data: false, xhtml: false };
-      worker.onmessage = (event) => {
+      worker.onmessage = async (event) => {
         if (event.data.all) {
           if (event.data.all[1].error) {
             const warning = new WarningClass();
             warning.show(`No supporting file was found (${storeUrl.dataURL}).`);
           } else if (event.data.all[1].data) {
+            // load the IndexedDB
+            const start = performance.now();
+            const db: Database = Database.getInstance(storeUrl.dataURL);
+            await db.clearFactsTable();
+            await db.parseData(event.data.all[1].data);
+            const stop = performance.now();
+            const storeLogger: StoreLogger = StoreLogger.getInstance();
+            storeLogger.info(
+              `Loading IndexedDB took ${(stop - start).toFixed(
+                2
+              )} milliseconds.`
+            );
             const factContainer = document.querySelector(
               `#facts-container sec-facts`
             );

@@ -1,21 +1,36 @@
 import Dexie, { IndexableType } from 'dexie';
 import * as moment from 'moment';
-//import { Facts } from '../components/nav/facts';
+import { ConstantDatabaseFilters } from '../constants/database-filters';
 import { StoreFilter } from '../store/filter';
-//import { StoreData } from '../store/data';
 import { DataJSON } from '../types/data-json';
+import { FactsTable } from '../types/facts-table';
 import { allFilters } from '../types/filter';
-// import { allFilters } from '../types/filter';
 export class Database extends Dexie {
   facts!: Dexie.Table<FactsTable, number>;
-
-  constructor() {
-    super('SEC - IXViewer');
+  private static instance: Database;
+  private constructor(url: string) {
+    super(`SEC - IXViewer - ${url}`);
     this.version(1).stores({
       // NOTE we ONLY INDEX what is necessary
       facts: `++htmlId, isHtml, isNegative, isNumberic, isText, isHidden, isActive, isHighlight, isCustom, period, axes, members, scale, balance, [htmlId+isHidden], [htmlId+isHighlight], [htmlId+isText], [htmlId+isActive], [isHighlight+isActive]`,
     });
   }
+
+  public static getInstance(url?: string): Database {
+    if (!Database.instance) {
+      Database.instance = new Database(url);
+    }
+    return Database.instance;
+  }
+
+  // constructor(url: string) {
+  //   super(`SEC - IXViewer - ${url}`);
+
+  //   this.version(1).stores({
+  //     // NOTE we ONLY INDEX what is necessary
+  //     facts: `++htmlId, isHtml, isNegative, isNumberic, isText, isHidden, isActive, isHighlight, isCustom, period, axes, members, scale, balance, [htmlId+isHidden], [htmlId+isHighlight], [htmlId+isText], [htmlId+isActive], [isHighlight+isActive]`,
+  //   });
+  // }
 
   async clearFactsTable(): Promise<void> {
     await this.table('facts').clear();
@@ -142,121 +157,58 @@ export class Database extends Dexie {
   }
 
   async getHighlight(allFilters: allFilters, isFilterActive: boolean) {
-    // we always want to reset all isHighlight and isActive to true,
-    // then we programatically set to false as we filter
-    // await this.table(`facts`)
-    //   .where({ isHighlight: 1, isActive: 1 })
-    //   .modify({ isHighlight: 0, isActive: 0 });
-
     if (allFilters.search) {
+      await this.table(`facts`)
+        .where({ isHighlight: 1 })
+        .modify({ isHighlight: 0 });
+
       const regex = new RegExp(
         allFilters.search,
         `m${allFilters.searchOptions.includes(10) ? '' : 'i'}`
       );
-
-      const searchFactName = (regex: RegExp, factName: string): boolean => {
-        return (regex as RegExp).test(factName);
-      };
-
-      const searchFactContent = (regex: RegExp, value: string): boolean => {
-        if (!value) {
-          return false;
-        }
-        const newValue = value
-          .replace(/( |<([^>]+)>)/gi, ` `)
-          .replace(/ +(?= )/g, ``);
-
-        return (regex as RegExp).test(newValue);
-      };
-
-      const searchFactLabels = (
-        regex: RegExp,
-        factLabels: Array<string>
-      ): boolean => {
-        const factLabelsAsString = factLabels
-          ?.slice(1)
-          .reduce((accumulator, current) => {
-            return (accumulator += ` ${current[1]}`);
-          }, ``)
-          .trim();
-        return (regex as RegExp).test(factLabelsAsString);
-      };
-
-      const searchFactDefinition = (
-        regex: RegExp,
-        factLabels: Array<string>
-      ): boolean => {
-        if (factLabels && factLabels[0] && factLabels[0][1]) {
-          const factDefinitionAsString = factLabels[0][1];
-          return (regex as RegExp).test(factDefinitionAsString);
-        }
-      };
-
-      const searchFactDimensions = (
-        regex: RegExp,
-        dimensions: Array<string>
-      ) => {
-        if (dimensions) {
-          const dimensionValuesAsString = dimensions.reduce(
-            (accumulator, current) => {
-              return (accumulator += ` ${current}`);
-            },
-            ``
-          );
-          return (regex as RegExp).test(dimensionValuesAsString as string);
-        }
-        return false;
-      };
-
-      const searchFactReferenceOptions = (
-        regex: RegExp,
-        factLabels: Array<string>,
-        arrayKey: string
-      ): boolean => {
-        if (factLabels) {
-          const factTopicsAsString = factLabels
-            .reduce((accumulator, current) => {
-              if (current[0] === arrayKey) {
-                return (accumulator += ` ${current[1]}`);
-              } else {
-                return accumulator;
-              }
-            }, ``)
-            .trim();
-          return (regex as RegExp).test(factTopicsAsString as string);
-        }
-        return false;
-      };
 
       await this.table(`facts`)
         .filter((fact) => {
           let highlightFact = false;
 
           if (!highlightFact && allFilters.searchOptions.includes(0)) {
-            //if (fact.tag) {
-            highlightFact = searchFactName(regex, fact.tag);
-            //}
+            highlightFact = ConstantDatabaseFilters.searchFactName(
+              regex,
+              fact.tag
+            );
           }
 
           if (!highlightFact && allFilters.searchOptions.includes(1)) {
-            highlightFact = searchFactContent(regex, fact.value);
+            highlightFact = ConstantDatabaseFilters.searchFactContent(
+              regex,
+              fact.value
+            );
           }
 
           if (!highlightFact && allFilters.searchOptions.includes(2)) {
-            highlightFact = searchFactLabels(regex, fact.labels);
+            highlightFact = ConstantDatabaseFilters.searchFactLabels(
+              regex,
+              fact.labels
+            );
           }
 
           if (!highlightFact && allFilters.searchOptions.includes(3)) {
             // this is technically "Documentation"
-            highlightFact = searchFactDefinition(regex, fact.labels);
+            highlightFact = ConstantDatabaseFilters.searchFactDefinition(
+              regex,
+              fact.labels
+            );
           }
 
           if (!highlightFact && allFilters.searchOptions.includes(4)) {
-            highlightFact = searchFactDimensions(regex, fact.dimensionsValue);
+            highlightFact = ConstantDatabaseFilters.searchFactDimensions(
+              regex,
+              fact.dimensionsValue
+            );
           }
 
           if (!highlightFact && allFilters.searchOptions.includes(5)) {
-            highlightFact = searchFactReferenceOptions(
+            highlightFact = ConstantDatabaseFilters.searchFactReferenceOptions(
               regex,
               fact.references,
               `Topic`
@@ -264,7 +216,7 @@ export class Database extends Dexie {
           }
 
           if (!highlightFact && allFilters.searchOptions.includes(6)) {
-            highlightFact = searchFactReferenceOptions(
+            highlightFact = ConstantDatabaseFilters.searchFactReferenceOptions(
               regex,
               fact.references,
               `SubTopic`
@@ -272,7 +224,7 @@ export class Database extends Dexie {
           }
 
           if (!highlightFact && allFilters.searchOptions.includes(7)) {
-            highlightFact = searchFactReferenceOptions(
+            highlightFact = ConstantDatabaseFilters.searchFactReferenceOptions(
               regex,
               fact.references,
               `Paragraph`
@@ -280,7 +232,7 @@ export class Database extends Dexie {
           }
 
           if (!highlightFact && allFilters.searchOptions.includes(8)) {
-            highlightFact = searchFactReferenceOptions(
+            highlightFact = ConstantDatabaseFilters.searchFactReferenceOptions(
               regex,
               fact.references,
               `Publisher`
@@ -288,7 +240,7 @@ export class Database extends Dexie {
           }
 
           if (!highlightFact && allFilters.searchOptions.includes(9)) {
-            highlightFact = searchFactReferenceOptions(
+            highlightFact = ConstantDatabaseFilters.searchFactReferenceOptions(
               regex,
               fact.references,
               `Section`
@@ -302,7 +254,7 @@ export class Database extends Dexie {
           console.log(error);
         });
     } else {
-      // user is not searching for anything, reset all isHighlights to 0 (FALSE)
+      // user is not searching for anything, reset all [isHighlights] to 0 (FALSE)
       await this.table(`facts`)
         .where({ isHighlight: 1 })
         .modify({ isHighlight: 0 })
@@ -313,134 +265,66 @@ export class Database extends Dexie {
 
     // second we do the fact filtering
     if (isFilterActive) {
-
+      await this.table(`facts`).where({ isActive: 1 }).modify({ isActive: 0 });
       await this.table(`facts`)
         .filter((fact) => {
-
-          const dataRadio = (option: number, fact: FactsTable): boolean => {
-            switch (option) {
-              case 0: {
-                // All
-                return true;
-              }
-              case 1: {
-                // Amounts Only
-                return fact.isNumeric ? true : false;
-              }
-              case 2: {
-                // Text Only
-                return fact.isText ? false : true;
-              }
-              case 3: {
-                // Calculations Only
-                if (fact.calculations !== null && fact.calculations[1]) {
-                  return false;
-                }
-                return true;
-              }
-              case 4: {
-                // Negatives Only
-                return fact.isNegative ? false : true;
-              }
-              case 5: {
-                // Additional Items
-                return fact.isHidden ? false : true;
-              }
-            }
-          };
-
-          const tagsRadio = (option: number, fact: FactsTable): boolean => {
-            switch (option) {
-              case 0: {
-                // All
-                return false;
-              }
-              case 1: {
-                // Standard Only
-                return fact.isCustom ? false : true;
-              }
-              case 2: {
-                // Custom Only
-                return fact.isCustom ? true : false;
-              }
-            }
-          };
-
-          const axisCheck = (
-            option: Array<string>,
-            fact: FactsTable
-          ): boolean => {
-            return option.some((element) =>
-              (fact.axes as Array<string>).includes(element)
+          let activateFact = true;
+          if (activateFact && allFilters.data) {
+            activateFact = ConstantDatabaseFilters.dataRadio(
+              allFilters.data,
+              fact
             );
-          };
-
-          const balanceCheck = (
-            option: Array<string>,
-            fact: FactsTable
-          ): boolean => {
-            return option.includes(fact.balance);
-          };
-
-          const membersCheck = (
-            option: Array<string>,
-            fact: FactsTable
-          ): boolean => {
-            return option.some((element) => fact.members.includes(element));
-          };
-
-          const periodsCheck = (
-            option: Array<string>,
-            fact: FactsTable
-          ): boolean => {
-            return option.includes(fact.period);
-          };
-
-          const scaleCheck = (
-            option: Array<number>,
-            fact: FactsTable
-          ): boolean => {
-            return option.includes(fact.scale);
-          };
-
-          let activateFact = false;
-          if (!activateFact && allFilters.data) {
-            activateFact = !dataRadio(allFilters.data, fact);
           }
 
-          if (!activateFact && allFilters.tags) {
-            activateFact = !tagsRadio(allFilters.tags, fact);
+          if (activateFact && allFilters.tags) {
+            activateFact = ConstantDatabaseFilters.tagsRadio(
+              allFilters.tags,
+              fact
+            );
           }
 
-          if (!activateFact && allFilters.moreFilters.axis.length) {
-            activateFact = axisCheck(allFilters.moreFilters.axis, fact);
+          if (activateFact && allFilters.moreFilters.axis.length) {
+            activateFact = ConstantDatabaseFilters.axisCheck(
+              allFilters.moreFilters.axis,
+              fact
+            );
           }
 
-          if (!activateFact && allFilters.moreFilters.balance.length) {
-            activateFact = balanceCheck(allFilters.moreFilters.balance, fact);
+          if (activateFact && allFilters.moreFilters.balance.length) {
+            activateFact = ConstantDatabaseFilters.balanceCheck(
+              allFilters.moreFilters.balance,
+              fact
+            );
           }
 
-          if (!activateFact && allFilters.moreFilters.members.length) {
-            activateFact = membersCheck(allFilters.moreFilters.members, fact);
+          if (activateFact && allFilters.moreFilters.members.length) {
+            activateFact = ConstantDatabaseFilters.membersCheck(
+              allFilters.moreFilters.members,
+              fact
+            );
           }
 
-          if (!activateFact && allFilters.moreFilters.periods.length) {
-            activateFact = periodsCheck(allFilters.moreFilters.periods, fact);
+          if (activateFact && allFilters.moreFilters.periods.length) {
+            activateFact = ConstantDatabaseFilters.periodsCheck(
+              allFilters.moreFilters.periods,
+              fact
+            );
           }
 
-          if (!activateFact && allFilters.moreFilters.scale.length) {
-            activateFact = scaleCheck(allFilters.moreFilters.scale, fact);
+          if (activateFact && allFilters.moreFilters.scale.length) {
+            activateFact = ConstantDatabaseFilters.scaleCheck(
+              allFilters.moreFilters.scale,
+              fact
+            );
           }
 
           return activateFact;
-
         })
-        .modify({ isActive: 0 })
+        .modify({ isActive: 1 })
         .catch((error) => {
           console.log(error);
         });
     } else {
-      console.log(`set all to active`);
       await this.table(`facts`)
         .where({ isActive: 0 })
         .modify({ isActive: 1 })
@@ -553,30 +437,4 @@ export class Database extends Dexie {
   async getAllUniqueBalances(): Promise<IndexableType> {
     return await this.table(`facts`).orderBy(`balance`).uniqueKeys();
   }
-}
-// todo this goes elsewhere...obviously
-interface FactsTable {
-  htmlId?: string;
-  tag?: string;
-  period?: string;
-  axes?: unknown;
-  members?: Array<string> | string;
-  measure?: unknown;
-  scale?: number;
-  decimals?: unknown;
-  balance?: string;
-  value?: string;
-  dimensions?: unknown;
-  contextref?: unknown;
-  isHidden?: unknown;
-  isHtml?: number;
-  isNegative?: number;
-  isNumeric?: number;
-  isText?: number;
-  isCustom?: number;
-  standardLabel?: unknown;
-  labels?: unknown;
-  calculations?: unknown;
-  isActive: number;
-  isHighlight: number;
 }

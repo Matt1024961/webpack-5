@@ -1,0 +1,25 @@
+export type FactsTable = {
+  htmlId?: string;
+  tag?: string;
+  period?: string;
+  axes?: unknown;
+  members?: Array<string> | string;
+  measure?: unknown;
+  scale?: number;
+  decimals?: unknown;
+  balance?: string;
+  value?: string;
+  dimensions?: unknown;
+  contextref?: unknown;
+  isHidden?: unknown;
+  isHtml?: number;
+  isNegative?: number;
+  isNumeric?: number;
+  isText?: number;
+  isCustom?: number;
+  standardLabel?: unknown;
+  labels?: unknown;
+  calculations?: unknown;
+  isActive: number;
+  isHighlight: number;
+};

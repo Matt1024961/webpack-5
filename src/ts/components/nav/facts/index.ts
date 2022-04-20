@@ -63,7 +63,7 @@ export class Facts extends HTMLElement {
   }
 
   async updateFactsCount() {
-    const db = new Database();
+    const db: Database = Database.getInstance();
     const dbCount = await db.getFactsCount();
     const textToAdd = document.createTextNode(`${dbCount}`);
     const span = document.createElement(`span`);

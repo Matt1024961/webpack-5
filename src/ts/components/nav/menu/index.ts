@@ -1,4 +1,4 @@
-import { ConstantApplication } from '../../../store/application';
+import { ConstantApplication } from '../../../constants/application';
 import { StoreLogger } from '../../../store/logger';
 import template from './template.html';
 
