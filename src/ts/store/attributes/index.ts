@@ -1,4 +1,5 @@
-import { Database } from '../../database';
+import Database from '../../database';
+import { StoreUrl } from '../url';
 
 export class Attributes {
   constructor() {
@@ -6,7 +7,8 @@ export class Attributes {
   }
 
   async setProperAttribute() {
-    const db: Database = Database.getInstance();
+    const storeUrl: StoreUrl = StoreUrl.getInstance();
+    const db: Database = new Database(storeUrl.dataURL);
     const allFacts = Array.from(document.querySelectorAll(`[contextRef]`));
     for await (const element of allFacts) {
       const isfactHidden = await db.isFactHidden(element.id);

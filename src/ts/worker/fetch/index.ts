@@ -1,3 +1,4 @@
+import Database from '../../database';
 import { DataJSON } from '../../types/data-json';
 
 const fetchXhtml = async (url: string) => {
@@ -18,15 +19,18 @@ const fetchXhtml = async (url: string) => {
 };
 
 const fetchData = async (url: string) => {
+  const db: Database = new Database(url);
   return fetch(url)
     .then(async (response) => {
       if (response.status >= 200 && response.status <= 299) {
+        await db.clearFactsTable();
         return response.json();
       } else {
         throw Error(response.status.toString());
       }
     })
     .then(async (data: DataJSON) => {
+      await db.parseData(data);
       return { data };
     })
     .catch((error) => {
@@ -34,8 +38,8 @@ const fetchData = async (url: string) => {
     });
 };
 
-self.onmessage = async ({ data: { xhtml, data } }) => {
-  await Promise.all([fetchXhtml(xhtml), fetchData(data)]).then(
+self.onmessage = async ({ data }) => {
+  await Promise.all([fetchXhtml(data.xhtml), fetchData(data.data)]).then(
     async (allResponses) => {
       self.postMessage({
         all: allResponses,

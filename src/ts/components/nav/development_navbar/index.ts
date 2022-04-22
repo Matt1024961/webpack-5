@@ -10,13 +10,30 @@ export class DevelopmentNavbar extends HTMLElement {
   }
 
   init(): void {
-    fetch(`./assets/development-locations.json`)
-      .then((response) => {
+
+     fetch(`./assets/development-locations.json`)
+    .then(async (response) => {
+      if (response.status >= 200 && response.status <= 299) {
         return response.json();
-      })
-      .then((data) => {
-        this.render(data);
-      });
+      } else {
+        throw Error(response.status.toString());
+      }
+    })
+    .then(async (data) => {
+      this.render(data);
+    })
+    .catch((error) => {
+      console.log(error);
+      //return { error };
+    });
+
+    // fetch(`./assets/development-locations.json`)
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     this.render(data);
+    //   });
   }
   render(
     developmentData: { single: Array<string>; multi: Array<string> }

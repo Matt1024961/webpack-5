@@ -1,36 +1,18 @@
 import Dexie, { IndexableType } from 'dexie';
 import * as moment from 'moment';
 import { ConstantDatabaseFilters } from '../constants/database-filters';
-import { StoreFilter } from '../store/filter';
 import { DataJSON } from '../types/data-json';
 import { FactsTable } from '../types/facts-table';
 import { allFilters } from '../types/filter';
-export class Database extends Dexie {
+export default class Database extends Dexie {
   facts!: Dexie.Table<FactsTable, number>;
-  private static instance: Database;
-  private constructor(url: string) {
+  constructor(url: string) {
     super(`SEC - IXViewer - ${url}`);
     this.version(1).stores({
       // NOTE we ONLY INDEX what is necessary
-      facts: `++htmlId, isHtml, isNegative, isNumberic, isText, isHidden, isActive, isHighlight, isCustom, period, axes, members, scale, balance, [htmlId+isHidden], [htmlId+isHighlight], [htmlId+isText], [htmlId+isActive], [isHighlight+isActive]`,
+      facts: `++htmlId, isHtml, isNegative, isNumeric, isText, isHidden, isActive, isHighlight, isCustom, period, axes, members, scale, balance, [htmlId+isHidden], [htmlId+isHighlight], [htmlId+isText], [htmlId+isActive], [isHighlight+isActive]`,
     });
   }
-
-  public static getInstance(url?: string): Database {
-    if (!Database.instance) {
-      Database.instance = new Database(url);
-    }
-    return Database.instance;
-  }
-
-  // constructor(url: string) {
-  //   super(`SEC - IXViewer - ${url}`);
-
-  //   this.version(1).stores({
-  //     // NOTE we ONLY INDEX what is necessary
-  //     facts: `++htmlId, isHtml, isNegative, isNumberic, isText, isHidden, isActive, isHighlight, isCustom, period, axes, members, scale, balance, [htmlId+isHidden], [htmlId+isHighlight], [htmlId+isText], [htmlId+isActive], [isHighlight+isActive]`,
-  //   });
-  // }
 
   async clearFactsTable(): Promise<void> {
     await this.table('facts').clear();
@@ -146,9 +128,7 @@ export class Database extends Dexie {
     }
   }
 
-  async getFactsCount() {
-    const storeFilter: StoreFilter = StoreFilter.getInstance();
-    const allFilters = storeFilter.getAllFilters();
+  async getFactsCount(allFilters: allFilters) {
     if (allFilters.search) {
       return await this.table('facts').where(`isHighlight`).equals(1).count();
     } else {
@@ -332,7 +312,7 @@ export class Database extends Dexie {
           console.log(error);
         });
     }
-    return;
+    return true;
   }
 
   async getFactById(id: string): Promise<FactsTable> {

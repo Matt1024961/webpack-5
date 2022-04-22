@@ -33,7 +33,7 @@ export class Root extends HTMLElement {
       this.append(node);
       storeLogger.info('Root Application rendered');
     } else {
-      storeLogger.info('Root Application NOT rendered');
+      storeLogger.error('Root Application NOT rendered');
     }
   }
 }

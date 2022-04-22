@@ -1,7 +1,8 @@
-import { Database } from '../../../database';
+import Database from '../../../database';
 import { ErrorClass } from '../../../error';
 import { StoreFilter } from '../../../store/filter';
 import { Scale } from '../../../store/scale';
+import { StoreUrl } from '../../../store/url';
 import { moreFilters } from '../../../types/filter';
 import template from './template.html';
 
@@ -172,11 +173,13 @@ export class MoreFilters extends HTMLElement {
   }
 
   async populateDropdownOptions() {
-    await this.populatePeriods();
-    await this.populateAxes();
-    await this.populateMembers();
-    await this.populateScale();
-    await this.populateBalance();
+    const storeUrl: StoreUrl = StoreUrl.getInstance();
+    const db: Database = new Database(storeUrl.dataURL);
+    await this.populatePeriods(db);
+    await this.populateAxes(db);
+    await this.populateMembers(db);
+    await this.populateScale(db);
+    await this.populateBalance(db);
     this.populated = true;
     const checkboxes = this.querySelectorAll('input[type=checkbox]');
     if (checkboxes) {
@@ -188,8 +191,7 @@ export class MoreFilters extends HTMLElement {
     }
   }
 
-  async populatePeriods() {
-    const db: Database = Database.getInstance();
+  async populatePeriods(db: Database) {
     const periods = (await db.getAllUniquePeriods()) as Array<string>;
     const regex = new RegExp(/(\d{1,4}([.\-/])\d{1,2}([.\-/])\d{1,4})/g);
     const complexPeriods = periods.reduce(
@@ -312,8 +314,7 @@ export class MoreFilters extends HTMLElement {
       });
   }
 
-  async populateBalance() {
-    const db: Database = Database.getInstance();
+  async populateBalance(db: Database) {
     const filterBalance = (await db.getAllUniqueBalances()) as Array<string>;
 
     const balanceCount = document.createTextNode(`${filterBalance.length}`);
@@ -352,8 +353,7 @@ export class MoreFilters extends HTMLElement {
     });
   }
 
-  async populateScale() {
-    const db: Database = Database.getInstance();
+  async populateScale(db: Database) {
     const filterScale = (await db.getAllUniqueScales()) as Array<string>;
 
     const scaleCount = document.createTextNode(`${filterScale.length}`);
@@ -394,8 +394,7 @@ export class MoreFilters extends HTMLElement {
       });
   }
 
-  async populateMembers() {
-    const db: Database = Database.getInstance();
+  async populateMembers(db: Database) {
     const filterMembers = (await db.getAllUniqueMembers()) as unknown as Array<
       Array<string>
     >;
@@ -448,8 +447,7 @@ export class MoreFilters extends HTMLElement {
     });
   }
 
-  async populateAxes() {
-    const db: Database = Database.getInstance();
+  async populateAxes(db: Database) {
     const filterAxis = (await db.getAllUniqueAxes()) as unknown as Array<
       Array<string>
     >;

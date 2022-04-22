@@ -25,13 +25,26 @@ import { Links } from './components/nav/links';
 import { ResetAllFilters } from './components/nav/reset_all_filters';
 import { Information } from './components/modals/information';
 import { BaseModal } from './components/modals/base-modal';
-//import { Database } from './database';
 
 (() => {
   const storeLogger: StoreLogger = StoreLogger.getInstance();
+
   storeLogger.info(`Application Begin`);
-  // const db = new Database();
-  // db.createTables();
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker
+        .register('/service-worker.js', { scope: `/` })
+        .then(() => {
+          storeLogger.info('Service Worker Registered Successfully!');
+        })
+        .catch(() => {
+          storeLogger.error('Service Worker NOT Registered!');
+        });
+    });
+  } else {
+    storeLogger.error('Service Worker not available on your browser!');
+  }
+
   // here we hadd all custom HTML components
   customElements.define('sec-root', Root);
   customElements.define('sec-navbar', Navbar);

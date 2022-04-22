@@ -1,14 +1,17 @@
-import { Database } from '../../database';
+//import { Database } from '../../database';
 // import { ErrorClass } from '../../error';
 import { search as searchType } from '../../types/filter';
 import { searchOptions as searchOptionType } from '../../types/filter';
 import { data as dataType } from '../../types/filter';
 import { tags as tagsType } from '../../types/filter';
 import { moreFilters as moreFiltersType } from '../../types/filter';
+//import WorkerBuilder from '../../worker/builder';
+//import Worker from '../../worker/filter';
 import { Attributes } from '../attributes';
 // import { Attributes } from '../attributes';
 //import { StoreData } from '../data';
 import { StoreLogger } from '../logger';
+import { StoreUrl } from '../url';
 //import { StoreUrl } from '../url';
 
 export class StoreFilter {
@@ -82,18 +85,33 @@ export class StoreFilter {
     } else {
       document.querySelector(`sec-reset-all-filters`).classList.add(`d-none`);
     }
-    const db: Database = Database.getInstance();
-    
-    await db.getHighlight(this.getAllFilters(), this.isFilterActive());
-    document.querySelector(`sec-facts`).setAttribute(`update-count`, ``);
-    const attributes = new Attributes();
-    attributes.setProperAttribute();
-
-    const stop = performance.now();
-    const storeLogger: StoreLogger = StoreLogger.getInstance();
-    storeLogger.info(
-      `Filtering Facts took ${(stop - start).toFixed(2)} milliseconds.`
-    );
+    const storeUrl: StoreUrl = StoreUrl.getInstance();
+    if (window.Worker) {
+      const worker = new Worker(
+        new URL('./../../worker/filter/index', import.meta.url),
+        { name: `filter` }
+      );
+      worker.postMessage({
+        url: storeUrl.dataURL,
+        allFilters: this.getAllFilters(),
+        isFilterActive: this.isFilterActive(),
+      });
+      worker.onmessage = async (event) => {
+        if (event) {
+          document.querySelector(`sec-facts`).setAttribute(`update-count`, ``);
+          const attributes = new Attributes();
+          attributes.setProperAttribute();
+          const stop = performance.now();
+          const storeLogger: StoreLogger = StoreLogger.getInstance();
+          storeLogger.info(
+            `Filtering Facts took ${(stop - start).toFixed(2)} milliseconds.`
+          );
+        }
+        worker.terminate();
+      };
+    } else {
+      // no worker!
+    }
   }
 
   public get search() {

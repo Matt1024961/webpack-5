@@ -5,6 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require(`html-webpack-plugin`);
 const PurgeCSSPlugin = require('purgecss-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
+
 const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = (env, argv = { mode: `production` }) => {
@@ -12,7 +14,7 @@ module.exports = (env, argv = { mode: `production` }) => {
     mode: argv.mode,
 
     entry: `./src/ts/index.ts`,
-
+    
     plugins: [
       new HtmlWebpackPlugin({
         title:
@@ -25,26 +27,59 @@ module.exports = (env, argv = { mode: `production` }) => {
       new webpack.BannerPlugin({
         banner: `Created by staff of the U.S. Securities and Exchange Commission.\nData and content created by government employees within the scope of their employment\nare not subject to domestic copyright protection. 17 U.S.C. 105.`,
       }),
-
       new MiniCssExtractPlugin({
         filename: `styles.[contenthash].min.css`,
       }),
-
-      argv.mode === 'development'
+      env.copy
         ? new CopyPlugin({
-          patterns: [{ from: 'src/assets', to: 'assets' }],
-        })
+            patterns: [{ from: 'src/assets', to: 'assets' }],
+          })
         : false,
-
       new PurgeCSSPlugin({
         paths: glob.sync(`${path.join(__dirname, '../src')}/**/*`, {
           nodir: true,
         }),
       }),
-
       new ESLintPlugin({
         extensions: ['ts'],
       }),
+      argv.mode === `production`
+        ? new WorkboxPlugin.GenerateSW({
+            // these options encourage the ServiceWorkers to get in there fast
+            // and not allow any straggling "old" SWs to hang around
+            disableDevLogs: true,
+            clientsClaim: true,
+            skipWaiting: true,
+            cleanupOutdatedCaches: true,
+            inlineWorkboxRuntime: true,
+            maximumFileSizeToCacheInBytes: 6000000,
+            exclude: [`assets`],
+            mode: argv.mode,
+            ignoreURLParametersMatching: [/^\d+$/],
+            runtimeCaching: [
+              {
+                // Match any request that ends with .png, .jpg, .jpeg or .svg.  urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+                urlPattern: /\.(?:min.js|min.css)$/,
+                // Apply a network-first strategy.
+                handler: 'StaleWhileRevalidate',
+                options: {
+                  // Use a custom cache name.
+                  cacheName: 'application',
+                },
+              },
+              {
+                // Match any request that ends with .png, .jpg, .jpeg or .svg.  urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+                urlPattern: /\.(?:htm|json)$/,
+                // Apply a network-first strategy.
+                handler: 'StaleWhileRevalidate',
+                options: {
+                  // Use a custom cache name.
+                  cacheName: 'filing',
+                },
+              },
+            ],
+          })
+        : false,
     ].filter(Boolean),
 
     output: {
@@ -110,11 +145,19 @@ module.exports = (env, argv = { mode: `production` }) => {
       compress: true,
       port: 3000,
       static: path.resolve(__dirname, `../dist`),
-      watchFiles: [`./src/**/*.html`, `./src/**/*.scss`, `./src/**/*.ts`],
+      // watchFiles: [`./src/**/*.html`, `./src/**/*.scss`, `./src/**/*.ts`],
+      // only for production-serve
+      liveReload: argv.mode === `production` ? false : true,
+      watchFiles:
+        argv.mode === `production`
+          ? []
+          : [`./src/**/*.html`, `./src/**/*.scss`, `./src/**/*.ts`],
       client: {
         overlay: true,
-        logging: `none`
-        // progress: true,
+        logging: `none`,
+      },
+      devMiddleware: {
+        writeToDisk: true,
       },
     },
 
@@ -122,6 +165,7 @@ module.exports = (env, argv = { mode: `production` }) => {
       minimize: true,
       usedExports: true,
     },
+
     performance: {
       hints: false,
     },

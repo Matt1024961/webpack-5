@@ -5,7 +5,7 @@ import { StoreLogger } from '../store/logger';
 import { StoreUrl } from '../store/url';
 import { StoreXhtml } from '../store/xhtml';
 import { WarningClass } from '../warning';
-import { Database } from '../database';
+// import { Database } from '../database';
 export class FilingUrl {
   constructor() {
     this.init();
@@ -69,6 +69,8 @@ export class FilingUrl {
 
         storeUrl.redline = params[property].indexOf(`redline=true`) >= 0;
 
+        storeUrl.host = window.location.origin;
+
         if (storeUrl.filingHost !== storeUrl.host) {
           // report CORS error
           const error = new ErrorClass();
@@ -97,9 +99,13 @@ export class FilingUrl {
     storeLogger.info(`Begin Fetch of Both XHTML and JSON on Web Worker`);
 
     if (window.Worker) {
+      const start = performance.now();
+      console.log(new URL('./../worker/fetch/index.ts', import.meta.url));
       const worker = new Worker(
-        new URL('./../worker/fetch/index', import.meta.url)
+        new URL('./../worker/fetch/index.ts', import.meta.url),
+        { name: `fetch` }
       );
+
       worker.postMessage({
         xhtml: storeUrl.filingURL,
         data: storeUrl.dataURL,
@@ -111,18 +117,6 @@ export class FilingUrl {
             const warning = new WarningClass();
             warning.show(`No supporting file was found (${storeUrl.dataURL}).`);
           } else if (event.data.all[1].data) {
-            // load the IndexedDB
-            const start = performance.now();
-            const db: Database = Database.getInstance(storeUrl.dataURL);
-            await db.clearFactsTable();
-            await db.parseData(event.data.all[1].data);
-            const stop = performance.now();
-            const storeLogger: StoreLogger = StoreLogger.getInstance();
-            storeLogger.info(
-              `Loading IndexedDB took ${(stop - start).toFixed(
-                2
-              )} milliseconds.`
-            );
             const factContainer = document.querySelector(
               `#facts-container sec-facts`
             );
@@ -153,7 +147,17 @@ export class FilingUrl {
         if (enableapplication.data && enableapplication.xhtml) {
           ConstantApplication.enableApplication();
         }
+        const stop = performance.now();
+        const storeLogger: StoreLogger = StoreLogger.getInstance();
+        storeLogger.info(
+          `Fetching Necessary Filings AND Loading IndexedDB took ${(
+            stop - start
+          ).toFixed(2)} milliseconds.`
+        );
+        worker.terminate();
       };
+    } else {
+      // no worker!
     }
   }
 }

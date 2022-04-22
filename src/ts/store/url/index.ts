@@ -9,7 +9,7 @@ export class StoreUrl {
   // filingHost: `www.sec.gov`
   private _filingHost: string | null;
   // host: `www.sec.gov`
-  private _host = window.location.origin;
+  private _host: string | null;
   // redline: false
   private _redline: boolean | null;
 
@@ -82,7 +82,7 @@ export class StoreUrl {
   }
 
   public set host(input: string) {
-    this.host = input;
+    this._host = input;
   }
 
   public get redline() {

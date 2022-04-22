@@ -7,9 +7,14 @@
     "e2e": "node_modules/.bin/cypress open",
     "test": "node ./node_modules/karma/bin/karma start ./config/karma.conf.js --mode production",
     "predevelopment": "node filings_finder.js",
-    "development": "webpack serve --open --config ./config/webpack.config.js --mode development",
-    "production-serve": "webpack serve --open --config ./config/webpack.config.js --mode production",
-    "production": "webpack --config ./config/webpack.config.js --mode production"
+    "development": "webpack --config ./config/webpack.config.js --mode development --env copy",
+    "development-serve": "webpack serve --open --config ./config/webpack.config.js --mode development --env copy",
+    "production": "webpack --config ./config/webpack.config.js --mode production",
+    "production-serve": "webpack --config ./config/webpack.config.js --mode production --env copy",
+    "preproduction-pwa": "npm run production-serve",
+    "production-pwa": "http-server dist",
+    "predevelopment-pwa": "npm run production-serve",
+    "development-pwa": "http-server dist"
   },
   "author": "",
   "license": "ISC",
@@ -31,6 +36,7 @@
     "geckodriver": "^3.0.1",
     "html-loader": "^3.1.0",
     "html-webpack-plugin": "^5.5.0",
+    "http-server": "^14.1.0",
     "jasmine": "^4.0.2",
     "karma": "^6.3.17",
     "karma-babel-preprocessor": "^8.0.2",
@@ -53,9 +59,10 @@
     "style-loader": "^3.3.1",
     "ts-loader": "^9.2.8",
     "typescript": "^4.6.2",
-    "webpack": "^5.70.0",
+    "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4"
+    "webpack-dev-server": "^4.7.4",
+    "workbox-webpack-plugin": "^6.5.3"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.1.1",
@@ -91,7 +98,7 @@
     "rules": {
       "@typescript-eslint/no-var-requires": 0,
       "no-console": 0,
-      "no-unused-vars": 1
+      "no-unused-vars": 0
     }
   }
 }
