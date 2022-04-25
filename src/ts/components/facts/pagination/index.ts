@@ -1,13 +1,15 @@
 // import { Logger } from 'typescript-logger';
 import { ConstantApplication } from '../../../constants/application';
-import { StoreData } from '../../../store/data';
+import Database from '../../../database';
+//import { StoreData } from '../../../store/data';
+import { StoreFilter } from '../../../store/filter';
 import { StoreUrl } from '../../../store/url';
 //import { facts as factsType } from '../../types/data-json';
 
 import template from './template.html';
 
 export class FactsMenuPagination extends HTMLElement {
-  private pagination = ConstantApplication.fact_menu_pagination;
+  private pagination = ConstantApplication.factMenuPagination;
   static get observedAttributes() {
     return [`pagination`, `reset`];
   }
@@ -15,12 +17,12 @@ export class FactsMenuPagination extends HTMLElement {
     super();
   }
 
-  connectedCallback() {
-    this.render();
+  async connectedCallback() {
+    await this.render();
     this.listeners();
   }
 
-  attributeChangedCallback(
+  async attributeChangedCallback(
     name: string,
     oldValue: string | null,
     newValue: string | null
@@ -33,10 +35,9 @@ export class FactsMenuPagination extends HTMLElement {
     }
     if (name === `reset` && newValue) {
       this.innerHTML = ``;
-      this.pagination = ConstantApplication.fact_menu_pagination;
-      this.render();
+      this.pagination = ConstantApplication.factMenuPagination;
+      await this.render();
       this.listeners();
-      console.log(this.pagination);
       this.removeAttribute(`reset`);
     }
   }
@@ -70,16 +71,22 @@ export class FactsMenuPagination extends HTMLElement {
     }
   }
 
-  render() {
+  async render() {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
-      const storeData: StoreData = StoreData.getInstance();
+      // const storeData: StoreData = StoreData.getInstance();
       const storeUrl: StoreUrl = StoreUrl.getInstance();
-      const templateInfo = storeData.getFilingFactsPaginationTemplate(
-        storeUrl.filing,
+
+      const storeFilter: StoreFilter = StoreFilter.getInstance();
+
+      const db: Database = new Database(storeUrl.dataURL);
+
+      const templateInfo = await db.getFactPaginationData(storeUrl.filing,
         this.pagination.start,
-        this.pagination.end
+        this.pagination.end,
+        this.pagination.amount,
+        storeFilter.getAllFilters()
       );
       this.pagination.totalPages = templateInfo.totalPages;
       const selector = htmlDoc.querySelector(`[template]`);

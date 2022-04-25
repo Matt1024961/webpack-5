@@ -63,7 +63,8 @@ export type facts = {
   'ixv:isnumeric': boolean;
   'ixv:istextonly': boolean;
   'ixv:isnegativesonly': boolean;
-
+  'ixv:format': string;
+  decimals: number | null;
   value: string;
   active: null | boolean;
   highlight: null | boolean;

@@ -1,13 +1,17 @@
 import { ConstantApplication } from '../../../constants/application';
+import Database from '../../../database';
 import { StoreData } from '../../../store/data';
+import { StoreFilter } from '../../../store/filter';
 import { StoreUrl } from '../../../store/url';
-import { facts as factsType } from '../../../types/data-json';
+import { FactsTable } from '../../../types/facts-table';
+//import { facts as factsType } from '../../../types/data-json';
+//import { FactsTable } from '../../../types/facts-table';
 import { WarningClass } from '../../../warning';
 
 import template from './template.html';
 
 export class FactsMenuSingle extends HTMLElement {
-  private pagination = ConstantApplication.fact_menu_pagination;
+  private pagination = ConstantApplication.factMenuPagination;
 
   static get observedAttributes() {
     return [`pagination`];
@@ -18,18 +22,18 @@ export class FactsMenuSingle extends HTMLElement {
   }
 
   connectedCallback() {
-    this.render();
-    this.listeners();
+    //
   }
 
-  attributeChangedCallback(
+  async attributeChangedCallback(
     name: string,
     oldValue: string | null,
     newValue: string | null
   ) {
+
     this.pagination = JSON.parse(newValue);
     this.empty();
-    this.render();
+    await this.render();
     this.listeners();
   }
 
@@ -37,19 +41,23 @@ export class FactsMenuSingle extends HTMLElement {
     this.innerHTML = ``;
   }
 
-  render() {
+  async render() {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
-      const storeData: StoreData = StoreData.getInstance();
+      //const storeData: StoreData = StoreData.getInstance();
       const storeUrl: StoreUrl = StoreUrl.getInstance();
-      const facts = storeData.getFilingFactsPagination(
-        storeUrl.filing,
+      const storeFilter: StoreFilter = StoreFilter.getInstance();
+
+      const db: Database = new Database(storeUrl.dataURL);
+
+      const facts = await db.getFactsPagination(storeUrl.filing,
         this.pagination.start,
-        this.pagination.end
+        this.pagination.end,
+        storeFilter.getAllFilters()
       );
       if (facts) {
-        facts.forEach((current, index, array) => {
+        (facts as Array<FactsTable>).forEach((current, index, array) => {
           if (current) {
             // select the [template]
             const selector = htmlDoc.querySelector(`[template]`);
@@ -57,43 +65,46 @@ export class FactsMenuSingle extends HTMLElement {
             node.removeAttribute(`template`);
 
             // add the fact id to the <a> tag
-            if (current && current.id) {
+            if (current && current.htmlId) {
               node
                 .querySelector(`[fact-action]`)
-                .setAttribute(`fact-id`, current.id);
+                .setAttribute(`fact-id`, current.htmlId);
               node.removeAttribute(`[fact-name]`);
             }
 
             // add the fact name
             const factName = document.createTextNode(
-              current[`ixv:standardLabel`]
+              current.standardLabel
             );
             node.querySelector(`[fact-name]`).appendChild(factName);
             node.removeAttribute(`fact-name`);
 
             // add the fact period
-            const factPeriod = document.createTextNode(
-              storeData.getSimplePeriod(
-                parseInt(current[`ixv:factAttributes`][3][1])
-              ).text
-            );
+            const factPeriod = document.createTextNode(current.period);
+            // document.createTextNode(
+            //   storeData.getSimplePeriod(
+            //     parseInt(current[`ixv:factAttributes`][3][1])
+            //   ).text
+            // );
             node.querySelector(`[fact-period]`).appendChild(factPeriod);
             node.removeAttribute(`fact-period`);
 
             // add the fact value
-            const factValue = document.createTextNode(
-              current[`ixv:factAttributes`][2][1]
-                ? `Click To See This Fact`
-                : current.value
+            const factValue = document.createTextNode(current.isHtml ? `Click To See This Fact` : current.value
+
             );
             node.querySelector(`[fact-value]`).appendChild(factValue);
             node.removeAttribute(`fact-value`);
 
             // add the fact quick info
             const factQuickInfo = document.createTextNode(
-              `${storeData.getIsCustomTag(current as factsType) ? `C` : ``}
-            ${storeData.getIsDimension(current as factsType) ? `D` : ``}
-            ${storeData.getIsAdditional(current as factsType) ? `A` : ``}`
+              `${current.isCustom ? `C` : ``}
+               ${current.dimensions ? `D` : ``}
+               ${current.isHidden ? `A` : ``} 
+              `
+              //   `${storeData.getIsCustomTag(current as factsType) ? `C` : ``}
+              // ${storeData.getIsDimension(current as factsType) ? `D` : ``}
+              // ${storeData.getIsAdditional(current as factsType) ? `A` : ``}`
             );
             node.querySelector(`[fact-quick-info]`).appendChild(factQuickInfo);
             node.removeAttribute(`fact-quick-info`);

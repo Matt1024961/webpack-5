@@ -10,7 +10,7 @@ export default class Database extends Dexie {
     super(`SEC - IXViewer - ${url}`);
     this.version(1).stores({
       // NOTE we ONLY INDEX what is necessary
-      facts: `++htmlId, isHtml, isNegative, isNumeric, isText, isHidden, isActive, isHighlight, isCustom, period, axes, members, scale, balance, [htmlId+isHidden], [htmlId+isHighlight], [htmlId+isText], [htmlId+isActive], [isHighlight+isActive]`,
+      facts: `++htmlId, order, isHtml, isNegative, isNumeric, isText, isHidden, isActive, isHighlight, isCustom, period, axes, members, scale, balance, [htmlId+isHidden], [htmlId+isHighlight], [htmlId+isText], [htmlId+isActive], [isHighlight+isActive]`,
     });
   }
 
@@ -55,7 +55,9 @@ export default class Database extends Dexie {
           tempDimension.key = dimensionKeys;
         }
       }
+
       if (current['ixv:factAttributes']) {
+        let orderCount = 0;
         const factToPutIntoDB = {
           // everything located in ixv:factAttributes
           tag: current['ixv:factAttributes'][0][1],
@@ -74,7 +76,7 @@ export default class Database extends Dexie {
           // END everything located in ixv:factAttributes
 
           htmlId: current.id,
-          value: current.value,
+          value: this.getTransformation(current.value, current.decimals, current['ixv:format']),
           dimensions: {
             concept: current.dimensions.concept,
             period: current.dimensions.period,
@@ -101,6 +103,7 @@ export default class Database extends Dexie {
             : 0,
           isActive: 1,
           isHighlight: 0,
+          order: orderCount++,
         };
         arrayToBulkInsert.push(factToPutIntoDB);
         if (arrayToBulkInsert.length === 2500) {
@@ -112,6 +115,13 @@ export default class Database extends Dexie {
       }
     }
     return await this.putBulkData(arrayToBulkInsert);
+  }
+  getTransformation(input: string, decimals: number | null, format: string) {
+    console.log(input);
+    console.log(decimals);
+    console.log(format);
+    console.log(``)
+    return input;
   }
 
   updatePeriod(input: string) {
@@ -416,5 +426,24 @@ export default class Database extends Dexie {
 
   async getAllUniqueBalances(): Promise<IndexableType> {
     return await this.table(`facts`).orderBy(`balance`).uniqueKeys();
+  }
+
+  async getFactPaginationData(input: string, start: number, end: number, amount: number, allFilters: allFilters) {
+    const currentFacts = await this.getFactsCount(allFilters);
+    return {
+      total: currentFacts,
+      start: start,
+      end: end,
+      totalPages: Math.ceil(currentFacts / amount),
+      currentPage: start * amount,
+    };
+  }
+
+  async getFactsPagination(input: string, start: number, end: number, allFilters: allFilters) {
+    if (allFilters.search) {
+      return await this.facts.orderBy(`order`).and(x => x.isHighlight === 1).offset(start).limit(end + 1 - start).toArray()
+    } else {
+      return await this.facts.orderBy(`order`).and(x => x.isActive === 1).offset(start).limit(end + 1 - start).toArray()
+    }
   }
 }

@@ -31,9 +31,8 @@ export class FilingUrl {
 
     let filingURLLog = `Filing URL Data: `;
     Object.keys(storeUrl).forEach((current: string) => {
-      filingURLLog += `\n\t ${current}: ${
-        storeUrl[current as keyof typeof storeUrl]
-      }`;
+      filingURLLog += `\n\t ${current}: ${storeUrl[current as keyof typeof storeUrl]
+        }`;
     });
     storeLogger.info(filingURLLog);
     storeLogger.info(`Filing URL Complete`);
@@ -100,7 +99,6 @@ export class FilingUrl {
 
     if (window.Worker) {
       const start = performance.now();
-      console.log(new URL('./../worker/fetch/index.ts', import.meta.url));
       const worker = new Worker(
         new URL('./../worker/fetch/index.ts', import.meta.url),
         { name: `fetch` }

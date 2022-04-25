@@ -17,7 +17,7 @@ export type FactsTable = {
   isNumeric?: number;
   isText?: number;
   isCustom?: number;
-  standardLabel?: unknown;
+  standardLabel?: string;
   labels?: unknown;
   calculations?: unknown;
   isActive: number;

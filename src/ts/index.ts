@@ -45,6 +45,14 @@ import { BaseModal } from './components/modals/base-modal';
     storeLogger.error('Service Worker not available on your browser!');
   }
 
+  // window.addEventListener('beforeunload', function (e) {
+  //   console.log(`we now delete the DB!`);
+  //   // Cancel the event
+  //   //e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+  //   // Chrome requires returnValue to be set
+  //   e.returnValue = '';
+  // });
+
   // here we hadd all custom HTML components
   customElements.define('sec-root', Root);
   customElements.define('sec-navbar', Navbar);
