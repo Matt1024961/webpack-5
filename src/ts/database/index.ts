@@ -1,6 +1,8 @@
 import Dexie, { IndexableType } from 'dexie';
 import * as moment from 'moment';
 import { ConstantDatabaseFilters } from '../constants/database-filters';
+import { TransformationsNumber } from '../constants/transformations/number';
+// import { TransformationsNumber } from '../constants/transformations/number';
 import { DataJSON } from '../types/data-json';
 import { FactsTable } from '../types/facts-table';
 import { allFilters } from '../types/filter';
@@ -76,7 +78,11 @@ export default class Database extends Dexie {
           // END everything located in ixv:factAttributes
 
           htmlId: current.id,
-          value: this.getTransformation(current.value, current.decimals, current['ixv:format']),
+          value: this.getTransformation(
+            current.value,
+            current.decimals,
+            current['ixv:format']
+          ),
           dimensions: {
             concept: current.dimensions.concept,
             period: current.dimensions.period,
@@ -116,11 +122,197 @@ export default class Database extends Dexie {
     }
     return await this.putBulkData(arrayToBulkInsert);
   }
-  getTransformation(input: string, decimals: number | null, format: string) {
-    console.log(input);
-    console.log(decimals);
-    console.log(format);
-    console.log(``)
+
+  getTransformation(input: string, _decimals: number | null, format: string) {
+    const formatArray = format ? format.split(`:`) : [null, null];
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    const transformationsObject: { [key: string]: null | unknown } = {
+      booleanfalse: null,
+      booleantrue: null,
+      boolballotbox: null,
+      yesnoballotbox: null,
+      countrynameen: null,
+      stateprovnameen: null,
+      exchnameen: null,
+      entityfilercategoryen: null,
+      edgarprovcountryen: null,
+      calindaymonthyear: null,
+      datedaymonth: null,
+      datedaymonthdk: null,
+      datedaymonthen: null,
+      datedaymonthyear: null,
+      datedaymonthyeardk: null,
+      datedaymonthyearen: null,
+      datedaymonthyearin: null,
+      datedoteu: null,
+      datedotus: null,
+      dateerayearmonthdayjp: null,
+      dateerayearmonthjp: null,
+      datelongmonthyear: null,
+      datelonguk: null,
+      datelongus: null,
+      datelongyearmonth: null,
+      datemonthday: null,
+      datemonthdayen: null,
+      datemonthdayyear: null,
+      datemonthdayyearen: null,
+      datemonthyear: null,
+      datemonthyeardk: null,
+      datemonthyearen: null,
+      datemonthyearin: null,
+      dateshortdaymonthuk: null,
+      dateshorteu: null,
+      dateshortmonthdayus: null,
+      dateshortmonthyear: null,
+      dateshortuk: null,
+      dateshortus: null,
+      dateshortyearmonth: null,
+      dateslashdaymontheu: null,
+      dateslasheu: null,
+      dateslashmonthdayus: null,
+      dateslashus: null,
+      datequarterend: null,
+      dateyearmonthcjk: null,
+      dateyearmonthday: null,
+      dateyearmonthdaycjk: null,
+      dateyearmonthen: null,
+      duryear: null,
+      durmonth: null,
+      durweek: null,
+      durday: null,
+      durhour: null,
+      durwordsen: null,
+      nocontent: null,
+      numcomma: null,
+      numcommadecimal: null,
+      numcommadot: null,
+      numdash: null,
+      numdotcomma: null,
+      numdotdecimal: null,
+      numdotdecimalin: null,
+      numspacecomma: null,
+      numspacedot: null,
+      numunitdecimal: null,
+      numunitdecimalin: null,
+      numwordsen: null,
+      zerodash: null,
+      'date-day-month': null,
+      'date-day-monthname-bg': null,
+      'date-day-monthname-cs': null,
+      'date-day-monthname-da': null,
+      'date-day-monthname-de': null,
+      'date-day-monthname-el': null,
+      'date-day-monthname-en': null,
+      'date-day-monthname-es': null,
+      'date-day-monthname-et': null,
+      'date-day-monthname-fi': null,
+      'date-day-monthname-fr': null,
+      'date-day-monthname-hr': null,
+      'date-day-monthname-it': null,
+      'date-day-monthname-lv': null,
+      'date-day-monthname-nl': null,
+      'date-day-monthname-no': null,
+      'date-day-monthname-pl': null,
+      'date-day-monthname-pt': null,
+      'date-day-monthname-ro': null,
+      'date-day-monthname-sk': null,
+      'date-day-monthname-sl': null,
+      'date-day-monthname-sv': null,
+      'date-day-monthroman': null,
+      'date-day-month-year': null,
+      'date-day-monthname-year-bg': null,
+      'date-day-monthname-year-cs': null,
+      'date-day-monthname-year-da': null,
+      'date-day-monthname-year-de': null,
+      'date-day-monthname-year-el': null,
+      'date-day-monthname-year-en': null,
+      'date-day-monthname-year-es': null,
+      'date-day-monthname-year-et': null,
+      'date-day-monthname-year-fi': null,
+      'date-day-monthname-year-fr': null,
+      'date-day-monthname-year-hi': null,
+      'date-day-monthname-year-hr': null,
+      'date-day-monthname-year-it': null,
+      'date-day-monthname-year-nl': null,
+      'date-day-monthname-year-no': null,
+      'date-day-monthname-year-pl': null,
+      'date-day-monthname-year-pt': null,
+      'date-day-monthname-year-ro': null,
+      'date-day-monthname-year-sk': null,
+      'date-day-monthname-year-sl': null,
+      'date-day-monthname-year-sv': null,
+      'date-day-monthroman-year': null,
+      'date-ind-day-monthname-year-hi': null,
+      'date-jpn-era-year-month-day': null,
+      'date-jpn-era-year-month': null,
+      'date-monthname-day-en': null,
+      'date-monthname-day-hu': null,
+      'date-monthname-day-lt': null,
+      'date-monthname-day-year-en': null,
+      'date-month-day': null,
+      'date-month-day-year': null,
+      'date-month-year': null,
+      'date-monthname-year-bg': null,
+      'date-monthname-year-cs': null,
+      'date-monthname-year-da': null,
+      'date-monthname-year-de': null,
+      'date-monthname-year-el': null,
+      'date-monthname-year-en': null,
+      'date-monthname-year-es': null,
+      'date-monthname-year-et': null,
+      'date-monthname-year-fi': null,
+      'date-monthname-year-fr': null,
+      'date-monthname-year-hi': null,
+      'date-monthname-year-hr': null,
+      'date-monthname-year-it': null,
+      'date-monthname-year-nl': null,
+      'date-monthname-year-no': null,
+      'date-monthname-year-pl': null,
+      'date-monthname-year-pt': null,
+      'date-monthname-year-ro': null,
+      'date-monthname-year-sk': null,
+      'date-monthname-year-sl': null,
+      'date-monthname-year-sv': null,
+      'date-monthroman-year': null,
+      'date-year-day-monthname-lv': null,
+      'date-year-month': null,
+      'date-year-month-day': null,
+      'date-year-monthname-en': null,
+      'date-year-monthname-hu': null,
+      'date-year-monthname-day-hu': null,
+      'date-year-monthname-day-lt': null,
+      'date-year-monthname-lt': null,
+      'date-year-monthname-lv': null,
+      'fixed-empty': null,
+      'fixed-false': null,
+      'fixed-true': null,
+      'fixed-zero': null,
+      'num-comma-decimal': null,
+      'num-dot-decimal': TransformationsNumber.numDotDecimalTR4,
+      'num-unit-decimal': null,
+      'date-day-monthname-cy': null,
+      'date-day-monthname-year-cy': null,
+      'date-monthname-year-cy': null,
+      'num-comma-decimal-apos': null,
+      'num-dot-decimal-apos': null,
+      'num-unit-decimal-apos': null,
+    };
+    if (formatArray[1]) {
+      Object.keys(transformationsObject).forEach((current) => {
+        if (formatArray[1].toLowerCase() === current) {
+          if (transformationsObject[current]) {
+            // eslint-disable-next-line @typescript-eslint/ban-types
+            // console.log((transformationsObject[current] as Function).bind(input));
+            // eslint-disable-next-line @typescript-eslint/ban-types
+            (transformationsObject[current] as Function).bind(input);
+            console.log(transformationsObject[current]);
+            return transformationsObject[current];
+          }
+          //console.log(transformationsObject[current]);
+        }
+      });
+    }
+
     return input;
   }
 
@@ -148,17 +340,14 @@ export default class Database extends Dexie {
 
   async getHighlight(allFilters: allFilters, isFilterActive: boolean) {
     if (allFilters.search) {
-      await this.table(`facts`)
-        .where({ isHighlight: 1 })
-        .modify({ isHighlight: 0 });
-
       const regex = new RegExp(
         allFilters.search,
         `m${allFilters.searchOptions.includes(10) ? '' : 'i'}`
       );
 
       await this.table(`facts`)
-        .filter((fact) => {
+        .toCollection()
+        .modify((fact) => {
           let highlightFact = false;
 
           if (!highlightFact && allFilters.searchOptions.includes(0)) {
@@ -183,7 +372,7 @@ export default class Database extends Dexie {
           }
 
           if (!highlightFact && allFilters.searchOptions.includes(3)) {
-            // this is technically "Documentation"
+            // this is technically 'Documentation'
             highlightFact = ConstantDatabaseFilters.searchFactDefinition(
               regex,
               fact.labels
@@ -236,10 +425,13 @@ export default class Database extends Dexie {
               `Section`
             );
           }
-
-          return highlightFact;
+          if (highlightFact) {
+            fact.isHighlight = 1;
+          } else {
+            fact.isHighlight = 0;
+          }
+          return fact;
         })
-        .modify({ isHighlight: 1 })
         .catch((error) => {
           console.log(error);
         });
@@ -255,9 +447,9 @@ export default class Database extends Dexie {
 
     // second we do the fact filtering
     if (isFilterActive) {
-      await this.table(`facts`).where({ isActive: 1 }).modify({ isActive: 0 });
       await this.table(`facts`)
-        .filter((fact) => {
+        .toCollection()
+        .modify((fact) => {
           let activateFact = true;
           if (activateFact && allFilters.data) {
             activateFact = ConstantDatabaseFilters.dataRadio(
@@ -307,10 +499,13 @@ export default class Database extends Dexie {
               fact
             );
           }
-
-          return activateFact;
+          if (activateFact) {
+            fact.isActive = 1;
+          } else {
+            fact.isActive = 0;
+          }
+          return fact;
         })
-        .modify({ isActive: 1 })
         .catch((error) => {
           console.log(error);
         });
@@ -428,7 +623,13 @@ export default class Database extends Dexie {
     return await this.table(`facts`).orderBy(`balance`).uniqueKeys();
   }
 
-  async getFactPaginationData(input: string, start: number, end: number, amount: number, allFilters: allFilters) {
+  async getFactPaginationData(
+    _input: string,
+    start: number,
+    end: number,
+    amount: number,
+    allFilters: allFilters
+  ) {
     const currentFacts = await this.getFactsCount(allFilters);
     return {
       total: currentFacts,
@@ -439,11 +640,26 @@ export default class Database extends Dexie {
     };
   }
 
-  async getFactsPagination(input: string, start: number, end: number, allFilters: allFilters) {
+  async getFactsPagination(
+    _input: string,
+    start: number,
+    end: number,
+    allFilters: allFilters
+  ) {
     if (allFilters.search) {
-      return await this.facts.orderBy(`order`).and(x => x.isHighlight === 1).offset(start).limit(end + 1 - start).toArray()
+      return await this.facts
+        .orderBy(`order`)
+        .and((x) => x.isHighlight === 1)
+        .offset(start)
+        .limit(end + 1 - start)
+        .toArray();
     } else {
-      return await this.facts.orderBy(`order`).and(x => x.isActive === 1).offset(start).limit(end + 1 - start).toArray()
+      return await this.facts
+        .orderBy(`order`)
+        .and((x) => x.isActive === 1)
+        .offset(start)
+        .limit(end + 1 - start)
+        .toArray();
     }
   }
 }
