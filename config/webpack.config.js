@@ -14,7 +14,7 @@ module.exports = (env, argv = { mode: `production` }) => {
     mode: argv.mode,
 
     entry: `./src/ts/index.ts`,
-    
+
     plugins: [
       new HtmlWebpackPlugin({
         title:
@@ -24,12 +24,15 @@ module.exports = (env, argv = { mode: `production` }) => {
         template: `./src/index.html`,
         filename: `index.html`,
       }),
+
       new webpack.BannerPlugin({
         banner: `Created by staff of the U.S. Securities and Exchange Commission.\nData and content created by government employees within the scope of their employment\nare not subject to domestic copyright protection. 17 U.S.C. 105.`,
       }),
+
       new MiniCssExtractPlugin({
         filename: `styles.[contenthash].min.css`,
       }),
+
       env.copy
         ? new CopyPlugin({
             patterns: [{ from: 'src/assets', to: 'assets' }],
@@ -40,9 +43,11 @@ module.exports = (env, argv = { mode: `production` }) => {
           nodir: true,
         }),
       }),
+
       new ESLintPlugin({
         extensions: ['ts'],
       }),
+
       argv.mode === `production`
         ? new WorkboxPlugin.GenerateSW({
             // these options encourage the ServiceWorkers to get in there fast
@@ -58,7 +63,6 @@ module.exports = (env, argv = { mode: `production` }) => {
             ignoreURLParametersMatching: [/^\d+$/],
             runtimeCaching: [
               {
-                // Match any request that ends with .png, .jpg, .jpeg or .svg.  urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
                 urlPattern: /\.(?:min.js|min.css)$/,
                 // Apply a network-first strategy.
                 handler: 'StaleWhileRevalidate',
@@ -68,13 +72,15 @@ module.exports = (env, argv = { mode: `production` }) => {
                 },
               },
               {
-                // Match any request that ends with .png, .jpg, .jpeg or .svg.  urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
-                urlPattern: /\.(?:htm|json)$/,
+                urlPattern: /\.(?:htm|json|png|jpg|jpeg|svg)$/,
                 // Apply a network-first strategy.
                 handler: 'StaleWhileRevalidate',
                 options: {
                   // Use a custom cache name.
                   cacheName: 'filing',
+                  expiration: {
+                    maxEntries: 100,
+                  },
                 },
               },
             ],
@@ -141,12 +147,11 @@ module.exports = (env, argv = { mode: `production` }) => {
     devtool: argv.mode === `production` ? `source-map` : `inline-source-map`,
 
     devServer: {
-      open: true,
+      // open: true,
       compress: true,
       port: 3000,
       static: path.resolve(__dirname, `../dist`),
-      // watchFiles: [`./src/**/*.html`, `./src/**/*.scss`, `./src/**/*.ts`],
-      // only for production-serve
+      // hot: false,
       liveReload: argv.mode === `production` ? false : true,
       watchFiles:
         argv.mode === `production`
@@ -156,9 +161,11 @@ module.exports = (env, argv = { mode: `production` }) => {
         overlay: true,
         logging: `none`,
       },
-      devMiddleware: {
-        writeToDisk: true,
-      },
+      // devMiddleware: {
+      //   index: true,
+      //   serverSideRender: true,
+      //   writeToDisk: true,
+      // },
     },
 
     optimization: {

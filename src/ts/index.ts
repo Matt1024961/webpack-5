@@ -58,8 +58,8 @@ import { BaseModal } from './components/modals/base-modal';
   if (process.env.NODE_ENV !== 'production') {
     // we are in development mode
     customElements.define(`sec-dev-navbar`, DevelopmentNavbar);
-
   } else {
+    console.log(`production!`);
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker
@@ -74,6 +74,5 @@ import { BaseModal } from './components/modals/base-modal';
     } else {
       storeLogger.error('Service Worker not available on your browser!');
     }
-
   }
 })();
