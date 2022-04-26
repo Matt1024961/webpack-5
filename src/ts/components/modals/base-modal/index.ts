@@ -1,4 +1,5 @@
 import * as bootstrap from 'bootstrap';
+import { ConstantApplication } from '../../../constants/application';
 
 import { StoreLogger } from '../../../store/logger';
 import template from './template.html';
@@ -70,6 +71,7 @@ export class BaseModal extends HTMLElement {
 
     modalClose?.addEventListener(`click`, () => {
       thisModal.hide();
+      ConstantApplication.removeChildNodes(document.querySelector(`#modal-container`));
     });
 
     this.initDragging(

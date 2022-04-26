@@ -30,29 +30,6 @@ import { BaseModal } from './components/modals/base-modal';
   const storeLogger: StoreLogger = StoreLogger.getInstance();
 
   storeLogger.info(`Application Begin`);
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker
-        .register('/service-worker.js', { scope: `/` })
-        .then(() => {
-          storeLogger.info('Service Worker Registered Successfully!');
-        })
-        .catch(() => {
-          storeLogger.error('Service Worker NOT Registered!');
-        });
-    });
-  } else {
-    storeLogger.error('Service Worker not available on your browser!');
-  }
-
-  // window.addEventListener('beforeunload', function (e) {
-  //   console.log(`we now delete the DB!`);
-  //   // Cancel the event
-  //   //e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
-  //   // Chrome requires returnValue to be set
-  //   e.returnValue = '';
-  // });
-
   // here we hadd all custom HTML components
   customElements.define('sec-root', Root);
   customElements.define('sec-navbar', Navbar);
@@ -81,5 +58,22 @@ import { BaseModal } from './components/modals/base-modal';
   if (process.env.NODE_ENV !== 'production') {
     // we are in development mode
     customElements.define(`sec-dev-navbar`, DevelopmentNavbar);
+
+  } else {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('/service-worker.js', { scope: `/` })
+          .then(() => {
+            storeLogger.info('Service Worker Registered Successfully!');
+          })
+          .catch(() => {
+            storeLogger.error('Service Worker NOT Registered!');
+          });
+      });
+    } else {
+      storeLogger.error('Service Worker not available on your browser!');
+    }
+
   }
 })();

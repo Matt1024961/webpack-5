@@ -12,7 +12,7 @@ export default class Database extends Dexie {
     super(`SEC - IXViewer - ${url}`);
     this.version(1).stores({
       // NOTE we ONLY INDEX what is necessary
-      facts: `++htmlId, order, isHtml, isNegative, isNumeric, isText, isHidden, isActive, isHighlight, isCustom, period, axes, members, scale, balance, [htmlId+isHidden], [htmlId+isHighlight], [htmlId+isText], [htmlId+isActive], [isHighlight+isActive]`,
+      facts: `++htmlId, order, isHtml, isNegative, isNumeric, isText, isHidden, isActive, isHighlight, isCustom, period, axes, members, scale, balance, tag, [htmlId+isHidden], [htmlId+isHighlight], [htmlId+isText], [htmlId+isActive], [isHighlight+isActive]`,
     });
   }
 
@@ -58,6 +58,21 @@ export default class Database extends Dexie {
         }
       }
 
+      let references = {};
+      if (input['ixv:edgarRendererReports'][current[`ixv:factReferences`]]) {
+        const currentReference = input['ixv:edgarRendererReports'][current[`ixv:factReferences`]];
+        references = {
+          report: currentReference['ixv:reportFile'],
+          long: currentReference['ixv:longName'],
+          short: currentReference['ixv:shortName'],
+          group: currentReference['ixv:groupType'],
+          subGroup: currentReference['ixv:subGroupType'],
+
+        };
+      } else {
+        references = null
+      }
+
       if (current['ixv:factAttributes']) {
         let orderCount = 0;
         const factToPutIntoDB = {
@@ -91,6 +106,7 @@ export default class Database extends Dexie {
             value: tempDimension.value,
             key: tempDimension.key,
           },
+          references: references,
           contextref: current['ixv:contextref'],
           isHidden: current['ixv:hidden'] ? 1 : 0,
           standardLabel: current['ixv:standardLabel'],
@@ -302,17 +318,11 @@ export default class Database extends Dexie {
         if (formatArray[1].toLowerCase() === current) {
           if (transformationsObject[current]) {
             // eslint-disable-next-line @typescript-eslint/ban-types
-            // console.log((transformationsObject[current] as Function).bind(input));
-            // eslint-disable-next-line @typescript-eslint/ban-types
-            (transformationsObject[current] as Function).bind(input);
-            console.log(transformationsObject[current]);
-            return transformationsObject[current];
+            return (transformationsObject[current] as Function).call(this, input);
           }
-          //console.log(transformationsObject[current]);
         }
       });
     }
-
     return input;
   }
 
@@ -526,6 +536,16 @@ export default class Database extends Dexie {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+
+  async getFactByTag(tag: string): Promise<FactsTable> {
+    try {
+      return this.table('facts')
+        .where({ tag }).first()
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async isFactHidden(id: string): Promise<boolean> {

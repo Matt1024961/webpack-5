@@ -1,12 +1,12 @@
 import { ConstantApplication } from '../../../constants/application';
 import Database from '../../../database';
-import { StoreData } from '../../../store/data';
+//import { StoreData } from '../../../store/data';
 import { StoreFilter } from '../../../store/filter';
 import { StoreUrl } from '../../../store/url';
 import { FactsTable } from '../../../types/facts-table';
 //import { facts as factsType } from '../../../types/data-json';
 //import { FactsTable } from '../../../types/facts-table';
-import { WarningClass } from '../../../warning';
+//import { WarningClass } from '../../../warning';
 
 import template from './template.html';
 
@@ -131,25 +131,16 @@ export class FactsMenuSingle extends HTMLElement {
 
   listeners() {
     const facts = this.querySelectorAll(`[fact-id]`);
-    const storeData: StoreData = StoreData.getInstance();
-    facts.forEach((current) => {
-      //current.classList.remove(`selected`);
-      current.addEventListener(`click`, () => {
-        current.classList.remove(`selected`);
-        const fact = storeData.getFactByID(current.getAttribute(`fact-id`));
-        if (fact && document.querySelector(`#${fact.id}`)) {
-          this.querySelectorAll(`[fact-id]`).forEach((nestedCurrent) => {
-            nestedCurrent.classList.remove(`selected`);
-          });
-          const modal = document.createElement(`sec-modal-fact`);
-          modal.setAttribute(`fact-id`, fact.id);
-          document.querySelector(`#modal-container`).append(modal);
 
-          current.classList.add(`selected`);
-        } else {
-          const warning = new WarningClass();
-          warning.show(`This Fact can not be found on this Filing!`);
-        }
+    facts.forEach((current) => {
+      current.addEventListener(`click`, () => {
+        this.querySelectorAll(`[fact-id]`).forEach((nestedCurrent) => {
+          nestedCurrent.classList.remove(`selected`);
+        });
+        current.classList.add(`selected`);
+        const modal = document.createElement(`sec-modal-fact`);
+        modal.setAttribute(`fact-id`, current.getAttribute(`fact-id`));
+        document.querySelector(`#modal-container`).append(modal);
       });
     });
   }

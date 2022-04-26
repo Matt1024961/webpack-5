@@ -1,5 +1,7 @@
 // import { StoreLogger } from '../../../store/logger';
-import { StoreData } from '../../../store/data';
+import Database from '../../../database';
+//import { StoreData } from '../../../store/data';
+import { StoreUrl } from '../../../store/url';
 import { BaseModal } from '../base-modal';
 import * as structure from './index.json';
 // import template from './template.html';
@@ -13,18 +15,22 @@ export class Information extends BaseModal {
     const jsonStructure = Object.keys(structure);
     jsonStructure.pop();
     BaseModal.prototype.render.call(this);
+    console.log(jsonStructure);
     BaseModal.prototype.listeners.call(this, jsonStructure);
     this.render();
     // this.listeners();
   }
 
   render() {
+    const storeUrl: StoreUrl = StoreUrl.getInstance();
+
+    const db: Database = new Database(storeUrl.dataURL);
     const jsonStructure = Object.keys(structure);
     jsonStructure.pop();
     const carousel = this.querySelector(`[carousel-items]`);
     const indicatorLinks = this.querySelector(`[indicator-links]`);
 
-    const storeData: StoreData = StoreData.getInstance();
+    //const storeData: StoreData = StoreData.getInstance();
 
     jsonStructure.forEach((current, index) => {
       const div = document.createElement(`div`);
@@ -38,7 +44,7 @@ export class Information extends BaseModal {
       table.classList.add(`table-striped`);
 
       const tbody = document.createElement(`tbody`);
-      Object.keys(structure[current]).forEach((currentNested) => {
+      Object.keys(structure[current]).forEach(async (currentNested) => {
         const tr = document.createElement(`tr`);
 
         const th = document.createElement(`th`);
@@ -47,7 +53,9 @@ export class Information extends BaseModal {
 
         const td = document.createElement(`td`);
 
-        const factValue = storeData.getFactValueByName(structure[current][currentNested]).value;
+        const factValue = (await db.getFactByTag(structure[current][currentNested])).value;
+
+        //const factValue = storeData.getFactValueByName(structure[current][currentNested]).value;
         const label2 = document.createTextNode(`${factValue ? factValue : 'No Information.'}`);
 
         td.append(label2);

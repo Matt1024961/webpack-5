@@ -1,7 +1,8 @@
-import * as bootstrap from 'bootstrap';
+//import * as bootstrap from 'bootstrap';
+import { BaseModal } from '../base-modal';
 import template from './template.html';
 
-export class Fact extends HTMLElement {
+export class Fact extends BaseModal {
   static get observedAttributes() {
     return [`fact-id`];
   }
@@ -10,19 +11,15 @@ export class Fact extends HTMLElement {
     super();
   }
 
-  connectedCallback() {
-    this.render();
-    this.listeners();
-  }
-
   attributeChangedCallback(
     name: string,
     oldValue: string | null,
     newValue: string | null
   ) {
-    console.log(newValue);
+    BaseModal.prototype.render.call(this);
+    BaseModal.prototype.listeners.call(this, [`Attributes`, `Labels`, `References`, `Calculation`]);
     document.querySelector(`#${newValue}`).scrollIntoView();
-
+    this.render();
   }
 
   render() {
@@ -39,18 +36,4 @@ export class Fact extends HTMLElement {
     }
   }
 
-  listeners() {
-    const thisModal = new bootstrap.Modal(this.querySelector(`#fact-modal`), {
-      backdrop: false,
-      keyboard: true,
-    });
-    thisModal.show();
-
-    this.querySelector(`#dialog-box-close`).addEventListener(`click`, () => {
-      thisModal.hide();
-      document.querySelectorAll(`[fact-id]`).forEach((nestedCurrent) => {
-        nestedCurrent.classList.remove(`selected`);
-      });
-    });
-  }
 }

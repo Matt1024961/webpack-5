@@ -17,4 +17,10 @@ export const ConstantApplication = {
       current.removeAttribute(`disabled`);
     });
   },
+
+  removeChildNodes: (parent: Element) => {
+    while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
+    }
+  }
 };
