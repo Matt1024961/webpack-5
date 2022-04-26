@@ -161,11 +161,6 @@ module.exports = (env, argv = { mode: `production` }) => {
         overlay: true,
         logging: `none`,
       },
-      // devMiddleware: {
-      //   index: true,
-      //   serverSideRender: true,
-      //   writeToDisk: true,
-      // },
     },
 
     optimization: {
