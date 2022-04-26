@@ -1,88 +1,148 @@
-// import { StoreLogger } from '../../../store/logger';
+import { ConstantApplication } from '../../../constants/application';
 import Database from '../../../database';
-//import { StoreData } from '../../../store/data';
 import { StoreUrl } from '../../../store/url';
 import { BaseModal } from '../base-modal';
-import * as structure from './index.json';
-// import template from './template.html';
-
+import page1 from './template-page-1.html';
+import page2 from './template-page-2.html';
+import page3 from './template-page-3.html';
+import page4 from './template-page-4.html';
 export class Information extends BaseModal {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    const jsonStructure = Object.keys(structure);
-    jsonStructure.pop();
-    BaseModal.prototype.render.call(this);
-    console.log(jsonStructure);
-    BaseModal.prototype.listeners.call(this, jsonStructure);
-    this.render();
-    // this.listeners();
+    BaseModal.prototype.init.call(this, [
+      'Company and Document',
+      'Tags',
+      'Files',
+      'Additional Items',
+    ]);
+
+    this.buildCarousel();
   }
 
-  render() {
+  async buildCarousel() {
     const storeUrl: StoreUrl = StoreUrl.getInstance();
-
     const db: Database = new Database(storeUrl.dataURL);
-    const jsonStructure = Object.keys(structure);
-    jsonStructure.pop();
-    const carousel = this.querySelector(`[carousel-items]`);
-    const indicatorLinks = this.querySelector(`[indicator-links]`);
-
-    //const storeData: StoreData = StoreData.getInstance();
-
-    jsonStructure.forEach((current, index) => {
-      const div = document.createElement(`div`);
-      div.classList.add(`carousel-item`);
-      if (index === 0) {
-        div.classList.add(`active`);
-      }
-      const table = document.createElement(`table`);
-      table.classList.add(`table`);
-      table.classList.add(`table-sm`);
-      table.classList.add(`table-striped`);
-
-      const tbody = document.createElement(`tbody`);
-      Object.keys(structure[current]).forEach(async (currentNested) => {
-        const tr = document.createElement(`tr`);
-
-        const th = document.createElement(`th`);
-        const label = document.createTextNode(currentNested);
-
-
-        const td = document.createElement(`td`);
-
-        const factValue = (await db.getFactByTag(structure[current][currentNested])).value;
-
-        //const factValue = storeData.getFactValueByName(structure[current][currentNested]).value;
-        const label2 = document.createTextNode(`${factValue ? factValue : 'No Information.'}`);
-
-        td.append(label2);
-        th.append(label);
-        tr.append(th);
-        tr.append(td);
-        tbody.append(tr);
-      });
-      table.append(tbody);
-
-      div.append(table);
-      carousel.append(div);
-
-      const a = document.createElement(`a`);
-      a.setAttribute(`type`, `button`);
-      a.setAttribute(`data-bs-target`, `#modal-carousel`);
-      a.setAttribute(`data-bs-slide-to`, `${index}`);
-      a.setAttribute(`aria-label`, current);
-      if (index === 0) {
-        a.classList.add(`active`);
-        a.setAttribute(`aria-current`, `true`);
-      }
-      indicatorLinks.append(a);
-    });
+    await this.page1(db);
+    await this.page2(db);
+    await this.page3(db);
+    await this.page4(db);
   }
 
-  listeners() {
-    //
+  async page1(db: Database) {
+    const parser = new DOMParser();
+    const htmlDoc = parser.parseFromString(page1, `text/html`);
+    if (htmlDoc.querySelector(`[template]`)) {
+      const valuesToGet = htmlDoc.querySelectorAll(`[value]`);
+      for await (const current of valuesToGet) {
+        const factValue = (await db.getFactByTag(current.getAttribute(`value`)))
+          .value;
+        const text = document.createTextNode(
+          `${factValue ? factValue : 'No Information.'}`
+        );
+        current.append(text);
+        current.removeAttribute(`value`);
+      }
+      const selector = htmlDoc.querySelector(`[template]`);
+      const node = document.importNode(selector, true);
+      node.removeAttribute(`template`);
+      const carousel = this.querySelector(`[carousel-items]`);
+      carousel.append(node);
+      //this.logger.info('Data Filter Bar rendered');
+    } else {
+      //this.logger.warn('Data Filter NOT rendered');
+    }
+  }
+
+  async page2(db: Database) {
+    const parser = new DOMParser();
+    const htmlDoc = parser.parseFromString(page2, `text/html`);
+    if (htmlDoc.querySelector(`[template]`)) {
+      // total-facts
+      const totalFactsSelector = htmlDoc.querySelector(`[total-facts]`);
+      const totalFactsText = document.createTextNode(
+        `${await db.getTotalFacts()}`
+      );
+      totalFactsSelector.append(totalFactsText);
+
+      // inline-version
+      const inlineVersionSelector = htmlDoc.querySelector(`[inline-version]`);
+      const inlineVersionText = document.createTextNode(
+        `${ConstantApplication.version}`
+      );
+      inlineVersionSelector.append(inlineVersionText);
+
+      console.log(await db.getTotalFactsForModal());
+
+      // const valuesToGet = htmlDoc.querySelectorAll(`[value]`);
+      // for await (const current of valuesToGet) {
+      //   const factValue = (await db.getFactByTag(current.getAttribute(`value`)))
+      //     .value;
+      //   const text = document.createTextNode(
+      //     `${factValue ? factValue : 'No Information.'}`
+      //   );
+      //   current.append(text);
+      //   current.removeAttribute(`value`);
+      // }
+      const selector = htmlDoc.querySelector(`[template]`);
+      const node = document.importNode(selector, true);
+      node.removeAttribute(`template`);
+      const carousel = this.querySelector(`[carousel-items]`);
+      carousel.append(node);
+      //this.logger.info('Data Filter Bar rendered');
+    } else {
+      //this.logger.warn('Data Filter NOT rendered');
+    }
+  }
+  async page3(db: Database) {
+    const parser = new DOMParser();
+    const htmlDoc = parser.parseFromString(page3, `text/html`);
+    if (htmlDoc.querySelector(`[template]`)) {
+      const valuesToGet = htmlDoc.querySelectorAll(`[value]`);
+      for await (const current of valuesToGet) {
+        const factValue = (await db.getFactByTag(current.getAttribute(`value`)))
+          .value;
+        const text = document.createTextNode(
+          `${factValue ? factValue : 'No Information.'}`
+        );
+        current.append(text);
+        current.removeAttribute(`value`);
+      }
+      const selector = htmlDoc.querySelector(`[template]`);
+      const node = document.importNode(selector, true);
+      node.removeAttribute(`template`);
+      const carousel = this.querySelector(`[carousel-items]`);
+      carousel.append(node);
+      //this.logger.info('Data Filter Bar rendered');
+    } else {
+      //this.logger.warn('Data Filter NOT rendered');
+    }
+  }
+
+  async page4(db: Database) {
+    const parser = new DOMParser();
+    const htmlDoc = parser.parseFromString(page4, `text/html`);
+    if (htmlDoc.querySelector(`[template]`)) {
+      const valuesToGet = htmlDoc.querySelectorAll(`[value]`);
+      for await (const current of valuesToGet) {
+        const factValue = (await db.getFactByTag(current.getAttribute(`value`)))
+          .value;
+        const text = document.createTextNode(
+          `${factValue ? factValue : 'No Information.'}`
+        );
+        current.append(text);
+        current.removeAttribute(`value`);
+      }
+      const selector = htmlDoc.querySelector(`[template]`);
+      const node = document.importNode(selector, true);
+      node.removeAttribute(`template`);
+      const carousel = this.querySelector(`[carousel-items]`);
+      carousel.append(node);
+      //this.logger.info('Data Filter Bar rendered');
+    } else {
+      //this.logger.warn('Data Filter NOT rendered');
+    }
   }
 }

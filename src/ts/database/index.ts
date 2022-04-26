@@ -60,17 +60,18 @@ export default class Database extends Dexie {
 
       let references = {};
       if (input['ixv:edgarRendererReports'][current[`ixv:factReferences`]]) {
-        const currentReference = input['ixv:edgarRendererReports'][current[`ixv:factReferences`]];
+        const currentReference =
+          input['ixv:edgarRendererReports'][current[`ixv:factReferences`]];
         references = {
           report: currentReference['ixv:reportFile'],
           long: currentReference['ixv:longName'],
           short: currentReference['ixv:shortName'],
           group: currentReference['ixv:groupType'],
           subGroup: currentReference['ixv:subGroupType'],
-
         };
+        console.log(current.value);
       } else {
-        references = null
+        references = null;
       }
 
       if (current['ixv:factAttributes']) {
@@ -318,7 +319,10 @@ export default class Database extends Dexie {
         if (formatArray[1].toLowerCase() === current) {
           if (transformationsObject[current]) {
             // eslint-disable-next-line @typescript-eslint/ban-types
-            return (transformationsObject[current] as Function).call(this, input);
+            return (transformationsObject[current] as Function).call(
+              this,
+              input
+            );
           }
         }
       });
@@ -338,6 +342,24 @@ export default class Database extends Dexie {
     } else {
       return `As of ${moment(input).format(`MM/DD/YYYY`)}`;
     }
+  }
+
+  async getTotalFacts() {
+    return await this.table(`facts`).count();
+  }
+
+  async getTotalFactsForModal() {
+    const simpleCounts = { standard: 0, custom: 0, total: 0 };
+    await this.facts.toCollection().each((fact) => {
+      if (fact.isCustom) {
+        simpleCounts.custom++;
+      } else {
+        simpleCounts.standard++;
+      }
+      simpleCounts.total++;
+    });
+    console.log(simpleCounts);
+    return simpleCounts;
   }
 
   async getFactsCount(allFilters: allFilters) {
@@ -538,11 +560,9 @@ export default class Database extends Dexie {
       });
   }
 
-
   async getFactByTag(tag: string): Promise<FactsTable> {
     try {
-      return this.table('facts')
-        .where({ tag }).first()
+      return this.table('facts').where({ tag }).first();
     } catch (error) {
       console.log(error);
     }

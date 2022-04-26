@@ -22,4 +22,5 @@ export type FactsTable = {
   calculations?: unknown;
   isActive: number;
   isHighlight: number;
+  references: unknown;
 };

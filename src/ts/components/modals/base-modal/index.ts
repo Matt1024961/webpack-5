@@ -9,12 +9,11 @@ export class BaseModal extends HTMLElement {
     super();
   }
 
-  // connectedCallback() {
-  //   this.render();
-  //   this.listeners();
-  // }
-
-  render() {
+  init(modalTitles: Array<string> = []) {
+    this.render(modalTitles);
+    this.listeners(modalTitles);
+  }
+  render(modalTitles: Array<string> = []) {
     const storeLogger: StoreLogger = StoreLogger.getInstance();
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
@@ -23,6 +22,20 @@ export class BaseModal extends HTMLElement {
       const node = document.importNode(selector, true);
       node.removeAttribute(`template`);
       this.append(node);
+
+      const indicatorLinks = this.querySelector(`[indicator-links]`);
+      modalTitles.forEach((current, index) => {
+        const a = document.createElement(`a`);
+        a.setAttribute(`type`, `button`);
+        a.setAttribute(`data-bs-target`, `#modal-carousel`);
+        a.setAttribute(`data-bs-slide-to`, `${index}`);
+        a.setAttribute(`aria-label`, current);
+        if (index === 0) {
+          a.classList.add(`active`);
+          a.setAttribute(`aria-current`, `true`);
+        }
+        indicatorLinks.append(a);
+      });
       storeLogger.info('Base Modal rendered');
     } else {
       storeLogger.error('Base Modal NOT rendered');
@@ -30,7 +43,6 @@ export class BaseModal extends HTMLElement {
   }
 
   listeners(modalTitles: Array<string> = []) {
-    console.log(modalTitles);
     const thisModal = new bootstrap.Modal(this.querySelector(`#sec-modal`), {
       backdrop: false,
       keyboard: true,
@@ -71,7 +83,9 @@ export class BaseModal extends HTMLElement {
 
     modalClose?.addEventListener(`click`, () => {
       thisModal.hide();
-      ConstantApplication.removeChildNodes(document.querySelector(`#modal-container`));
+      ConstantApplication.removeChildNodes(
+        document.querySelector(`#modal-container`)
+      );
     });
 
     this.initDragging(

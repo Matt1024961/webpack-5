@@ -1,52 +1,83 @@
-<div template class="modal fade" id="sec-modal" tabindex="-1" aria-labelledby="sec-modal" aria-hidden="true">
+<div
+  template
+  class="modal fade"
+  id="sec-modal"
+  tabindex="-1"
+  aria-labelledby="sec-modal"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content h-100 w-100">
       <div class="modal-header py-0">
         <p class="modal-title lead" sec-modal-title><span></span></p>
         <div class="modal-actions">
-          <button id="modal-drag" class="btn btn-sm drag" type="button" title="Click and drag to move this Dialog Box."
-            tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="bottom">
-            <i class="fas fa-arrows-alt" data-bs-toggle="tooltip" data-bs-placement="bottom">
+          <button
+            id="modal-drag"
+            class="btn btn-sm drag"
+            type="button"
+            title="Click and drag to move this Dialog Box."
+            tabindex="-1"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+          >
+            <i
+              class="fas fa-arrows-alt"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+            >
             </i>
           </button>
-          <button id="dialog-box-copy-content" class="btn btn-sm" type="button"
-            title="Click to Copy all Dialog Box Content." tabindex="-1" data-bs-toggle="tooltip"
-            data-bs-placement="bottom">
+          <button
+            id="dialog-box-copy-content"
+            class="btn btn-sm"
+            type="button"
+            title="Click to Copy all Dialog Box Content."
+            tabindex="-1"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+          >
             <i class="fas fa-copy"></i>
           </button>
-          <button id="modal-close" class="btn btn-sm" type="button" title="Click to Close this Dialog Box."
-            tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="bottom">
+          <button
+            id="modal-close"
+            class="btn btn-sm"
+            type="button"
+            title="Click to Close this Dialog Box."
+            tabindex="-1"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+          >
             <i class="fas fa-times"></i>
           </button>
         </div>
       </div>
       <div class="modal-body">
-        <div id="modal-carousel" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner" carousel-items>
-
-          </div>
+        <div id="modal-carousel" class="carousel" data-bs-interval="0">
+          <div class="carousel-inner" carousel-items></div>
         </div>
       </div>
       <div class="modal-footer">
         <div class="carousel-indicators">
-          <button class="carousel-control-prev" type="button" data-bs-target="#modal-carousel" data-bs-slide="prev">
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#modal-carousel"
+            data-bs-slide="prev"
+          >
             <i class="fas fa-chevron-left" title="Previous"></i>
             <span class="visually-hidden">Previous</span>
           </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#modal-carousel" data-bs-slide="next">
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#modal-carousel"
+            data-bs-slide="next"
+          >
             <i class="fas fa-chevron-right" title="Next"></i>
             <span class="visually-hidden">Next</span>
           </button>
 
-          <div indicator-links>
-
-            <!-- <a type="button" data-bs-target="#modal-carousel" data-bs-slide-to="0" class="active bg-primary"
-              aria-current="true" aria-label="Slide 1"></a>
-            <a type="button" data-bs-target="#modal-carousel" data-bs-slide-to="1" class="bg-primary"
-              aria-label="Slide 2"></a>
-            <a type="button" data-bs-target="#modal-carousel" data-bs-slide-to="2" class="bg-primary"
-              aria-label="Slide 3"></a> -->
-          </div>
+          <div indicator-links></div>
         </div>
       </div>
     </div>
