@@ -69,7 +69,6 @@ export default class Database extends Dexie {
           group: currentReference['ixv:groupType'],
           subGroup: currentReference['ixv:subGroupType'],
         };
-        console.log(current.value);
       } else {
         references = null;
       }

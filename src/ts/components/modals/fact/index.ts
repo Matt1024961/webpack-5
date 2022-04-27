@@ -54,10 +54,70 @@ export class Fact extends BaseModal {
           fact[current.getAttribute(`value`)] &&
           fact[current.getAttribute(`value`)].length
         ) {
-          const text = document.createTextNode(
-            `${fact[current.getAttribute(`value`)]}`
-          );
-          current.append(text);
+          if (
+            current.getAttribute(`value`) === `value` &&
+            (fact.isHtml || fact.isText)
+          ) {
+            const th = document.createElement(`th`);
+
+            const button = document.createElement(`button`);
+            button.classList.add(`btn`);
+            button.classList.add(`btn-primary`);
+            button.classList.add(`btn-sm`);
+            button.type = `button`;
+            button.setAttribute(`data-bs-toggle`, `collapse`);
+            button.setAttribute(`data-bs-target`, `#collapseValue`);
+            button.setAttribute(`aria-expanded`, `false`);
+            button.setAttribute(`aria-controls`, `collapseValue`);
+
+            const text = document.createTextNode(`Fact`);
+
+            const div = document.createElement(`div`);
+            div.id = `collapseValue`;
+            div.classList.add(`partial`);
+            div.classList.add(`collapse`);
+
+            if (fact.isHtml) {
+              console.log(fact.htmlId);
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(
+                fact[current.getAttribute(`value`)],
+                `text/html`
+              );
+              const factContent = [...htmlDoc.querySelectorAll(`body > *`)];
+              console.log(factContent);
+              factContent.forEach((current) => {
+                div.append(current);
+              });
+              //console.log(htmlDoc.querySelectorAll(`body > *`));
+              // const value = document.createTextNode(
+              //   `${fact[current.getAttribute(`value`)]}`
+              // );
+
+              // div.append(htmlDoc.querySelectorAll(`body > *`));
+            } else {
+              const value = document.createTextNode(
+                `${fact[current.getAttribute(`value`)]}`
+              );
+
+              div.append(value);
+            }
+            current.append(div);
+
+            // <div class="collapse" id="collapseExample">
+            //   <div class="card card-body">
+            //      Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+            //   </div>
+            // </div>
+            button.append(text);
+            th.append(button);
+            current.previousElementSibling.replaceWith(th);
+          } else {
+            const text = document.createTextNode(
+              `${fact[current.getAttribute(`value`)]}`
+            );
+            current.append(text);
+          }
           current.removeAttribute(`value`);
         } else {
           ConstantApplication.removeChildNodes(current.parentElement);
@@ -73,6 +133,7 @@ export class Fact extends BaseModal {
       //this.logger.warn('Data Filter NOT rendered');
     }
   }
+
   async page2(fact: FactsTable) {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(page2, `text/html`);
@@ -102,8 +163,32 @@ export class Fact extends BaseModal {
   }
 
   async page3(fact: FactsTable) {
-    console.log(page3);
     console.log(fact.references);
+    const parser = new DOMParser();
+    const htmlDoc = parser.parseFromString(page3, `text/html`);
+    if (htmlDoc.querySelector(`[template]`)) {
+      const tbody = htmlDoc.querySelector(`tbody`);
+      for await (const [key, value] of fact.labels as Array<Array<string>>) {
+        const tr = document.createElement(`tr`);
+        const th = document.createElement(`th`);
+        const thText = document.createTextNode(`${key}`);
+        th.append(thText);
+        tr.append(th);
+        const td = document.createElement(`td`);
+        const tdText = document.createTextNode(`${value}`);
+        td.append(tdText);
+        tr.append(td);
+        tbody.append(tr);
+      }
+      const selector = htmlDoc.querySelector(`[template]`);
+      const node = document.importNode(selector, true);
+      node.removeAttribute(`template`);
+      const carousel = this.querySelector(`[carousel-items]`);
+      carousel.append(node);
+      //this.logger.info('Data Filter Bar rendered');
+    } else {
+      //this.logger.warn('Data Filter NOT rendered');
+    }
   }
   async page4(fact: FactsTable) {
     console.log(fact);

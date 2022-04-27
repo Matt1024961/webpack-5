@@ -14,7 +14,6 @@ self.onmessage = async ({ data }) => {
   await Promise.all([
     filterDB(data.url, data.allFilters, data.isFilterActive),
   ]).then(async (response) => {
-    console.log(response[0]);
     self.postMessage({
       all: response[0],
     });

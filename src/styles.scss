@@ -261,3 +261,17 @@ body {
     opacity: 1;
   }
 }
+
+.partial.collapse {
+  display: block !important;
+  height: 40px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+.partial.collapsing {
+  height: 40px !important;
+}
+.partial.show {
+  height: auto;
+}
