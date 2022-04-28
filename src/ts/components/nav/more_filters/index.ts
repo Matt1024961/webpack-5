@@ -404,10 +404,7 @@ export class MoreFilters extends HTMLElement {
         filterMembers
           .flat()
           .map((current) => {
-            return current
-              .substring(current.indexOf(`:`) + 1)
-              .replace(/([A-Z])/g, ` $1`)
-              .trim();
+            return current;
           })
           .sort()
       ),
@@ -436,7 +433,12 @@ export class MoreFilters extends HTMLElement {
       label.classList.add(`w-100`);
       label.setAttribute(`for`, `members-checkbox-${index}`);
 
-      const text = document.createTextNode(`${current}`);
+      const text = document.createTextNode(
+        `${current
+          .substring(current.indexOf(`:`) + 1)
+          .replace(/([A-Z])/g, ` $1`)
+          .trim()}`
+      );
 
       label.append(text);
       div.append(input);
@@ -457,10 +459,7 @@ export class MoreFilters extends HTMLElement {
         filterAxis
           .flat()
           .map((current) => {
-            return current
-              .substring(current.indexOf(`:`) + 1)
-              .replace(/([A-Z])/g, ` $1`)
-              .trim();
+            return current;
           })
           .sort()
       ),
@@ -491,7 +490,12 @@ export class MoreFilters extends HTMLElement {
       label.classList.add(`w-100`);
       label.setAttribute(`for`, `axis-checkbox-${index}`);
 
-      const text = document.createTextNode(`${current}`);
+      const text = document.createTextNode(
+        `${current
+          .substring(current.indexOf(`:`) + 1)
+          .replace(/([A-Z])/g, ` $1`)
+          .trim()}`
+      );
 
       label.append(text);
       div.append(input);

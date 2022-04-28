@@ -12,7 +12,7 @@ export default class Database extends Dexie {
     super(`SEC - IXViewer - ${url}`);
     this.version(1).stores({
       // NOTE we ONLY INDEX what is necessary
-      facts: `++htmlId, order, isHtml, isNegative, isNumeric, isText, isHidden, isActive, isHighlight, isCustom, period, axes, members, scale, balance, tag, [htmlId+isHidden], [htmlId+isHighlight], [htmlId+isText], [htmlId+isActive], [isHighlight+isActive]`,
+      facts: `++htmlId, order, isHtml, isNegative, isNumeric, isText, isHidden, isCustom, period, axes, members, scale, balance, tag, [htmlId+isHidden], [htmlId+isText]`,
     });
   }
 
@@ -31,6 +31,10 @@ export default class Database extends Dexie {
   }
 
   async parseData(input: DataJSON) {
+    const returnObject: { highlight: Array<string>; active: Array<string> } = {
+      highlight: [],
+      active: [],
+    };
     let arrayToBulkInsert = [];
     const customTags = Object.keys(input['ixv:extensionNamespaces']);
     for await (const current of input.facts) {
@@ -58,21 +62,6 @@ export default class Database extends Dexie {
         }
       }
 
-      let references = {};
-      if (input['ixv:edgarRendererReports'][current[`ixv:factReferences`]]) {
-        const currentReference =
-          input['ixv:edgarRendererReports'][current[`ixv:factReferences`]];
-        references = {
-          report: currentReference['ixv:reportFile'],
-          long: currentReference['ixv:longName'],
-          short: currentReference['ixv:shortName'],
-          group: currentReference['ixv:groupType'],
-          subGroup: currentReference['ixv:subGroupType'],
-        };
-      } else {
-        references = null;
-      }
-
       if (current['ixv:factAttributes']) {
         let orderCount = 0;
         const factToPutIntoDB = {
@@ -82,8 +71,12 @@ export default class Database extends Dexie {
           period: this.updatePeriod(
             input['ixv:filterPeriods'][current['ixv:factAttributes'][3][1]]
           ),
-          axes: current['ixv:factAttributes'][4][1],
-          members: current['ixv:factAttributes'][5][1],
+          axes: current['ixv:factAttributes'][4][1].length
+            ? current['ixv:factAttributes'][4][1]
+            : null,
+          members: current['ixv:factAttributes'][5][1].length
+            ? current['ixv:factAttributes'][5][1]
+            : null,
           measure: current['ixv:factAttributes'][6][1],
           scale: current['ixv:factAttributes'][7][1]
             ? parseInt(current['ixv:factAttributes'][7][1], 10)
@@ -106,7 +99,7 @@ export default class Database extends Dexie {
             value: tempDimension.value,
             key: tempDimension.key,
           },
-          references: references,
+          references: input['ixv:references'][current['ixv:factReferences']],
           contextref: current['ixv:contextref'],
           isHidden: current['ixv:hidden'] ? 1 : 0,
           standardLabel: current['ixv:standardLabel'],
@@ -123,12 +116,14 @@ export default class Database extends Dexie {
           )
             ? 1
             : 0,
-          isActive: 1,
-          isHighlight: 0,
           order: orderCount++,
         };
         arrayToBulkInsert.push(factToPutIntoDB);
         if (arrayToBulkInsert.length === 2500) {
+          returnObject.active = returnObject.active.concat(
+            arrayToBulkInsert.map((current) => current.htmlId)
+          );
+
           await this.putBulkData(arrayToBulkInsert);
           arrayToBulkInsert = [];
         }
@@ -136,7 +131,12 @@ export default class Database extends Dexie {
         console.log(current);
       }
     }
-    return await this.putBulkData(arrayToBulkInsert);
+    await this.putBulkData(arrayToBulkInsert);
+
+    returnObject.active = returnObject.active.concat(
+      arrayToBulkInsert.map((current) => current.htmlId)
+    );
+    return returnObject;
   }
 
   getTransformation(input: string, _decimals: number | null, format: string) {
@@ -343,6 +343,19 @@ export default class Database extends Dexie {
     }
   }
 
+  async getPagination(input: Array<string>, start: number, end: number) {
+    return await this.facts
+      .where(`htmlId`)
+      .anyOf(input)
+      .offset(start)
+      .limit(end + 1 - start)
+      .sortBy(`order`);
+  }
+
+  async getAllFacts() {
+    return await this.table(`facts`).toArray();
+  }
+
   async getTotalFacts() {
     return await this.table(`facts`).count();
   }
@@ -357,29 +370,22 @@ export default class Database extends Dexie {
       }
       simpleCounts.total++;
     });
-    console.log(simpleCounts);
     return simpleCounts;
   }
 
-  async getFactsCount(allFilters: allFilters) {
-    if (allFilters.search) {
-      return await this.table('facts').where(`isHighlight`).equals(1).count();
-    } else {
-      return await this.table('facts').where(`isActive`).equals(1).count();
-    }
-  }
-
   async getHighlight(allFilters: allFilters, isFilterActive: boolean) {
+    const returnObject: { highlight: Array<string>; active: Array<string> } = {
+      highlight: [],
+      active: [],
+    };
     if (allFilters.search) {
       const regex = new RegExp(
         allFilters.search,
         `m${allFilters.searchOptions.includes(10) ? '' : 'i'}`
       );
-
-      await this.table(`facts`)
-        .toCollection()
-        .modify((fact) => {
-          let highlightFact = false;
+      returnObject.highlight = (await this.getAllFacts())
+        .map((fact) => {
+          let highlightFact = 0;
 
           if (!highlightFact && allFilters.searchOptions.includes(0)) {
             highlightFact = ConstantDatabaseFilters.searchFactName(
@@ -457,98 +463,80 @@ export default class Database extends Dexie {
             );
           }
           if (highlightFact) {
-            fact.isHighlight = 1;
-          } else {
-            fact.isHighlight = 0;
+            return fact.htmlId;
           }
-          return fact;
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .filter(Boolean);
     } else {
-      // user is not searching for anything, reset all [isHighlights] to 0 (FALSE)
-      await this.table(`facts`)
-        .where({ isHighlight: 1 })
-        .modify({ isHighlight: 0 })
-        .catch((error) => {
-          console.log(error);
-        });
+      returnObject.highlight = [];
     }
 
     // second we do the fact filtering
     if (isFilterActive) {
-      await this.table(`facts`)
-        .toCollection()
-        .modify((fact) => {
-          let activateFact = true;
-          if (activateFact && allFilters.data) {
+      returnObject.active = (await this.getAllFacts())
+        .map((fact) => {
+          let activateFact = 0;
+
+          if (!activateFact && allFilters.data) {
             activateFact = ConstantDatabaseFilters.dataRadio(
               allFilters.data,
               fact
             );
           }
 
-          if (activateFact && allFilters.tags) {
+          if (!activateFact && allFilters.tags) {
             activateFact = ConstantDatabaseFilters.tagsRadio(
               allFilters.tags,
               fact
             );
           }
 
-          if (activateFact && allFilters.moreFilters.axis.length) {
+          if (!activateFact && allFilters.moreFilters.axis.length) {
             activateFact = ConstantDatabaseFilters.axisCheck(
               allFilters.moreFilters.axis,
               fact
             );
           }
 
-          if (activateFact && allFilters.moreFilters.balance.length) {
+          if (!activateFact && allFilters.moreFilters.balance.length) {
             activateFact = ConstantDatabaseFilters.balanceCheck(
               allFilters.moreFilters.balance,
               fact
             );
           }
 
-          if (activateFact && allFilters.moreFilters.members.length) {
+          if (!activateFact && allFilters.moreFilters.members.length) {
             activateFact = ConstantDatabaseFilters.membersCheck(
               allFilters.moreFilters.members,
               fact
             );
           }
 
-          if (activateFact && allFilters.moreFilters.periods.length) {
+          if (!activateFact && allFilters.moreFilters.periods.length) {
             activateFact = ConstantDatabaseFilters.periodsCheck(
               allFilters.moreFilters.periods,
               fact
             );
           }
 
-          if (activateFact && allFilters.moreFilters.scale.length) {
+          if (!activateFact && allFilters.moreFilters.scale.length) {
             activateFact = ConstantDatabaseFilters.scaleCheck(
               allFilters.moreFilters.scale,
               fact
             );
           }
+
           if (activateFact) {
-            fact.isActive = 1;
-          } else {
-            fact.isActive = 0;
+            return fact.htmlId;
           }
-          return fact;
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .filter(Boolean);
     } else {
-      await this.table(`facts`)
-        .where({ isActive: 0 })
-        .modify({ isActive: 1 })
-        .catch((error) => {
-          console.log(error);
-        });
+      returnObject.active = (await this.getAllFacts()).map((fact) => {
+        return fact.htmlId;
+      });
     }
-    return true;
+    return returnObject;
   }
 
   async getFactById(id: string): Promise<FactsTable> {
@@ -574,36 +562,6 @@ export default class Database extends Dexie {
           .where({
             htmlId: id,
             isHidden: 1,
-          })
-          .count()) > 0
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async isFactActive(id: string): Promise<boolean> {
-    try {
-      return (
-        (await this.table('facts')
-          .where({
-            htmlId: id,
-            isActive: 1,
-          })
-          .count()) > 0
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async isFactHighlighted(id: string): Promise<boolean> {
-    try {
-      return (
-        (await this.table('facts')
-          .where({
-            htmlId: id,
-            isHighlight: 1,
           })
           .count()) > 0
       );
@@ -660,45 +618,5 @@ export default class Database extends Dexie {
 
   async getAllUniqueBalances(): Promise<IndexableType> {
     return await this.table(`facts`).orderBy(`balance`).uniqueKeys();
-  }
-
-  async getFactPaginationData(
-    _input: string,
-    start: number,
-    end: number,
-    amount: number,
-    allFilters: allFilters
-  ) {
-    const currentFacts = await this.getFactsCount(allFilters);
-    return {
-      total: currentFacts,
-      start: start,
-      end: end,
-      totalPages: Math.ceil(currentFacts / amount),
-      currentPage: start * amount,
-    };
-  }
-
-  async getFactsPagination(
-    _input: string,
-    start: number,
-    end: number,
-    allFilters: allFilters
-  ) {
-    if (allFilters.search) {
-      return await this.facts
-        .orderBy(`order`)
-        .and((x) => x.isHighlight === 1)
-        .offset(start)
-        .limit(end + 1 - start)
-        .toArray();
-    } else {
-      return await this.facts
-        .orderBy(`order`)
-        .and((x) => x.isActive === 1)
-        .offset(start)
-        .limit(end + 1 - start)
-        .toArray();
-    }
   }
 }

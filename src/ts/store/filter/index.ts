@@ -1,18 +1,12 @@
-//import { Database } from '../../database';
-// import { ErrorClass } from '../../error';
+import Database from '../../database';
 import { search as searchType } from '../../types/filter';
 import { searchOptions as searchOptionType } from '../../types/filter';
 import { data as dataType } from '../../types/filter';
 import { tags as tagsType } from '../../types/filter';
 import { moreFilters as moreFiltersType } from '../../types/filter';
-//import WorkerBuilder from '../../worker/builder';
-//import Worker from '../../worker/filter';
 import { Attributes } from '../attributes';
-// import { Attributes } from '../attributes';
-//import { StoreData } from '../data';
 import { StoreLogger } from '../logger';
 import { StoreUrl } from '../url';
-//import { StoreUrl } from '../url';
 
 export class StoreFilter {
   private _search: searchType;
@@ -27,7 +21,10 @@ export class StoreFilter {
     scale: [],
     balance: [],
   };
+  private _active: Array<string>;
+  private _highlight: Array<string>;
   private static instance: StoreFilter;
+
   private constructor() {
     //
   }
@@ -98,6 +95,8 @@ export class StoreFilter {
       });
       worker.onmessage = async (event) => {
         if (event) {
+          this.active = event.data.all.active;
+          this.highlight = event.data.all.highlight;
           document.querySelector(`sec-facts`).setAttribute(`update-count`, ``);
           const attributes = new Attributes();
           attributes.setProperAttribute();
@@ -111,6 +110,44 @@ export class StoreFilter {
       };
     } else {
       // no worker!
+    }
+  }
+
+  public getFactsCount() {
+    if (this.highlight.length) {
+      return this.highlight.length;
+    } else if (this.active.length) {
+      return this.active.length;
+    } else {
+      // we have a pretty serious error
+      console.error(`DEAR MATT, investigate how this happened?`);
+    }
+  }
+
+  async getFactPaginationData(
+    _input: string,
+    start: number,
+    end: number,
+    amount: number
+  ) {
+    const currentFacts = this.getFactsCount();
+    return {
+      total: currentFacts,
+      start: start,
+      end: end,
+      totalPages: Math.ceil(currentFacts / amount),
+      currentPage: start * amount,
+    };
+  }
+
+  async getFactsPagination(start: number, end: number) {
+    const storeUrl: StoreUrl = StoreUrl.getInstance();
+
+    const db: Database = new Database(storeUrl.dataURL);
+    if (this.search) {
+      return await db.getPagination(this.highlight, start, end);
+    } else {
+      return await db.getPagination(this.active, start, end);
     }
   }
 
@@ -177,5 +214,21 @@ export class StoreFilter {
   public set moreFilters(input: moreFiltersType) {
     this._moreFilters = input;
     this.filterFacts();
+  }
+
+  public get active() {
+    return this._active;
+  }
+
+  public set active(input: Array<string>) {
+    this._active = input;
+  }
+
+  public get highlight() {
+    return this._highlight;
+  }
+
+  public set highlight(input: Array<string>) {
+    this._highlight = input;
   }
 }

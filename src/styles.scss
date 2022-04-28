@@ -53,27 +53,27 @@ body {
 }
 
 [active-fact-block] {
-  // border-left: 2px red solid !important;
-  // border-right: 2px red solid !important;
-
-  &::before {
-    content: '\A';
-    border-style: solid;
-    border-width: 10px 15px 10px 0;
-    border-color: transparent #dd4397 transparent transparent;
-    position: absolute;
-    left: -15px;
-  }
-
-  &::after {
-    float: right;
-    content: 'do eet!';
-  }
-
+  border-left: 2px red solid !important;
+  border-right: 2px red solid !important;
   &:hover {
     background-color: rgba(255, 0, 0, 0.3) !important;
     cursor: pointer !important;
   }
+}
+
+.block-indicator-left {
+  left: 0;
+  width: 5px;
+  border-top: 0.5rem solid transparent;
+  border-left: 0.75rem solid $sec-color;
+  border-bottom: 0.5rem solid transparent;
+}
+.block-indicator-right {
+  right: 0;
+  width: 5px;
+  border-top: 0.5rem solid transparent;
+  border-right: 0.75rem solid $sec-color;
+  border-bottom: 0.5rem solid transparent;
 }
 
 [active-filtered-fact] {

@@ -1,6 +1,7 @@
-import Database from '../../../database';
+//import Database from '../../../database';
+import { TransformationsNumber } from '../../../constants/transformations/number';
 import { StoreFilter } from '../../../store/filter';
-import { StoreUrl } from '../../../store/url';
+//import { StoreUrl } from '../../../store/url';
 import template from './template.html';
 
 export class Facts extends HTMLElement {
@@ -60,12 +61,12 @@ export class Facts extends HTMLElement {
   }
 
   async updateFactsCount() {
-    const storeUrl: StoreUrl = StoreUrl.getInstance();
-    const db: Database = new Database(storeUrl.dataURL);
     const storeFilter: StoreFilter = StoreFilter.getInstance();
 
-    const dbCount = await db.getFactsCount(storeFilter.getAllFilters());
-    const textToAdd = document.createTextNode(`${dbCount}`);
+    const factCount = storeFilter.getFactsCount();
+    const textToAdd = document.createTextNode(
+      `${TransformationsNumber.simpleFormatting(factCount.toString())}`
+    );
     const span = document.createElement(`span`);
 
     span.append(textToAdd);

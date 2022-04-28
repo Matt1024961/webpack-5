@@ -1,11 +1,10 @@
 import { ErrorClass } from '../error';
 import { ConstantApplication } from '../constants/application';
-//import { StoreData } from '../store/data';
 import { StoreLogger } from '../store/logger';
 import { StoreUrl } from '../store/url';
 import { StoreXhtml } from '../store/xhtml';
 import { WarningClass } from '../warning';
-// import { Database } from '../database';
+import { StoreFilter } from '../store/filter';
 export class FilingUrl {
   constructor() {
     this.init();
@@ -31,8 +30,9 @@ export class FilingUrl {
 
     let filingURLLog = `Filing URL Data: `;
     Object.keys(storeUrl).forEach((current: string) => {
-      filingURLLog += `\n\t ${current}: ${storeUrl[current as keyof typeof storeUrl]
-        }`;
+      filingURLLog += `\n\t ${current}: ${
+        storeUrl[current as keyof typeof storeUrl]
+      }`;
     });
     storeLogger.info(filingURLLog);
     storeLogger.info(`Filing URL Complete`);
@@ -114,7 +114,10 @@ export class FilingUrl {
           if (event.data.all[1].error) {
             const warning = new WarningClass();
             warning.show(`No supporting file was found (${storeUrl.dataURL}).`);
-          } else if (event.data.all[1].data) {
+          } else if (event.data.all[1]) {
+            const storeFilter: StoreFilter = StoreFilter.getInstance();
+            storeFilter.active = event.data.all[1].active;
+            storeFilter.highlight = event.data.all[1].highlight;
             const factContainer = document.querySelector(
               `#facts-container sec-facts`
             );

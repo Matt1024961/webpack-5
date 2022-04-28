@@ -5,7 +5,7 @@ const filterDB = async (
   url: string,
   allFilters: allFilters,
   isFilterActive: boolean
-): Promise<boolean> => {
+): Promise<{ highlight: Array<string>; active: Array<string> }> => {
   const db: Database = new Database(url);
   return await db.getHighlight(allFilters, isFilterActive);
 };

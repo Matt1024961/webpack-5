@@ -20,7 +20,5 @@ export type FactsTable = {
   standardLabel?: string;
   labels?: unknown;
   calculations?: unknown;
-  isActive: number;
-  isHighlight: number;
   references: unknown;
 };

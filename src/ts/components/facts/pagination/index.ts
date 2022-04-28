@@ -1,10 +1,6 @@
-// import { Logger } from 'typescript-logger';
 import { ConstantApplication } from '../../../constants/application';
-import Database from '../../../database';
-//import { StoreData } from '../../../store/data';
 import { StoreFilter } from '../../../store/filter';
 import { StoreUrl } from '../../../store/url';
-//import { facts as factsType } from '../../types/data-json';
 
 import template from './template.html';
 
@@ -75,18 +71,13 @@ export class FactsMenuPagination extends HTMLElement {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
-      // const storeData: StoreData = StoreData.getInstance();
       const storeUrl: StoreUrl = StoreUrl.getInstance();
-
       const storeFilter: StoreFilter = StoreFilter.getInstance();
-
-      const db: Database = new Database(storeUrl.dataURL);
-
-      const templateInfo = await db.getFactPaginationData(storeUrl.filing,
+      const templateInfo = await storeFilter.getFactPaginationData(
+        storeUrl.filing,
         this.pagination.start,
         this.pagination.end,
-        this.pagination.amount,
-        storeFilter.getAllFilters()
+        this.pagination.amount
       );
       this.pagination.totalPages = templateInfo.totalPages;
       const selector = htmlDoc.querySelector(`[template]`);
