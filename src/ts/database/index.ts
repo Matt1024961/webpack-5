@@ -12,7 +12,7 @@ export default class Database extends Dexie {
     super(`SEC - IXViewer - ${url}`);
     this.version(1).stores({
       // NOTE we ONLY INDEX what is necessary
-      facts: `++htmlId, order, isHtml, isNegative, isNumeric, isText, isHidden, isCustom, period, axes, members, scale, balance, tag, [htmlId+isHidden], [htmlId+isText]`,
+      facts: `++htmlId, order, isHtml, isNegative, isNumeric, isText, isHidden, isCustom, period, axes, members, scale, balance, tag, files, [htmlId+isHidden], [htmlId+isText]`,
     });
   }
 
@@ -116,6 +116,9 @@ export default class Database extends Dexie {
           )
             ? 1
             : 0,
+          files: current[`ixv:files`]
+            ? input['ixv:ixdsFiles'][current[`ixv:files`]]
+            : null,
           order: orderCount++,
         };
         arrayToBulkInsert.push(factToPutIntoDB);
@@ -550,6 +553,14 @@ export default class Database extends Dexie {
   async getFactByTag(tag: string): Promise<FactsTable> {
     try {
       return this.table('facts').where({ tag }).first();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async isMultiFiling(): Promise<IndexableType> {
+    try {
+      return await this.table(`facts`).orderBy(`files`).uniqueKeys();
     } catch (error) {
       console.log(error);
     }

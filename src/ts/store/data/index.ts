@@ -15,7 +15,6 @@ import { filterUnits as filterUnitsType } from '../../types/data-json';
 import { labels as labelsType } from '../../types/data-json';
 import { references as referencesType } from '../../types/data-json';
 import { ixdsFiles as ixdsFilesType } from '../../types/data-json';
-import { StoreFilter } from '../filter';
 
 export class StoreData {
   private _documentInfo: documentInfoType;
@@ -48,105 +47,6 @@ export class StoreData {
       StoreData.instance = new StoreData();
     }
     return StoreData.instance;
-  }
-
-  public getForFilter(input: string) {
-    //
-    return {
-      edgarRendererReports: this.edgarRendererReports,
-      entity: this.entity,
-      filterAxis: this.filterAxis,
-      filterBalance: this.filterBalance,
-      filterMembers: this.filterMembers,
-      filterPeriods: this.filterPeriods,
-      filterScale: this.filterScale,
-      filterUnits: this.filterUnits,
-      labels: this.labels,
-      references: this.references,
-      ixdsFiles: this.ixdsFiles,
-      ixvExtensionNamespaces: this.ixvExtensionNamespaces,
-      facts: this.facts.filter((element) => {
-        if (element[`ixv:files`]) {
-          return element[`ixv:files`].includes(input);
-        } else {
-          return true;
-        }
-      }),
-    };
-  }
-
-  public getFilingFactsIDs(input: string) {
-    return this._facts
-      .map((current) => {
-        if (
-          current[`active`] &&
-          current[`ixv:files`] &&
-          current[`ixv:files`].includes(input)
-        ) {
-          return current.id;
-        }
-      })
-      .filter(Boolean);
-  }
-
-  public getFilingFacts(input: string, multiFiling = false) {
-    const storeFilter: StoreFilter = StoreFilter.getInstance();
-    const highlight = storeFilter.search ? true : false;
-    return this._facts
-      .map((current) => {
-        if (multiFiling) {
-          if (
-            highlight &&
-            current.highlight &&
-            current[`ixv:files`] &&
-            current[`ixv:files`].includes(input)
-          ) {
-            return current;
-          } else if (
-            !highlight &&
-            current.active &&
-            current[`ixv:files`] &&
-            current[`ixv:files`].includes(input)
-          ) {
-            return current;
-          }
-          if (
-            current.active &&
-            current[`ixv:files`] &&
-            current[`ixv:files`].includes(input)
-          ) {
-            return current;
-          }
-        } else {
-          if (highlight && current.highlight) {
-            return current;
-          } else if (!highlight && current.active) {
-            return current;
-          }
-        }
-      })
-      .filter(Boolean);
-  }
-
-  public getFilingFactsPaginationTemplate(
-    input: string,
-    start: number,
-    end: number,
-    amount = 10
-  ) {
-    const factsForThisInput = this.getFilingFacts(input).length;
-
-    return {
-      total: factsForThisInput,
-      start: start,
-      end: end,
-      totalPages: Math.ceil(factsForThisInput / amount),
-      currentPage: start * amount,
-    };
-  }
-
-  public getFilingFactsPagination(input: string, start: number, end: number) {
-    return this.getFilingFacts(input).slice(start, end + 1);
   }
 
   public setFilingFactsActive(input: Array<string>) {

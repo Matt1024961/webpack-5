@@ -56,7 +56,7 @@ export type facts = {
   'ixv:factAttributes': Array<Array<string>>;
   'ixv:factCalculations': Array<string>;
   'ixv:factLabels': number;
-  'ixv:files': Array<string>;
+  'ixv:files': number;
   'ixv:standardLabel': string;
   'ixv:hidden': boolean;
   'ixv:factReferences': number;

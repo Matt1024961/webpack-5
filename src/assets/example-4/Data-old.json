@@ -1,0 +1,7180 @@
+{
+ "documentInfo": {
+  "documentType": "https://xbrl.org/2021/xbrl-json",
+  "features": {
+   "xbrl:canonicalValues": true
+  },
+  "namespaces": {
+   "cik": "http://www.sec.gov/CIK",
+   "clx": "http://www.clorox.com/20210630",
+   "country": "http://xbrl.sec.gov/country/2021",
+   "dei": "http://xbrl.sec.gov/dei/2021",
+   "iso4217": "http://www.xbrl.org/2003/iso4217",
+   "ixv": "http://sec.gov/ix-viewer-model",
+   "srt": "http://fasb.org/srt/2021-01-31",
+   "us-gaap": "http://fasb.org/us-gaap/2021-01-31",
+   "xbrl": "https://xbrl.org/2021",
+   "xbrli": "http://www.xbrl.org/2003/instance"
+  },
+  "taxonomy": [
+   "https://www.sec.gov/Archives/edgar/data/0000021076/000002107621000016/clx-20210630.xsd"
+  ]
+ },
+ "facts": [
+  {
+   "value": "false",
+   "dimensions": {
+    "concept": "dei:AmendmentFlag",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:hidden": true,
+   "ixv:standardLabel": "Amendment Flag",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:AmendmentFlag"
+    ],
+    [
+     "Fact",
+     "false"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 5,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF80L2ZyYWc6YzQwNTA1ODI5NzY1NDlmZTliNWE4Y2RmZDI4ZjliYWIvdGFibGU6MTVhNjkzNWYwMzc2NDljMTg5OGZjMzFkNDVhMWNhMzIvdGFibGVyYW5nZToxNWE2OTM1ZjAzNzY0OWMxODk4ZmMzMWQ0NWExY2EzMl8zLTEtMS0xLTA_ef7be381-7224-493c-8244-8362d30e5861"
+  },
+  {
+   "value": "2021",
+   "dimensions": {
+    "concept": "dei:DocumentFiscalYearFocus",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:hidden": true,
+   "ixv:standardLabel": "Document Fiscal Year Focus",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:DocumentFiscalYearFocus"
+    ],
+    [
+     "Fact",
+     "2021"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 35,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF80L2ZyYWc6YzQwNTA1ODI5NzY1NDlmZTliNWE4Y2RmZDI4ZjliYWIvdGFibGU6MTVhNjkzNWYwMzc2NDljMTg5OGZjMzFkNDVhMWNhMzIvdGFibGVyYW5nZToxNWE2OTM1ZjAzNzY0OWMxODk4ZmMzMWQ0NWExY2EzMl81LTEtMS0xLTA_65c8465b-a308-45c7-a5a9-6ac83f4fc291"
+  },
+  {
+   "value": "FY",
+   "dimensions": {
+    "concept": "dei:DocumentFiscalPeriodFocus",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:hidden": true,
+   "ixv:standardLabel": "Document Fiscal Period Focus",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:DocumentFiscalPeriodFocus"
+    ],
+    [
+     "Fact",
+     "FY"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 12,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF80L2ZyYWc6YzQwNTA1ODI5NzY1NDlmZTliNWE4Y2RmZDI4ZjliYWIvdGFibGU6MTVhNjkzNWYwMzc2NDljMTg5OGZjMzFkNDVhMWNhMzIvdGFibGVyYW5nZToxNWE2OTM1ZjAzNzY0OWMxODk4ZmMzMWQ0NWExY2EzMl82LTEtMS0xLTA_a2c9c6ab-f259-4d1c-81e6-4ceb4cceacd0"
+  },
+  {
+   "value": "0000021076",
+   "dimensions": {
+    "concept": "dei:EntityCentralIndexKey",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:hidden": true,
+   "ixv:standardLabel": "Entity Central Index Key",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityCentralIndexKey"
+    ],
+    [
+     "Fact",
+     "0000021076"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 0,
+   "ixv:factReferences": 9,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF80L2ZyYWc6YzQwNTA1ODI5NzY1NDlmZTliNWE4Y2RmZDI4ZjliYWIvdGFibGU6MTVhNjkzNWYwMzc2NDljMTg5OGZjMzFkNDVhMWNhMzIvdGFibGVyYW5nZToxNWE2OTM1ZjAzNzY0OWMxODk4ZmMzMWQ0NWExY2EzMl83LTEtMS0xLTA_8c9f1a1f-655f-42e9-bb6f-ad255918eb00"
+  },
+  {
+   "value": "http://fasb.org/us-gaap/2021-01-31#AccountingStandardsUpdate201409Member",
+   "dimensions": {
+    "concept": "us-gaap:AccountingStandardsUpdateExtensibleList",
+    "period": 0
+   },
+   "ixv:contextref": "i9620e0d06fb04af49c187a2693ebc313_D20170701-20180630",
+   "ixv:hidden": true,
+   "ixv:standardLabel": "Accounting Standards Update [Extensible Enumeration]",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:AccountingStandardsUpdateExtensibleList"
+    ],
+    [
+     "Fact",
+     "http://fasb.org/us-gaap/2021-01-31#AccountingStandardsUpdate201409Member"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     0
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 21,
+   "ixv:factReferences": 2,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmYwNzE4OGJjZjA0YzQwZDk5NmNkNTk5MGJmZGQwNzk0L3NlYzpmMDcxODhiY2YwNGM0MGQ5OTZjZDU5OTBiZmRkMDc5NF80OS9mcmFnOmY4MGViYmY5ZTFlZjQ1ZDFiNTY4NGE5NjQ1OGY1YjM2L3RleHRyZWdpb246ZjgwZWJiZjllMWVmNDVkMWI1Njg0YTk2NDU4ZjViMzZfMTAz_cc45eef7-09dd-4205-8d8d-516720a847ae"
+  },
+  {
+   "value": "http://fasb.org/us-gaap/2021-01-31#AccountingStandardsUpdate201602Member",
+   "dimensions": {
+    "concept": "us-gaap:AccountingStandardsUpdateExtensibleList",
+    "period": 1
+   },
+   "ixv:contextref": "i8464227082fb416a9b463fadacb81333_D20180701-20190630",
+   "ixv:hidden": true,
+   "ixv:standardLabel": "Accounting Standards Update [Extensible Enumeration]",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:AccountingStandardsUpdateExtensibleList"
+    ],
+    [
+     "Fact",
+     "http://fasb.org/us-gaap/2021-01-31#AccountingStandardsUpdate201602Member"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     1
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 21,
+   "ixv:factReferences": 2,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmYwNzE4OGJjZjA0YzQwZDk5NmNkNTk5MGJmZGQwNzk0L3NlYzpmMDcxODhiY2YwNGM0MGQ5OTZjZDU5OTBiZmRkMDc5NF80OS9mcmFnOmY4MGViYmY5ZTFlZjQ1ZDFiNTY4NGE5NjQ1OGY1YjM2L3RleHRyZWdpb246ZjgwZWJiZjllMWVmNDVkMWI1Njg0YTk2NDU4ZjViMzZfMzYy_cb489083-4fdb-4559-9996-824aab801d5f"
+  },
+  {
+   "value": "P3Y",
+   "dimensions": {
+    "concept": "clx:PerformancePeriodForPerformanceAwards",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:hidden": true,
+   "ixv:standardLabel": "Performance Period For Performance Awards",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "clx:PerformancePeriodForPerformanceAwards"
+    ],
+    [
+     "Fact",
+     "P3Y"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 30,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmYwNzE4OGJjZjA0YzQwZDk5NmNkNTk5MGJmZGQwNzk0L3NlYzpmMDcxODhiY2YwNGM0MGQ5OTZjZDU5OTBiZmRkMDc5NF81OC9mcmFnOjJmMmEyNjI5MWNkNTQxODNiNGY2NTZjMTI5MzM2NjhlL3RleHRyZWdpb246MmYyYTI2MjkxY2Q1NDE4M2I0ZjY1NmMxMjkzMzY2OGVfMTM5NTc_b8c89107-842c-41c9-8d5d-fea70850e2b3"
+  },
+  {
+   "value": "http://fasb.org/us-gaap/2021-01-31#OtherAssets",
+   "dimensions": {
+    "concept": "us-gaap:FinanceLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList",
+    "period": 6
+   },
+   "ixv:contextref": "id042a7c2d1ba4246bcfd9cb59dbe6494_I20210630",
+   "ixv:hidden": true,
+   "ixv:standardLabel": "Finance Lease, Right-of-Use Asset, Statement of Financial Position [Extensible Enumeration]",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:FinanceLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList"
+    ],
+    [
+     "Fact",
+     "http://fasb.org/us-gaap/2021-01-31#OtherAssets"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     6
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 23,
+   "ixv:factReferences": 3,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmYwNzE4OGJjZjA0YzQwZDk5NmNkNTk5MGJmZGQwNzk0L3NlYzpmMDcxODhiY2YwNGM0MGQ5OTZjZDU5OTBiZmRkMDc5NF84OC9mcmFnOmU1NzUwYTRlMDFiZjRmMzFiY2ViZjBlYjMxZTEwZmIyL3RhYmxlOjI4NzlkYzk5YjJlYTQ1YzViODM5MTc0OWIxOGFlYzI1L3RhYmxlcmFuZ2U6Mjg3OWRjOTliMmVhNDVjNWI4MzkxNzQ5YjE4YWVjMjVfOC0xLTEtMS00NTk1_1b91e318-837b-4578-9d6b-26629fe2a1b2"
+  },
+  {
+   "value": "http://fasb.org/us-gaap/2021-01-31#OtherAssets",
+   "dimensions": {
+    "concept": "us-gaap:FinanceLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList",
+    "period": 3
+   },
+   "ixv:contextref": "i5591c4fe72eb494badc136645eba1aaf_I20200630",
+   "ixv:hidden": true,
+   "ixv:standardLabel": "Finance Lease, Right-of-Use Asset, Statement of Financial Position [Extensible Enumeration]",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:FinanceLeaseRightOfUseAssetStatementOfFinancialPositionExtensibleList"
+    ],
+    [
+     "Fact",
+     "http://fasb.org/us-gaap/2021-01-31#OtherAssets"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     3
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 23,
+   "ixv:factReferences": 3,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmYwNzE4OGJjZjA0YzQwZDk5NmNkNTk5MGJmZGQwNzk0L3NlYzpmMDcxODhiY2YwNGM0MGQ5OTZjZDU5OTBiZmRkMDc5NF84OC9mcmFnOmU1NzUwYTRlMDFiZjRmMzFiY2ViZjBlYjMxZTEwZmIyL3RhYmxlOjI4NzlkYzk5YjJlYTQ1YzViODM5MTc0OWIxOGFlYzI1L3RhYmxlcmFuZ2U6Mjg3OWRjOTliMmVhNDVjNWI4MzkxNzQ5YjE4YWVjMjVfOC0xLTEtMS00NTk1_519c641b-bb09-467a-bda3-ad024d3708b3"
+  },
+  {
+   "value": "http://fasb.org/us-gaap/2021-01-31#AccountsPayableAndAccruedLiabilitiesCurrent",
+   "dimensions": {
+    "concept": "us-gaap:FinanceLeaseLiabilityCurrentStatementOfFinancialPositionExtensibleList",
+    "period": 3
+   },
+   "ixv:contextref": "i5591c4fe72eb494badc136645eba1aaf_I20200630",
+   "ixv:hidden": true,
+   "ixv:standardLabel": "Finance Lease, Liability, Current, Statement of Financial Position [Extensible Enumeration]",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:FinanceLeaseLiabilityCurrentStatementOfFinancialPositionExtensibleList"
+    ],
+    [
+     "Fact",
+     "http://fasb.org/us-gaap/2021-01-31#AccountsPayableAndAccruedLiabilitiesCurrent"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     3
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 22,
+   "ixv:factReferences": 3,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmYwNzE4OGJjZjA0YzQwZDk5NmNkNTk5MGJmZGQwNzk0L3NlYzpmMDcxODhiY2YwNGM0MGQ5OTZjZDU5OTBiZmRkMDc5NF84OC9mcmFnOmU1NzUwYTRlMDFiZjRmMzFiY2ViZjBlYjMxZTEwZmIyL3RhYmxlOjI4NzlkYzk5YjJlYTQ1YzViODM5MTc0OWIxOGFlYzI1L3RhYmxlcmFuZ2U6Mjg3OWRjOTliMmVhNDVjNWI4MzkxNzQ5YjE4YWVjMjVfOS0xLTEtMS00NTk3_2e599827-c295-44f6-87a6-cde06628eb41"
+  },
+  {
+   "value": "http://fasb.org/us-gaap/2021-01-31#AccountsPayableAndAccruedLiabilitiesCurrent",
+   "dimensions": {
+    "concept": "us-gaap:FinanceLeaseLiabilityCurrentStatementOfFinancialPositionExtensibleList",
+    "period": 6
+   },
+   "ixv:contextref": "id042a7c2d1ba4246bcfd9cb59dbe6494_I20210630",
+   "ixv:hidden": true,
+   "ixv:standardLabel": "Finance Lease, Liability, Current, Statement of Financial Position [Extensible Enumeration]",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:FinanceLeaseLiabilityCurrentStatementOfFinancialPositionExtensibleList"
+    ],
+    [
+     "Fact",
+     "http://fasb.org/us-gaap/2021-01-31#AccountsPayableAndAccruedLiabilitiesCurrent"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     6
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 22,
+   "ixv:factReferences": 3,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmYwNzE4OGJjZjA0YzQwZDk5NmNkNTk5MGJmZGQwNzk0L3NlYzpmMDcxODhiY2YwNGM0MGQ5OTZjZDU5OTBiZmRkMDc5NF84OC9mcmFnOmU1NzUwYTRlMDFiZjRmMzFiY2ViZjBlYjMxZTEwZmIyL3RhYmxlOjI4NzlkYzk5YjJlYTQ1YzViODM5MTc0OWIxOGFlYzI1L3RhYmxlcmFuZ2U6Mjg3OWRjOTliMmVhNDVjNWI4MzkxNzQ5YjE4YWVjMjVfOS0xLTEtMS00NTk3_d8a98bcf-96e0-4709-ad41-4d97964a004d"
+  },
+  {
+   "value": "http://fasb.org/us-gaap/2021-01-31#OtherLiabilitiesNoncurrent",
+   "dimensions": {
+    "concept": "us-gaap:FinanceLeaseLiabilityNoncurrentStatementOfFinancialPositionExtensibleList",
+    "period": 6
+   },
+   "ixv:contextref": "id042a7c2d1ba4246bcfd9cb59dbe6494_I20210630",
+   "ixv:hidden": true,
+   "ixv:standardLabel": "Finance Lease, Liability, Noncurrent, Statement of Financial Position [Extensible Enumeration]",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:FinanceLeaseLiabilityNoncurrentStatementOfFinancialPositionExtensibleList"
+    ],
+    [
+     "Fact",
+     "http://fasb.org/us-gaap/2021-01-31#OtherLiabilitiesNoncurrent"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     6
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 24,
+   "ixv:factReferences": 3,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmYwNzE4OGJjZjA0YzQwZDk5NmNkNTk5MGJmZGQwNzk0L3NlYzpmMDcxODhiY2YwNGM0MGQ5OTZjZDU5OTBiZmRkMDc5NF84OC9mcmFnOmU1NzUwYTRlMDFiZjRmMzFiY2ViZjBlYjMxZTEwZmIyL3RhYmxlOjI4NzlkYzk5YjJlYTQ1YzViODM5MTc0OWIxOGFlYzI1L3RhYmxlcmFuZ2U6Mjg3OWRjOTliMmVhNDVjNWI4MzkxNzQ5YjE4YWVjMjVfMTAtMS0xLTEtNDYwMA_2ecb2e5b-7051-4410-b760-3e70c95dab0a"
+  },
+  {
+   "value": "http://fasb.org/us-gaap/2021-01-31#OtherLiabilitiesNoncurrent",
+   "dimensions": {
+    "concept": "us-gaap:FinanceLeaseLiabilityNoncurrentStatementOfFinancialPositionExtensibleList",
+    "period": 3
+   },
+   "ixv:contextref": "i5591c4fe72eb494badc136645eba1aaf_I20200630",
+   "ixv:hidden": true,
+   "ixv:standardLabel": "Finance Lease, Liability, Noncurrent, Statement of Financial Position [Extensible Enumeration]",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:FinanceLeaseLiabilityNoncurrentStatementOfFinancialPositionExtensibleList"
+    ],
+    [
+     "Fact",
+     "http://fasb.org/us-gaap/2021-01-31#OtherLiabilitiesNoncurrent"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     3
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 24,
+   "ixv:factReferences": 3,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmYwNzE4OGJjZjA0YzQwZDk5NmNkNTk5MGJmZGQwNzk0L3NlYzpmMDcxODhiY2YwNGM0MGQ5OTZjZDU5OTBiZmRkMDc5NF84OC9mcmFnOmU1NzUwYTRlMDFiZjRmMzFiY2ViZjBlYjMxZTEwZmIyL3RhYmxlOjI4NzlkYzk5YjJlYTQ1YzViODM5MTc0OWIxOGFlYzI1L3RhYmxlcmFuZ2U6Mjg3OWRjOTliMmVhNDVjNWI4MzkxNzQ5YjE4YWVjMjVfMTAtMS0xLTEtNDYwMA_3bb34096-2b97-4fa8-bf5f-0752cee09b57"
+  },
+  {
+   "value": "10-K",
+   "dimensions": {
+    "concept": "dei:DocumentType",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:standardLabel": "Document Type",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:DocumentType"
+    ],
+    [
+     "Fact",
+     "10-K"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 34,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGV4dHJlZ2lvbjo0YzQwYTc5NDQ0YTg0NDIxODZkZGE1MmU3NjZhOTA3MV8xMDQ_a94aca7e-fd00-4b03-afb4-4dc199d79bfa"
+  },
+  {
+   "value": "true",
+   "dimensions": {
+    "concept": "dei:DocumentAnnualReport",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:format": "ixt-sec:boolballotbox",
+   "ixv:standardLabel": "Document Annual Report",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:DocumentAnnualReport"
+    ],
+    [
+     "Fact",
+     "true"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 4,
+   "ixv:factReferences": 7,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGFibGU6ZTZlZmRjMGJjM2E0NDk5YjkzMjViZmY2ZmM1NzFhYjYvdGFibGVyYW5nZTplNmVmZGMwYmMzYTQ0OTliOTMyNWJmZjZmYzU3MWFiNl8wLTAtMS0xLTA_58c06472-ff34-4122-8277-ba3e41622c6d"
+  },
+  {
+   "value": "2021-06-30",
+   "dimensions": {
+    "concept": "dei:DocumentPeriodEndDate",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:format": "ixt:datemonthdayyearen",
+   "ixv:standardLabel": "Document Period End Date",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:DocumentPeriodEndDate"
+    ],
+    [
+     "Fact",
+     "2021-06-30"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 14,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGFibGU6ZTZlZmRjMGJjM2E0NDk5YjkzMjViZmY2ZmM1NzFhYjYvdGFibGVyYW5nZTplNmVmZGMwYmMzYTQ0OTliOTMyNWJmZjZmYzU3MWFiNl8yLTItMS0xLTA_9e78df5f-c06b-4e7e-b267-24ead05b817f"
+  },
+  {
+   "value": "--06-30",
+   "dimensions": {
+    "concept": "dei:CurrentFiscalYearEndDate",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:format": "ixt:datemonthdayen",
+   "ixv:standardLabel": "Current Fiscal Year End Date",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:CurrentFiscalYearEndDate"
+    ],
+    [
+     "Fact",
+     "--06-30"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 11,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGFibGU6ZTZlZmRjMGJjM2E0NDk5YjkzMjViZmY2ZmM1NzFhYjYvdGFibGVyYW5nZTplNmVmZGMwYmMzYTQ0OTliOTMyNWJmZjZmYzU3MWFiNl8yLTItMS0xLTA_a0f43f57-7662-4459-93ff-aa1584f12a75"
+  },
+  {
+   "value": "false",
+   "dimensions": {
+    "concept": "dei:DocumentTransitionReport",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:format": "ixt-sec:boolballotbox",
+   "ixv:standardLabel": "Document Transition Report",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:DocumentTransitionReport"
+    ],
+    [
+     "Fact",
+     "false"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 3,
+   "ixv:factReferences": 8,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGFibGU6ZTZlZmRjMGJjM2E0NDk5YjkzMjViZmY2ZmM1NzFhYjYvdGFibGVyYW5nZTplNmVmZGMwYmMzYTQ0OTliOTMyNWJmZjZmYzU3MWFiNl81LTAtMS0xLTA_97bd92bc-09ae-48bf-945d-4c63b534e737"
+  },
+  {
+   "value": "1-07151",
+   "dimensions": {
+    "concept": "dei:EntityFileNumber",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:standardLabel": "Entity File Number",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityFileNumber"
+    ],
+    [
+     "Fact",
+     "1-07151"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 9,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGFibGU6ZTZlZmRjMGJjM2E0NDk5YjkzMjViZmY2ZmM1NzFhYjYvdGFibGVyYW5nZTplNmVmZGMwYmMzYTQ0OTliOTMyNWJmZjZmYzU3MWFiNl84LTItMS0xLTA_0a8edde3-07e5-4a68-96da-7e94d61a0dbc"
+  },
+  {
+   "value": "THE CLOROX COMPANY",
+   "dimensions": {
+    "concept": "dei:EntityRegistrantName",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:standardLabel": "Entity Registrant Name",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityRegistrantName"
+    ],
+    [
+     "Fact",
+     "THE CLOROX COMPANY"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 33,
+   "ixv:factReferences": 9,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGV4dHJlZ2lvbjo0YzQwYTc5NDQ0YTg0NDIxODZkZGE1MmU3NjZhOTA3MV8xNDg0MzQwNjk3ODA0OA_c0488659-cb67-4852-8a7b-290757b1fd44"
+  },
+  {
+   "value": "DE",
+   "dimensions": {
+    "concept": "dei:EntityIncorporationStateCountryCode",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:format": "ixt-sec:stateprovnameen",
+   "ixv:standardLabel": "Entity Incorporation, State or Country Code",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityIncorporationStateCountryCode"
+    ],
+    [
+     "Fact",
+     "DE"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 39,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGFibGU6NDY2NWE1MTQ0ODU0NDhiOGFkNGUwZDEwY2UxN2RmZDkvdGFibGVyYW5nZTo0NjY1YTUxNDQ4NTQ0OGI4YWQ0ZTBkMTBjZTE3ZGZkOV8wLTAtMS0xLTA_65d9a1a6-61ae-4607-9e10-56c5c11fa96f"
+  },
+  {
+   "value": "31-0595760",
+   "dimensions": {
+    "concept": "dei:EntityTaxIdentificationNumber",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:standardLabel": "Entity Tax Identification Number",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityTaxIdentificationNumber"
+    ],
+    [
+     "Fact",
+     "31-0595760"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 31,
+   "ixv:factReferences": 9,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGFibGU6NDY2NWE1MTQ0ODU0NDhiOGFkNGUwZDEwY2UxN2RmZDkvdGFibGVyYW5nZTo0NjY1YTUxNDQ4NTQ0OGI4YWQ0ZTBkMTBjZTE3ZGZkOV8wLTItMS0xLTA_fcb72c5e-b331-410c-85bb-6c9fa6b153e8"
+  },
+  {
+   "value": "1221 Broadway",
+   "dimensions": {
+    "concept": "dei:EntityAddressAddressLine1",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:standardLabel": "Entity Address, Address Line One",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityAddressAddressLine1"
+    ],
+    [
+     "Fact",
+     "1221 Broadway"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 1,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGV4dHJlZ2lvbjo0YzQwYTc5NDQ0YTg0NDIxODZkZGE1MmU3NjZhOTA3MV8xOTA_d7007d62-bd4d-4b65-a668-e1a3d16b6844"
+  },
+  {
+   "value": "Oakland",
+   "dimensions": {
+    "concept": "dei:EntityAddressCityOrTown",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:standardLabel": "Entity Address, City or Town",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityAddressCityOrTown"
+    ],
+    [
+     "Fact",
+     "Oakland"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 27,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGV4dHJlZ2lvbjo0YzQwYTc5NDQ0YTg0NDIxODZkZGE1MmU3NjZhOTA3MV8xOTQ_2eb11b39-a065-4709-83b0-e77fea181453"
+  },
+  {
+   "value": "CA",
+   "dimensions": {
+    "concept": "dei:EntityAddressStateOrProvince",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:format": "ixt-sec:stateprovnameen",
+   "ixv:standardLabel": "Entity Address, State or Province",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityAddressStateOrProvince"
+    ],
+    [
+     "Fact",
+     "CA"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 29,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGV4dHJlZ2lvbjo0YzQwYTc5NDQ0YTg0NDIxODZkZGE1MmU3NjZhOTA3MV8xOTg_4cdd9061-9b15-435a-a377-e3e8747c38a1"
+  },
+  {
+   "value": "94612-1888",
+   "dimensions": {
+    "concept": "dei:EntityAddressPostalZipCode",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:standardLabel": "Entity Address, Postal Zip Code",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityAddressPostalZipCode"
+    ],
+    [
+     "Fact",
+     "94612-1888"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 8,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGV4dHJlZ2lvbjo0YzQwYTc5NDQ0YTg0NDIxODZkZGE1MmU3NjZhOTA3MV8yMDE_d5dbe7c7-4563-4010-9927-82563c9cc28b"
+  },
+  {
+   "value": "(510)",
+   "dimensions": {
+    "concept": "dei:CityAreaCode",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:standardLabel": "City Area Code",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:CityAreaCode"
+    ],
+    [
+     "Fact",
+     "(510)"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 2,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGFibGU6MjQ2OTM5ZjZjN2QxNDgxMWJkYjQxOThjYzJiYjU4OTgvdGFibGVyYW5nZToyNDY5MzlmNmM3ZDE0ODExYmRiNDE5OGNjMmJiNTg5OF83LTItMS0xLTA_381a8a87-2b6a-45d9-8609-8a5a5e4bdfe4"
+  },
+  {
+   "value": "271-7000",
+   "dimensions": {
+    "concept": "dei:LocalPhoneNumber",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:standardLabel": "Local Phone Number",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:LocalPhoneNumber"
+    ],
+    [
+     "Fact",
+     "271-7000"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 26,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGFibGU6MjQ2OTM5ZjZjN2QxNDgxMWJkYjQxOThjYzJiYjU4OTgvdGFibGVyYW5nZToyNDY5MzlmNmM3ZDE0ODExYmRiNDE5OGNjMmJiNTg5OF83LTMtMS0xLTA_f8ec4fd1-ff21-4f7e-8671-c5781597d110"
+  },
+  {
+   "value": "Common Stock \u2013 $1.00 par value",
+   "dimensions": {
+    "concept": "dei:Security12bTitle",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:standardLabel": "Title of 12(b) Security",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:Security12bTitle"
+    ],
+    [
+     "Fact",
+     "Common Stock \u2013 $1.00 par value"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 36,
+   "ixv:factReferences": 4,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGFibGU6MjQ2OTM5ZjZjN2QxNDgxMWJkYjQxOThjYzJiYjU4OTgvdGFibGVyYW5nZToyNDY5MzlmNmM3ZDE0ODExYmRiNDE5OGNjMmJiNTg5OF8xMy0wLTEtMS0w_2aa7cdce-6ecd-4e87-8ce2-b517e49948bd"
+  },
+  {
+   "value": "CLX",
+   "dimensions": {
+    "concept": "dei:TradingSymbol",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:standardLabel": "Trading Symbol",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:TradingSymbol"
+    ],
+    [
+     "Fact",
+     "CLX"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 38,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGFibGU6MjQ2OTM5ZjZjN2QxNDgxMWJkYjQxOThjYzJiYjU4OTgvdGFibGVyYW5nZToyNDY5MzlmNmM3ZDE0ODExYmRiNDE5OGNjMmJiNTg5OF8xMy0yLTEtMS0w_dfbddd2b-ab9c-42c7-b9d5-ae2b14e015ea"
+  },
+  {
+   "value": "NYSE",
+   "dimensions": {
+    "concept": "dei:SecurityExchangeName",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:format": "ixt-sec:exchnameen",
+   "ixv:standardLabel": "Security Exchange Name",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:SecurityExchangeName"
+    ],
+    [
+     "Fact",
+     "NYSE"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 28,
+   "ixv:factReferences": 6,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGFibGU6MjQ2OTM5ZjZjN2QxNDgxMWJkYjQxOThjYzJiYjU4OTgvdGFibGVyYW5nZToyNDY5MzlmNmM3ZDE0ODExYmRiNDE5OGNjMmJiNTg5OF8xMy00LTEtMS0w_d79bb395-0de9-4493-b80a-fe510bfbf9b6"
+  },
+  {
+   "value": "Yes",
+   "dimensions": {
+    "concept": "dei:EntityWellKnownSeasonedIssuer",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:standardLabel": "Entity Well-known Seasoned Issuer",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityWellKnownSeasonedIssuer"
+    ],
+    [
+     "Fact",
+     "Yes"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 15,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGV4dHJlZ2lvbjo0YzQwYTc5NDQ0YTg0NDIxODZkZGE1MmU3NjZhOTA3MV8zMjY_44404e58-9bbd-4615-b15c-a321c34eaf3e"
+  },
+  {
+   "value": "No",
+   "dimensions": {
+    "concept": "dei:EntityVoluntaryFilers",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:standardLabel": "Entity Voluntary Filers",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityVoluntaryFilers"
+    ],
+    [
+     "Fact",
+     "No"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 16,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGV4dHJlZ2lvbjo0YzQwYTc5NDQ0YTg0NDIxODZkZGE1MmU3NjZhOTA3MV80Njc_8cb64c7f-1067-47eb-8cdb-e398106c97a0"
+  },
+  {
+   "value": "Yes",
+   "dimensions": {
+    "concept": "dei:EntityCurrentReportingStatus",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:standardLabel": "Entity Current Reporting Status",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityCurrentReportingStatus"
+    ],
+    [
+     "Fact",
+     "Yes"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 17,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGV4dHJlZ2lvbjo0YzQwYTc5NDQ0YTg0NDIxODZkZGE1MmU3NjZhOTA3MV84MTg_d9c280b4-161b-4443-911c-36a153dd5fae"
+  },
+  {
+   "value": "Yes",
+   "dimensions": {
+    "concept": "dei:EntityInteractiveDataCurrent",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:standardLabel": "Entity Interactive Data Current",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityInteractiveDataCurrent"
+    ],
+    [
+     "Fact",
+     "Yes"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 6,
+   "ixv:factReferences": 10,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGV4dHJlZ2lvbjo0YzQwYTc5NDQ0YTg0NDIxODZkZGE1MmU3NjZhOTA3MV8xMTQ2_047d3108-6b88-43b5-af91-cd6ade8c8e75"
+  },
+  {
+   "value": "Large Accelerated Filer",
+   "dimensions": {
+    "concept": "dei:EntityFilerCategory",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:format": "ixt-sec:entityfilercategoryen",
+   "ixv:standardLabel": "Entity Filer Category",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityFilerCategory"
+    ],
+    [
+     "Fact",
+     "Large Accelerated Filer"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 20,
+   "ixv:factReferences": 9,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGFibGU6ZmQ0ZDk4YjhmYjI0NDNhOWEzODA5YjcxMjk5YjA0YzcvdGFibGVyYW5nZTpmZDRkOThiOGZiMjQ0M2E5YTM4MDliNzEyOTliMDRjN18wLTAtMS0xLTA_7a79448c-f3dd-418a-aa7b-b7172c9d0dd2"
+  },
+  {
+   "value": "false",
+   "dimensions": {
+    "concept": "dei:EntitySmallBusiness",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:format": "ixt:booleanfalse",
+   "ixv:standardLabel": "Entity Small Business",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntitySmallBusiness"
+    ],
+    [
+     "Fact",
+     "false"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 25,
+   "ixv:factReferences": 9,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGFibGU6ZmQ0ZDk4YjhmYjI0NDNhOWEzODA5YjcxMjk5YjA0YzcvdGFibGVyYW5nZTpmZDRkOThiOGZiMjQ0M2E5YTM4MDliNzEyOTliMDRjN18wLTctMS0xLTA_b64f7690-ea04-47c1-95ee-60ddf4866423"
+  },
+  {
+   "value": "false",
+   "dimensions": {
+    "concept": "dei:EntityEmergingGrowthCompany",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:format": "ixt:booleanfalse",
+   "ixv:standardLabel": "Entity Emerging Growth Company",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityEmergingGrowthCompany"
+    ],
+    [
+     "Fact",
+     "false"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 18,
+   "ixv:factReferences": 9,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGFibGU6ZmQ0ZDk4YjhmYjI0NDNhOWEzODA5YjcxMjk5YjA0YzcvdGFibGVyYW5nZTpmZDRkOThiOGZiMjQ0M2E5YTM4MDliNzEyOTliMDRjN18wLTktMS0xLTA_8e88be2d-21f5-4e5f-8779-93de69f70359"
+  },
+  {
+   "value": "true",
+   "dimensions": {
+    "concept": "dei:IcfrAuditorAttestationFlag",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:format": "ixt:booleantrue",
+   "ixv:standardLabel": "ICFR Auditor Attestation Flag",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:IcfrAuditorAttestationFlag"
+    ],
+    [
+     "Fact",
+     "true"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 42,
+   "ixv:factReferences": 7,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGV4dHJlZ2lvbjo0YzQwYTc5NDQ0YTg0NDIxODZkZGE1MmU3NjZhOTA3MV8yMTA1_f56d1c88-4bb0-452e-ad62-aa84750075df"
+  },
+  {
+   "value": "false",
+   "dimensions": {
+    "concept": "dei:EntityShellCompany",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:format": "ixt:booleanfalse",
+   "ixv:standardLabel": "Entity Shell Company",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityShellCompany"
+    ],
+    [
+     "Fact",
+     "false"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 7,
+   "ixv:factReferences": 9,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGV4dHJlZ2lvbjo0YzQwYTc5NDQ0YTg0NDIxODZkZGE1MmU3NjZhOTA3MV8yMjE2_3eb9732f-51ad-4f72-bb18-536a942fc1fb"
+  },
+  {
+   "value": "25300000000",
+   "decimals": -8,
+   "dimensions": {
+    "concept": "dei:EntityPublicFloat",
+    "period": 5,
+    "unit": 0
+   },
+   "ixv:contextref": "i038cbdb36f7549a990cf6a6fcaa068af_I20201231",
+   "ixv:isnumeric": true,
+   "ixv:format": "ixt:numdotdecimal",
+   "ixv:standardLabel": "Entity Public Float",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityPublicFloat"
+    ],
+    [
+     "Fact",
+     "25300000000"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     5
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     0
+    ],
+    [
+     "Scale",
+     "9"
+    ],
+    [
+     "Decimals",
+     "-8"
+    ],
+    [
+     "Balance",
+     "credit"
+    ]
+   ],
+   "ixv:factLabels": 32,
+   "ixv:factCalculations": [
+    "Balance",
+    "credit"
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGV4dHJlZ2lvbjo0YzQwYTc5NDQ0YTg0NDIxODZkZGE1MmU3NjZhOTA3MV8xNDg0MzQwNjk3ODE3Mg_e3cc8e8a-bb1a-4bd2-9275-442e484da79d"
+  },
+  {
+   "value": "122813075",
+   "dimensions": {
+    "concept": "dei:EntityCommonStockSharesOutstanding",
+    "period": 7,
+    "unit": 1
+   },
+   "ixv:contextref": "ifc756cd353a242f68bb4c2db5213e41a_I20210728",
+   "ixv:isnumeric": true,
+   "ixv:format": "ixt:numdotdecimal",
+   "ixv:standardLabel": "Entity Common Stock, Shares Outstanding",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:EntityCommonStockSharesOutstanding"
+    ],
+    [
+     "Fact",
+     "122813075"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     7
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     1
+    ],
+    [
+     "Scale",
+     "0"
+    ],
+    [
+     "Decimals",
+     "INF"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 19,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGV4dHJlZ2lvbjo0YzQwYTc5NDQ0YTg0NDIxODZkZGE1MmU3NjZhOTA3MV83Njk2NTgxMzk3NTc4_5ee10fd3-5bc6-4784-a58b-ca64cba3a26c"
+  },
+  {
+   "value": "Portions of the registrant\u2019s definitive proxy statement for the 2021 Annual Meeting of Stockholders (the \u201cProxy Statement\u201d), to be filed within 120 days after June\u00a030, 2021, are incorporated by reference into Part III, Items 10 through 14 of this Annual Report on Form 10-K",
+   "dimensions": {
+    "concept": "dei:DocumentsIncorporatedByReferenceTextBlock",
+    "language": "en-US",
+    "period": 4
+   },
+   "ixv:contextref": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+   "ixv:istextonly": true,
+   "ixv:standardLabel": "Documents Incorporated by Reference [Text Block]",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "dei:DocumentsIncorporatedByReferenceTextBlock"
+    ],
+    [
+     "Fact",
+     "Portions of the registrant\u2019s definitive proxy statement for the 2021 Annual Meeting of Stockholders (the \u201cProxy Statement\u201d), to be filed within 120 days after June\u00a030, 2021, are incorporated by reference into Part III, Items 10 through 14 of this Annual Report on Form 10-K"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     null
+    ],
+    [
+     "Decimals",
+     null
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 10,
+   "ixv:factReferences": 5,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xL2ZyYWc6NGM0MGE3OTQ0NGE4NDQyMTg2ZGRhNTJlNzY2YTkwNzEvdGV4dHJlZ2lvbjo0YzQwYTc5NDQ0YTg0NDIxODZkZGE1MmU3NjZhOTA3MV8yODMw_862f83da-bc3a-4d7a-b9f8-0c498d726aa2"
+  },
+  {
+   "value": "0.43",
+   "decimals": 2,
+   "dimensions": {
+    "concept": "us-gaap:ConcentrationRiskPercentage1",
+    "period": 4,
+    "srt:ProductOrServiceAxis": "clx:CleaningMember",
+    "us-gaap:ConcentrationRiskByBenchmarkAxis": "us-gaap:RevenueFromContractWithCustomerMember",
+    "us-gaap:ConcentrationRiskByTypeAxis": "us-gaap:ProductConcentrationRiskMember"
+   },
+   "ixv:contextref": "i3c86d0ef42294d2f9c44995254e4552f_D20200701-20210630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Concentration Risk, Percentage",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:ConcentrationRiskPercentage1"
+    ],
+    [
+     "Fact",
+     "0.43"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     [
+      "srt:ProductOrServiceAxis",
+      "us-gaap:ConcentrationRiskByBenchmarkAxis",
+      "us-gaap:ConcentrationRiskByTypeAxis"
+     ]
+    ],
+    [
+     "Members",
+     [
+      "clx:CleaningMember",
+      "us-gaap:RevenueFromContractWithCustomerMember",
+      "us-gaap:ProductConcentrationRiskMember"
+     ]
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     "-2"
+    ],
+    [
+     "Decimals",
+     "2"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 13,
+   "ixv:factReferences": 0,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xMy9mcmFnOjI0MzdkMDE0MTRjMjRjODJiMTJiMDZmM2MwNmRkZjBjL3RhYmxlOmZjZjEzYWFhZjI4MTQ5MmM4YWIwMDdlZDEzOWRhYmIxL3RhYmxlcmFuZ2U6ZmNmMTNhYWFmMjgxNDkyYzhhYjAwN2VkMTM5ZGFiYjFfMS0xLTEtMS0w_f9b4fe1c-61da-483c-b6a0-83ac873dcc62"
+  },
+  {
+   "value": "0.43",
+   "decimals": 2,
+   "dimensions": {
+    "concept": "us-gaap:ConcentrationRiskPercentage1",
+    "period": 2,
+    "srt:ProductOrServiceAxis": "clx:CleaningMember",
+    "us-gaap:ConcentrationRiskByBenchmarkAxis": "us-gaap:RevenueFromContractWithCustomerMember",
+    "us-gaap:ConcentrationRiskByTypeAxis": "us-gaap:ProductConcentrationRiskMember"
+   },
+   "ixv:contextref": "iede5987b160446caa8637279f37b4af4_D20190701-20200630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Concentration Risk, Percentage",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:ConcentrationRiskPercentage1"
+    ],
+    [
+     "Fact",
+     "0.43"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     2
+    ],
+    [
+     "Axes",
+     [
+      "srt:ProductOrServiceAxis",
+      "us-gaap:ConcentrationRiskByBenchmarkAxis",
+      "us-gaap:ConcentrationRiskByTypeAxis"
+     ]
+    ],
+    [
+     "Members",
+     [
+      "clx:CleaningMember",
+      "us-gaap:RevenueFromContractWithCustomerMember",
+      "us-gaap:ProductConcentrationRiskMember"
+     ]
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     "-2"
+    ],
+    [
+     "Decimals",
+     "2"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 13,
+   "ixv:factReferences": 0,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xMy9mcmFnOjI0MzdkMDE0MTRjMjRjODJiMTJiMDZmM2MwNmRkZjBjL3RhYmxlOmZjZjEzYWFhZjI4MTQ5MmM4YWIwMDdlZDEzOWRhYmIxL3RhYmxlcmFuZ2U6ZmNmMTNhYWFmMjgxNDkyYzhhYjAwN2VkMTM5ZGFiYjFfMS0zLTEtMS0w_cbc217d8-57bd-489a-8a1d-5cacfd61cbe6"
+  },
+  {
+   "value": "0.40",
+   "decimals": 2,
+   "dimensions": {
+    "concept": "us-gaap:ConcentrationRiskPercentage1",
+    "period": 1,
+    "srt:ProductOrServiceAxis": "clx:CleaningMember",
+    "us-gaap:ConcentrationRiskByBenchmarkAxis": "us-gaap:RevenueFromContractWithCustomerMember",
+    "us-gaap:ConcentrationRiskByTypeAxis": "us-gaap:ProductConcentrationRiskMember"
+   },
+   "ixv:contextref": "i9292ca94f4c54adaaccac940cb34d37a_D20180701-20190630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Concentration Risk, Percentage",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:ConcentrationRiskPercentage1"
+    ],
+    [
+     "Fact",
+     "0.40"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     1
+    ],
+    [
+     "Axes",
+     [
+      "srt:ProductOrServiceAxis",
+      "us-gaap:ConcentrationRiskByBenchmarkAxis",
+      "us-gaap:ConcentrationRiskByTypeAxis"
+     ]
+    ],
+    [
+     "Members",
+     [
+      "clx:CleaningMember",
+      "us-gaap:RevenueFromContractWithCustomerMember",
+      "us-gaap:ProductConcentrationRiskMember"
+     ]
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     "-2"
+    ],
+    [
+     "Decimals",
+     "2"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 13,
+   "ixv:factReferences": 0,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xMy9mcmFnOjI0MzdkMDE0MTRjMjRjODJiMTJiMDZmM2MwNmRkZjBjL3RhYmxlOmZjZjEzYWFhZjI4MTQ5MmM4YWIwMDdlZDEzOWRhYmIxL3RhYmxlcmFuZ2U6ZmNmMTNhYWFmMjgxNDkyYzhhYjAwN2VkMTM5ZGFiYjFfMS01LTEtMS0w_be565849-717b-49ee-867a-414da8ee84cb"
+  },
+  {
+   "value": "0.14",
+   "decimals": 2,
+   "dimensions": {
+    "concept": "us-gaap:ConcentrationRiskPercentage1",
+    "period": 4,
+    "srt:ProductOrServiceAxis": "clx:BagsAndWrapsMember",
+    "us-gaap:ConcentrationRiskByBenchmarkAxis": "us-gaap:RevenueFromContractWithCustomerMember",
+    "us-gaap:ConcentrationRiskByTypeAxis": "us-gaap:ProductConcentrationRiskMember"
+   },
+   "ixv:contextref": "i62d3f428ec4d47e09f6678bef02a3957_D20200701-20210630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Concentration Risk, Percentage",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:ConcentrationRiskPercentage1"
+    ],
+    [
+     "Fact",
+     "0.14"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     [
+      "srt:ProductOrServiceAxis",
+      "us-gaap:ConcentrationRiskByBenchmarkAxis",
+      "us-gaap:ConcentrationRiskByTypeAxis"
+     ]
+    ],
+    [
+     "Members",
+     [
+      "clx:BagsAndWrapsMember",
+      "us-gaap:RevenueFromContractWithCustomerMember",
+      "us-gaap:ProductConcentrationRiskMember"
+     ]
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     "-2"
+    ],
+    [
+     "Decimals",
+     "2"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 13,
+   "ixv:factReferences": 0,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xMy9mcmFnOjI0MzdkMDE0MTRjMjRjODJiMTJiMDZmM2MwNmRkZjBjL3RhYmxlOmZjZjEzYWFhZjI4MTQ5MmM4YWIwMDdlZDEzOWRhYmIxL3RhYmxlcmFuZ2U6ZmNmMTNhYWFmMjgxNDkyYzhhYjAwN2VkMTM5ZGFiYjFfMi0xLTEtMS0w_276fe046-27d5-4116-809d-469f1cf82ff7"
+  },
+  {
+   "value": "0.15",
+   "decimals": 2,
+   "dimensions": {
+    "concept": "us-gaap:ConcentrationRiskPercentage1",
+    "period": 2,
+    "srt:ProductOrServiceAxis": "clx:BagsAndWrapsMember",
+    "us-gaap:ConcentrationRiskByBenchmarkAxis": "us-gaap:RevenueFromContractWithCustomerMember",
+    "us-gaap:ConcentrationRiskByTypeAxis": "us-gaap:ProductConcentrationRiskMember"
+   },
+   "ixv:contextref": "i0642624daeaa4c769efd6de4aeedb5e6_D20190701-20200630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Concentration Risk, Percentage",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:ConcentrationRiskPercentage1"
+    ],
+    [
+     "Fact",
+     "0.15"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     2
+    ],
+    [
+     "Axes",
+     [
+      "srt:ProductOrServiceAxis",
+      "us-gaap:ConcentrationRiskByBenchmarkAxis",
+      "us-gaap:ConcentrationRiskByTypeAxis"
+     ]
+    ],
+    [
+     "Members",
+     [
+      "clx:BagsAndWrapsMember",
+      "us-gaap:RevenueFromContractWithCustomerMember",
+      "us-gaap:ProductConcentrationRiskMember"
+     ]
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     "-2"
+    ],
+    [
+     "Decimals",
+     "2"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 13,
+   "ixv:factReferences": 0,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xMy9mcmFnOjI0MzdkMDE0MTRjMjRjODJiMTJiMDZmM2MwNmRkZjBjL3RhYmxlOmZjZjEzYWFhZjI4MTQ5MmM4YWIwMDdlZDEzOWRhYmIxL3RhYmxlcmFuZ2U6ZmNmMTNhYWFmMjgxNDkyYzhhYjAwN2VkMTM5ZGFiYjFfMi0zLTEtMS0w_281c69f5-f8de-4642-80a1-059d531236ed"
+  },
+  {
+   "value": "0.16",
+   "decimals": 2,
+   "dimensions": {
+    "concept": "us-gaap:ConcentrationRiskPercentage1",
+    "period": 1,
+    "srt:ProductOrServiceAxis": "clx:BagsAndWrapsMember",
+    "us-gaap:ConcentrationRiskByBenchmarkAxis": "us-gaap:RevenueFromContractWithCustomerMember",
+    "us-gaap:ConcentrationRiskByTypeAxis": "us-gaap:ProductConcentrationRiskMember"
+   },
+   "ixv:contextref": "i0034edcc2b9646efbf2afb12ba042023_D20180701-20190630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Concentration Risk, Percentage",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:ConcentrationRiskPercentage1"
+    ],
+    [
+     "Fact",
+     "0.16"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     1
+    ],
+    [
+     "Axes",
+     [
+      "srt:ProductOrServiceAxis",
+      "us-gaap:ConcentrationRiskByBenchmarkAxis",
+      "us-gaap:ConcentrationRiskByTypeAxis"
+     ]
+    ],
+    [
+     "Members",
+     [
+      "clx:BagsAndWrapsMember",
+      "us-gaap:RevenueFromContractWithCustomerMember",
+      "us-gaap:ProductConcentrationRiskMember"
+     ]
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     "-2"
+    ],
+    [
+     "Decimals",
+     "2"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 13,
+   "ixv:factReferences": 0,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xMy9mcmFnOjI0MzdkMDE0MTRjMjRjODJiMTJiMDZmM2MwNmRkZjBjL3RhYmxlOmZjZjEzYWFhZjI4MTQ5MmM4YWIwMDdlZDEzOWRhYmIxL3RhYmxlcmFuZ2U6ZmNmMTNhYWFmMjgxNDkyYzhhYjAwN2VkMTM5ZGFiYjFfMi01LTEtMS0w_2089bf46-f889-464b-aed6-cb28aa4d52af"
+  },
+  {
+   "value": "0.10",
+   "decimals": 2,
+   "dimensions": {
+    "concept": "us-gaap:ConcentrationRiskPercentage1",
+    "period": 4,
+    "srt:ProductOrServiceAxis": "clx:FoodProductsMember",
+    "us-gaap:ConcentrationRiskByBenchmarkAxis": "us-gaap:RevenueFromContractWithCustomerMember",
+    "us-gaap:ConcentrationRiskByTypeAxis": "us-gaap:ProductConcentrationRiskMember"
+   },
+   "ixv:contextref": "i3939e7f4e0e240c6aa37cd4466d42e63_D20200701-20210630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Concentration Risk, Percentage",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:ConcentrationRiskPercentage1"
+    ],
+    [
+     "Fact",
+     "0.10"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     [
+      "srt:ProductOrServiceAxis",
+      "us-gaap:ConcentrationRiskByBenchmarkAxis",
+      "us-gaap:ConcentrationRiskByTypeAxis"
+     ]
+    ],
+    [
+     "Members",
+     [
+      "clx:FoodProductsMember",
+      "us-gaap:RevenueFromContractWithCustomerMember",
+      "us-gaap:ProductConcentrationRiskMember"
+     ]
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     "-2"
+    ],
+    [
+     "Decimals",
+     "2"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 13,
+   "ixv:factReferences": 0,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xMy9mcmFnOjI0MzdkMDE0MTRjMjRjODJiMTJiMDZmM2MwNmRkZjBjL3RhYmxlOmZjZjEzYWFhZjI4MTQ5MmM4YWIwMDdlZDEzOWRhYmIxL3RhYmxlcmFuZ2U6ZmNmMTNhYWFmMjgxNDkyYzhhYjAwN2VkMTM5ZGFiYjFfMy0xLTEtMS0w_64449cc6-3813-42a4-b594-94399e5d7f3f"
+  },
+  {
+   "value": "0.10",
+   "decimals": 2,
+   "dimensions": {
+    "concept": "us-gaap:ConcentrationRiskPercentage1",
+    "period": 2,
+    "srt:ProductOrServiceAxis": "clx:FoodProductsMember",
+    "us-gaap:ConcentrationRiskByBenchmarkAxis": "us-gaap:RevenueFromContractWithCustomerMember",
+    "us-gaap:ConcentrationRiskByTypeAxis": "us-gaap:ProductConcentrationRiskMember"
+   },
+   "ixv:contextref": "i3122b240da224fcc9c25b939679f84a6_D20190701-20200630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Concentration Risk, Percentage",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:ConcentrationRiskPercentage1"
+    ],
+    [
+     "Fact",
+     "0.10"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     2
+    ],
+    [
+     "Axes",
+     [
+      "srt:ProductOrServiceAxis",
+      "us-gaap:ConcentrationRiskByBenchmarkAxis",
+      "us-gaap:ConcentrationRiskByTypeAxis"
+     ]
+    ],
+    [
+     "Members",
+     [
+      "clx:FoodProductsMember",
+      "us-gaap:RevenueFromContractWithCustomerMember",
+      "us-gaap:ProductConcentrationRiskMember"
+     ]
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     "-2"
+    ],
+    [
+     "Decimals",
+     "2"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 13,
+   "ixv:factReferences": 0,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xMy9mcmFnOjI0MzdkMDE0MTRjMjRjODJiMTJiMDZmM2MwNmRkZjBjL3RhYmxlOmZjZjEzYWFhZjI4MTQ5MmM4YWIwMDdlZDEzOWRhYmIxL3RhYmxlcmFuZ2U6ZmNmMTNhYWFmMjgxNDkyYzhhYjAwN2VkMTM5ZGFiYjFfMy0zLTEtMS0w_49dffe25-474e-45c9-a725-ddd26779d8d4"
+  },
+  {
+   "value": "0.10",
+   "decimals": 2,
+   "dimensions": {
+    "concept": "us-gaap:ConcentrationRiskPercentage1",
+    "period": 1,
+    "srt:ProductOrServiceAxis": "clx:FoodProductsMember",
+    "us-gaap:ConcentrationRiskByBenchmarkAxis": "us-gaap:RevenueFromContractWithCustomerMember",
+    "us-gaap:ConcentrationRiskByTypeAxis": "us-gaap:ProductConcentrationRiskMember"
+   },
+   "ixv:contextref": "i75e03a19382544fabc0bc917111efa6d_D20180701-20190630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Concentration Risk, Percentage",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:ConcentrationRiskPercentage1"
+    ],
+    [
+     "Fact",
+     "0.10"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     1
+    ],
+    [
+     "Axes",
+     [
+      "srt:ProductOrServiceAxis",
+      "us-gaap:ConcentrationRiskByBenchmarkAxis",
+      "us-gaap:ConcentrationRiskByTypeAxis"
+     ]
+    ],
+    [
+     "Members",
+     [
+      "clx:FoodProductsMember",
+      "us-gaap:RevenueFromContractWithCustomerMember",
+      "us-gaap:ProductConcentrationRiskMember"
+     ]
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     "-2"
+    ],
+    [
+     "Decimals",
+     "2"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 13,
+   "ixv:factReferences": 0,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xMy9mcmFnOjI0MzdkMDE0MTRjMjRjODJiMTJiMDZmM2MwNmRkZjBjL3RhYmxlOmZjZjEzYWFhZjI4MTQ5MmM4YWIwMDdlZDEzOWRhYmIxL3RhYmxlcmFuZ2U6ZmNmMTNhYWFmMjgxNDkyYzhhYjAwN2VkMTM5ZGFiYjFfMy01LTEtMS0w_16c70d31-dcb2-4ced-b37e-02dc631ba607"
+  },
+  {
+   "value": "0.25",
+   "dimensions": {
+    "concept": "us-gaap:ConcentrationRiskPercentage1",
+    "period": 4,
+    "srt:MajorCustomersAxis": "clx:WalmartStoresIncMember",
+    "us-gaap:ConcentrationRiskByBenchmarkAxis": "us-gaap:RevenueFromContractWithCustomerMember",
+    "us-gaap:ConcentrationRiskByTypeAxis": "us-gaap:CustomerConcentrationRiskMember"
+   },
+   "ixv:contextref": "i4a5adffccb9e4405996e5914032d6b54_D20200701-20210630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Concentration Risk, Percentage",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:ConcentrationRiskPercentage1"
+    ],
+    [
+     "Fact",
+     "0.25"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     [
+      "srt:MajorCustomersAxis",
+      "us-gaap:ConcentrationRiskByBenchmarkAxis",
+      "us-gaap:ConcentrationRiskByTypeAxis"
+     ]
+    ],
+    [
+     "Members",
+     [
+      "clx:WalmartStoresIncMember",
+      "us-gaap:RevenueFromContractWithCustomerMember",
+      "us-gaap:CustomerConcentrationRiskMember"
+     ]
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     "-2"
+    ],
+    [
+     "Decimals",
+     "INF"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 13,
+   "ixv:factReferences": 0,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xMy9mcmFnOjI0MzdkMDE0MTRjMjRjODJiMTJiMDZmM2MwNmRkZjBjL3RleHRyZWdpb246MjQzN2QwMTQxNGMyNGM4MmIxMmIwNmYzYzA2ZGRmMGNfMzg0ODI5MDg5OTM2NA_59071688-86c4-4d87-ad71-d791aabd67b2"
+  },
+  {
+   "value": "0.25",
+   "dimensions": {
+    "concept": "us-gaap:ConcentrationRiskPercentage1",
+    "period": 1,
+    "srt:MajorCustomersAxis": "clx:WalmartStoresIncMember",
+    "us-gaap:ConcentrationRiskByBenchmarkAxis": "us-gaap:RevenueFromContractWithCustomerMember",
+    "us-gaap:ConcentrationRiskByTypeAxis": "us-gaap:CustomerConcentrationRiskMember"
+   },
+   "ixv:contextref": "i335a4543a6b041a18d1abf88c314cefa_D20180701-20190630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Concentration Risk, Percentage",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:ConcentrationRiskPercentage1"
+    ],
+    [
+     "Fact",
+     "0.25"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     1
+    ],
+    [
+     "Axes",
+     [
+      "srt:MajorCustomersAxis",
+      "us-gaap:ConcentrationRiskByBenchmarkAxis",
+      "us-gaap:ConcentrationRiskByTypeAxis"
+     ]
+    ],
+    [
+     "Members",
+     [
+      "clx:WalmartStoresIncMember",
+      "us-gaap:RevenueFromContractWithCustomerMember",
+      "us-gaap:CustomerConcentrationRiskMember"
+     ]
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     "-2"
+    ],
+    [
+     "Decimals",
+     "INF"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 13,
+   "ixv:factReferences": 0,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xMy9mcmFnOjI0MzdkMDE0MTRjMjRjODJiMTJiMDZmM2MwNmRkZjBjL3RleHRyZWdpb246MjQzN2QwMTQxNGMyNGM4MmIxMmIwNmYzYzA2ZGRmMGNfMzg0ODI5MDg5OTM2NA_82c04e03-c518-4a40-97a6-056d1caf6218"
+  },
+  {
+   "value": "0.25",
+   "dimensions": {
+    "concept": "us-gaap:ConcentrationRiskPercentage1",
+    "period": 2,
+    "srt:MajorCustomersAxis": "clx:WalmartStoresIncMember",
+    "us-gaap:ConcentrationRiskByBenchmarkAxis": "us-gaap:RevenueFromContractWithCustomerMember",
+    "us-gaap:ConcentrationRiskByTypeAxis": "us-gaap:CustomerConcentrationRiskMember"
+   },
+   "ixv:contextref": "i5690fd66cbce40379fdd17fa5fe48c87_D20190701-20200630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Concentration Risk, Percentage",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:ConcentrationRiskPercentage1"
+    ],
+    [
+     "Fact",
+     "0.25"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     2
+    ],
+    [
+     "Axes",
+     [
+      "srt:MajorCustomersAxis",
+      "us-gaap:ConcentrationRiskByBenchmarkAxis",
+      "us-gaap:ConcentrationRiskByTypeAxis"
+     ]
+    ],
+    [
+     "Members",
+     [
+      "clx:WalmartStoresIncMember",
+      "us-gaap:RevenueFromContractWithCustomerMember",
+      "us-gaap:CustomerConcentrationRiskMember"
+     ]
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     "-2"
+    ],
+    [
+     "Decimals",
+     "INF"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 13,
+   "ixv:factReferences": 0,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xMy9mcmFnOjI0MzdkMDE0MTRjMjRjODJiMTJiMDZmM2MwNmRkZjBjL3RleHRyZWdpb246MjQzN2QwMTQxNGMyNGM4MmIxMmIwNmYzYzA2ZGRmMGNfMzg0ODI5MDg5OTM2NA_f2811cd2-6852-4c38-bea2-561675417b1a"
+  },
+  {
+   "value": "0.25",
+   "dimensions": {
+    "concept": "us-gaap:ConcentrationRiskPercentage1",
+    "period": 4,
+    "srt:MajorCustomersAxis": "clx:WalmartStoresIncMember",
+    "us-gaap:ConcentrationRiskByBenchmarkAxis": "us-gaap:RevenueFromContractWithCustomerMember",
+    "us-gaap:ConcentrationRiskByTypeAxis": "us-gaap:CustomerConcentrationRiskMember"
+   },
+   "ixv:contextref": "i4a5adffccb9e4405996e5914032d6b54_D20200701-20210630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Concentration Risk, Percentage",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:ConcentrationRiskPercentage1"
+    ],
+    [
+     "Fact",
+     "0.25"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     4
+    ],
+    [
+     "Axes",
+     [
+      "srt:MajorCustomersAxis",
+      "us-gaap:ConcentrationRiskByBenchmarkAxis",
+      "us-gaap:ConcentrationRiskByTypeAxis"
+     ]
+    ],
+    [
+     "Members",
+     [
+      "clx:WalmartStoresIncMember",
+      "us-gaap:RevenueFromContractWithCustomerMember",
+      "us-gaap:CustomerConcentrationRiskMember"
+     ]
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     "-2"
+    ],
+    [
+     "Decimals",
+     "INF"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 13,
+   "ixv:factReferences": 0,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xNi9mcmFnOjlhMjkwMmUxYWE5YjQwZmNiYzBjM2I4NWJlMTNhYzU2L3RleHRyZWdpb246OWEyOTAyZTFhYTliNDBmY2JjMGMzYjg1YmUxM2FjNTZfMzg0ODI5MTk4NTExNQ_59071688-86c4-4d87-ad71-d791aabd67b2"
+  },
+  {
+   "value": "0.25",
+   "dimensions": {
+    "concept": "us-gaap:ConcentrationRiskPercentage1",
+    "period": 1,
+    "srt:MajorCustomersAxis": "clx:WalmartStoresIncMember",
+    "us-gaap:ConcentrationRiskByBenchmarkAxis": "us-gaap:RevenueFromContractWithCustomerMember",
+    "us-gaap:ConcentrationRiskByTypeAxis": "us-gaap:CustomerConcentrationRiskMember"
+   },
+   "ixv:contextref": "i335a4543a6b041a18d1abf88c314cefa_D20180701-20190630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Concentration Risk, Percentage",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:ConcentrationRiskPercentage1"
+    ],
+    [
+     "Fact",
+     "0.25"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     1
+    ],
+    [
+     "Axes",
+     [
+      "srt:MajorCustomersAxis",
+      "us-gaap:ConcentrationRiskByBenchmarkAxis",
+      "us-gaap:ConcentrationRiskByTypeAxis"
+     ]
+    ],
+    [
+     "Members",
+     [
+      "clx:WalmartStoresIncMember",
+      "us-gaap:RevenueFromContractWithCustomerMember",
+      "us-gaap:CustomerConcentrationRiskMember"
+     ]
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     "-2"
+    ],
+    [
+     "Decimals",
+     "INF"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 13,
+   "ixv:factReferences": 0,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xNi9mcmFnOjlhMjkwMmUxYWE5YjQwZmNiYzBjM2I4NWJlMTNhYzU2L3RleHRyZWdpb246OWEyOTAyZTFhYTliNDBmY2JjMGMzYjg1YmUxM2FjNTZfMzg0ODI5MTk4NTExNQ_82c04e03-c518-4a40-97a6-056d1caf6218"
+  },
+  {
+   "value": "0.25",
+   "dimensions": {
+    "concept": "us-gaap:ConcentrationRiskPercentage1",
+    "period": 2,
+    "srt:MajorCustomersAxis": "clx:WalmartStoresIncMember",
+    "us-gaap:ConcentrationRiskByBenchmarkAxis": "us-gaap:RevenueFromContractWithCustomerMember",
+    "us-gaap:ConcentrationRiskByTypeAxis": "us-gaap:CustomerConcentrationRiskMember"
+   },
+   "ixv:contextref": "i5690fd66cbce40379fdd17fa5fe48c87_D20190701-20200630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Concentration Risk, Percentage",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:ConcentrationRiskPercentage1"
+    ],
+    [
+     "Fact",
+     "0.25"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     2
+    ],
+    [
+     "Axes",
+     [
+      "srt:MajorCustomersAxis",
+      "us-gaap:ConcentrationRiskByBenchmarkAxis",
+      "us-gaap:ConcentrationRiskByTypeAxis"
+     ]
+    ],
+    [
+     "Members",
+     [
+      "clx:WalmartStoresIncMember",
+      "us-gaap:RevenueFromContractWithCustomerMember",
+      "us-gaap:CustomerConcentrationRiskMember"
+     ]
+    ],
+    [
+     "Measure",
+     null
+    ],
+    [
+     "Scale",
+     "-2"
+    ],
+    [
+     "Decimals",
+     "INF"
+    ],
+    [
+     "Balance",
+     null
+    ]
+   ],
+   "ixv:factLabels": 13,
+   "ixv:factReferences": 0,
+   "ixv:factCalculations": [
+    "Balance",
+    null
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xNi9mcmFnOjlhMjkwMmUxYWE5YjQwZmNiYzBjM2I4NWJlMTNhYzU2L3RleHRyZWdpb246OWEyOTAyZTFhYTliNDBmY2JjMGMzYjg1YmUxM2FjNTZfMzg0ODI5MTk4NTExNQ_f2811cd2-6852-4c38-bea2-561675417b1a"
+  },
+  {
+   "value": "28000000",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "us-gaap:AccrualForEnvironmentalLossContingencies",
+    "period": 6,
+    "unit": 0
+   },
+   "ixv:contextref": "id042a7c2d1ba4246bcfd9cb59dbe6494_I20210630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Accrual for Environmental Loss Contingencies",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "us-gaap:AccrualForEnvironmentalLossContingencies"
+    ],
+    [
+     "Fact",
+     "28000000"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     6
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     0
+    ],
+    [
+     "Scale",
+     "6"
+    ],
+    [
+     "Decimals",
+     "-6"
+    ],
+    [
+     "Balance",
+     "credit"
+    ]
+   ],
+   "ixv:factLabels": 37,
+   "ixv:factReferences": 1,
+   "ixv:factCalculations": [
+    "Balance",
+    "credit"
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xNi9mcmFnOjlhMjkwMmUxYWE5YjQwZmNiYzBjM2I4NWJlMTNhYzU2L3RleHRyZWdpb246OWEyOTAyZTFhYTliNDBmY2JjMGMzYjg1YmUxM2FjNTZfNzY5NjU4MTY1ODMzMw_e27ba6cb-b89a-4730-9051-ad872c3c8dc3"
+  },
+  {
+   "value": "613000000",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "clx:VentureAgreement.TerminalObligation",
+    "period": 6,
+    "unit": 0
+   },
+   "ixv:contextref": "id042a7c2d1ba4246bcfd9cb59dbe6494_I20210630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Venture Agreement. Terminal Obligation",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "clx:VentureAgreement.TerminalObligation"
+    ],
+    [
+     "Fact",
+     "613000000"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     6
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     0
+    ],
+    [
+     "Scale",
+     "6"
+    ],
+    [
+     "Decimals",
+     "-6"
+    ],
+    [
+     "Balance",
+     "credit"
+    ]
+   ],
+   "ixv:factLabels": 41,
+   "ixv:factCalculations": [
+    "Balance",
+    "credit"
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xNi9mcmFnOjlhMjkwMmUxYWE5YjQwZmNiYzBjM2I4NWJlMTNhYzU2L3RleHRyZWdpb246OWEyOTAyZTFhYTliNDBmY2JjMGMzYjg1YmUxM2FjNTZfNzY5NjU4MTY1MjE4MA_844860a3-bccf-497a-bfe8-fa8db5cc1128"
+  },
+  {
+   "value": "432000000",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "clx:VentureAgreementTerminalObligationNet",
+    "period": 6,
+    "unit": 0
+   },
+   "ixv:contextref": "id042a7c2d1ba4246bcfd9cb59dbe6494_I20210630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Venture Agreement, Terminal Obligation, Net",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "clx:VentureAgreementTerminalObligationNet"
+    ],
+    [
+     "Fact",
+     "432000000"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     6
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     0
+    ],
+    [
+     "Scale",
+     "6"
+    ],
+    [
+     "Decimals",
+     "-6"
+    ],
+    [
+     "Balance",
+     "credit"
+    ]
+   ],
+   "ixv:factLabels": 40,
+   "ixv:factCalculations": [
+    "Balance",
+    "credit"
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xNi9mcmFnOjlhMjkwMmUxYWE5YjQwZmNiYzBjM2I4NWJlMTNhYzU2L3RleHRyZWdpb246OWEyOTAyZTFhYTliNDBmY2JjMGMzYjg1YmUxM2FjNTZfNzY5NjU4MTY1MjI0NQ_4cb88eca-9e80-4121-9d02-abc5bcec9705"
+  },
+  {
+   "value": "400000000",
+   "decimals": -6,
+   "dimensions": {
+    "concept": "clx:VentureAgreementTerminalObligationNet",
+    "period": 3,
+    "unit": 0
+   },
+   "ixv:contextref": "i5591c4fe72eb494badc136645eba1aaf_I20200630",
+   "ixv:isnumeric": true,
+   "ixv:standardLabel": "Venture Agreement, Terminal Obligation, Net",
+   "ixv:factAttributes": [
+    [
+     "Tag",
+     "clx:VentureAgreementTerminalObligationNet"
+    ],
+    [
+     "Fact",
+     "400000000"
+    ],
+    [
+     "ishtml",
+     false
+    ],
+    [
+     "Period",
+     3
+    ],
+    [
+     "Axes",
+     []
+    ],
+    [
+     "Members",
+     []
+    ],
+    [
+     "Measure",
+     0
+    ],
+    [
+     "Scale",
+     "6"
+    ],
+    [
+     "Decimals",
+     "-6"
+    ],
+    [
+     "Balance",
+     "credit"
+    ]
+   ],
+   "ixv:factLabels": 40,
+   "ixv:factCalculations": [
+    "Balance",
+    "credit"
+   ],
+   "id": "id3VybDovL2RvY3MudjEvZG9jOmVkNjdmMjdhMTUyYTRkNGM5NGI2YzlkNGNiYzRhMTlkL3NlYzplZDY3ZjI3YTE1MmE0ZDRjOTRiNmM5ZDRjYmM0YTE5ZF8xNi9mcmFnOjlhMjkwMmUxYWE5YjQwZmNiYzBjM2I4NWJlMTNhYzU2L3RleHRyZWdpb246OWEyOTAyZTFhYTliNDBmY2JjMGMzYjg1YmUxM2FjNTZfNzY5NjU4MTY1MjI1OA_9cfe1588-7c7b-42e3-a66a-d69b900f5361"
+  }
+ ],
+ "ixv:entity": "cik:0000021076",
+ "ixv:filterPeriods": [
+  "2017-07-01T00:00:00/2018-07-01T00:00:00",
+  "2018-07-01T00:00:00/2019-07-01T00:00:00",
+  "2019-07-01T00:00:00/2020-07-01T00:00:00",
+  "2020-07-01T00:00:00",
+  "2020-07-01T00:00:00/2021-07-01T00:00:00",
+  "2021-01-01T00:00:00",
+  "2021-07-01T00:00:00",
+  "2021-07-29T00:00:00"
+ ],
+ "ixv:filterUnits": [
+  "iso4217:USD",
+  "xbrli:shares"
+ ],
+ "ixv:filterAxis": [
+  "srt:MajorCustomersAxis",
+  "srt:ProductOrServiceAxis",
+  "us-gaap:ConcentrationRiskByBenchmarkAxis",
+  "us-gaap:ConcentrationRiskByTypeAxis"
+ ],
+ "ixv:filterMembers": [
+  "clx:BagsAndWrapsMember",
+  "clx:CleaningMember",
+  "clx:FoodProductsMember",
+  "clx:WalmartStoresIncMember",
+  "us-gaap:CustomerConcentrationRiskMember",
+  "us-gaap:ProductConcentrationRiskMember",
+  "us-gaap:RevenueFromContractWithCustomerMember"
+ ],
+ "ixv:filterScale": [
+  "-2",
+  "0",
+  "6",
+  "9"
+ ],
+ "ixv:filterBalance": [
+  "credit"
+ ],
+ "ixv:labels": [
+  [
+   [
+    "Documentation",
+    "A unique 10-digit SEC-issued value to identify entities that have filed disclosures with the SEC. It is commonly abbreviated as CIK."
+   ],
+   [
+    "Label",
+    "Entity Central Index Key"
+   ],
+   [
+    "Terse Label",
+    "Entity Central Index Key"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Address Line 1 such as Attn, Building Name, Street Name"
+   ],
+   [
+    "Label",
+    "Entity Address, Address Line One"
+   ],
+   [
+    "Terse Label",
+    "Entity Address, Address Line One"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Area code of city"
+   ],
+   [
+    "Label",
+    "City Area Code"
+   ],
+   [
+    "Terse Label",
+    "City Area Code"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Boolean flag that is true only for a form used as a transition report."
+   ],
+   [
+    "Label",
+    "Document Transition Report"
+   ],
+   [
+    "Terse Label",
+    "Document Transition Report"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Boolean flag that is true only for a form used as an annual report."
+   ],
+   [
+    "Label",
+    "Document Annual Report"
+   ],
+   [
+    "Terse Label",
+    "Document Annual Report"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Boolean flag that is true when the XBRL content amends previously-filed or accepted submission."
+   ],
+   [
+    "Label",
+    "Amendment Flag"
+   ],
+   [
+    "Terse Label",
+    "Amendment Flag"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Boolean flag that is true when the registrant has submitted electronically every Interactive Data File required to be submitted pursuant to Rule 405 of Regulation S-T during the preceding 12 months (or for such shorter period that the registrant was required to submit such files)."
+   ],
+   [
+    "Label",
+    "Entity Interactive Data Current"
+   ],
+   [
+    "Terse Label",
+    "Entity Interactive Data Current"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Boolean flag that is true when the registrant is a shell company as defined in Rule 12b-2 of the Exchange Act."
+   ],
+   [
+    "Label",
+    "Entity Shell Company"
+   ],
+   [
+    "Terse Label",
+    "Entity Shell Company"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Code for the postal or zip code"
+   ],
+   [
+    "Label",
+    "Entity Address, Postal Zip Code"
+   ],
+   [
+    "Terse Label",
+    "Entity Address, Postal Zip Code"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Commission file number. The field allows up to 17 characters. The prefix may contain 1-3 digits, the sequence number may contain 1-8 digits, the optional suffix may contain 1-4 characters, and the fields are separated with a hyphen."
+   ],
+   [
+    "Label",
+    "Entity File Number"
+   ],
+   [
+    "Terse Label",
+    "Entity File Number"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Documents incorporated by reference."
+   ],
+   [
+    "Label",
+    "Documents Incorporated by Reference [Text Block]"
+   ],
+   [
+    "Terse Label",
+    "Documents Incorporated by Reference"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "End date of current fiscal year in the format --MM-DD."
+   ],
+   [
+    "Label",
+    "Current Fiscal Year End Date"
+   ],
+   [
+    "Terse Label",
+    "Current Fiscal Year End Date"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Fiscal period values are FY, Q1, Q2, and Q3.  1st, 2nd and 3rd quarter 10-Q or 10-QT statements have value Q1, Q2, and Q3 respectively, with 10-K, 10-KT or other fiscal year statements having FY."
+   ],
+   [
+    "Label",
+    "Document Fiscal Period Focus"
+   ],
+   [
+    "Terse Label",
+    "Document Fiscal Period Focus"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "For an entity that discloses a concentration risk in relation to quantitative amount, which serves as the \"benchmark\" (or denominator) in the equation, this concept represents the concentration percentage derived from the division."
+   ],
+   [
+    "Label",
+    "Concentration Risk, Percentage"
+   ],
+   [
+    "Terse Label",
+    "Concentration percentage"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "For the EDGAR submission types of Form 8-K: the date of the report, the date of the earliest event reported; for the EDGAR submission types of Form N-1A: the filing date; for all other submission types: the end of the reporting or transition period.  The format of the date is YYYY-MM-DD."
+   ],
+   [
+    "Label",
+    "Document Period End Date"
+   ],
+   [
+    "Terse Label",
+    "Document Period End Date"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Indicate 'Yes' or 'No' if the registrant is a well-known seasoned issuer, as defined in Rule 405 of the Securities Act. Is used on Form Type: 10-K, 10-Q, 8-K, 20-F, 6-K, 10-K/A, 10-Q/A, 20-F/A, 6-K/A, N-CSR, N-Q, N-1A."
+   ],
+   [
+    "Label",
+    "Entity Well-known Seasoned Issuer"
+   ],
+   [
+    "Terse Label",
+    "Entity Well-known Seasoned Issuer"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Indicate 'Yes' or 'No' if the registrant is not required to file reports pursuant to Section 13 or Section 15(d) of the Act."
+   ],
+   [
+    "Label",
+    "Entity Voluntary Filers"
+   ],
+   [
+    "Terse Label",
+    "Entity Voluntary Filers"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Indicate 'Yes' or 'No' whether registrants (1) have filed all reports required to be filed by Section 13 or 15(d) of the Securities Exchange Act of 1934 during the preceding 12 months (or for such shorter period that registrants were required to file such reports), and (2) have been subject to such filing requirements for the past 90 days. This information should be based on the registrant's current or most recent filing containing the related disclosure."
+   ],
+   [
+    "Label",
+    "Entity Current Reporting Status"
+   ],
+   [
+    "Terse Label",
+    "Entity Current Reporting Status"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Indicate if registrant meets the emerging growth company criteria."
+   ],
+   [
+    "Label",
+    "Entity Emerging Growth Company"
+   ],
+   [
+    "Terse Label",
+    "Entity Emerging Growth Company"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Indicate number of shares or other units outstanding of each of registrant's classes of capital or common stock or other ownership interests, if and as stated on cover of related periodic report. Where multiple classes or units exist define each class/interest by adding class of stock items such as Common Class A [Member], Common Class B [Member] or Partnership Interest [Member] onto the Instrument [Domain] of the Entity Listings, Instrument."
+   ],
+   [
+    "Label",
+    "Entity Common Stock, Shares Outstanding"
+   ],
+   [
+    "Terse Label",
+    "Entity Common Stock, Shares Outstanding"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Indicate whether the registrant is one of the following: Large Accelerated Filer, Accelerated Filer, Non-accelerated Filer. Definitions of these categories are stated in Rule 12b-2 of the Exchange Act. This information should be based on the registrant's current or most recent filing containing the related disclosure."
+   ],
+   [
+    "Label",
+    "Entity Filer Category"
+   ],
+   [
+    "Terse Label",
+    "Entity Filer Category"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Indicates amendment to accounting standards."
+   ],
+   [
+    "Label",
+    "Accounting Standards Update [Extensible Enumeration]"
+   ],
+   [
+    "Terse Label",
+    "Accounting Standards Update [Extensible List]"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Indicates line item in statement of financial position that includes current finance lease liability."
+   ],
+   [
+    "Label",
+    "Finance Lease, Liability, Current, Statement of Financial Position [Extensible Enumeration]"
+   ],
+   [
+    "Terse Label",
+    "Finance Lease, Liability, Current, Statement of Financial Position [Extensible List]"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Indicates line item in statement of financial position that includes finance lease right-of-use asset."
+   ],
+   [
+    "Label",
+    "Finance Lease, Right-of-Use Asset, Statement of Financial Position [Extensible Enumeration]"
+   ],
+   [
+    "Terse Label",
+    "Finance Lease, Right-of-Use Asset, Statement of Financial Position [Extensible List]"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Indicates line item in statement of financial position that includes noncurrent finance lease liability."
+   ],
+   [
+    "Label",
+    "Finance Lease, Liability, Noncurrent, Statement of Financial Position [Extensible Enumeration]"
+   ],
+   [
+    "Terse Label",
+    "Finance Lease, Liability, Noncurrent, Statement of Financial Position [Extensible List]"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Indicates that the company is a Smaller Reporting Company (SRC)."
+   ],
+   [
+    "Label",
+    "Entity Small Business"
+   ],
+   [
+    "Terse Label",
+    "Entity Small Business"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Local phone number for entity."
+   ],
+   [
+    "Label",
+    "Local Phone Number"
+   ],
+   [
+    "Terse Label",
+    "Local Phone Number"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Name of the City or Town"
+   ],
+   [
+    "Label",
+    "Entity Address, City or Town"
+   ],
+   [
+    "Terse Label",
+    "Entity Address, City or Town"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Name of the Exchange on which a security is registered."
+   ],
+   [
+    "Label",
+    "Security Exchange Name"
+   ],
+   [
+    "Terse Label",
+    "Security Exchange Name"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Name of the state or province."
+   ],
+   [
+    "Label",
+    "Entity Address, State or Province"
+   ],
+   [
+    "Terse Label",
+    "Entity Address, State or Province"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Period over which performance is measured for performance-based awards, in 'PnYnMnDTnHnMnS' format, for example, 'P1Y5M13D' represents the reported fact of one year, five months, and thirteen days."
+   ],
+   [
+    "Label",
+    "Performance Period For Performance Awards"
+   ],
+   [
+    "Terse Label",
+    "Performance period for performance awards (in years)"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "The Tax Identification Number (TIN), also known as an Employer Identification Number (EIN), is a unique 9-digit value assigned by the IRS."
+   ],
+   [
+    "Label",
+    "Entity Tax Identification Number"
+   ],
+   [
+    "Terse Label",
+    "Entity Tax Identification Number"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "The aggregate market value of the voting and non-voting common equity held by non-affiliates computed by reference to the price at which the common equity was last sold, or the average bid and asked price of such common equity, as of the last business day of the registrant's most recently completed second fiscal quarter."
+   ],
+   [
+    "Label",
+    "Entity Public Float"
+   ],
+   [
+    "Terse Label",
+    "Entity Public Float"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "The exact name of the entity filing the report as specified in its charter, which is required by forms filed with the SEC."
+   ],
+   [
+    "Label",
+    "Entity Registrant Name"
+   ],
+   [
+    "Terse Label",
+    "Entity Registrant Name"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "The type of document being provided (such as 10-K, 10-Q, 485BPOS, etc). The document type is limited to the same value as the supporting SEC submission type, or the word 'Other'."
+   ],
+   [
+    "Label",
+    "Document Type"
+   ],
+   [
+    "Terse Label",
+    "Document Type"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "This is focus fiscal year of the document report in YYYY format. For a 2006 annual report, which may also provide financial information from prior periods, fiscal 2006 should be given as the fiscal year focus. Example: 2006."
+   ],
+   [
+    "Label",
+    "Document Fiscal Year Focus"
+   ],
+   [
+    "Terse Label",
+    "Document Fiscal Year Focus"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Title of a 12(b) registered security."
+   ],
+   [
+    "Label",
+    "Title of 12(b) Security"
+   ],
+   [
+    "Terse Label",
+    "Title of 12(b) Security"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Total costs accrued as of the balance sheet date for environmental loss contingencies."
+   ],
+   [
+    "Label",
+    "Accrual for Environmental Loss Contingencies"
+   ],
+   [
+    "Terse Label",
+    "Liability for aggregate future remediation costs"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Trading symbol of an instrument as listed on an exchange."
+   ],
+   [
+    "Label",
+    "Trading Symbol"
+   ],
+   [
+    "Terse Label",
+    "Trading Symbol"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Two-character EDGAR code representing the state or country of incorporation."
+   ],
+   [
+    "Label",
+    "Entity Incorporation, State or Country Code"
+   ],
+   [
+    "Terse Label",
+    "Entity Incorporation, State or Country Code"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Venture Agreement, Terminal Obligation, Net"
+   ],
+   [
+    "Label",
+    "Venture Agreement, Terminal Obligation, Net"
+   ],
+   [
+    "Terse Label",
+    "Venture Agreement terminal obligation, net"
+   ]
+  ],
+  [
+   [
+    "Documentation",
+    "Venture Agreement. Terminal Obligation"
+   ],
+   [
+    "Label",
+    "Venture Agreement. Terminal Obligation"
+   ],
+   [
+    "Terse Label",
+    "Terminal obligation"
+   ]
+  ],
+  [
+   [
+    "Label",
+    "ICFR Auditor Attestation Flag"
+   ],
+   [
+    "Terse Label",
+    "ICFR Auditor Attestation Flag"
+   ]
+  ]
+ ],
+ "ixv:references": [
+  [
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "280"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "50"
+   ],
+   [
+    "Paragraph",
+    "42"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123359005&loc=d3e9054-108599"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "275"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "50"
+   ],
+   [
+    "Paragraph",
+    "18"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=99393423&loc=d3e6351-108592"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "825"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "50"
+   ],
+   [
+    "Paragraph",
+    "20"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123594938&loc=d3e13531-108611"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "825"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "50"
+   ],
+   [
+    "Paragraph",
+    "21"
+   ],
+   [
+    "Subparagraph",
+    "(a)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123594938&loc=d3e13537-108611"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "275"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "50"
+   ],
+   [
+    "Paragraph",
+    "20"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=99393423&loc=d3e6404-108592"
+   ]
+  ],
+  [
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "450"
+   ],
+   [
+    "SubTopic",
+    "20"
+   ],
+   [
+    "Section",
+    "50"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=121557415&loc=d3e14326-108349"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "450"
+   ],
+   [
+    "SubTopic",
+    "20"
+   ],
+   [
+    "Section",
+    "25"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=6395460&loc=d3e13647-108346"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "410"
+   ],
+   [
+    "SubTopic",
+    "30"
+   ],
+   [
+    "Section",
+    "50"
+   ],
+   [
+    "Paragraph",
+    "7"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=6393242&loc=d3e13207-110859"
+   ]
+  ],
+  [
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "825"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "6"
+   ],
+   [
+    "Subparagraph",
+    "(b)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123597120&loc=SL121967933-165497"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "825"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "6"
+   ],
+   [
+    "Subparagraph",
+    "(a)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123597120&loc=SL121967933-165497"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "718"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "15"
+   ],
+   [
+    "Subparagraph",
+    "(f)(2)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=121322162&loc=SL121327923-165333"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "815"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(e)(2)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123482062&loc=SL123482106-238011"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "718"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "15"
+   ],
+   [
+    "Subparagraph",
+    "(f)(1)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=121322162&loc=SL121327923-165333"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "944"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Subparagraph",
+    "(a)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124501264&loc=SL117420844-207641"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "718"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "15"
+   ],
+   [
+    "Subparagraph",
+    "(e)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=121322162&loc=SL121327923-165333"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "815"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(c)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123482062&loc=SL123482106-238011"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "944"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Subparagraph",
+    "(h)(2)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124501264&loc=SL117420844-207641"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "944"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Subparagraph",
+    "(b)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124501264&loc=SL117420844-207641"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "815"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(d)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123482062&loc=SL123482106-238011"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "825"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "7"
+   ],
+   [
+    "Subparagraph",
+    "(b)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123597120&loc=SL122642865-165497"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "250"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "50"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(b)(2)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124431687&loc=d3e22499-107794"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "740"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "8"
+   ],
+   [
+    "Subparagraph",
+    "(d)(3)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123459177&loc=SL121830611-158277"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "825"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "6"
+   ],
+   [
+    "Subparagraph",
+    "(c)(2)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123597120&loc=SL121967933-165497"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "250"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "50"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(b)(4)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124431687&loc=d3e22499-107794"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "825"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "6"
+   ],
+   [
+    "Subparagraph",
+    "(c)(1)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123597120&loc=SL121967933-165497"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "250"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "50"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(b)(3)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124431687&loc=d3e22499-107794"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "825"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "5"
+   ],
+   [
+    "Subparagraph",
+    "(c)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123597120&loc=SL120254526-165497"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "815"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(b)(1)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123482062&loc=SL123482106-238011"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "944"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Subparagraph",
+    "(g)(2)(iv)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124501264&loc=SL117420844-207641"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "105"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "6"
+   ],
+   [
+    "Subparagraph",
+    "(a)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124434974&loc=SL124442142-165695"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "944"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Subparagraph",
+    "(g)(2)(iii)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124501264&loc=SL117420844-207641"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "105"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "6"
+   ],
+   [
+    "Subparagraph",
+    "(d)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124434974&loc=SL124442142-165695"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "815"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(b)(2)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123482062&loc=SL123482106-238011"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "944"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Subparagraph",
+    "(h)(1)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124501264&loc=SL117420844-207641"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "250"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "50"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(c)(2)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124431687&loc=d3e22499-107794"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "326"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "4"
+   ],
+   [
+    "Subparagraph",
+    "(a)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=122640432&loc=SL121648383-210437"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "815"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(a)(2)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123482062&loc=SL123482106-238011"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "740"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "8"
+   ],
+   [
+    "Subparagraph",
+    "(d)(2)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123459177&loc=SL121830611-158277"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "326"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "4"
+   ],
+   [
+    "Subparagraph",
+    "(b)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=122640432&loc=SL121648383-210437"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "815"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(a)(3)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123482062&loc=SL123482106-238011"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "944"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Subparagraph",
+    "(g)(2)(ii)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124501264&loc=SL117420844-207641"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "105"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "6"
+   ],
+   [
+    "Subparagraph",
+    "(c)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124434974&loc=SL124442142-165695"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "944"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Subparagraph",
+    "(f)(2)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124501264&loc=SL117420844-207641"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "848"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(a)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=122150657&loc=SL122150809-237846"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "944"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Subparagraph",
+    "(g)(1)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124501264&loc=SL117420844-207641"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "825"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "7"
+   ],
+   [
+    "Subparagraph",
+    "(a)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123597120&loc=SL122642865-165497"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "470"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "S65"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124359872&loc=SL124427846-239511"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "310"
+   ],
+   [
+    "SubTopic",
+    "20"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Subparagraph",
+    "(b)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124402435&loc=SL124402458-218513"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "310"
+   ],
+   [
+    "SubTopic",
+    "20"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Subparagraph",
+    "(a)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124402435&loc=SL124402458-218513"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "825"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "5"
+   ],
+   [
+    "Subparagraph",
+    "(a)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123597120&loc=SL120254526-165497"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "815"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(a)(1)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123482062&loc=SL123482106-238011"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "326"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "4"
+   ],
+   [
+    "Subparagraph",
+    "(c)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=122640432&loc=SL121648383-210437"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "944"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Subparagraph",
+    "(g)(2)(i)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124501264&loc=SL117420844-207641"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "105"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "6"
+   ],
+   [
+    "Subparagraph",
+    "(b)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124434974&loc=SL124442142-165695"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "326"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "4"
+   ],
+   [
+    "Subparagraph",
+    "(d)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=122640432&loc=SL121648383-210437"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "718"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "15"
+   ],
+   [
+    "Subparagraph",
+    "(d)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=121322162&loc=SL121327923-165333"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "105"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "6"
+   ],
+   [
+    "Subparagraph",
+    "(e)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124434974&loc=SL124442142-165695"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "326"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "4"
+   ],
+   [
+    "Subparagraph",
+    "(e)(3)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=122640432&loc=SL121648383-210437"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "718"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "15"
+   ],
+   [
+    "Subparagraph",
+    "(c)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=121322162&loc=SL121327923-165333"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "944"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Subparagraph",
+    "(e)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124501264&loc=SL117420844-207641"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "718"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "15"
+   ],
+   [
+    "Subparagraph",
+    "(a)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=121322162&loc=SL121327923-165333"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "718"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "15"
+   ],
+   [
+    "Subparagraph",
+    "(b)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=121322162&loc=SL121327923-165333"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "326"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "4"
+   ],
+   [
+    "Subparagraph",
+    "(e)(4)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=122640432&loc=SL121648383-210437"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "718"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "15"
+   ],
+   [
+    "Subparagraph",
+    "(g)(2)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=121322162&loc=SL121327923-165333"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "815"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(e)(3)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123482062&loc=SL123482106-238011"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "944"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Subparagraph",
+    "(f)(1)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=124501264&loc=SL117420844-207641"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "815"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(e)(4)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123482062&loc=SL123482106-238011"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "815"
+   ],
+   [
+    "SubTopic",
+    "40"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "1"
+   ],
+   [
+    "Subparagraph",
+    "(f)"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123482062&loc=SL123482106-238011"
+   ],
+   [
+    "Topic",
+    "848"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Subparagraph",
+    "(a)"
+   ],
+   [
+    "Topic",
+    "848"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Subparagraph",
+    "(a)(1)"
+   ],
+   [
+    "Topic",
+    "848"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Subparagraph",
+    "(a)(2)"
+   ],
+   [
+    "Topic",
+    "848"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Subparagraph",
+    "(a)(3)(iii)(01)"
+   ],
+   [
+    "Topic",
+    "848"
+   ],
+   [
+    "SubTopic",
+    "10"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Section",
+    "65"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Subparagraph",
+    "(a)(3)(iii)(03)"
+   ]
+  ],
+  [
+   [
+    "Publisher",
+    "FASB"
+   ],
+   [
+    "Name",
+    "Accounting Standards Codification"
+   ],
+   [
+    "Topic",
+    "842"
+   ],
+   [
+    "SubTopic",
+    "20"
+   ],
+   [
+    "Section",
+    "45"
+   ],
+   [
+    "Paragraph",
+    "2"
+   ],
+   [
+    "URI",
+    "http://asc.fasb.org/extlink&oid=123391704&loc=SL77918631-209977"
+   ]
+  ],
+  [
+   [
+    "Publisher",
+    "SEC"
+   ],
+   [
+    "Name",
+    "Exchange Act"
+   ],
+   [
+    "Number",
+    "240"
+   ],
+   [
+    "Section",
+    "12"
+   ],
+   [
+    "Subsection",
+    "b"
+   ]
+  ],
+  [
+   [
+    "Publisher",
+    "SEC"
+   ],
+   [
+    "Name",
+    "Exchange Act"
+   ],
+   [
+    "Number",
+    "240"
+   ],
+   [
+    "Section",
+    "12"
+   ],
+   [
+    "Subsection",
+    "b-23"
+   ]
+  ],
+  [
+   [
+    "Publisher",
+    "SEC"
+   ],
+   [
+    "Name",
+    "Exchange Act"
+   ],
+   [
+    "Number",
+    "240"
+   ],
+   [
+    "Section",
+    "12"
+   ],
+   [
+    "Subsection",
+    "d1-1"
+   ]
+  ],
+  [
+   [
+    "Publisher",
+    "SEC"
+   ],
+   [
+    "Name",
+    "Form 10-K"
+   ],
+   [
+    "Number",
+    "249"
+   ],
+   [
+    "Section",
+    "310"
+   ],
+   [
+    "Publisher",
+    "SEC"
+   ],
+   [
+    "Name",
+    "Form 20-F"
+   ],
+   [
+    "Number",
+    "249"
+   ],
+   [
+    "Section",
+    "220"
+   ],
+   [
+    "Subsection",
+    "f"
+   ],
+   [
+    "Publisher",
+    "SEC"
+   ],
+   [
+    "Name",
+    "Form 40-F"
+   ],
+   [
+    "Number",
+    "249"
+   ],
+   [
+    "Section",
+    "240"
+   ],
+   [
+    "Subsection",
+    "f"
+   ]
+  ],
+  [
+   [
+    "Publisher",
+    "SEC"
+   ],
+   [
+    "Name",
+    "Forms 10-K, 10-Q, 20-F"
+   ],
+   [
+    "Number",
+    "240"
+   ],
+   [
+    "Section",
+    "13"
+   ],
+   [
+    "Subsection",
+    "a-1"
+   ]
+  ],
+  [
+   [
+    "Publisher",
+    "SEC"
+   ],
+   [
+    "Name",
+    "Regulation 12B"
+   ],
+   [
+    "Number",
+    "240"
+   ],
+   [
+    "Section",
+    "12"
+   ],
+   [
+    "Subsection",
+    "b-2"
+   ]
+  ],
+  [
+   [
+    "Publisher",
+    "SEC"
+   ],
+   [
+    "Name",
+    "Regulation S-T"
+   ],
+   [
+    "Number",
+    "232"
+   ],
+   [
+    "Section",
+    "405"
+   ]
+  ]
+ ],
+ "ixv:edgarRendererReports": [
+  {
+   "ixv:reportFile": "R1",
+   "ixv:longName": "000010001 - Document - Cover Page",
+   "ixv:shortName": "Cover Page",
+   "ixv:groupType": "document",
+   "ixv:subGroupType": "",
+   "ixv:firstAnchorFacts": [
+    14
+   ],
+   "ixv:uniqueAnchor": {
+    "contextRef": "i67a9f37f286f4ab78b09485b3c73430a_D20200701-20210630",
+    "name": "dei:DocumentType",
+    "unitRef": null,
+    "xsiNil": "false",
+    "lang": "en-US",
+    "decimals": null,
+    "ancestors": [
+     "span",
+     "div",
+     "body",
+     "html"
+    ],
+    "reportCount": 1,
+    "baseRef": "clx-20210630.htm",
+    "first": true,
+    "unique": true
+   }
+  },
+  {
+   "ixv:reportFile": "R2",
+   "ixv:longName": "100050006 - Statement - CONSOLIDATED STATEMENTS OF STOCKHOLDERS' EQUITY",
+   "ixv:shortName": "CONSOLIDATED STATEMENTS OF STOCKHOLDERS' EQUITY",
+   "ixv:groupType": "statement",
+   "ixv:subGroupType": "",
+   "ixv:firstAnchorFacts": null,
+   "ixv:uniqueAnchor": null
+  },
+  {
+   "ixv:reportFile": "R3",
+   "ixv:longName": "240064003 - Disclosure - SUMMARY OF SIGNIFICANT ACCOUNTING POLICIES (Additional Information) (Details)",
+   "ixv:shortName": "SUMMARY OF SIGNIFICANT ACCOUNTING POLICIES (Additional Information) (Details)",
+   "ixv:groupType": "disclosure",
+   "ixv:subGroupType": "details",
+   "ixv:firstAnchorFacts": null,
+   "ixv:uniqueAnchor": null
+  },
+  {
+   "ixv:reportFile": "R4",
+   "ixv:longName": "240354018 - Disclosure - OTHER LIABILITIES (Schedule of Other Liabilities) (Details)",
+   "ixv:shortName": "OTHER LIABILITIES (Schedule of Other Liabilities) (Details)",
+   "ixv:groupType": "disclosure",
+   "ixv:subGroupType": "details",
+   "ixv:firstAnchorFacts": [],
+   "ixv:uniqueAnchor": null
+  },
+  {
+   "ixv:reportFile": "R5",
+   "ixv:longName": "240364019 - Disclosure - OTHER LIABILITIES (Narrative) (Details)",
+   "ixv:shortName": "OTHER LIABILITIES (Narrative) (Details)",
+   "ixv:groupType": "disclosure",
+   "ixv:subGroupType": "details",
+   "ixv:firstAnchorFacts": [],
+   "ixv:uniqueAnchor": {
+    "contextRef": "id042a7c2d1ba4246bcfd9cb59dbe6494_I20210630",
+    "name": "clx:VentureAgreement.TerminalObligation",
+    "unitRef": "usd",
+    "xsiNil": "false",
+    "lang": "en-US",
+    "decimals": "-6",
+    "ancestors": [
+     "span",
+     "div",
+     "body",
+     "html"
+    ],
+    "reportCount": 1,
+    "baseRef": "clx-20210630.htm",
+    "first": true,
+    "unique": true
+   }
+  },
+  {
+   "ixv:reportFile": "R6",
+   "ixv:longName": "240444023 - Disclosure - OTHER CONTINGENCIES, GUARANTEES AND COMMITMENTS (Narrative) (Details)",
+   "ixv:shortName": "OTHER CONTINGENCIES, GUARANTEES AND COMMITMENTS (Narrative) (Details)",
+   "ixv:groupType": "disclosure",
+   "ixv:subGroupType": "details",
+   "ixv:firstAnchorFacts": [],
+   "ixv:uniqueAnchor": {
+    "contextRef": "id042a7c2d1ba4246bcfd9cb59dbe6494_I20210630",
+    "name": "us-gaap:AccrualForEnvironmentalLossContingencies",
+    "unitRef": "usd",
+    "xsiNil": "false",
+    "lang": "en-US",
+    "decimals": "-6",
+    "ancestors": [
+     "span",
+     "div",
+     "body",
+     "html"
+    ],
+    "reportCount": 1,
+    "baseRef": "clx-20210630.htm",
+    "first": true,
+    "unique": true
+   }
+  },
+  {
+   "ixv:reportFile": "R7",
+   "ixv:longName": "240494026 - Disclosure - LEASES (Supplemental Balance Sheet Information Schedule) (Details)",
+   "ixv:shortName": "LEASES (Supplemental Balance Sheet Information Schedule) (Details)",
+   "ixv:groupType": "disclosure",
+   "ixv:subGroupType": "details",
+   "ixv:firstAnchorFacts": null,
+   "ixv:uniqueAnchor": null
+  },
+  {
+   "ixv:reportFile": "R8",
+   "ixv:longName": "240964059 - Disclosure - SEGMENT REPORTING (Narrative) (Details)",
+   "ixv:shortName": "SEGMENT REPORTING (Narrative) (Details)",
+   "ixv:groupType": "disclosure",
+   "ixv:subGroupType": "details",
+   "ixv:firstAnchorFacts": [],
+   "ixv:uniqueAnchor": {
+    "contextRef": "i4a5adffccb9e4405996e5914032d6b54_D20200701-20210630",
+    "name": "us-gaap:ConcentrationRiskPercentage1",
+    "unitRef": "number",
+    "xsiNil": "false",
+    "lang": "en-US",
+    "decimals": "INF",
+    "ancestors": [
+     "span",
+     "div",
+     "body",
+     "html"
+    ],
+    "reportCount": 1,
+    "baseRef": "clx-20210630.htm",
+    "first": true,
+    "unique": true
+   }
+  },
+  {
+   "ixv:reportFile": "R9",
+   "ixv:longName": "240984061 - Disclosure - SEGMENT REPORTING (Concentration Percentages) (Details)",
+   "ixv:shortName": "SEGMENT REPORTING (Concentration Percentages) (Details)",
+   "ixv:groupType": "disclosure",
+   "ixv:subGroupType": "details",
+   "ixv:firstAnchorFacts": [],
+   "ixv:uniqueAnchor": {
+    "contextRef": "i3c86d0ef42294d2f9c44995254e4552f_D20200701-20210630",
+    "name": "us-gaap:ConcentrationRiskPercentage1",
+    "unitRef": "number",
+    "xsiNil": "false",
+    "lang": "en-US",
+    "decimals": "2",
+    "ancestors": [
+     "span",
+     "td",
+     "tr",
+     "table",
+     "div",
+     "body",
+     "html"
+    ],
+    "reportCount": 1,
+    "baseRef": "clx-20210630.htm",
+    "first": true,
+    "unique": true
+   }
+  }
+ ],
+ "ixv:ixdsFiles": [
+  "clx-20210630.htm",
+  "test.htm"
+ ],
+ "ixv:extensionNamespaces": {
+  "clx": "http://www.clorox.com/20210630"
+ }
+}

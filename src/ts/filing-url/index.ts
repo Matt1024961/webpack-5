@@ -5,6 +5,7 @@ import { StoreUrl } from '../store/url';
 import { StoreXhtml } from '../store/xhtml';
 import { WarningClass } from '../warning';
 import { StoreFilter } from '../store/filter';
+import Database from '../database';
 export class FilingUrl {
   constructor() {
     this.init();
@@ -118,12 +119,23 @@ export class FilingUrl {
             const storeFilter: StoreFilter = StoreFilter.getInstance();
             storeFilter.active = event.data.all[1].active;
             storeFilter.highlight = event.data.all[1].highlight;
+
             const factContainer = document.querySelector(
               `#facts-container sec-facts`
             );
             if (factContainer) {
               factContainer.setAttribute(`update-count`, ``);
               enableapplication.data = true;
+            }
+
+            const storeUrl: StoreUrl = StoreUrl.getInstance();
+            const db: Database = new Database(storeUrl.dataURL);
+            if (((await db.isMultiFiling()) as Array<string>).length) {
+              const links = document.querySelector(`sec-links`);
+              if (links) {
+                links.classList.remove(`d-none`);
+                links.setAttribute(`multiple`, ``);
+              }
             }
           }
 

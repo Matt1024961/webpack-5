@@ -18,7 +18,7 @@ export class Attributes {
       const isFactHighlight = storeFilter.highlight.includes(current.htmlId);
       const isFactBlock = current.isHtml || current.isText;
 
-      if (!isfactHidden) {
+      if (!isfactHidden && document.getElementById(current.htmlId)) {
         if (isFactActive) {
           if (isFactBlock) {
             const element = document.getElementById(current.htmlId);
