@@ -38,11 +38,22 @@ const fetchData = async (url: string) => {
 };
 
 self.onmessage = async ({ data }) => {
-  await Promise.all([fetchXhtml(data.xhtml), fetchData(data.data)]).then(
-    async (allResponses) => {
+  console.log(data);
+  if (data.data) {
+    await Promise.all([fetchXhtml(data.xhtml), fetchData(data.data)]).then(
+      async (allResponses) => {
+        self.postMessage({
+          all: allResponses,
+        });
+      }
+    );
+  } else {
+    console.log(`wha wha wha wha?`);
+    await Promise.all([fetchXhtml(data.xhtml)]).then(async (allResponses) => {
+      console.log(allResponses);
       self.postMessage({
         all: allResponses,
       });
-    }
-  );
+    });
+  }
 };

@@ -7,8 +7,12 @@ import { WarningClass } from '../warning';
 import { StoreFilter } from '../store/filter';
 import Database from '../database';
 export class FilingUrl {
-  constructor() {
-    this.init();
+  constructor(input = ``) {
+    if (input) {
+      this.changeFiling(input);
+    } else {
+      this.init();
+    }
   }
 
   init(): void {
@@ -37,6 +41,14 @@ export class FilingUrl {
     });
     storeLogger.info(filingURLLog);
     storeLogger.info(`Filing URL Complete`);
+  }
+
+  changeFiling(input: string): void {
+    const storeUrl: StoreUrl = StoreUrl.getInstance();
+    storeUrl.filing = input;
+    storeUrl.filingURL =
+      storeUrl.filingURL.split(`/`).slice(0, -1).join(`/`) + `/${input}`;
+    this.beginPartialFetch();
   }
 
   absoluteURL(input: string): string {
@@ -168,6 +180,86 @@ export class FilingUrl {
           ).toFixed(2)} milliseconds.`
         );
         worker.terminate();
+      };
+    } else {
+      // no worker!
+    }
+  }
+
+  beginPartialFetch() {
+    //ConstantApplication.disableApplication();
+    const storeLogger: StoreLogger = StoreLogger.getInstance();
+    const storeUrl: StoreUrl = StoreUrl.getInstance();
+    storeLogger.info(`Begin Fetch of XHTML on Web Worker`);
+    if (window.Worker) {
+      //const start = performance.now();
+      const worker = new Worker(
+        new URL('./../worker/fetch/index.ts', import.meta.url),
+        { name: `fetch` }
+      );
+
+      worker.postMessage({
+        xhtml: storeUrl.filingURL,
+      });
+      // const enableapplication = { xhtml: false };
+      worker.onmessage = async (event) => {
+        console.log(event);
+        // if (event.data.all) {
+        //   if (event.data.all[1].error) {
+        //     // const warning = new WarningClass();
+        //     // warning.show(`No supporting file was found (${storeUrl.dataURL}).`);
+        //   } else if (event.data.all[1]) {
+        //     // const storeFilter: StoreFilter = StoreFilter.getInstance();
+        //     // storeFilter.active = event.data.all[1].active;
+        //     // storeFilter.highlight = event.data.all[1].highlight;
+        //     // const factContainer = document.querySelector(
+        //     //   `#facts-container sec-facts`
+        //     // );
+        //     // if (factContainer) {
+        //     //   factContainer.setAttribute(`update-count`, ``);
+        //     //   enableapplication.data = true;
+        //     // }
+        //     // const storeUrl: StoreUrl = StoreUrl.getInstance();
+        //     // const db: Database = new Database(storeUrl.dataURL);
+        //     // if (((await db.isMultiFiling()) as Array<string>).length) {
+        //     //   const links = document.querySelector(`sec-links`);
+        //     //   if (links) {
+        //     //     links.classList.remove(`d-none`);
+        //     //     links.setAttribute(`multiple`, ``);
+        //     //   }
+        //     // }
+        //   }
+
+        //   if (event.data.all[0].error) {
+        //     const error = new ErrorClass();
+        //     error.show(
+        //       `Inline XBRL requires a URL param (doc | file) that correlates to a Financial Report.`
+        //     );
+        //     error.show(`Inline XBRL is not usable in this state.`, true);
+        //   } else if (event.data.all[0].data) {
+        //     //   const storeXhtml: StoreXhtml = StoreXhtml.getInstance();
+        //     //   storeXhtml.node = event.data.all[0].data;
+        //     //   const filingContainer = document.querySelector(
+        //     //     `#filing-container sec-filing`
+        //     //   );
+        //     //   if (filingContainer) {
+        //     //     filingContainer.setAttribute(`update`, `true`);
+        //     //     enableapplication.xhtml = true;
+        //     //   }
+        //     // }
+        //   }
+        //   // if (enableapplication.data && enableapplication.xhtml) {
+        //   //   ConstantApplication.enableApplication();
+        //   // }
+        //   const stop = performance.now();
+        //   const storeLogger: StoreLogger = StoreLogger.getInstance();
+        //   storeLogger.info(
+        //     `Fetching Necessary Filings AND Loading IndexedDB took ${(
+        //       stop - start
+        //     ).toFixed(2)} milliseconds.`
+        //   );
+        //   worker.terminate();
+        // }
       };
     } else {
       // no worker!

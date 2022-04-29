@@ -1,4 +1,5 @@
 import Database from '../../../database';
+import { FilingUrl } from '../../../filing-url';
 import { StoreUrl } from '../../../store/url';
 import template from './template.html';
 
@@ -21,7 +22,7 @@ export class Links extends HTMLElement {
   ) {
     if (name === `multiple` && newValue === ``) {
       this.update();
-      this.listeners();
+      //this.listeners();
     }
   }
 
@@ -29,10 +30,7 @@ export class Links extends HTMLElement {
     const storeUrl: StoreUrl = StoreUrl.getInstance();
     const db: Database = new Database(storeUrl.dataURL);
     const files = (await db.isMultiFiling()) as Array<string>;
-    console.log(files);
-    files.forEach((current, index) => {
-      console.log(current);
-
+    files.forEach((current) => {
       const li = document.createElement(`li`);
       li.classList.add(`my-1`);
 
@@ -41,10 +39,13 @@ export class Links extends HTMLElement {
 
       const input = document.createElement(`input`);
       input.classList.add(`form-check-input`);
-      input.setAttribute(`name`, `links-radios`);
+      input.setAttribute(`name`, `link-radios`);
       input.setAttribute(`type`, `radio`);
-      input.setAttribute(`value`, `${index}`);
-      input.setAttribute(`checked`, `false`);
+      input.setAttribute(`value`, `${current}`);
+      if (storeUrl.filing === current) {
+        input.setAttribute(`checked`, ``);
+        input.setAttribute(`disabled`, ``);
+      }
 
       const label = document.createElement(`label`);
       label.classList.add(`form-check-label`);
@@ -59,11 +60,7 @@ export class Links extends HTMLElement {
 
       this.querySelector(`fieldset`).append(li);
     });
-
-    //     <label class="form-check-label" for="data-radio-0"> All </label>
-    //   </div>
-    // </li>
-    console.log(this);
+    this.listeners();
   }
 
   render() {
@@ -80,13 +77,20 @@ export class Links extends HTMLElement {
   }
 
   listeners(): void {
-    const inputs = document.querySelectorAll('[name="data-radios"]');
+    const inputs = this.querySelectorAll('[name="link-radios"]');
     if (inputs) {
       inputs.forEach((current) => {
         current.addEventListener(`change`, () => {
-          console.log(current.getAttribute(`value`));
+          this.linkOptionChange(current.getAttribute(`value`));
         });
       });
+    }
+  }
+
+  linkOptionChange(input: string) {
+    const storeUrl: StoreUrl = StoreUrl.getInstance();
+    if (storeUrl.filing !== input) {
+      new FilingUrl(input);
     }
   }
 }
