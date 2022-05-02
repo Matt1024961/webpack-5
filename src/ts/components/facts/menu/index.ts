@@ -22,9 +22,7 @@ export class FactsMenu extends HTMLElement {
       const db: Database = new Database(storeUrl.dataURL);
       const multiFiling = await db.isMultiFiling();
       if ((multiFiling as Array<string>).length > 1) {
-        console.log(multiFiling);
         const multiple = node.querySelector(`[multiple]`);
-        console.log(multiple);
         if (multiple) {
           multiple.classList.remove(`d-none`);
         }

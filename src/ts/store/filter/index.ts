@@ -232,5 +232,4 @@ export class StoreFilter {
   public set highlight(input: Array<string>) {
     this._highlight = input;
   }
-
 }

@@ -2,10 +2,8 @@ import Database from '../../database';
 import { DataJSON } from '../../types/data-json';
 
 const fetchXhtml = async (url: string) => {
-  console.log(url);
   return fetch(url)
     .then((response) => {
-
       if (response.status >= 200 && response.status <= 299) {
         return response.text();
       } else {

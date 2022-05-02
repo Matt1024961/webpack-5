@@ -45,7 +45,6 @@ export class Filing extends HTMLElement {
   }
 
   loading(): void {
-    console.log(`LOADING`);
     ConstantApplication.removeChildNodes(this);
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
