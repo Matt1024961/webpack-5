@@ -1,4 +1,5 @@
 //import { Attributes } from '../../store/attributes';
+import { ConstantApplication } from '../../constants/application';
 import { Attributes } from '../../store/attributes';
 import { StoreLogger } from '../../store/logger';
 import { StoreXhtml } from '../../store/xhtml';
@@ -7,7 +8,7 @@ import template from './template.html';
 export class Filing extends HTMLElement {
   private logger: StoreLogger;
   static get observedAttributes() {
-    return [`update`];
+    return [`update`, `reset`];
   }
 
   constructor() {
@@ -37,9 +38,15 @@ export class Filing extends HTMLElement {
       this.listeners();
       this.removeAttribute(`xhtml`);
     }
+    if (name === `reset` && newValue) {
+      this.loading();
+      this.removeAttribute(`reset`);
+    }
   }
 
   loading(): void {
+    console.log(`LOADING`);
+    ConstantApplication.removeChildNodes(this);
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
@@ -55,7 +62,7 @@ export class Filing extends HTMLElement {
 
   render(): void {
     const storeXhtml: StoreXhtml = StoreXhtml.getInstance();
-    this.replaceWith(storeXhtml.node);
+    this.replaceChildren(storeXhtml.node);
     this.logger.info(`Filing rendered`);
     const attributes = new Attributes();
     attributes.setProperAttribute();

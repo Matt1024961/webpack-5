@@ -22,7 +22,7 @@ export class StoreXhtml {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(
       input as unknown as string,
-      `application/xhtml+xml`
+      `text/html`
     );
 
     const temp = htmlDoc.querySelector(`body`);

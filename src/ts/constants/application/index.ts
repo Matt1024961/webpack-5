@@ -18,6 +18,17 @@ export const ConstantApplication = {
     });
   },
 
+  disableApplication: () => {
+    document
+      .querySelectorAll(`#navbar-container .nav-link`)
+      .forEach((current) => {
+        current.classList.add(`disabled`);
+      });
+    document.querySelectorAll(`#global-search fieldset`).forEach((current) => {
+      current.setAttribute(`disabled`, ``);
+    });
+  },
+
   removeChildNodes: (parent: Element) => {
     while (parent.firstChild) {
       parent.removeChild(parent.firstChild);

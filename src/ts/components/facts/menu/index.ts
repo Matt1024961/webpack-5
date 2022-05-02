@@ -1,3 +1,5 @@
+import Database from '../../../database';
+import { StoreUrl } from '../../../store/url';
 import template from './template.html';
 
 export class FactsMenu extends HTMLElement {
@@ -5,17 +7,28 @@ export class FactsMenu extends HTMLElement {
     super();
   }
 
-  connectedCallback() {
-    this.render();
+  async connectedCallback() {
+    await this.render();
     this.listeners();
   }
 
-  render() {
+  async render() {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       const selector = htmlDoc.querySelector(`[template]`);
       const node = document.importNode(selector, true);
+      const storeUrl: StoreUrl = StoreUrl.getInstance();
+      const db: Database = new Database(storeUrl.dataURL);
+      const multiFiling = await db.isMultiFiling();
+      if ((multiFiling as Array<string>).length > 1) {
+        console.log(multiFiling);
+        const multiple = node.querySelector(`[multiple]`);
+        console.log(multiple);
+        if (multiple) {
+          multiple.classList.remove(`d-none`);
+        }
+      }
       node.removeAttribute(`template`);
       this.append(node);
       //this.logger.info('Facts Menu rendered');

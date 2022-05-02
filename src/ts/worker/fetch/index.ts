@@ -2,8 +2,10 @@ import Database from '../../database';
 import { DataJSON } from '../../types/data-json';
 
 const fetchXhtml = async (url: string) => {
+  console.log(url);
   return fetch(url)
     .then((response) => {
+
       if (response.status >= 200 && response.status <= 299) {
         return response.text();
       } else {
@@ -38,8 +40,7 @@ const fetchData = async (url: string) => {
 };
 
 self.onmessage = async ({ data }) => {
-  console.log(data);
-  if (data.data) {
+  if (data.data && data.xhtml) {
     await Promise.all([fetchXhtml(data.xhtml), fetchData(data.data)]).then(
       async (allResponses) => {
         self.postMessage({
@@ -47,10 +48,8 @@ self.onmessage = async ({ data }) => {
         });
       }
     );
-  } else {
-    console.log(`wha wha wha wha?`);
+  } else if (data.xhtml) {
     await Promise.all([fetchXhtml(data.xhtml)]).then(async (allResponses) => {
-      console.log(allResponses);
       self.postMessage({
         all: allResponses,
       });

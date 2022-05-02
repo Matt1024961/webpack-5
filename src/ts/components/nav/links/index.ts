@@ -1,3 +1,4 @@
+//import { ConstantApplication } from '../../../constants/application';
 import Database from '../../../database';
 import { FilingUrl } from '../../../filing-url';
 import { StoreUrl } from '../../../store/url';
@@ -5,7 +6,7 @@ import template from './template.html';
 
 export class Links extends HTMLElement {
   static get observedAttributes() {
-    return [`multiple`];
+    return [`multiple`, `update`];
   }
   constructor() {
     super();
@@ -22,11 +23,37 @@ export class Links extends HTMLElement {
   ) {
     if (name === `multiple` && newValue === ``) {
       this.update();
-      //this.listeners();
+    }
+    if (name === `update` && newValue) {
+      this.update();
+      this.removeAttribute(`update`);
+
     }
   }
 
   async update() {
+    if (this.querySelector(`fieldset`).children.length) {
+      // update which option is and is not disabled
+      this.updateDisabled();
+    } else {
+      // we add the necessary radio options
+      await this.updateContent();
+    }
+    this.listeners();
+  }
+
+  updateDisabled() {
+    const storeUrl: StoreUrl = StoreUrl.getInstance();
+    Array.from(this.querySelectorAll(`fieldset .form-check-input`)).forEach((current) => {
+      if (current.getAttribute(`value`) === storeUrl.filing) {
+        current.setAttribute(`disabled`, ``);
+      } else {
+        current.removeAttribute(`disabled`);
+      }
+    });
+  }
+
+  async updateContent() {
     const storeUrl: StoreUrl = StoreUrl.getInstance();
     const db: Database = new Database(storeUrl.dataURL);
     const files = (await db.isMultiFiling()) as Array<string>;
@@ -60,7 +87,6 @@ export class Links extends HTMLElement {
 
       this.querySelector(`fieldset`).append(li);
     });
-    this.listeners();
   }
 
   render() {

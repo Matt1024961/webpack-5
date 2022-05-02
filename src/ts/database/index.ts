@@ -131,7 +131,8 @@ export default class Database extends Dexie {
           arrayToBulkInsert = [];
         }
       } else {
-        console.log(current);
+        // todo figure out what to do with these?
+        //console.log(current);
       }
     }
     await this.putBulkData(arrayToBulkInsert);

@@ -113,7 +113,8 @@ export class StoreFilter {
     }
   }
 
-  public getFactsCount() {
+  public getFactsCount(filing: string | boolean = false) {
+    console.log(filing);
     if (this.highlight.length) {
       return this.highlight.length;
     } else if (this.active.length) {
@@ -231,4 +232,5 @@ export class StoreFilter {
   public set highlight(input: Array<string>) {
     this._highlight = input;
   }
+
 }

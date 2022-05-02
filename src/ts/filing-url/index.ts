@@ -35,9 +35,8 @@ export class FilingUrl {
 
     let filingURLLog = `Filing URL Data: `;
     Object.keys(storeUrl).forEach((current: string) => {
-      filingURLLog += `\n\t ${current}: ${
-        storeUrl[current as keyof typeof storeUrl]
-      }`;
+      filingURLLog += `\n\t ${current}: ${storeUrl[current as keyof typeof storeUrl]
+        }`;
     });
     storeLogger.info(filingURLLog);
     storeLogger.info(`Filing URL Complete`);
@@ -132,22 +131,26 @@ export class FilingUrl {
             storeFilter.active = event.data.all[1].active;
             storeFilter.highlight = event.data.all[1].highlight;
 
+
+
+
+            const storeUrl: StoreUrl = StoreUrl.getInstance();
+            const db: Database = new Database(storeUrl.dataURL);
+            const multiFiling = await db.isMultiFiling();
+
+            if (multiFiling && (multiFiling as Array<string>).length) {
+              const links = document.querySelector(`sec-links`);
+              if (links) {
+                links.classList.remove(`d-none`);
+                links.setAttribute(`multiple`, ``);
+              }
+            }
             const factContainer = document.querySelector(
               `#facts-container sec-facts`
             );
             if (factContainer) {
               factContainer.setAttribute(`update-count`, ``);
               enableapplication.data = true;
-            }
-
-            const storeUrl: StoreUrl = StoreUrl.getInstance();
-            const db: Database = new Database(storeUrl.dataURL);
-            if (((await db.isMultiFiling()) as Array<string>).length) {
-              const links = document.querySelector(`sec-links`);
-              if (links) {
-                links.classList.remove(`d-none`);
-                links.setAttribute(`multiple`, ``);
-              }
             }
           }
 
@@ -187,7 +190,7 @@ export class FilingUrl {
   }
 
   beginPartialFetch() {
-    //ConstantApplication.disableApplication();
+    this.resetApplication();
     const storeLogger: StoreLogger = StoreLogger.getInstance();
     const storeUrl: StoreUrl = StoreUrl.getInstance();
     storeLogger.info(`Begin Fetch of XHTML on Web Worker`);
@@ -201,68 +204,42 @@ export class FilingUrl {
       worker.postMessage({
         xhtml: storeUrl.filingURL,
       });
-      // const enableapplication = { xhtml: false };
       worker.onmessage = async (event) => {
-        console.log(event);
-        // if (event.data.all) {
-        //   if (event.data.all[1].error) {
-        //     // const warning = new WarningClass();
-        //     // warning.show(`No supporting file was found (${storeUrl.dataURL}).`);
-        //   } else if (event.data.all[1]) {
-        //     // const storeFilter: StoreFilter = StoreFilter.getInstance();
-        //     // storeFilter.active = event.data.all[1].active;
-        //     // storeFilter.highlight = event.data.all[1].highlight;
-        //     // const factContainer = document.querySelector(
-        //     //   `#facts-container sec-facts`
-        //     // );
-        //     // if (factContainer) {
-        //     //   factContainer.setAttribute(`update-count`, ``);
-        //     //   enableapplication.data = true;
-        //     // }
-        //     // const storeUrl: StoreUrl = StoreUrl.getInstance();
-        //     // const db: Database = new Database(storeUrl.dataURL);
-        //     // if (((await db.isMultiFiling()) as Array<string>).length) {
-        //     //   const links = document.querySelector(`sec-links`);
-        //     //   if (links) {
-        //     //     links.classList.remove(`d-none`);
-        //     //     links.setAttribute(`multiple`, ``);
-        //     //   }
-        //     // }
-        //   }
+        if (event.data.all) {
+          if (event.data.all[0].error) {
+            const error = new ErrorClass();
+            error.show(
+              `Inline XBRL requires a URL param (doc | file) that correlates to a Financial Report.`
+            );
+            error.show(`Inline XBRL is not usable in this state.`, true);
+          } else {
+            const storeXhtml: StoreXhtml = StoreXhtml.getInstance();
+            //console.log(event.data.all[0].data);
+            storeXhtml.node = event.data.all[0].data;
+            const filingContainer = document.querySelector(
+              `#filing-container sec-filing`
+            );
+            const linksContainer = document.querySelector(`#navbar-container sec-links`);
+            if (linksContainer) {
+              linksContainer.setAttribute(`update`, `true`)
+            }
+            if (filingContainer) {
+              filingContainer.setAttribute(`update`, `true`);
+            }
+            ConstantApplication.enableApplication();
+          }
+        }
+      }
+    }
+  }
 
-        //   if (event.data.all[0].error) {
-        //     const error = new ErrorClass();
-        //     error.show(
-        //       `Inline XBRL requires a URL param (doc | file) that correlates to a Financial Report.`
-        //     );
-        //     error.show(`Inline XBRL is not usable in this state.`, true);
-        //   } else if (event.data.all[0].data) {
-        //     //   const storeXhtml: StoreXhtml = StoreXhtml.getInstance();
-        //     //   storeXhtml.node = event.data.all[0].data;
-        //     //   const filingContainer = document.querySelector(
-        //     //     `#filing-container sec-filing`
-        //     //   );
-        //     //   if (filingContainer) {
-        //     //     filingContainer.setAttribute(`update`, `true`);
-        //     //     enableapplication.xhtml = true;
-        //     //   }
-        //     // }
-        //   }
-        //   // if (enableapplication.data && enableapplication.xhtml) {
-        //   //   ConstantApplication.enableApplication();
-        //   // }
-        //   const stop = performance.now();
-        //   const storeLogger: StoreLogger = StoreLogger.getInstance();
-        //   storeLogger.info(
-        //     `Fetching Necessary Filings AND Loading IndexedDB took ${(
-        //       stop - start
-        //     ).toFixed(2)} milliseconds.`
-        //   );
-        //   worker.terminate();
-        // }
-      };
-    } else {
-      // no worker!
+  resetApplication() {
+    ConstantApplication.disableApplication();
+    const filingContainer = document.querySelector(
+      `#filing-container sec-filing`
+    );
+    if (filingContainer) {
+      filingContainer.setAttribute(`reset`, `true`);
     }
   }
 }
