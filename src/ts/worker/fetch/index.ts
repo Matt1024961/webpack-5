@@ -1,4 +1,4 @@
-import Database from '../../database';
+import Database from '../../IndexedDB/database';
 import { DataJSON } from '../../types/data-json';
 
 const fetchXhtml = async (url: string) => {

@@ -1,44 +1,20 @@
 import Dexie, { IndexableType } from 'dexie';
 import * as moment from 'moment';
-import { ConstantDatabaseFilters } from '../constants/database-filters';
-import { TransformationsNumber } from '../constants/transformations/number';
+import { ConstantDatabaseFilters } from '../../constants/database-filters';
+import { TransformationsNumber } from '../../constants/transformations/number';
 // import { TransformationsNumber } from '../constants/transformations/number';
-import { DataJSON } from '../types/data-json';
-import { FactsTable } from '../types/facts-table';
-import { SettingsTable } from '../types/settings-table';
-import { allFilters } from '../types/filter';
+import { DataJSON } from '../../types/data-json';
+import { FactsTable } from '../../types/facts-table';
+import { allFilters } from '../../types/filter';
 export default class Database extends Dexie {
   facts!: Dexie.Table<FactsTable, number>;
-  settings!: Dexie.Table<SettingsTable, number>;
   constructor(url: string) {
     super(`SEC - IXViewer - ${url}`);
     this.version(1).stores({
       // NOTE we ONLY INDEX what is necessary
       facts: `++htmlId, order, isHtml, isNegative, isNumeric, isText, isHidden, isCustom, period, axes, members, scale, balance, tag, files, [htmlId+isHidden], [htmlId+isText]`,
-      settings: `++id, hoverInfo, position, active, highlight, selected, hover`,
     });
   }
-  async setSettingsData() {
-    return await this.table('settings')
-      .put(
-        {
-          hoverInfo: 0,
-          position: `top`,
-          active: `#FF6600`,
-          highlight: `#FFD700`,
-          selected: `#003768`,
-          hover: `rgba(255,0,0,0.3)`,
-          allFacts: 1,
-        },
-        1
-      )
-      .catch(Dexie.BulkError, function (error) {
-        // Explicitely catching the bulkAdd() operation makes those successful
-        // additions commit despite that there were errors.
-        console.error(error);
-      });
-  }
-
   async clearFactsTable(): Promise<void> {
     await this.table('facts').clear();
   }
@@ -54,6 +30,8 @@ export default class Database extends Dexie {
   }
 
   async parseData(input: DataJSON) {
+    const settings = await this.table(`settings`).get(1);
+    console.log(settings);
     const returnObject: { highlight: Array<string>; active: Array<string> } = {
       highlight: [],
       active: [],

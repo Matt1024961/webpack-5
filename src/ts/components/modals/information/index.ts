@@ -1,5 +1,5 @@
 import { ConstantApplication } from '../../../constants/application';
-import Database from '../../../database';
+import Database from '../../../IndexedDB/database';
 import { StoreUrl } from '../../../store/url';
 import { BaseModal } from '../base-modal';
 import page1 from './template-page-1.html';

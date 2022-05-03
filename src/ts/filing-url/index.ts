@@ -5,7 +5,8 @@ import { StoreUrl } from '../store/url';
 import { StoreXhtml } from '../store/xhtml';
 import { WarningClass } from '../warning';
 import { StoreFilter } from '../store/filter';
-import Database from '../database';
+import Database from '../IndexedDB/database';
+import SettingsTable from '../IndexedDB/settings';
 export class FilingUrl {
   constructor(input = ``) {
     if (input) {
@@ -106,7 +107,8 @@ export class FilingUrl {
   beginFetch() {
     const storeLogger: StoreLogger = StoreLogger.getInstance();
     const storeUrl: StoreUrl = StoreUrl.getInstance();
-
+    const settingsTable: SettingsTable = new SettingsTable();
+    settingsTable.setSettingsData();
     storeLogger.info(`Begin Fetch of Both XHTML and JSON on Web Worker`);
 
     if (window.Worker) {

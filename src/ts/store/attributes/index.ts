@@ -1,4 +1,4 @@
-import Database from '../../database';
+import Database from '../../IndexedDB/database';
 import { StoreFilter } from '../filter';
 import { StoreUrl } from '../url';
 

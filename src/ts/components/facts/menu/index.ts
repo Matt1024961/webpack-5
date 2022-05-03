@@ -1,4 +1,4 @@
-import Database from '../../../database';
+import Database from '../../../IndexedDB/database';
 import { StoreUrl } from '../../../store/url';
 import template from './template.html';
 

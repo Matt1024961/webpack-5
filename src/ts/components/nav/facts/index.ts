@@ -1,6 +1,6 @@
 //import Database from '../../../database';
 import { TransformationsNumber } from '../../../constants/transformations/number';
-import Database from '../../../database';
+import Database from '../../../IndexedDB/database';
 import { StoreFilter } from '../../../store/filter';
 import { StoreUrl } from '../../../store/url';
 //import { StoreUrl } from '../../../store/url';

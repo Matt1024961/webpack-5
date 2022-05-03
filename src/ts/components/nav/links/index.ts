@@ -1,5 +1,5 @@
 //import { ConstantApplication } from '../../../constants/application';
-import Database from '../../../database';
+import Database from '../../../IndexedDB/database';
 import { FilingUrl } from '../../../filing-url';
 import { StoreUrl } from '../../../store/url';
 import template from './template.html';

@@ -1,7 +1,7 @@
 //import * as bootstrap from 'bootstrap';
 
 import { ConstantApplication } from '../../../constants/application';
-import Database from '../../../database';
+import Database from '../../../IndexedDB/database';
 import { StoreUrl } from '../../../store/url';
 import { FactsTable } from '../../../types/facts-table';
 import { BaseModal } from '../base-modal';

@@ -1,4 +1,4 @@
-import Database from '../../database';
+import Database from '../../IndexedDB/database';
 import { allFilters } from '../../types/filter';
 
 const filterDB = async (
