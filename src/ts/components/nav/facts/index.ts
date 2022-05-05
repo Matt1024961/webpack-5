@@ -1,9 +1,5 @@
-//import Database from '../../../database';
 import { TransformationsNumber } from '../../../constants/transformations/number';
-import Database from '../../../IndexedDB/database';
 import { StoreFilter } from '../../../store/filter';
-import { StoreUrl } from '../../../store/url';
-//import { StoreUrl } from '../../../store/url';
 import template from './template.html';
 
 export class Facts extends HTMLElement {
@@ -63,15 +59,8 @@ export class Facts extends HTMLElement {
   }
 
   async updateFactsCount() {
-    // const storeUrl: StoreUrl = StoreUrl.getInstance();
-    // const db: Database = new Database(storeUrl.dataURL);
-    // const files = (await db.isMultiFiling()) as Array<string>;
     const storeFilter: StoreFilter = StoreFilter.getInstance();
-    const storeUrl: StoreUrl = StoreUrl.getInstance();
-    const db: Database = new Database(storeUrl.dataURL);
-    const multiFiling = await db.isMultiFiling();
-    console.log(multiFiling);
-    const factCount = storeFilter.getFactsCount(``);
+    const factCount = storeFilter.getFactsCount();
     const textToAdd = document.createTextNode(
       `${TransformationsNumber.simpleFormatting(factCount.toString())}`
     );

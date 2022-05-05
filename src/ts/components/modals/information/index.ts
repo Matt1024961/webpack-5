@@ -1,5 +1,6 @@
 import { ConstantApplication } from '../../../constants/application';
-import Database from '../../../IndexedDB/database';
+import FactsTable from '../../../IndexedDB/facts';
+import { FactsTable as FactsTableType } from '../../../types/facts-table';
 import { StoreUrl } from '../../../store/url';
 import { BaseModal } from '../base-modal';
 import page1 from './template-page-1.html';
@@ -24,21 +25,24 @@ export class Information extends BaseModal {
 
   async buildCarousel() {
     const storeUrl: StoreUrl = StoreUrl.getInstance();
-    const db: Database = new Database(storeUrl.dataURL);
+    const db: FactsTable = new FactsTable(storeUrl.dataURL);
     await this.page1(db);
     await this.page2(db);
     await this.page3(db);
     await this.page4(db);
   }
 
-  async page1(db: Database) {
+  async page1(db: FactsTable) {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(page1, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       const valuesToGet = htmlDoc.querySelectorAll(`[value]`);
       for await (const current of valuesToGet) {
-        const factValue = (await db.getFactByTag(current.getAttribute(`value`)))
-          .value;
+        const factValue = (
+          (await db.getFactByTag(
+            current.getAttribute(`value`)
+          )) as FactsTableType
+        ).value;
         const text = document.createTextNode(
           `${factValue ? factValue : 'No Information.'}`
         );
@@ -56,7 +60,7 @@ export class Information extends BaseModal {
     }
   }
 
-  async page2(db: Database) {
+  async page2(db: FactsTable) {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(page2, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
@@ -96,14 +100,17 @@ export class Information extends BaseModal {
       //this.logger.warn('Data Filter NOT rendered');
     }
   }
-  async page3(db: Database) {
+  async page3(db: FactsTable) {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(page3, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       const valuesToGet = htmlDoc.querySelectorAll(`[value]`);
       for await (const current of valuesToGet) {
-        const factValue = (await db.getFactByTag(current.getAttribute(`value`)))
-          .value;
+        const factValue = (
+          (await db.getFactByTag(
+            current.getAttribute(`value`)
+          )) as FactsTableType
+        ).value;
         const text = document.createTextNode(
           `${factValue ? factValue : 'No Information.'}`
         );
@@ -121,14 +128,17 @@ export class Information extends BaseModal {
     }
   }
 
-  async page4(db: Database) {
+  async page4(db: FactsTable) {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(page4, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       const valuesToGet = htmlDoc.querySelectorAll(`[value]`);
       for await (const current of valuesToGet) {
-        const factValue = (await db.getFactByTag(current.getAttribute(`value`)))
-          .value;
+        const factValue = (
+          (await db.getFactByTag(
+            current.getAttribute(`value`)
+          )) as FactsTableType
+        ).value;
         const text = document.createTextNode(
           `${factValue ? factValue : 'No Information.'}`
         );

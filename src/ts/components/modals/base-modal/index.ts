@@ -13,6 +13,7 @@ export class BaseModal extends HTMLElement {
     this.render(modalTitles);
     this.listeners(modalTitles);
   }
+
   render(modalTitles: Array<string> = []) {
     const storeLogger: StoreLogger = StoreLogger.getInstance();
     const parser = new DOMParser();
@@ -24,18 +25,20 @@ export class BaseModal extends HTMLElement {
       this.append(node);
 
       const indicatorLinks = this.querySelector(`[indicator-links]`);
-      modalTitles.forEach((current, index) => {
-        const a = document.createElement(`a`);
-        a.setAttribute(`type`, `button`);
-        a.setAttribute(`data-bs-target`, `#modal-carousel`);
-        a.setAttribute(`data-bs-slide-to`, `${index}`);
-        a.setAttribute(`aria-label`, current);
-        if (index === 0) {
-          a.classList.add(`active`);
-          a.setAttribute(`aria-current`, `true`);
-        }
-        indicatorLinks.append(a);
-      });
+      if (modalTitles.length > 1) {
+        modalTitles.forEach((current, index) => {
+          const a = document.createElement(`a`);
+          a.setAttribute(`type`, `button`);
+          a.setAttribute(`data-bs-target`, `#modal-carousel`);
+          a.setAttribute(`data-bs-slide-to`, `${index}`);
+          a.setAttribute(`aria-label`, current);
+          if (index === 0) {
+            a.classList.add(`active`);
+            a.setAttribute(`aria-current`, `true`);
+          }
+          indicatorLinks.append(a);
+        });
+      }
       storeLogger.info('Base Modal rendered');
     } else {
       storeLogger.error('Base Modal NOT rendered');

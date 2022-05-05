@@ -2,12 +2,13 @@ import Dexie, { IndexableType } from 'dexie';
 import * as moment from 'moment';
 import { ConstantDatabaseFilters } from '../../constants/database-filters';
 import { TransformationsNumber } from '../../constants/transformations/number';
-// import { TransformationsNumber } from '../constants/transformations/number';
 import { DataJSON } from '../../types/data-json';
-import { FactsTable } from '../../types/facts-table';
+import { FactsTable as FactsTableType } from '../../types/facts-table';
 import { allFilters } from '../../types/filter';
-export default class Database extends Dexie {
-  facts!: Dexie.Table<FactsTable, number>;
+import SettingsTable from '../settings';
+export default class FactsTable extends Dexie {
+  facts!: Dexie.Table<FactsTableType, number>;
+
   constructor(url: string) {
     super(`SEC - IXViewer - ${url}`);
     this.version(1).stores({
@@ -15,11 +16,12 @@ export default class Database extends Dexie {
       facts: `++htmlId, order, isHtml, isNegative, isNumeric, isText, isHidden, isCustom, period, axes, members, scale, balance, tag, files, [htmlId+isHidden], [htmlId+isText]`,
     });
   }
+
   async clearFactsTable(): Promise<void> {
     await this.table('facts').clear();
   }
 
-  async putBulkData(input: Array<FactsTable>) {
+  async putBulkData(input: Array<FactsTableType>) {
     return await this.table('facts')
       .bulkPut(input)
       .catch(Dexie.BulkError, function (error) {
@@ -29,9 +31,10 @@ export default class Database extends Dexie {
       });
   }
 
-  async parseData(input: DataJSON) {
-    const settings = await this.table(`settings`).get(1);
-    console.log(settings);
+  async parseData(input: DataJSON, xhtmlUrl: string) {
+    const db: SettingsTable = new SettingsTable();
+    const settings = await db.getSettingsData();
+    xhtmlUrl = xhtmlUrl.split('/').slice(1).pop().split(`?`)[0];
     const returnObject: { highlight: Array<string>; active: Array<string> } = {
       highlight: [],
       active: [],
@@ -119,7 +122,7 @@ export default class Database extends Dexie {
             : 0,
           files: current[`ixv:files`]
             ? input['ixv:ixdsFiles'][current[`ixv:files`]]
-            : null,
+            : xhtmlUrl,
           order: orderCount++,
         };
         arrayToBulkInsert.push(factToPutIntoDB);
@@ -133,13 +136,21 @@ export default class Database extends Dexie {
         }
       } else {
         // todo figure out what to do with these?
-        //console.log(current);
+        console.log(current.value);
       }
     }
     await this.putBulkData(arrayToBulkInsert);
 
     returnObject.active = returnObject.active.concat(
-      arrayToBulkInsert.map((current) => current.htmlId)
+      arrayToBulkInsert
+        .map((current) => {
+          if (!settings.allFacts) {
+            return current.files === xhtmlUrl ? current.htmlId : null;
+          } else {
+            return current.htmlId;
+          }
+        })
+        .filter(Boolean)
     );
     return returnObject;
   }
@@ -357,8 +368,12 @@ export default class Database extends Dexie {
       .sortBy(`order`);
   }
 
-  async getAllFacts() {
-    return await this.table(`facts`).toArray();
+  async getAllFacts(input?: string | false) {
+    if (input) {
+      return await this.table(`facts`).where({ files: input }).toArray();
+    } else {
+      return await this.table(`facts`).toArray();
+    }
   }
 
   async getTotalFacts() {
@@ -379,6 +394,8 @@ export default class Database extends Dexie {
   }
 
   async getHighlight(allFilters: allFilters, isFilterActive: boolean) {
+    const db: SettingsTable = new SettingsTable();
+    const settings = await db.getSettingsData();
     const returnObject: { highlight: Array<string>; active: Array<string> } = {
       highlight: [],
       active: [],
@@ -388,7 +405,11 @@ export default class Database extends Dexie {
         allFilters.search,
         `m${allFilters.searchOptions.includes(10) ? '' : 'i'}`
       );
-      returnObject.highlight = (await this.getAllFacts())
+      returnObject.highlight = (
+        await this.getAllFacts(
+          settings.allFacts === 0 ? allFilters.filingUrl : false
+        )
+      )
         .map((fact) => {
           let highlightFact = 0;
 
@@ -478,7 +499,11 @@ export default class Database extends Dexie {
 
     // second we do the fact filtering
     if (isFilterActive) {
-      returnObject.active = (await this.getAllFacts())
+      returnObject.active = (
+        await this.getAllFacts(
+          settings.allFacts === 0 ? allFilters.filingUrl : false
+        )
+      )
         .map((fact) => {
           let activateFact = 0;
 
@@ -537,7 +562,11 @@ export default class Database extends Dexie {
         })
         .filter(Boolean);
     } else {
-      returnObject.active = (await this.getAllFacts()).map((fact) => {
+      returnObject.active = (
+        await this.getAllFacts(
+          settings.allFacts === 0 ? allFilters.filingUrl : false
+        )
+      ).map((fact) => {
         return fact.htmlId;
       });
     }
@@ -548,7 +577,7 @@ export default class Database extends Dexie {
     return await this.table('facts')
       .get(id)
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   }
 
@@ -556,15 +585,23 @@ export default class Database extends Dexie {
     try {
       return this.table('facts').where({ tag }).first();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
-  async isMultiFiling(): Promise<IndexableType> {
+  async isMultiFiling(returnFiles = false): Promise<boolean | IndexableType> {
     try {
-      return await this.table(`facts`).orderBy(`files`).uniqueKeys();
+      return await this.table(`facts`)
+        .orderBy(`files`)
+        .uniqueKeys((keysArray) => {
+          if (returnFiles) {
+            return keysArray;
+          } else {
+            return keysArray.length > 1;
+          }
+        });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -579,7 +616,7 @@ export default class Database extends Dexie {
           .count()) > 0
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -594,7 +631,7 @@ export default class Database extends Dexie {
           .count()) > 0
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -609,7 +646,7 @@ export default class Database extends Dexie {
           .count()) > 0
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

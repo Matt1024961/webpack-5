@@ -1,0 +1,42 @@
+<div template>
+  <form>
+    <div class="row m-3">
+      <label for="inputEmail" class="col-sm-3 col-form-label"
+        >Show All Facts?</label
+      >
+      <div class="col-sm-9">
+        <select class="form-select" aria-label="Show all Facts" name="allFacts">
+          <option value="0">Only show Facts for this File</option>
+          <option value="1">Show all Facts for all Filing(s)</option>
+        </select>
+
+        <div id="passwordHelpBlock" class="form-text">
+          Something to give the user more information on what the above
+          option(s) entail.
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div
+      id="liveToast"
+      class="toast"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="toast-header">
+        <img class="rounded me-2" />
+        <strong class="me-auto">Settings Saved</strong>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="toast"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="toast-body" toast-content><span></span></div>
+    </div>
+  </div>
+</div>

@@ -5,7 +5,7 @@ import { StoreUrl } from '../store/url';
 import { StoreXhtml } from '../store/xhtml';
 import { WarningClass } from '../warning';
 import { StoreFilter } from '../store/filter';
-import Database from '../IndexedDB/database';
+import Database from '../IndexedDB/facts';
 import SettingsTable from '../IndexedDB/settings';
 export class FilingUrl {
   constructor(input = ``) {
@@ -36,8 +36,9 @@ export class FilingUrl {
 
     let filingURLLog = `Filing URL Data: `;
     Object.keys(storeUrl).forEach((current: string) => {
-      filingURLLog += `\n\t ${current}: ${storeUrl[current as keyof typeof storeUrl]
-        }`;
+      filingURLLog += `\n\t ${current}: ${
+        storeUrl[current as keyof typeof storeUrl]
+      }`;
     });
     storeLogger.info(filingURLLog);
     storeLogger.info(`Filing URL Complete`);
@@ -45,6 +46,7 @@ export class FilingUrl {
 
   changeFiling(input: string): void {
     const storeUrl: StoreUrl = StoreUrl.getInstance();
+    storeUrl.fullURL = storeUrl.fullURL.replace(storeUrl.filing, input);
     storeUrl.filing = input;
     storeUrl.filingURL =
       storeUrl.filingURL.split(`/`).slice(0, -1).join(`/`) + `/${input}`;
@@ -82,6 +84,8 @@ export class FilingUrl {
         storeUrl.redline = params[property].indexOf(`redline=true`) >= 0;
 
         storeUrl.host = window.location.origin;
+
+        storeUrl.fullURL = window.location.href;
 
         if (storeUrl.filingHost !== storeUrl.host) {
           // report CORS error
@@ -133,14 +137,9 @@ export class FilingUrl {
             storeFilter.active = event.data.all[1].active;
             storeFilter.highlight = event.data.all[1].highlight;
 
-
-
-
             const storeUrl: StoreUrl = StoreUrl.getInstance();
             const db: Database = new Database(storeUrl.dataURL);
-            const multiFiling = await db.isMultiFiling();
-
-            if (multiFiling && (multiFiling as Array<string>).length) {
+            if (await db.isMultiFiling()) {
               const links = document.querySelector(`sec-links`);
               if (links) {
                 links.classList.remove(`d-none`);
@@ -215,23 +214,33 @@ export class FilingUrl {
             );
             error.show(`Inline XBRL is not usable in this state.`, true);
           } else {
+            // successfully have the XHTML file
             const storeXhtml: StoreXhtml = StoreXhtml.getInstance();
-            //console.log(event.data.all[0].data);
+            const storeFilter: StoreFilter = StoreFilter.getInstance();
+            storeFilter.filterFacts();
             storeXhtml.node = event.data.all[0].data;
             const filingContainer = document.querySelector(
               `#filing-container sec-filing`
             );
-            const linksContainer = document.querySelector(`#navbar-container sec-links`);
+            const linksContainer = document.querySelector(
+              `#navbar-container sec-links`
+            );
+
             if (linksContainer) {
-              linksContainer.setAttribute(`update`, `true`)
+              linksContainer.setAttribute(`update`, `true`);
             }
             if (filingContainer) {
               filingContainer.setAttribute(`update`, `true`);
             }
             ConstantApplication.enableApplication();
+            window.history.pushState(
+              `Next Link`,
+              `Inline XBRL Viewer`,
+              storeUrl.fullURL
+            );
           }
         }
-      }
+      };
     }
   }
 

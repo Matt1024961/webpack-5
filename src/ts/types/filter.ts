@@ -4,6 +4,7 @@ export type allFilters = {
   data: data;
   tags: tags;
   moreFilters: moreFilters;
+  filingUrl: string;
 };
 export type search = null | string | RegExp;
 

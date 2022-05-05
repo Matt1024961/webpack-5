@@ -25,6 +25,7 @@ import { Links } from './components/nav/links';
 import { ResetAllFilters } from './components/nav/reset_all_filters';
 import { Information } from './components/modals/information';
 import { BaseModal } from './components/modals/base-modal';
+import { Settings } from './components/modals/settings';
 
 (() => {
   const storeLogger: StoreLogger = StoreLogger.getInstance();
@@ -53,6 +54,7 @@ import { BaseModal } from './components/modals/base-modal';
   customElements.define(`sec-modal-base`, BaseModal);
   customElements.define(`sec-modal-fact`, Fact);
   customElements.define(`sec-modal-information`, Information);
+  customElements.define(`sec-modal-settings`, Settings);
   // end all the modals
 
   if (process.env.NODE_ENV !== 'production') {

@@ -20,5 +20,5 @@ export type FactsTable = {
   standardLabel?: string;
   labels?: unknown;
   calculations?: unknown;
-  references: unknown;
+  references?: unknown;
 };

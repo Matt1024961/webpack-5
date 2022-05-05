@@ -1,5 +1,3 @@
-import Database from '../../../IndexedDB/database';
-import { StoreUrl } from '../../../store/url';
 import template from './template.html';
 
 export class FactsMenu extends HTMLElement {
@@ -18,15 +16,6 @@ export class FactsMenu extends HTMLElement {
     if (htmlDoc.querySelector(`[template]`)) {
       const selector = htmlDoc.querySelector(`[template]`);
       const node = document.importNode(selector, true);
-      const storeUrl: StoreUrl = StoreUrl.getInstance();
-      const db: Database = new Database(storeUrl.dataURL);
-      const multiFiling = await db.isMultiFiling();
-      if ((multiFiling as Array<string>).length > 1) {
-        const multiple = node.querySelector(`[multiple]`);
-        if (multiple) {
-          multiple.classList.remove(`d-none`);
-        }
-      }
       node.removeAttribute(`template`);
       this.append(node);
       //this.logger.info('Facts Menu rendered');

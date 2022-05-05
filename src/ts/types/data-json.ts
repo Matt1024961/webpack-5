@@ -68,6 +68,7 @@ export type facts = {
   value: string;
   active: null | boolean;
   highlight: null | boolean;
+  links: unknown;
 };
 
 export type edgarRendererReports = {

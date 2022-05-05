@@ -47,6 +47,11 @@ export class Menu extends HTMLElement {
         document.querySelector(`#modal-container`).append(modal);
         break;
       }
+      case `settings`: {
+        const modal = document.createElement(`sec-modal-settings`);
+        document.querySelector(`#modal-container`).append(modal);
+        break;
+      }
       default: {
         console.log(`error!`);
       }

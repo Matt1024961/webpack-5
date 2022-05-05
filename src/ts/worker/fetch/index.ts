@@ -1,4 +1,4 @@
-import Database from '../../IndexedDB/database';
+import FactsTable from '../../IndexedDB/facts';
 import { DataJSON } from '../../types/data-json';
 
 const fetchXhtml = async (url: string) => {
@@ -18,8 +18,8 @@ const fetchXhtml = async (url: string) => {
     });
 };
 
-const fetchData = async (url: string) => {
-  const db: Database = new Database(url);
+const fetchData = async (url: string, xhtmlUrl: string) => {
+  const db: FactsTable = new FactsTable(url);
   return fetch(url)
     .then(async (response) => {
       if (response.status >= 200 && response.status <= 299) {
@@ -30,7 +30,7 @@ const fetchData = async (url: string) => {
       }
     })
     .then(async (data: DataJSON) => {
-      return await db.parseData(data);
+      return await db.parseData(data, xhtmlUrl);
     })
     .catch((error) => {
       return { error };
@@ -39,13 +39,14 @@ const fetchData = async (url: string) => {
 
 self.onmessage = async ({ data }) => {
   if (data.data && data.xhtml) {
-    await Promise.all([fetchXhtml(data.xhtml), fetchData(data.data)]).then(
-      async (allResponses) => {
-        self.postMessage({
-          all: allResponses,
-        });
-      }
-    );
+    await Promise.all([
+      fetchXhtml(data.xhtml),
+      fetchData(data.data, data.xhtml),
+    ]).then(async (allResponses) => {
+      self.postMessage({
+        all: allResponses,
+      });
+    });
   } else if (data.xhtml) {
     await Promise.all([fetchXhtml(data.xhtml)]).then(async (allResponses) => {
       self.postMessage({

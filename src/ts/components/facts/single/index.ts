@@ -50,11 +50,11 @@ export class FactsMenuSingle extends HTMLElement {
         this.pagination.start,
         this.pagination.end
       );
-      console.log(facts);
+      // console.log(facts);
 
       // );
       if (facts) {
-        (facts as Array<FactsTable>).forEach((current, index, array) => {
+        (facts as Array<FactsTable>).forEach((current, index) => {
           if (current) {
             // select the [template]
             const selector = htmlDoc.querySelector(`[template]`);
@@ -106,9 +106,9 @@ export class FactsMenuSingle extends HTMLElement {
             node.removeAttribute(`fact-count`);
             this.append(node);
           } else {
-            console.log(current);
-            console.log(index);
-            console.log(array);
+            // console.log(current);
+            // console.log(index);
+            // console.log(array);
           }
         });
       }

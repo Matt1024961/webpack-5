@@ -14,6 +14,7 @@ export class StoreUrl {
   private _redline: boolean | null;
 
   private _baseURL: string | null;
+  private _fullURL: string | null;
   private static instance: StoreUrl;
 
   private constructor() {
@@ -33,6 +34,14 @@ export class StoreUrl {
 
   public set baseURL(input: string) {
     this._baseURL = input;
+  }
+
+  public get fullURL() {
+    return this._fullURL;
+  }
+
+  public set fullURL(input: string) {
+    this._fullURL = input;
   }
 
   public get filingURL() {

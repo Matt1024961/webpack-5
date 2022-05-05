@@ -1,9 +1,7 @@
-//import * as bootstrap from 'bootstrap';
-
 import { ConstantApplication } from '../../../constants/application';
-import Database from '../../../IndexedDB/database';
+import FactsTable from '../../../IndexedDB/facts';
 import { StoreUrl } from '../../../store/url';
-import { FactsTable } from '../../../types/facts-table';
+import { FactsTable as FactsTableType } from '../../../types/facts-table';
 import { BaseModal } from '../base-modal';
 import page1 from './template-page-1.html';
 import page2 from './template-page-2.html';
@@ -36,15 +34,15 @@ export class Fact extends BaseModal {
 
   async buildCarousel(factId: string) {
     const storeUrl: StoreUrl = StoreUrl.getInstance();
-    const db: Database = new Database(storeUrl.dataURL);
-    const fact = await db.getFactById(factId);
+    const db: FactsTable = new FactsTable(storeUrl.dataURL);
+    const fact = (await db.getFactById(factId)) as FactsTableType;
     await this.page1(fact);
     await this.page2(fact);
     await this.page3(fact);
     //await this.page4(fact);
   }
 
-  async page1(fact: FactsTable) {
+  async page1(fact: FactsTableType) {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(page1, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
@@ -134,7 +132,7 @@ export class Fact extends BaseModal {
     }
   }
 
-  async page2(fact: FactsTable) {
+  async page2(fact: FactsTableType) {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(page2, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
@@ -162,7 +160,7 @@ export class Fact extends BaseModal {
     }
   }
 
-  async page3(fact: FactsTable) {
+  async page3(fact: FactsTableType) {
     console.log(fact.references);
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(page3, `text/html`);
@@ -190,7 +188,8 @@ export class Fact extends BaseModal {
       //this.logger.warn('Data Filter NOT rendered');
     }
   }
-  async page4(fact: FactsTable) {
+
+  async page4(fact: FactsTableType) {
     console.log(fact);
     console.log(page4);
   }

@@ -1,4 +1,4 @@
-import Database from '../../IndexedDB/database';
+import Database from '../../IndexedDB/facts';
 import { search as searchType } from '../../types/filter';
 import { searchOptions as searchOptionType } from '../../types/filter';
 import { data as dataType } from '../../types/filter';
@@ -37,12 +37,14 @@ export class StoreFilter {
   }
 
   public getAllFilters() {
+    const storeUrl: StoreUrl = StoreUrl.getInstance();
     return {
       search: this.search,
       searchOptions: this.searchOptions,
       data: this.data,
       tags: this.tags,
       moreFilters: this.moreFilters,
+      filingUrl: storeUrl.filing,
     };
   }
 
@@ -113,8 +115,7 @@ export class StoreFilter {
     }
   }
 
-  public getFactsCount(filing: string | boolean = false) {
-    console.log(filing);
+  public getFactsCount() {
     if (this.highlight.length) {
       return this.highlight.length;
     } else if (this.active.length) {
