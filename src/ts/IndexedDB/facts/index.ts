@@ -136,8 +136,12 @@ export default class FactsTable extends Dexie {
         }
       } else {
         // todo figure out what to do with these?
-        console.log(current.value);
+        // console.log(current.value);
       }
+      // if (current.links) {
+      //   console.log(current.links[`ftTyp_fact-footnote`][`ftGrp_default`][0]);
+      // }
+      //console.log(current.links);
     }
     await this.putBulkData(arrayToBulkInsert);
 
@@ -650,23 +654,96 @@ export default class FactsTable extends Dexie {
     }
   }
 
-  async getAllUniquePeriods(): Promise<IndexableType> {
-    return await this.table(`facts`).orderBy(`period`).uniqueKeys();
+  async getAllUniquePeriods(filing: string): Promise<IndexableType> {
+    const db: SettingsTable = new SettingsTable();
+    const settings = await db.getSettingsData();
+    if (!settings.allFacts) {
+      return await this.table(`facts`)
+        .where({ files: filing })
+        .sortBy(`period`, (facts) => {
+          const uniques = facts.map((current) => current.period);
+          const set = [...new Set(uniques)];
+          return set;
+        });
+    } else {
+      return await this.table(`facts`).orderBy(`period`).uniqueKeys();
+    }
   }
 
-  async getAllUniqueAxes(): Promise<IndexableType> {
-    return await this.table(`facts`).orderBy(`axes`).uniqueKeys();
+  async getAllUniqueAxes(filing: string): Promise<IndexableType> {
+    const db: SettingsTable = new SettingsTable();
+    const settings = await db.getSettingsData();
+    if (!settings.allFacts) {
+      return await this.table(`facts`)
+        .where({ files: filing })
+        .sortBy(`axes`, (facts) => {
+          const uniques = facts
+            .map((current) => {
+              if (current.axes) {
+                return current.axes;
+              }
+            })
+            .filter(Boolean);
+          const set = [...new Set(uniques)];
+          return set;
+          //}
+        });
+    } else {
+      return await this.table(`facts`).orderBy(`axes`).uniqueKeys();
+    }
   }
 
-  async getAllUniqueMembers(): Promise<IndexableType> {
-    return await this.table(`facts`).orderBy(`members`).uniqueKeys();
+  async getAllUniqueMembers(filing: string): Promise<IndexableType> {
+    const db: SettingsTable = new SettingsTable();
+    const settings = await db.getSettingsData();
+    if (!settings.allFacts) {
+      return await this.table(`facts`)
+        .where({ files: filing })
+        .sortBy(`members`, (facts) => {
+          const uniques = facts
+            .map((current) => {
+              if (current.members) {
+                return current.members;
+              }
+            })
+            .filter(Boolean);
+          const set = [...new Set(uniques)];
+          return set;
+        });
+    } else {
+      return await this.table(`facts`).orderBy(`members`).uniqueKeys();
+    }
   }
 
-  async getAllUniqueScales(): Promise<IndexableType> {
-    return await this.table(`facts`).orderBy(`scale`).uniqueKeys();
+  async getAllUniqueScales(filing: string): Promise<IndexableType> {
+    const db: SettingsTable = new SettingsTable();
+    const settings = await db.getSettingsData();
+    if (!settings.allFacts) {
+      return await this.table(`facts`)
+        .where({ files: filing })
+        .sortBy(`scale`, (facts) => {
+          const uniques = facts.map((current) => current.scale);
+          const set = [...new Set(uniques)];
+          return set;
+        });
+    } else {
+      return await this.table(`facts`).orderBy(`scale`).uniqueKeys();
+    }
   }
 
-  async getAllUniqueBalances(): Promise<IndexableType> {
-    return await this.table(`facts`).orderBy(`balance`).uniqueKeys();
+  async getAllUniqueBalances(filing: string): Promise<IndexableType> {
+    const db: SettingsTable = new SettingsTable();
+    const settings = await db.getSettingsData();
+    if (!settings.allFacts) {
+      return await this.table(`facts`)
+        .where({ files: filing })
+        .sortBy(`balance`, (facts) => {
+          const uniques = facts.map((current) => current.balance);
+          const set = [...new Set(uniques)];
+          return set;
+        });
+    } else {
+      return await this.table(`facts`).orderBy(`balance`).uniqueKeys();
+    }
   }
 }

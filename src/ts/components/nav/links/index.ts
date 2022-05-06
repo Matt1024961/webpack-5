@@ -97,6 +97,8 @@ export class Links extends HTMLElement {
   }
 
   linkOptionChange(input: string) {
+    const moreFilters = document.querySelector(`sec-more-filters`);
+    moreFilters.setAttribute(`empty`, `true`);
     const storeUrl: StoreUrl = StoreUrl.getInstance();
     if (storeUrl.filing !== input) {
       new FilingUrl(input);

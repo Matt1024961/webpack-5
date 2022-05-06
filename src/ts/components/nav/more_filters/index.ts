@@ -5,11 +5,12 @@ import { Scale } from '../../../store/scale';
 import { StoreUrl } from '../../../store/url';
 import { moreFilters } from '../../../types/filter';
 import template from './template.html';
+import { ConstantApplication } from '../../../constants/application';
 
 export class MoreFilters extends HTMLElement {
   private populated = false;
   static get observedAttributes() {
-    return [`reset`];
+    return [`reset`, `empty`];
   }
   constructor() {
     super();
@@ -29,6 +30,10 @@ export class MoreFilters extends HTMLElement {
       this.reset();
       this.removeAttribute(`reset`);
     }
+    if (name === `empty` && newValue) {
+      this.empty();
+      this.removeAttribute(`empty`);
+    }
   }
 
   reset() {
@@ -46,6 +51,14 @@ export class MoreFilters extends HTMLElement {
     };
     this.updateNotification(resetFilter);
     // the event will occur in ResetAllFilters
+  }
+
+  empty() {
+    ConstantApplication.removeChildNodes(this);
+    this.populated = false;
+    this.render();
+    this.listeners();
+    this.querySelector(`.nav-link`).classList.remove(`disabled`);
   }
 
   render() {
@@ -175,11 +188,11 @@ export class MoreFilters extends HTMLElement {
   async populateDropdownOptions() {
     const storeUrl: StoreUrl = StoreUrl.getInstance();
     const db: Database = new Database(storeUrl.dataURL);
-    await this.populatePeriods(db);
-    await this.populateAxes(db);
-    await this.populateMembers(db);
-    await this.populateScale(db);
-    await this.populateBalance(db);
+    await this.populatePeriods(db, storeUrl);
+    await this.populateAxes(db, storeUrl);
+    await this.populateMembers(db, storeUrl);
+    await this.populateScale(db, storeUrl);
+    await this.populateBalance(db, storeUrl);
     this.populated = true;
     const checkboxes = this.querySelectorAll('input[type=checkbox]');
     if (checkboxes) {
@@ -191,8 +204,10 @@ export class MoreFilters extends HTMLElement {
     }
   }
 
-  async populatePeriods(db: Database) {
-    const periods = (await db.getAllUniquePeriods()) as Array<string>;
+  async populatePeriods(db: Database, storeUrl: StoreUrl) {
+    const periods = (await db.getAllUniquePeriods(
+      storeUrl.filing
+    )) as Array<string>;
     const regex = new RegExp(/(\d{1,4}([.\-/])\d{1,2}([.\-/])\d{1,4})/g);
     const complexPeriods = periods.reduce(
       (accumulator: { [key: string]: Array<string> }, current) => {
@@ -314,8 +329,10 @@ export class MoreFilters extends HTMLElement {
       });
   }
 
-  async populateBalance(db: Database) {
-    const filterBalance = (await db.getAllUniqueBalances()) as Array<string>;
+  async populateBalance(db: Database, storeUrl: StoreUrl) {
+    const filterBalance = (await db.getAllUniqueBalances(
+      storeUrl.filing
+    )) as Array<string>;
 
     const balanceCount = document.createTextNode(`${filterBalance.length}`);
     this.querySelector(`[balance-count]`).append(balanceCount);
@@ -353,8 +370,10 @@ export class MoreFilters extends HTMLElement {
     });
   }
 
-  async populateScale(db: Database) {
-    const filterScale = (await db.getAllUniqueScales()) as Array<string>;
+  async populateScale(db: Database, storeUrl: StoreUrl) {
+    const filterScale = (await db.getAllUniqueScales(
+      storeUrl.filing
+    )) as Array<string>;
 
     const scaleCount = document.createTextNode(`${filterScale.length}`);
     this.querySelector(`[scale-count]`).append(scaleCount);
@@ -394,10 +413,10 @@ export class MoreFilters extends HTMLElement {
       });
   }
 
-  async populateMembers(db: Database) {
-    const filterMembers = (await db.getAllUniqueMembers()) as unknown as Array<
-      Array<string>
-    >;
+  async populateMembers(db: Database, storeUrl: StoreUrl) {
+    const filterMembers = (await db.getAllUniqueMembers(
+      storeUrl.filing
+    )) as unknown as Array<Array<string>>;
     // we remove any possible duplicates, flatten the array, remove the prefix (us-gaap, etc.) and sort
     const filterMembersSet = [
       ...new Set(
@@ -449,10 +468,10 @@ export class MoreFilters extends HTMLElement {
     });
   }
 
-  async populateAxes(db: Database) {
-    const filterAxis = (await db.getAllUniqueAxes()) as unknown as Array<
-      Array<string>
-    >;
+  async populateAxes(db: Database, storeUrl: StoreUrl) {
+    const filterAxis = (await db.getAllUniqueAxes(
+      storeUrl.filing
+    )) as unknown as Array<Array<string>>;
     // we remove any possible duplicates, flatten the array, remove the prefix (us-gaap, etc.) and sort
     const filterAxisSet = [
       ...new Set(

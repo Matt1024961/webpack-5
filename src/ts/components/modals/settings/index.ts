@@ -60,6 +60,8 @@ export class Settings extends BaseModal {
     const db: SettingsTable = new SettingsTable();
     await db.updateAllFacts(input);
     this.toast(`Show All Facts Setting Updated`);
+    const moreFilters = document.querySelector(`sec-more-filters`);
+    moreFilters.setAttribute(`empty`, `true`);
     const storeFilter: StoreFilter = StoreFilter.getInstance();
     storeFilter.filterFacts();
   }
