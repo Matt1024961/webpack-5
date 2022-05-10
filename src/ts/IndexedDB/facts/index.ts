@@ -97,14 +97,17 @@ export default class FactsTable extends Dexie {
             current.decimals,
             current['ixv:format']
           ),
-          dimensions: {
-            concept: current.dimensions.concept,
-            period: current.dimensions.period,
-            lang: current.dimensions.language,
-            unit: current.dimensions.unit,
-            value: tempDimension.value,
-            key: tempDimension.key,
-          },
+          dimensions:
+            tempDimension.value && tempDimension.key
+              ? {
+                  concept: current.dimensions.concept,
+                  period: current.dimensions.period,
+                  lang: current.dimensions.language,
+                  unit: current.dimensions.unit,
+                  value: tempDimension.value,
+                  key: tempDimension.key,
+                }
+              : null,
           references: input['ixv:references'][current['ixv:factReferences']],
           contextref: current['ixv:contextref'],
           isHidden: current['ixv:hidden'] ? 1 : 0,
@@ -455,7 +458,9 @@ export default class FactsTable extends Dexie {
       return await this.table(`facts`)
         .where({ files: filing })
         .sortBy(`period`, (facts) => {
-          const uniques = facts.map((current) => current.period);
+          const uniques = facts
+            .map((current) => current.period)
+            .filter((element) => element !== null && element !== undefined);
           const set = [...new Set(uniques)];
           return set;
         });
@@ -477,10 +482,9 @@ export default class FactsTable extends Dexie {
                 return current.axes;
               }
             })
-            .filter(Boolean);
+            .filter((element) => element !== null && element !== undefined);
           const set = [...new Set(uniques)];
           return set;
-          //}
         });
     } else {
       return await this.table(`facts`).orderBy(`axes`).uniqueKeys();
@@ -500,7 +504,7 @@ export default class FactsTable extends Dexie {
                 return current.members;
               }
             })
-            .filter(Boolean);
+            .filter((element) => element !== null && element !== undefined);
           const set = [...new Set(uniques)];
           return set;
         });
@@ -516,7 +520,9 @@ export default class FactsTable extends Dexie {
       return await this.table(`facts`)
         .where({ files: filing })
         .sortBy(`scale`, (facts) => {
-          const uniques = facts.map((current) => current.scale);
+          const uniques = facts
+            .map((current) => current.scale)
+            .filter((element) => element !== null && element !== undefined);
           const set = [...new Set(uniques)];
           return set;
         });
@@ -532,7 +538,9 @@ export default class FactsTable extends Dexie {
       return await this.table(`facts`)
         .where({ files: filing })
         .sortBy(`balance`, (facts) => {
-          const uniques = facts.map((current) => current.balance);
+          const uniques = facts
+            .map((current) => current.balance)
+            .filter((element) => element !== null && element !== undefined);
           const set = [...new Set(uniques)];
           return set;
         });

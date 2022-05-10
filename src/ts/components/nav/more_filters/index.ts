@@ -336,7 +336,9 @@ export class MoreFilters extends HTMLElement {
     )) as Array<string>;
 
     const balanceCount = document.createTextNode(`${filterBalance.length}`);
-    this.querySelector(`[balance-count]`).firstElementChild.replaceWith(balanceCount);
+    this.querySelector(`[balance-count]`).firstElementChild.replaceWith(
+      balanceCount
+    );
 
     filterBalance.forEach((current, index) => {
       const li = document.createElement(`li`);
@@ -377,7 +379,9 @@ export class MoreFilters extends HTMLElement {
     )) as Array<string>;
 
     const scaleCount = document.createTextNode(`${filterScale.length}`);
-    this.querySelector(`[scale-count]`).firstElementChild.replaceWith(scaleCount);
+    this.querySelector(`[scale-count]`).firstElementChild.replaceWith(
+      scaleCount
+    );
     filterScale
       .sort()
       .reverse()
@@ -430,7 +434,9 @@ export class MoreFilters extends HTMLElement {
       ),
     ];
     const membersCount = document.createTextNode(`${filterMembersSet.length}`);
-    this.querySelector(`[members-count]`).firstElementChild.replaceWith(membersCount);
+    this.querySelector(`[members-count]`).firstElementChild.replaceWith(
+      membersCount
+    );
     filterMembersSet.forEach((current, index) => {
       const li = document.createElement(`li`);
       const div = document.createElement(`div`);

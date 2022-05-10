@@ -81,11 +81,7 @@ export const ConstantDatabaseFilters = {
         return fact.isNumeric ? 0 : 1;
       }
       case 3: {
-        // Calculations Only
-        if (fact.calculations !== null && fact.calculations[1]) {
-          return 0;
-        }
-        return 1;
+        return fact.calculations ? 0 : 1;
       }
       case 4: {
         // Negatives Only

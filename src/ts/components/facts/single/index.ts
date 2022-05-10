@@ -73,11 +73,6 @@ export class FactsMenuSingle extends HTMLElement {
             node.removeAttribute(`fact-name`);
             // add the fact period
             const factPeriod = document.createTextNode(current.period);
-            // document.createTextNode(
-            //   storeData.getSimplePeriod(
-            //     parseInt(current[`ixv:factAttributes`][3][1])
-            //   ).text
-            // );
             node.querySelector(`[fact-period]`).appendChild(factPeriod);
             node.removeAttribute(`fact-period`);
             // add the fact value
@@ -87,14 +82,11 @@ export class FactsMenuSingle extends HTMLElement {
             node.querySelector(`[fact-value]`).appendChild(factValue);
             node.removeAttribute(`fact-value`);
             // add the fact quick info
+            const factQuickInfoText = `${current.isCustom ? `C` : ``} ${
+              current.dimensions ? `D` : ``
+            } ${current.isHidden ? `A` : ``}`.trim();
             const factQuickInfo = document.createTextNode(
-              `${current.isCustom ? `C` : ``}
-               ${current.dimensions ? `D` : ``}
-               ${current.isHidden ? `A` : ``}
-              `
-              //   `${storeData.getIsCustomTag(current as factsType) ? `C` : ``}
-              // ${storeData.getIsDimension(current as factsType) ? `D` : ``}
-              // ${storeData.getIsAdditional(current as factsType) ? `A` : ``}`
+              factQuickInfoText.split(` `).join(` & `)
             );
             node.querySelector(`[fact-quick-info]`).appendChild(factQuickInfo);
             node.removeAttribute(`fact-quick-info`);
