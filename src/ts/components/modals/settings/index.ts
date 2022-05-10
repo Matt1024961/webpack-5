@@ -1,4 +1,5 @@
 import * as bootstrap from 'bootstrap';
+import { ConstantApplication } from '../../../constants/application';
 import SettingsTable from '../../../indexedDB/settings';
 import { StoreFilter } from '../../../store/filter';
 import { StoreLogger } from '../../../store/logger';
@@ -28,11 +29,7 @@ export class Settings extends BaseModal {
       const carousel = this.querySelector(`[carousel-items]`);
       const db: SettingsTable = new SettingsTable();
       const settings = await db.getSettingsData();
-      // const allFacts = this.querySelector(
-      //   `[name="allFacts"]`
-      // ) as HTMLSelectElement;
-      // allFacts.value = settings.allFacts;
-      // console.log(settings);
+
       carousel.append(node);
       const allFacts = this.querySelector(
         `[name="allFacts"]`
@@ -57,6 +54,7 @@ export class Settings extends BaseModal {
   }
 
   async updateAllFacts(input: number) {
+    ConstantApplication.disableApplication();
     const db: SettingsTable = new SettingsTable();
     await db.updateAllFacts(input);
     this.toast(`Show All Facts Setting Updated`);
@@ -64,6 +62,7 @@ export class Settings extends BaseModal {
     moreFilters.setAttribute(`empty`, `true`);
     const storeFilter: StoreFilter = StoreFilter.getInstance();
     storeFilter.filterFacts();
+    ConstantApplication.enableApplication();
   }
 
   toast(input: string) {

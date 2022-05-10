@@ -58,7 +58,7 @@ export class MoreFilters extends HTMLElement {
     this.populated = false;
     this.render();
     this.listeners();
-    this.querySelector(`.nav-link`).classList.remove(`disabled`);
+    //this.querySelector(`.nav-link`).classList.remove(`disabled`);
   }
 
   render() {
