@@ -97,7 +97,8 @@
       "@typescript-eslint/no-var-requires": 0,
       "no-console": 0,
       "no-unused-vars": 0,
-      "semi": 0
+      "semi": 0,
+      "@typescript-eslint/no-explicit-any": 0
     }
   }
 }

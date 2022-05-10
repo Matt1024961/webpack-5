@@ -1,4 +1,4 @@
-import FactsTable from '../../IndexedDB/facts';
+import FactsTable from '../../indexedDB/facts';
 import { DataJSON } from '../../types/data-json';
 
 const fetchXhtml = async (url: string) => {
@@ -23,7 +23,7 @@ const fetchData = async (url: string, xhtmlUrl: string) => {
   return fetch(url)
     .then(async (response) => {
       if (response.status >= 200 && response.status <= 299) {
-        await db.clearFactsTable();
+        // await db.clearFactsTable();
         return response.json();
       } else {
         throw Error(response.status.toString());

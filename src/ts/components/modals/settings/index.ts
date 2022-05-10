@@ -1,5 +1,5 @@
 import * as bootstrap from 'bootstrap';
-import SettingsTable from '../../../IndexedDB/settings';
+import SettingsTable from '../../../indexedDB/settings';
 import { StoreFilter } from '../../../store/filter';
 import { StoreLogger } from '../../../store/logger';
 import { BaseModal } from '../base-modal';

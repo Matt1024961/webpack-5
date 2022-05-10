@@ -1,4 +1,4 @@
-import Database from '../../IndexedDB/facts';
+import Database from '../../indexedDB/facts';
 import { search as searchType } from '../../types/filter';
 import { searchOptions as searchOptionType } from '../../types/filter';
 import { data as dataType } from '../../types/filter';

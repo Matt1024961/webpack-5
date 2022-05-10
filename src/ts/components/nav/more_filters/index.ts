@@ -1,4 +1,4 @@
-import Database from '../../../IndexedDB/facts';
+import Database from '../../../indexedDB/facts';
 import { ErrorClass } from '../../../error';
 import { StoreFilter } from '../../../store/filter';
 import { Scale } from '../../../store/scale';

@@ -5,8 +5,8 @@ import { StoreUrl } from '../store/url';
 import { StoreXhtml } from '../store/xhtml';
 import { WarningClass } from '../warning';
 import { StoreFilter } from '../store/filter';
-import Database from '../IndexedDB/facts';
-import SettingsTable from '../IndexedDB/settings';
+import Database from '../indexedDB/facts';
+import SettingsTable from '../indexedDB/settings';
 export class FilingUrl {
   constructor(input = ``) {
     if (input) {

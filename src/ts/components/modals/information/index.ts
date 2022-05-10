@@ -1,5 +1,5 @@
 import { ConstantApplication } from '../../../constants/application';
-import FactsTable from '../../../IndexedDB/facts';
+import FactsTable from '../../../indexedDB/facts';
 import { FactsTable as FactsTableType } from '../../../types/facts-table';
 import { StoreUrl } from '../../../store/url';
 import { BaseModal } from '../base-modal';
