@@ -223,7 +223,9 @@ export class MoreFilters extends HTMLElement {
       {}
     );
     const periodCount = document.createTextNode(`${periods.length}`);
-    this.querySelector(`[period-count]`).append(periodCount);
+    this.querySelector(`[period-count]`).firstElementChild.replaceWith(
+      periodCount
+    );
 
     Object.keys(complexPeriods)
       .sort()
@@ -269,7 +271,6 @@ export class MoreFilters extends HTMLElement {
         const badgeText = document.createTextNode(
           `${complexPeriods[current].length}`
         );
-
         span1.append(badgeText);
 
         a.append(span);
@@ -335,7 +336,7 @@ export class MoreFilters extends HTMLElement {
     )) as Array<string>;
 
     const balanceCount = document.createTextNode(`${filterBalance.length}`);
-    this.querySelector(`[balance-count]`).append(balanceCount);
+    this.querySelector(`[balance-count]`).firstElementChild.replaceWith(balanceCount);
 
     filterBalance.forEach((current, index) => {
       const li = document.createElement(`li`);
@@ -376,7 +377,7 @@ export class MoreFilters extends HTMLElement {
     )) as Array<string>;
 
     const scaleCount = document.createTextNode(`${filterScale.length}`);
-    this.querySelector(`[scale-count]`).append(scaleCount);
+    this.querySelector(`[scale-count]`).firstElementChild.replaceWith(scaleCount);
     filterScale
       .sort()
       .reverse()
@@ -429,7 +430,7 @@ export class MoreFilters extends HTMLElement {
       ),
     ];
     const membersCount = document.createTextNode(`${filterMembersSet.length}`);
-    this.querySelector(`[members-count]`).append(membersCount);
+    this.querySelector(`[members-count]`).firstElementChild.replaceWith(membersCount);
     filterMembersSet.forEach((current, index) => {
       const li = document.createElement(`li`);
       const div = document.createElement(`div`);
@@ -485,7 +486,7 @@ export class MoreFilters extends HTMLElement {
     ];
 
     const axisCount = document.createTextNode(`${filterAxisSet.length}`);
-    this.querySelector(`[axis-count]`).append(axisCount);
+    this.querySelector(`[axis-count]`).firstElementChild.replaceWith(axisCount);
 
     filterAxisSet.forEach((current, index) => {
       const li = document.createElement(`li`);
