@@ -13,7 +13,7 @@ module.exports = (env, argv = { mode: `production` }) => {
   return {
     mode: argv.mode,
 
-    entry: `./src/ts/index.ts`,
+    entry: { 'ix-viewer': './src/ts/index.ts' },
 
     plugins: [
       new HtmlWebpackPlugin({
@@ -91,8 +91,8 @@ module.exports = (env, argv = { mode: `production` }) => {
     output: {
       filename:
         argv.mode === `production`
-          ? `bundle.[contenthash].min.js`
-          : `bundle.js`,
+          ? `[name].bundle.[contenthash].min.js`
+          : `[name].bundle.js`,
       path: path.resolve(__dirname, `../dist`),
       clean: true,
     },
@@ -103,8 +103,12 @@ module.exports = (env, argv = { mode: `production` }) => {
         {
           test: /\.tsx?$/,
           loader: `ts-loader`,
+          // resolve: {
+          //   fullySpecified: false,
+          // },
           options: {
             configFile: path.resolve(__dirname, `tsconfig.json`),
+            transpileOnly: true,
           },
           exclude: [path.resolve(__dirname, `../node_modules`)],
         },
@@ -141,7 +145,7 @@ module.exports = (env, argv = { mode: `production` }) => {
     },
 
     resolve: {
-      extensions: [`.tsx`, `.ts`, `jsx`, `.js`, '.scss'],
+      extensions: [`.ts`, `.js`, '.scss'],
     },
 
     devtool: argv.mode === `production` ? `source-map` : `inline-source-map`,

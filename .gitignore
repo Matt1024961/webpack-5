@@ -6,6 +6,8 @@ tsconfig.json
 
 /tests_output
 
+/coverage
+
 https://www.sec.gov/ix?doc=/Archives/edgar/data/1011060/000155624419000097/asnb-20190630.htm
 https://www.sec.gov/ix?doc=/Archives/edgar/data/0000320193/000032019322000007/aapl-20211225.htm
 https://www.sec.gov/ix?doc=/Archives/edgar/data/0000789019/000156459022002324/msft-10q_20211231.htm
