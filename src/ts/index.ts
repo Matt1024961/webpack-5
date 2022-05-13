@@ -7,7 +7,8 @@ import { Navbar } from './components/nav/navbar';
 import { Sections } from './components/nav/sections';
 import { Data } from './components/nav/data';
 import { Menu } from './components/nav/menu';
-import { SectionsMenu } from './components/sections';
+import { SectionsMenu } from './components/sections/menu';
+import { SectionsMenuSearch } from './components/sections/search';
 import { Root } from './components/root';
 import { Search } from './components/nav/search';
 import { Tags } from './components/nav/tags';
@@ -26,6 +27,7 @@ import { ResetAllFilters } from './components/nav/reset_all_filters';
 import { Information } from './components/modals/information';
 import { BaseModal } from './components/modals/base-modal';
 import { Settings } from './components/modals/settings';
+import { SectionsMenuSingle } from './components/sections/single';
 
 (() => {
   const storeLogger: StoreLogger = StoreLogger.getInstance();
@@ -35,8 +37,12 @@ import { Settings } from './components/modals/settings';
   customElements.define('sec-root', Root);
   customElements.define('sec-navbar', Navbar);
   customElements.define('sec-menu', Menu);
+
   customElements.define(`sec-sections`, Sections);
   customElements.define(`sec-sections-menu`, SectionsMenu);
+  customElements.define(`sec-sections-menu-search`, SectionsMenuSearch);
+  customElements.define(`sec-sections-menu-single`, SectionsMenuSingle);
+
   customElements.define(`sec-search`, Search);
   customElements.define('sec-data', Data);
   customElements.define('sec-tags', Tags);
@@ -61,7 +67,6 @@ import { Settings } from './components/modals/settings';
     // we are in development mode
     customElements.define(`sec-dev-navbar`, DevelopmentNavbar);
   } else {
-    console.log(`production!`);
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker

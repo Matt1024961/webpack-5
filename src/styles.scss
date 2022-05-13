@@ -281,3 +281,16 @@ body {
   min-width: 15rem;
   max-width: 15rem;
 }
+
+.btn-sec {
+  background-color: $sec-color;
+  color: $white;
+  background-image: none;
+  border-color: $sec-color;
+}
+
+.btn-sec:hover {
+  color: $sec-color;
+  background-color: $white;
+  border-color: $sec-color;
+}

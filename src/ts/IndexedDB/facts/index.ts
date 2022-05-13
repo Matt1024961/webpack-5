@@ -1,10 +1,8 @@
 import Dexie, { IndexableType } from 'dexie';
-// import * as moment from 'moment';
 import { ConstantDatabaseFilters } from '../../constants/database-filters';
 import { PeriodConstant } from '../../constants/period';
 import { TransformationsConstant } from '../../constants/transformations';
-// import { TransformationsNumber } from '../../constants/transformations/number';
-import { DataJSON } from '../../types/data-json';
+import { DataJSON, edgarRendererReports } from '../../types/data-json';
 import { FactsTable as FactsTableType } from '../../types/facts-table';
 import { allFilters } from '../../types/filter';
 import SettingsTable from '../settings';
@@ -68,6 +66,15 @@ export default class FactsTable extends Dexie {
         }
       }
 
+      const sections: Array<edgarRendererReports> = current[
+        'ixv:edgarRendererReports'
+      ]
+        ? current['ixv:edgarRendererReports'].map((current: number) => {
+            return input['ixv:edgarRendererReports'][current];
+          })
+        : null;
+
+      //}
       if (current['ixv:factAttributes']) {
         let orderCount = 0;
         const factToPutIntoDB = {
@@ -97,6 +104,7 @@ export default class FactsTable extends Dexie {
             current.decimals,
             current['ixv:format']
           ),
+          sections: sections,
           dimensions:
             tempDimension.value && tempDimension.key
               ? {
@@ -449,6 +457,19 @@ export default class FactsTable extends Dexie {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  async getAllSectionsData() {
+    const abc = (
+      await this.table(`facts`).toCollection().sortBy(`sections`)
+    ).filter((fact) => {
+      if (fact.sections) {
+        console.log(fact.sections[0]);
+        return true;
+      }
+      return false;
+    });
+    console.log(abc);
   }
 
   async getAllUniquePeriods(filing: string): Promise<IndexableType> {

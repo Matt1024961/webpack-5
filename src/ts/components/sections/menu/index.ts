@@ -29,6 +29,15 @@ export class SectionsMenu extends HTMLElement {
     if (offcanvas) {
       const tagsToAlter = [`sec-error`, `sec-warning`, `#filing-container`];
       offcanvas.addEventListener('show.bs.offcanvas', function () {
+        if (!document.querySelector(`sec-sections-menu-search`)) {
+          // add <sec-facts-menu-pagination></sec-facts-menu-single>
+          const search = document.createElement(
+            `sec-sections-menu-search`
+          );
+          this.querySelector(`#sections-offcanvas .offcanvas-body`).append(
+            search
+          );
+        }
         tagsToAlter.forEach((current) => {
           const tag = document.querySelector(current) as HTMLElement;
           if (tag) {

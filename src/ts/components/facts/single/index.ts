@@ -1,14 +1,6 @@
 import { ConstantApplication } from '../../../constants/application';
-//import Database from '../../../database';
-//import { StoreData } from '../../../store/data';
 import { StoreFilter } from '../../../store/filter';
 import { FactsTable } from '../../../types/facts-table';
-//import { StoreUrl } from '../../../store/url';
-//import { FactsTable } from '../../../types/facts-table';
-//import { facts as factsType } from '../../../types/data-json';
-//import { FactsTable } from '../../../types/facts-table';
-//import { WarningClass } from '../../../warning';
-
 import template from './template.html';
 
 export class FactsMenuSingle extends HTMLElement {
@@ -50,9 +42,6 @@ export class FactsMenuSingle extends HTMLElement {
         this.pagination.start,
         this.pagination.end
       );
-      // console.log(facts);
-
-      // );
       if (facts) {
         (facts as Array<FactsTable>).forEach((current, index) => {
           if (current) {
