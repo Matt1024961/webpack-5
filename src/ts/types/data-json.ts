@@ -1,7 +1,7 @@
 export type DataJSON = {
   documentInfo: documentInfo;
   facts: Array<facts>;
-  'ixv:edgarRendererReports': edgarRendererReports;
+  'ixv:edgarRendererReports': Array<edgarRendererReports>;
   'ixv:entity': entity;
   'ixv:filterAxis': filterAxis;
   'ixv:filterBalance': filterBalance;
@@ -72,30 +72,30 @@ export type facts = {
 };
 
 export type edgarRendererReports = {
-  [key: string]: {
-    'ixv:role': string;
-    'ixv:longName': string;
-    'ixv:shortName': string;
-    'ixv:groupType': string;
-    'ixv:subGroupType': string;
-    'ixv:firstAnchor': {
-      'ixv:ancestors'?: string[] | null;
-      'ixv:facts'?: number[] | null;
-    };
-    'ixv:uniqueAnchor': {
-      contextRef: string;
-      name: string;
-      unitRef?: null;
-      xsiNil: string;
-      lang?: null;
-      decimals?: null;
-      ancestors?: string[] | null;
-      reportCount: number;
-      baseRef: string;
-      first: boolean;
-      unique: boolean;
-    };
+
+  'ixv:role': string;
+  'ixv:longName': string;
+  'ixv:shortName': string;
+  'ixv:groupType': string;
+  'ixv:subGroupType': string;
+  'ixv:firstAnchor': {
+    'ixv:ancestors'?: string[] | null;
+    'ixv:facts'?: number[] | null;
   };
+  'ixv:uniqueAnchor': {
+    contextRef: string;
+    name: string;
+    unitRef?: null;
+    xsiNil: string;
+    lang?: null;
+    decimals?: null;
+    ancestors?: string[] | null;
+    reportCount: number;
+    baseRef: string;
+    first: boolean;
+    unique: boolean;
+  };
+  baseRef: string;
 };
 
 export type entity = string;

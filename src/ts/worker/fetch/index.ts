@@ -1,4 +1,5 @@
 import FactsTable from '../../indexedDB/facts';
+import SectionsTable from '../../indexedDB/sections';
 import { DataJSON } from '../../types/data-json';
 
 const fetchXhtml = async (url: string) => {
@@ -19,18 +20,22 @@ const fetchXhtml = async (url: string) => {
 };
 
 const fetchData = async (url: string, xhtmlUrl: string) => {
-  const db: FactsTable = new FactsTable(url);
+  const factsTable: FactsTable = new FactsTable(url);
+  const sectionsTable: SectionsTable = new SectionsTable(url);
   return fetch(url)
     .then(async (response) => {
       if (response.status >= 200 && response.status <= 299) {
-        // await db.clearFactsTable();
+        await sectionsTable.clearSectionsTable();
+        await factsTable.clearFactsTable();
         return response.json();
       } else {
         throw Error(response.status.toString());
       }
     })
     .then(async (data: DataJSON) => {
-      return await db.parseData(data, xhtmlUrl);
+      await sectionsTable.parseSectionsData(data);
+      return await factsTable.parseFactData(data, xhtmlUrl)
+
     })
     .catch((error) => {
       return { error };

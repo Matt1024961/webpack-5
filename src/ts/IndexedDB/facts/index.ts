@@ -2,20 +2,12 @@ import Dexie, { IndexableType } from 'dexie';
 import { ConstantDatabaseFilters } from '../../constants/database-filters';
 import { PeriodConstant } from '../../constants/period';
 import { TransformationsConstant } from '../../constants/transformations';
-import { DataJSON, edgarRendererReports } from '../../types/data-json';
+import { DataJSON } from '../../types/data-json';
 import { FactsTable as FactsTableType } from '../../types/facts-table';
 import { allFilters } from '../../types/filter';
 import SettingsTable from '../settings';
-export default class FactsTable extends Dexie {
-  facts!: Dexie.Table<FactsTableType, number>;
-
-  constructor(url: string) {
-    super(`SEC - IXViewer - ${url}`);
-    this.version(1).stores({
-      // NOTE we ONLY INDEX what is necessary
-      facts: `++htmlId, order, isHtml, isNegative, isNumeric, isText, isHidden, isCustom, period, axes, members, scale, balance, tag, files, [htmlId+isHidden], [htmlId+isText]`,
-    });
-  }
+import FilingSpecific from '../filing-specific';
+export default class FactsTable extends FilingSpecific {
 
   async clearFactsTable(): Promise<void> {
     await this.table('facts').clear();
@@ -31,7 +23,7 @@ export default class FactsTable extends Dexie {
       });
   }
 
-  async parseData(input: DataJSON, xhtmlUrl: string) {
+  async parseFactData(input: DataJSON, xhtmlUrl: string) {
     const db: SettingsTable = new SettingsTable();
     const settings = await db.getSettingsData();
     xhtmlUrl = xhtmlUrl.split('/').slice(1).pop().split(`?`)[0];
@@ -65,16 +57,6 @@ export default class FactsTable extends Dexie {
           tempDimension.key = dimensionKeys;
         }
       }
-
-      const sections: Array<edgarRendererReports> = current[
-        'ixv:edgarRendererReports'
-      ]
-        ? current['ixv:edgarRendererReports'].map((current: number) => {
-            return input['ixv:edgarRendererReports'][current];
-          })
-        : null;
-
-      //}
       if (current['ixv:factAttributes']) {
         let orderCount = 0;
         const factToPutIntoDB = {
@@ -104,17 +86,16 @@ export default class FactsTable extends Dexie {
             current.decimals,
             current['ixv:format']
           ),
-          sections: sections,
           dimensions:
             tempDimension.value && tempDimension.key
               ? {
-                  concept: current.dimensions.concept,
-                  period: current.dimensions.period,
-                  lang: current.dimensions.language,
-                  unit: current.dimensions.unit,
-                  value: tempDimension.value,
-                  key: tempDimension.key,
-                }
+                concept: current.dimensions.concept,
+                period: current.dimensions.period,
+                lang: current.dimensions.language,
+                unit: current.dimensions.unit,
+                value: tempDimension.value,
+                key: tempDimension.key,
+              }
               : null,
           references: input['ixv:references'][current['ixv:factReferences']],
           contextref: current['ixv:contextref'],
@@ -153,6 +134,8 @@ export default class FactsTable extends Dexie {
       }
     }
     await this.putBulkData(arrayToBulkInsert);
+
+
 
     returnObject.active = returnObject.active.concat(
       arrayToBulkInsert
