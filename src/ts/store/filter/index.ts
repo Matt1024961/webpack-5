@@ -9,8 +9,8 @@ import { StoreLogger } from '../logger';
 import { StoreUrl } from '../url';
 
 export class StoreFilter {
-  private _search: searchType;
-  private _searchOptions: searchOptionType;
+  private _search!: searchType;
+  private _searchOptions!: searchOptionType;
   private _data: dataType;
   private _tags: tagsType;
   private _moreFilters: moreFiltersType = {
@@ -21,8 +21,8 @@ export class StoreFilter {
     scale: [],
     balance: [],
   };
-  private _active: Array<string>;
-  private _highlight: Array<string>;
+  private _active!: Array<string>;
+  private _highlight!: Array<string>;
   private static instance: StoreFilter;
 
   private constructor() {
@@ -76,13 +76,13 @@ export class StoreFilter {
 
   public async filterFacts() {
     const start = performance.now();
-    document.querySelector(`sec-facts`).setAttribute(`loading`, ``);
+    document.querySelector(`sec-facts`)?.setAttribute(`loading`, ``);
     if (this.isFilterActive()) {
       document
         .querySelector(`sec-reset-all-filters`)
-        .classList.remove(`d-none`);
+        ?.classList.remove(`d-none`);
     } else {
-      document.querySelector(`sec-reset-all-filters`).classList.add(`d-none`);
+      document.querySelector(`sec-reset-all-filters`)?.classList.add(`d-none`);
     }
     const storeUrl: StoreUrl = StoreUrl.getInstance();
     if (window.Worker) {
@@ -99,7 +99,7 @@ export class StoreFilter {
         if (event) {
           this.active = event.data.all.active;
           this.highlight = event.data.all.highlight;
-          document.querySelector(`sec-facts`).setAttribute(`update-count`, ``);
+          document.querySelector(`sec-facts`)?.setAttribute(`update-count`, ``);
           const attributes = new Attributes();
           attributes.setProperAttribute();
           const stop = performance.now();
@@ -132,7 +132,7 @@ export class StoreFilter {
     end: number,
     amount: number
   ) {
-    const currentFacts = this.getFactsCount();
+    const currentFacts = this.getFactsCount() as number;
     return {
       total: currentFacts,
       start: start,

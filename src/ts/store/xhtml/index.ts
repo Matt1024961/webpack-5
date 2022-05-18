@@ -1,7 +1,7 @@
 import { StoreUrl } from '../url';
 
 export class StoreXhtml {
-  private _node: HTMLBodyElement;
+  private _node!: HTMLBodyElement;
   private static instance: StoreXhtml;
   private constructor() {
     //
@@ -26,10 +26,12 @@ export class StoreXhtml {
     );
 
     const temp = htmlDoc.querySelector(`body`);
-    let node = document.importNode(temp, true);
-    node = this.updateHref(node);
-    node = this.updateSrc(node);
-    this._node = node;
+    if (temp) {
+      let node = document.importNode(temp, true);
+      node = this.updateHref(node);
+      node = this.updateSrc(node);
+      this._node = node;
+    }
   }
 
   updateHref(node: HTMLBodyElement): HTMLBodyElement {
@@ -38,9 +40,10 @@ export class StoreXhtml {
       const href = current.getAttribute(`href`);
       current.setAttribute(`tabiindex`, `-1`);
       if (
-        href.startsWith(`#`) ||
-        href.startsWith(`http://`) ||
-        href.startsWith(`https://`)
+        href &&
+        (href.startsWith(`#`) ||
+          href.startsWith(`http://`) ||
+          href.startsWith(`https://`))
       ) {
         // these are an anchor tag
         // OR
@@ -57,7 +60,7 @@ export class StoreXhtml {
     const storeUrl: StoreUrl = StoreUrl.getInstance();
     node.querySelectorAll(`[src]`).forEach((current) => {
       const src = current.getAttribute(`src`);
-      if (src.startsWith(`http://`) || src.startsWith(`https://`)) {
+      if (src && (src.startsWith(`http://`) || src.startsWith(`https://`))) {
         // these are already an absolute value
       } else {
         // update src to absolute url

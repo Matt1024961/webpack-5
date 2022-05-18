@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 import { DataJSON } from '../types/data-json';
 export class Data {
   private data: DataJSON;

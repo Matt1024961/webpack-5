@@ -23,66 +23,69 @@ export class SectionsMenuSingle extends HTMLElement {
       const sections = this.simplifySectionsData(await db.getSections());
 
       const selector = htmlDoc.querySelector(`[template]`);
-      Object.keys(sections).forEach((current, index) => {
-        const node = document.importNode(selector, true);
+      if (selector) {
+        Object.keys(sections).forEach((current, index) => {
+          const node = document.importNode(selector, true);
 
-        node
-          .querySelector(`[section-link]`)
-          .setAttribute(`data-bs-target`, `#sections-accordion-${index}`);
-        node
-          .querySelector(`[section-link]`)
-          .setAttribute(`aria-controls`, `sections-accordion-${index}`);
-        node
-          .querySelector(`[section-accordion]`)
-          .setAttribute(`id`, `sections-accordion-${index}`);
-        //section-accordion
+          node
+            .querySelector(`[section-link]`)
+            ?.setAttribute(`data-bs-target`, `#sections-accordion-${index}`);
+          node
+            .querySelector(`[section-link]`)
+            ?.setAttribute(`aria-controls`, `sections-accordion-${index}`);
+          node
+            .querySelector(`[section-accordion]`)
+            ?.setAttribute(`id`, `sections-accordion-${index}`);
+          //section-accordion
 
-        const title = document.createTextNode(current);
-        node.querySelector(`[section-title]`).append(title);
+          const title = document.createTextNode(current);
+          node.querySelector(`[section-title]`)?.append(title);
 
-        const count = document.createTextNode(`${sections[current].length}`);
-        node.querySelector(`[section-count]`).append(count);
+          const count = document.createTextNode(`${sections[current].length}`);
+          node.querySelector(`[section-count]`)?.append(count);
 
-        const contentSelector = node.querySelector(`[section-multiple]`);
+          const contentSelector = node.querySelector(`[section-multiple]`);
 
-        // sort the options before presenting to the user
-        sections[current] = sections[current].sort(
-          (first: { longName: any }, second: { longName: any }) => {
-            const a = first.longName;
-            const b = second.longName;
-            return a < b ? -1 : a > b ? 1 : 0;
-          }
-        );
-        sections[current].forEach((nestedCurrent: SectionsTableType) => {
-          const li = document.createElement(`li`);
-          li.classList.add(`click`);
-          li.classList.add(`list-group-item`);
-          li.classList.add(`list-group-item-action`);
-          li.classList.add(`d-flex`);
-          li.classList.add(`align-items-center`);
-          li.setAttribute(`name`, nestedCurrent.name);
-          li.setAttribute(`contextRef`, nestedCurrent.contextRef);
-          li.setAttribute(`baseref`, nestedCurrent.baseRef);
+          // sort the options before presenting to the user
+          sections[current] = sections[current].sort(
+            (a: SectionsTableType, b: SectionsTableType) => {
+              return a.longName < b.longName
+                ? -1
+                : a.longName > b.longName
+                ? 1
+                : 0;
+            }
+          );
+          sections[current].forEach((nestedCurrent: SectionsTableType) => {
+            const li = document.createElement(`li`);
+            li.classList.add(`click`);
+            li.classList.add(`list-group-item`);
+            li.classList.add(`list-group-item-action`);
+            li.classList.add(`d-flex`);
+            li.classList.add(`align-items-center`);
+            li.setAttribute(`name`, nestedCurrent.name as string);
+            li.setAttribute(`contextRef`, nestedCurrent.contextRef as string);
+            li.setAttribute(`baseref`, nestedCurrent.baseRef as string);
 
-          if (storeUrl.filing !== nestedCurrent.baseRef) {
-            console.log(storeUrl.filing, nestedCurrent.baseRef);
-            const i = document.createElement(`i`);
-            i.classList.add(`fas`);
-            i.classList.add(`fa-external-link-alt`);
-            i.classList.add(`mx-3`);
-            li.append(i);
-          }
-          const text = document.createTextNode(nestedCurrent.shortName);
-          li.append(text);
+            if (storeUrl.filing !== nestedCurrent.baseRef) {
+              console.log(storeUrl.filing, nestedCurrent.baseRef);
+              const i = document.createElement(`i`);
+              i.classList.add(`fas`);
+              i.classList.add(`fa-external-link-alt`);
+              i.classList.add(`mx-3`);
+              li.append(i);
+            }
+            const text = document.createTextNode(nestedCurrent.shortName);
+            li.append(text);
 
-          contentSelector.append(li);
-          //node.append(content);
+            contentSelector.append(li);
+            //node.append(content);
+          });
+
+          node.removeAttribute(`template`);
+          this.append(node);
         });
-
-        node.removeAttribute(`template`);
-        this.append(node);
-      });
-
+      }
       // node.removeAttribute(`template`);
       // this.append(node);
     } else {

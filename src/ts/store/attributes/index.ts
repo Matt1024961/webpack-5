@@ -23,7 +23,7 @@ export class Attributes {
           if (isFactBlock) {
             const element = document.getElementById(current.htmlId);
 
-            element.setAttribute(`active-fact-block`, ``);
+            element?.setAttribute(`active-fact-block`, ``);
 
             const spanL = document.createElement(`span`);
             spanL.classList.add(`float-left`);
@@ -34,47 +34,28 @@ export class Attributes {
             spanR.classList.add(`float-right`);
             spanR.classList.add(`position-absolute`);
             spanR.classList.add(`block-indicator-right`);
-            element.parentNode.insertBefore(spanR, element);
-            element.parentNode.insertBefore(spanL, element);
+            element?.parentNode?.insertBefore(spanR, element);
+            element?.parentNode?.insertBefore(spanL, element);
           } else {
             document
               .getElementById(current.htmlId)
-              .setAttribute(`active-fact`, ``);
+              ?.setAttribute(`active-fact`, ``);
           }
         } else if (!isFactActive) {
           document
             .getElementById(current.htmlId)
-            .removeAttribute(`active-fact`);
+            ?.removeAttribute(`active-fact`);
         }
         if (isFactHighlight) {
           document
             .getElementById(current.htmlId)
-            .setAttribute(`highlight-fact`, ``);
+            ?.setAttribute(`highlight-fact`, ``);
         } else if (!isFactHighlight) {
           document
             .getElementById(current.htmlId)
-            .removeAttribute(`highlight-fact`);
+            ?.removeAttribute(`highlight-fact`);
         }
       }
     });
-
-    // for await (const element of allFacts) {
-    //   const isfactHidden = await db.isFactHidden(element.id);
-    //   const isFactActive = await db.isFactActive(element.id);
-    //   const isFactHighlight = await db.isFactHighlighted(element.id);
-
-    //   if (!isfactHidden) {
-    //     if (isFactActive) {
-    //       element.setAttribute(`active-fact`, ``);
-    //     } else if (!isFactActive) {
-    //       element.removeAttribute(`active-fact`);
-    //     }
-    //     if (isFactHighlight) {
-    //       element.setAttribute(`highlight-fact`, ``);
-    //     } else if (!isFactHighlight) {
-    //       element.removeAttribute(`highlight-fact`);
-    //     }
-    //   }
-    // }
   }
 }

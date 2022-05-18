@@ -1,7 +1,7 @@
 import { Logger, LoggerManager } from 'typescript-logger';
 
 export class StoreLogger {
-  private logger: Logger;
+  private logger!: Logger;
   private static instance: StoreLogger;
 
   private constructor() {

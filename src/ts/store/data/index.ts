@@ -1,7 +1,5 @@
-import * as moment from 'moment';
-import { DataJSON } from '../../types/data-json';
+import moment from 'moment';
 import { documentInfo as documentInfoType } from '../../types/data-json';
-
 import { facts as factsType } from '../../types/data-json';
 import { edgarRendererReports as edgarRendererReportsType } from '../../types/data-json';
 import { entity as entityType } from '../../types/data-json';
@@ -17,24 +15,24 @@ import { references as referencesType } from '../../types/data-json';
 import { ixdsFiles as ixdsFilesType } from '../../types/data-json';
 
 export class StoreData {
-  private _documentInfo: documentInfoType;
-  private _facts: Array<factsType>;
-  private _edgarRendererReports: edgarRendererReportsType;
-  private _entity: entityType;
-  private _filterAxis: filterAxisType;
-  private _filterBalance: filterBalanceType;
-  private _filterMembers: filterMembersType;
-  private _filterPeriods: filterPeriodsType;
-  private _filterScale: filterScaleType;
-  private _filterUnits: filterUnitsType;
-  private _labels: labelsType;
-  private _references: referencesType;
-  private _simplePeriods: Array<{ value: number; text: string }>;
-  private _complexPeriods: {
-    [key: string]: Array<{ value: number; text: string }>;
+  private _documentInfo!: documentInfoType;
+  private _facts!: Array<factsType>;
+  private _edgarRendererReports!: edgarRendererReportsType;
+  private _entity!: entityType;
+  private _filterAxis!: filterAxisType;
+  private _filterBalance!: filterBalanceType;
+  private _filterMembers!: filterMembersType;
+  private _filterPeriods!: filterPeriodsType;
+  private _filterScale!: filterScaleType;
+  private _filterUnits!: filterUnitsType;
+  private _labels!: labelsType;
+  private _references!: referencesType;
+  private _simplePeriods!: Array<{ value: number; text: string; }>;
+  private _complexPeriods!: {
+    [key: string]: Array<{ value: number; text: string; }>;
   };
-  private _ixdsFiles: ixdsFilesType;
-  private _ixvExtensionNamespaces: { [key: string]: string };
+  private _ixdsFiles!: ixdsFilesType;
+  private _ixvExtensionNamespaces!: { [key: string]: string; };
 
   private static instance: StoreData;
 
@@ -92,22 +90,6 @@ export class StoreData {
   public getIsAdditional(input: factsType): boolean {
     // eslint-disable-next-line no-prototype-builtins
     return input.hasOwnProperty(`dimensions`);
-  }
-
-  public setAllData(input: DataJSON) {
-    this.edgarRendererReports = input['ixv:edgarRendererReports'];
-    this.entity = input['ixv:entity'];
-    this.filterAxis = input['ixv:filterAxis'];
-    this.filterBalance = input['ixv:filterBalance'];
-    this.filterMembers = input['ixv:filterMembers'];
-    this.filterPeriods = input['ixv:filterPeriods'];
-    this.filterScale = input['ixv:filterScale'];
-    this.filterUnits = input['ixv:filterUnits'];
-    this.labels = input['ixv:labels'];
-    this.references = input['ixv:references'];
-    this.facts = input.facts;
-    this.ixdsFiles = input[`ixv:ixdsFiles`];
-    this.ixvExtensionNamespaces = input[`ixv:extensionNamespaces`];
   }
 
   public getSimplePeriod(input: number) {

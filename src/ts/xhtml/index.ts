@@ -12,12 +12,13 @@ export class Xhtml {
     const htmlDoc = parser.parseFromString(xhtml, `application/xhtml+xml`);
 
     const temp = htmlDoc.querySelector(`body`);
-    let node = document.importNode(temp, true);
-    // we now fix the XHTML
-    node = this.fixXhtml(node);
-    // we now update the XHTML
-    return node;
-    return this.updateXhtml(node);
+    if (temp) {
+      let node = document.importNode(temp, true);
+      // we now fix the XHTML
+      node = this.fixXhtml(node);
+      // we now update the XHTML
+      return node;
+    }
   }
 
   fixXhtml(node: HTMLBodyElement): HTMLBodyElement {
@@ -41,7 +42,7 @@ export class Xhtml {
 
   fixURL(current: Element): void {
     const href = current.getAttribute(`href`);
-    if (href.startsWith(`http`)) {
+    if (href && href.startsWith(`http`)) {
       // console.log(href);
       current.setAttribute(`tabiindex`, `-1`);
     }
@@ -52,7 +53,7 @@ export class Xhtml {
       // we wrap every fact in: <span class="active-fact"><FACT></FACT></span>
       const wrapper = document.createElement(`span`);
       wrapper.classList.add(`active-fact`);
-      current.parentNode.appendChild(wrapper);
+      current.parentNode?.appendChild(wrapper);
       wrapper.appendChild(current);
       // add all event listeners
       current.addEventListener(`click`, (event) => {

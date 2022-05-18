@@ -20,7 +20,7 @@ export default class SectionsTable extends FilingSpecific {
   async parseSectionsData(input: DataJSON) {
     let arrayToBulkInsert = [];
     for await (const current of input['ixv:edgarRendererReports']) {
-      let groupType = ``;
+      let groupType: string | null = ``;
       switch (current[`ixv:groupType`]) {
         case `document`: {
           groupType = `Document & Entity Information`;
@@ -48,7 +48,7 @@ export default class SectionsTable extends FilingSpecific {
       const name = current[`ixv:uniqueAnchor`]
         ? current[`ixv:uniqueAnchor`][`name`]
         : null;
-      const sectionToPutIntoDB = {
+      const sectionToPutIntoDB: SectionsTableType = {
         reportFile: current['ixv:reportFile'],
         longName: current[`ixv:longName`],
         shortName: current[`ixv:shortName`],

@@ -3,10 +3,12 @@ export type FactsTable = {
   tag?: string;
   period?: string;
   axes?: unknown;
-  members?: Array<string> | string;
+  members?: Array<string> | string | null;
   measure?: unknown;
-  scale?: number;
+  scale?: number | null;
   decimals?: unknown;
+  files?: string | null;
+  order?: number;
   balance?: string;
   value?: string;
   dimensions?: unknown;

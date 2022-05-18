@@ -1,7 +1,8 @@
 import { Error } from './';
 describe('Error Component', () => {
-  console.log(Error);
+  let component: Error;
   it('Renders header', () => {
+    console.log(component);
     expect(1).toEqual(1);
   });
   it('Renders', () => {

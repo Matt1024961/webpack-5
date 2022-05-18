@@ -31,6 +31,7 @@ export const ConstantDatabaseFilters = {
       const factDefinitionAsString = factLabels[0][1];
       return (regex as RegExp).test(factDefinitionAsString) ? 1 : 0;
     }
+    return 0;
   },
 
   searchFactDimensions: (regex: RegExp, dimensions: Array<string>): 1 | 0 => {
@@ -92,6 +93,7 @@ export const ConstantDatabaseFilters = {
         return fact.isHidden ? 1 : 0;
       }
     }
+    return 1;
   },
 
   tagsRadio: (option: number, fact: FactsTable): 0 | 1 => {
@@ -109,6 +111,7 @@ export const ConstantDatabaseFilters = {
         return fact.isCustom ? 1 : 0;
       }
     }
+    return 0;
   },
 
   axisCheck: (option: Array<string>, fact: FactsTable): 0 | 1 => {
@@ -123,21 +126,21 @@ export const ConstantDatabaseFilters = {
   },
 
   balanceCheck: (option: Array<string>, fact: FactsTable): 0 | 1 => {
-    return option.includes(fact.balance) ? 1 : 0;
+    return option.includes(fact.balance as string) ? 1 : 0;
   },
 
   membersCheck: (option: Array<string>, fact: FactsTable): 0 | 1 => {
     if (fact.members) {
-      return option.some((element) => fact.members.includes(element)) ? 1 : 0;
+      return option.some((element) => fact.members?.includes(element)) ? 1 : 0;
     }
     return 0;
   },
 
   periodsCheck: (option: Array<string>, fact: FactsTable): 0 | 1 => {
-    return option.includes(fact.period) ? 1 : 0;
+    return option.includes(fact.period as string) ? 1 : 0;
   },
 
   scaleCheck: (option: Array<number>, fact: FactsTable): 0 | 1 => {
-    return option.includes(fact.scale) ? 1 : 0;
+    return option.includes(fact.scale as number) ? 1 : 0;
   },
 };

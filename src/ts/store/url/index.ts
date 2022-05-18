@@ -1,20 +1,26 @@
 export class StoreUrl {
-  private _filingURL: string | null;
+  private _filingURL!: string | null;
+
   //filing: `fy19clx10k.htm`
-  private _filing: string | null;
+  private _filing!: string | null;
+
   // dataURL: `/assets/example-1/Data.json`
-  private _dataURL: string | null;
+  private _dataURL!: string | null;
+
   // data: `Data.json`
   private _data = `Data.json`;
-  // filingHost: `www.sec.gov`
-  private _filingHost: string | null;
-  // host: `www.sec.gov`
-  private _host: string | null;
-  // redline: false
-  private _redline: boolean | null;
 
-  private _baseURL: string | null;
-  private _fullURL: string | null;
+  // filingHost: `www.sec.gov`
+  private _filingHost!: string | null;
+
+  // host: `www.sec.gov`
+  private _host!: string | null;
+
+  // redline: false
+  private _redline: boolean | null = false;
+
+  private _baseURL!: string | null;
+  private _fullURL!: string | null;
   private static instance: StoreUrl;
 
   private constructor() {
@@ -29,7 +35,7 @@ export class StoreUrl {
   }
 
   public get baseURL() {
-    return this._baseURL;
+    return this._baseURL as string;
   }
 
   public set baseURL(input: string) {
@@ -37,7 +43,7 @@ export class StoreUrl {
   }
 
   public get fullURL() {
-    return this._fullURL;
+    return this._fullURL as string;
   }
 
   public set fullURL(input: string) {
@@ -45,7 +51,7 @@ export class StoreUrl {
   }
 
   public get filingURL() {
-    return this._filingURL;
+    return this._filingURL as string;
   }
 
   public set filingURL(input: string) {
@@ -55,7 +61,7 @@ export class StoreUrl {
   }
 
   public get filing() {
-    return this._filing;
+    return this._filing as string;
   }
 
   public set filing(input: string) {
@@ -63,7 +69,7 @@ export class StoreUrl {
   }
 
   public get dataURL() {
-    return this._dataURL;
+    return this._dataURL as string;
   }
 
   public set dataURL(input: string) {
@@ -79,7 +85,7 @@ export class StoreUrl {
   }
 
   public get filingHost() {
-    return this._filingHost;
+    return this._filingHost as string;
   }
 
   public set filingHost(input: string) {
@@ -87,7 +93,7 @@ export class StoreUrl {
   }
 
   public get host() {
-    return this._host;
+    return this._host as string;
   }
 
   public set host(input: string) {
@@ -95,7 +101,7 @@ export class StoreUrl {
   }
 
   public get redline() {
-    return this._redline;
+    return this._redline as boolean;
   }
 
   public set redline(input: boolean) {

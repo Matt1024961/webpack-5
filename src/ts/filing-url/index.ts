@@ -72,7 +72,7 @@ export class FilingUrl {
           .split('/')
           .slice(1)
           .pop()
-          .split(`?`)[0];
+          ?.split(`?`)[0] as string;
 
         storeUrl.dataURL = `${absoluteURLAsString.substring(
           0,

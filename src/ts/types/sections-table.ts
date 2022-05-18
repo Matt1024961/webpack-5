@@ -1,11 +1,10 @@
 export type SectionsTable = {
-  'reportFile': string;
-  'longName': string;
-  'shortName': string;
-  'groupType': string;
-  'subGroup': string;
-  'contextRef': string;
-  'name': string;
-  'baseRef': string;
+  reportFile: string;
+  longName: string;
+  shortName: string;
+  groupType: string | null;
+  subGroup: string;
+  contextRef: string | null;
+  name: string | null;
+  baseRef: string | null;
 };
-

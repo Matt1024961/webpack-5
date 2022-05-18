@@ -1,8 +1,5 @@
 module.exports = function (config) {
-  const tests = [
-    { pattern: '../src/ts/test.spec.+(ts|js)', type: `js` },
-    { pattern: '../src/ts/**/*.spec.+(ts|js)', type: `js` },
-  ];
+  const tests = [{ pattern: '../src/ts/**/*.spec.+(ts|js)', type: `js` }];
 
   config.set({
     client: {
@@ -10,22 +7,28 @@ module.exports = function (config) {
         random: false,
       },
     },
-    singleRun: false,
-    frameworks: ['jasmine', 'webpack'],
+    singleRun: true,
+    frameworks: ['jasmine', 'karma-typescript'],
     files: tests,
     preprocessors: {
-      '../src/ts/test.spec.+(ts|js)': ['webpack'],
-      '../src/ts/**/*.spec.+(ts|js)': ['webpack'],
+      '../src/ts/**/*.spec.+(ts|js)': ['karma-typescript'],
     },
     mime: {
       'text/x-typescript': ['ts', 'tsx'],
+    },
+    karmaTypescriptConfig: {
+      compilerOptions: {
+        module: 'commonjs',
+        target: 'ESNext'
+      },
+      tsconfig: './tsconfig.json',
     },
     webpack: webpackConfig(),
     webpackMiddleware: {
       noInfo: true,
     },
     colors: true,
-    reporters: ['dots', 'progress'],
+    reporters: ['dots', 'progress', 'karma-typescript'],
     browsers: ['Chrome'],
   });
 };

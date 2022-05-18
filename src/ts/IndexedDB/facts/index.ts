@@ -8,7 +8,6 @@ import { allFilters } from '../../types/filter';
 import SettingsTable from '../settings';
 import FilingSpecific from '../filing-specific';
 export default class FactsTable extends FilingSpecific {
-
   async clearFactsTable(): Promise<void> {
     await this.table('facts').clear();
   }
@@ -26,7 +25,7 @@ export default class FactsTable extends FilingSpecific {
   async parseFactData(input: DataJSON, xhtmlUrl: string) {
     const db: SettingsTable = new SettingsTable();
     const settings = await db.getSettingsData();
-    xhtmlUrl = xhtmlUrl.split('/').slice(1).pop().split(`?`)[0];
+    xhtmlUrl = xhtmlUrl?.split('/')?.slice(1).pop()?.split(`?`)[0] as string;
     const returnObject: { highlight: Array<string>; active: Array<string> } = {
       highlight: [],
       active: [],
@@ -35,12 +34,9 @@ export default class FactsTable extends FilingSpecific {
     const customTags = Object.keys(input['ixv:extensionNamespaces']);
     for await (const current of input.facts) {
       const tempDimension: {
-        key: Array<string | number>;
-        value: Array<string | number>;
-      } = {
-        key: null,
-        value: null,
-      };
+        key?: Array<string | number>;
+        value?: Array<string | number>;
+      } = {};
       // eslint-disable-next-line no-prototype-builtins
       if (current.hasOwnProperty(`dimensions`)) {
         const dimensions = { ...current.dimensions };
@@ -59,7 +55,7 @@ export default class FactsTable extends FilingSpecific {
       }
       if (current['ixv:factAttributes']) {
         let orderCount = 0;
-        const factToPutIntoDB = {
+        const factToPutIntoDB: FactsTableType = {
           // everything located in ixv:factAttributes
           tag: current['ixv:factAttributes'][0][1],
           isHtml: current['ixv:factAttributes'][2][1] ? 1 : 0,
@@ -89,13 +85,13 @@ export default class FactsTable extends FilingSpecific {
           dimensions:
             tempDimension.value && tempDimension.key
               ? {
-                concept: current.dimensions.concept,
-                period: current.dimensions.period,
-                lang: current.dimensions.language,
-                unit: current.dimensions.unit,
-                value: tempDimension.value,
-                key: tempDimension.key,
-              }
+                  concept: current.dimensions.concept,
+                  period: current.dimensions.period,
+                  lang: current.dimensions.language,
+                  unit: current.dimensions.unit,
+                  value: tempDimension.value,
+                  key: tempDimension.key,
+                }
               : null,
           references: input['ixv:references'][current['ixv:factReferences']],
           contextref: current['ixv:contextref'],
@@ -122,7 +118,9 @@ export default class FactsTable extends FilingSpecific {
         arrayToBulkInsert.push(factToPutIntoDB);
         if (arrayToBulkInsert.length === 2500) {
           returnObject.active = returnObject.active.concat(
-            arrayToBulkInsert.map((current) => current.htmlId)
+            (arrayToBulkInsert as Array<{ htmlId: string }>).map(
+              (current) => current.htmlId
+            )
           );
 
           await this.putBulkData(arrayToBulkInsert);
@@ -134,12 +132,9 @@ export default class FactsTable extends FilingSpecific {
       }
     }
     await this.putBulkData(arrayToBulkInsert);
-
-
-
     returnObject.active = returnObject.active.concat(
-      arrayToBulkInsert
-        .map((current) => {
+      (arrayToBulkInsert as Array<{ files: string; htmlId: string }>)
+        .map((current: { files: string; htmlId: any }) => {
           if (!settings.allFacts) {
             return current.files === xhtmlUrl ? current.htmlId : null;
           } else {
@@ -195,7 +190,7 @@ export default class FactsTable extends FilingSpecific {
     if (allFilters.search) {
       const regex = new RegExp(
         allFilters.search,
-        `m${allFilters.searchOptions.includes(10) ? '' : 'i'}`
+        `m${allFilters.searchOptions?.includes(10) ? '' : 'i'}`
       );
       returnObject.highlight = (
         await this.getAllFacts(
@@ -205,28 +200,28 @@ export default class FactsTable extends FilingSpecific {
         .map((fact) => {
           let highlightFact = 0;
 
-          if (!highlightFact && allFilters.searchOptions.includes(0)) {
+          if (!highlightFact && allFilters.searchOptions?.includes(0)) {
             highlightFact = ConstantDatabaseFilters.searchFactName(
               regex,
               fact.tag
             );
           }
 
-          if (!highlightFact && allFilters.searchOptions.includes(1)) {
+          if (!highlightFact && allFilters.searchOptions?.includes(1)) {
             highlightFact = ConstantDatabaseFilters.searchFactContent(
               regex,
               fact.value
             );
           }
 
-          if (!highlightFact && allFilters.searchOptions.includes(2)) {
+          if (!highlightFact && allFilters.searchOptions?.includes(2)) {
             highlightFact = ConstantDatabaseFilters.searchFactLabels(
               regex,
               fact.labels
             );
           }
 
-          if (!highlightFact && allFilters.searchOptions.includes(3)) {
+          if (!highlightFact && allFilters.searchOptions?.includes(3)) {
             // this is technically 'Documentation'
             highlightFact = ConstantDatabaseFilters.searchFactDefinition(
               regex,
@@ -234,14 +229,14 @@ export default class FactsTable extends FilingSpecific {
             );
           }
 
-          if (!highlightFact && allFilters.searchOptions.includes(4)) {
+          if (!highlightFact && allFilters.searchOptions?.includes(4)) {
             highlightFact = ConstantDatabaseFilters.searchFactDimensions(
               regex,
               fact.dimensionsValue
             );
           }
 
-          if (!highlightFact && allFilters.searchOptions.includes(5)) {
+          if (!highlightFact && allFilters.searchOptions?.includes(5)) {
             highlightFact = ConstantDatabaseFilters.searchFactReferenceOptions(
               regex,
               fact.references,
@@ -249,7 +244,7 @@ export default class FactsTable extends FilingSpecific {
             );
           }
 
-          if (!highlightFact && allFilters.searchOptions.includes(6)) {
+          if (!highlightFact && allFilters.searchOptions?.includes(6)) {
             highlightFact = ConstantDatabaseFilters.searchFactReferenceOptions(
               regex,
               fact.references,
@@ -257,7 +252,7 @@ export default class FactsTable extends FilingSpecific {
             );
           }
 
-          if (!highlightFact && allFilters.searchOptions.includes(7)) {
+          if (!highlightFact && allFilters.searchOptions?.includes(7)) {
             highlightFact = ConstantDatabaseFilters.searchFactReferenceOptions(
               regex,
               fact.references,
@@ -265,7 +260,7 @@ export default class FactsTable extends FilingSpecific {
             );
           }
 
-          if (!highlightFact && allFilters.searchOptions.includes(8)) {
+          if (!highlightFact && allFilters.searchOptions?.includes(8)) {
             highlightFact = ConstantDatabaseFilters.searchFactReferenceOptions(
               regex,
               fact.references,
@@ -273,7 +268,7 @@ export default class FactsTable extends FilingSpecific {
             );
           }
 
-          if (!highlightFact && allFilters.searchOptions.includes(9)) {
+          if (!highlightFact && allFilters.searchOptions?.includes(9)) {
             highlightFact = ConstantDatabaseFilters.searchFactReferenceOptions(
               regex,
               fact.references,
@@ -373,7 +368,7 @@ export default class FactsTable extends FilingSpecific {
       });
   }
 
-  async getFactByTag(tag: string): Promise<FactsTable> {
+  async getFactByTag(tag: string): Promise<FactsTable | undefined> {
     try {
       return this.table('facts').where({ tag }).first();
     } catch (error) {
@@ -381,7 +376,9 @@ export default class FactsTable extends FilingSpecific {
     }
   }
 
-  async isMultiFiling(returnFiles = false): Promise<boolean | IndexableType> {
+  async isMultiFiling(
+    returnFiles = false
+  ): Promise<boolean | IndexableType | undefined> {
     try {
       return await this.table(`facts`)
         .orderBy(`files`)
@@ -397,7 +394,7 @@ export default class FactsTable extends FilingSpecific {
     }
   }
 
-  async isFactHidden(id: string): Promise<boolean> {
+  async isFactHidden(id: string): Promise<boolean | undefined> {
     try {
       return (
         (await this.table('facts')
@@ -412,7 +409,7 @@ export default class FactsTable extends FilingSpecific {
     }
   }
 
-  async isFactText(id: string): Promise<boolean> {
+  async isFactText(id: string): Promise<boolean | undefined> {
     try {
       return (
         (await this.table('facts')
@@ -427,7 +424,7 @@ export default class FactsTable extends FilingSpecific {
     }
   }
 
-  async isFactCustom(id: string): Promise<boolean> {
+  async isFactCustom(id: string): Promise<boolean | undefined> {
     try {
       return (
         (await this.table('facts')

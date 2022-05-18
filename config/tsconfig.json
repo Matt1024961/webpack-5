@@ -9,12 +9,10 @@
     "moduleResolution": "node",
     "suppressImplicitAnyIndexErrors": true,
     "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "strict": true
   },
-  "include": [
-    "../src/**/*.ts",
-    "../src/**/*.html"
-  ],
-  "files": [
-    "typings.d.ts"
-  ]
+  "include": ["../src/**/*.ts", "../src/**/*.html"],
+  "files": ["typings.d.ts"]
 }

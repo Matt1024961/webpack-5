@@ -46,8 +46,8 @@ export type documentInfo = {
 
 export type facts = {
   dimensions: {
-    concept: string;
-    period: number;
+    concept?: string;
+    period?: number;
     unit?: number;
     language?: string;
   };
@@ -72,7 +72,6 @@ export type facts = {
 };
 
 export type edgarRendererReports = {
-
   'ixv:role': string;
   'ixv:longName': string;
   'ixv:shortName': string;
