@@ -6,5 +6,6 @@ export type SectionsTable = {
   'subGroup': string;
   'contextRef': string;
   'name': string;
+  'baseRef': string;
 };
 

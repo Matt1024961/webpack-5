@@ -1,8 +1,6 @@
-// import { ConstantApplication } from '../../../constants/application';
-// import FactsTable from '../../../indexedDB/facts';
 import SectionsTable from '../../../indexedDB/sections';
 import { StoreUrl } from '../../../store/url';
-
+import { SectionsTable as SectionsTableType } from '../../../types/sections-table';
 import template from './template.html';
 
 export class SectionsMenuSingle extends HTMLElement {
@@ -15,11 +13,6 @@ export class SectionsMenuSingle extends HTMLElement {
     this.listeners();
   }
 
-  empty() {
-    this.innerHTML = ``;
-  }
-
-
   async render() {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
@@ -30,16 +23,61 @@ export class SectionsMenuSingle extends HTMLElement {
       const sections = this.simplifySectionsData(await db.getSections());
 
       const selector = htmlDoc.querySelector(`[template]`);
-      //const node = document.importNode(selector, true);
       Object.keys(sections).forEach((current, index) => {
         const node = document.importNode(selector, true);
 
-        console.log(current, index, sections[current].length);
-        const title = document.createTextNode(current)
+        node
+          .querySelector(`[section-link]`)
+          .setAttribute(`data-bs-target`, `#sections-accordion-${index}`);
+        node
+          .querySelector(`[section-link]`)
+          .setAttribute(`aria-controls`, `sections-accordion-${index}`);
+        node
+          .querySelector(`[section-accordion]`)
+          .setAttribute(`id`, `sections-accordion-${index}`);
+        //section-accordion
+
+        const title = document.createTextNode(current);
         node.querySelector(`[section-title]`).append(title);
 
         const count = document.createTextNode(`${sections[current].length}`);
         node.querySelector(`[section-count]`).append(count);
+
+        const contentSelector = node.querySelector(`[section-multiple]`);
+
+        // sort the options before presenting to the user
+        sections[current] = sections[current].sort(
+          (first: { longName: any }, second: { longName: any }) => {
+            const a = first.longName;
+            const b = second.longName;
+            return a < b ? -1 : a > b ? 1 : 0;
+          }
+        );
+        sections[current].forEach((nestedCurrent: SectionsTableType) => {
+          const li = document.createElement(`li`);
+          li.classList.add(`click`);
+          li.classList.add(`list-group-item`);
+          li.classList.add(`list-group-item-action`);
+          li.classList.add(`d-flex`);
+          li.classList.add(`align-items-center`);
+          li.setAttribute(`name`, nestedCurrent.name);
+          li.setAttribute(`contextRef`, nestedCurrent.contextRef);
+          li.setAttribute(`baseref`, nestedCurrent.baseRef);
+
+          if (storeUrl.filing !== nestedCurrent.baseRef) {
+            console.log(storeUrl.filing, nestedCurrent.baseRef);
+            const i = document.createElement(`i`);
+            i.classList.add(`fas`);
+            i.classList.add(`fa-external-link-alt`);
+            i.classList.add(`mx-3`);
+            li.append(i);
+          }
+          const text = document.createTextNode(nestedCurrent.shortName);
+          li.append(text);
+
+          contentSelector.append(li);
+          //node.append(content);
+        });
 
         node.removeAttribute(`template`);
         this.append(node);
@@ -53,31 +91,36 @@ export class SectionsMenuSingle extends HTMLElement {
   }
 
   simplifySectionsData(input: any[]) {
+    return input.reduce(
+      (accumulator: { [key: string]: Array<string> }, current) => {
+        if (
+          Object.prototype.hasOwnProperty.call(accumulator, current.groupType)
+        ) {
+          accumulator[current.groupType].push(current);
+        } else {
+          accumulator[current.groupType] = [];
 
-    return input.reduce((accumulator: { [key: string]: Array<string> }, current) => {
-      if (Object.prototype.hasOwnProperty.call(accumulator, current.groupType)) {
-        accumulator[current.groupType].push(current);
-      } else {
-        accumulator[current.groupType] = [];
-        accumulator[current.groupType].push(current);
-      }
-      return accumulator;
-    }, {});
+          accumulator[current.groupType].push(current);
+        }
+        return accumulator;
+      },
+      {}
+    );
   }
 
   listeners() {
-    const facts = this.querySelectorAll(`[fact-id]`);
-
-    facts.forEach((current) => {
-      current.addEventListener(`click`, () => {
-        this.querySelectorAll(`[fact-id]`).forEach((nestedCurrent) => {
-          nestedCurrent.classList.remove(`selected`);
-        });
-        current.classList.add(`selected`);
-        const modal = document.createElement(`sec-modal-fact`);
-        modal.setAttribute(`fact-id`, current.getAttribute(`fact-id`));
-        document.querySelector(`#modal-container`).append(modal);
-      });
-    });
+    // const facts = this.querySelectorAll(`[fact-id]`);
+    // console.log(facts);
+    // facts.forEach((current) => {
+    //   current.addEventListener(`click`, () => {
+    //     this.querySelectorAll(`[fact-id]`).forEach((nestedCurrent) => {
+    //       nestedCurrent.classList.remove(`selected`);
+    //     });
+    //     current.classList.add(`selected`);
+    //     const modal = document.createElement(`sec-modal-fact`);
+    //     modal.setAttribute(`fact-id`, current.getAttribute(`fact-id`));
+    //     document.querySelector(`#modal-container`).append(modal);
+    //   });
+    // });
   }
 }

@@ -1,45 +1,15 @@
 <div template class="accordion-item">
-  <a class="border border-bottom-0 rounded-0 btn btn-link d-flex justify-content-between align-items-center w-100 text-primary collapsed no-text-decoration"
-    data-bs-toggle="collapse" data-bs-target="#more-filters-accordion-2" aria-expanded="false"
-    aria-controls="more-filters-accordion-2">
+  <a
+    class="border border-bottom-0 rounded-0 btn btn-link d-flex justify-content-between align-items-center w-100 text-primary collapsed no-text-decoration"
+    data-bs-toggle="collapse"
+    aria-expanded="false"
+    section-link
+  >
     <span section-title></span>
     <span class="badge bg-secondary" section-count></span>
   </a>
 
-  <div id="more-filters-accordion-2" class="accordion-collapse collapse" data-bs-parent="#more-filters-accordion">
-    <div class="p-1">
-      <fieldset class="px-1 more-filters-options" axis-options="">
-        <li>
-          <div class="w-100 d-flex justify-content-start">
-            <input name="axis-options" type="checkbox" value="srt:MajorCustomersAxis" id="axis-checkbox-0"
-              class="form-check-input me-1" /><label class="form-check-label text-capitalize text-break w-100"
-              for="axis-checkbox-0">Major Customers Axis</label>
-          </div>
-        </li>
-        <li>
-          <div class="w-100 d-flex justify-content-start">
-            <input name="axis-options" type="checkbox" value="srt:ProductOrServiceAxis" id="axis-checkbox-1"
-              class="form-check-input me-1" /><label class="form-check-label text-capitalize text-break w-100"
-              for="axis-checkbox-1">Product Or Service Axis</label>
-          </div>
-        </li>
-        <li>
-          <div class="w-100 d-flex justify-content-start">
-            <input name="axis-options" type="checkbox" value="us-gaap:ConcentrationRiskByBenchmarkAxis"
-              id="axis-checkbox-2" class="form-check-input me-1" /><label
-              class="form-check-label text-capitalize text-break w-100" for="axis-checkbox-2">Concentration Risk By
-              Benchmark Axis</label>
-          </div>
-        </li>
-        <li>
-          <div class="w-100 d-flex justify-content-start">
-            <input name="axis-options" type="checkbox" value="us-gaap:ConcentrationRiskByTypeAxis" id="axis-checkbox-3"
-              class="form-check-input me-1" /><label class="form-check-label text-capitalize text-break w-100"
-              for="axis-checkbox-3">Concentration Risk By
-              Type Axis</label>
-          </div>
-        </li>
-      </fieldset>
-    </div>
+  <div class="accordion-collapse collapse" section-accordion>
+    <fieldset section-multiple></fieldset>
   </div>
 </div>
