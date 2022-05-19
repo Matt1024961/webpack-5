@@ -30,7 +30,8 @@ export class FactsMenuSingle extends HTMLElement {
   }
 
   empty() {
-    this.innerHTML = ``;
+    ConstantApplication.removeChildNodes(this);
+    // this.innerHTML = ``;
   }
 
   async render() {
@@ -58,26 +59,35 @@ export class FactsMenuSingle extends HTMLElement {
                 node.removeAttribute(`[fact-name]`);
               }
               // add the fact name
-              const factName = document.createTextNode(current.standardLabel as string);
+              const factName = document.createTextNode(
+                current.standardLabel as string
+              );
               node.querySelector(`[fact-name]`)?.appendChild(factName);
               node.removeAttribute(`fact-name`);
               // add the fact period
-              const factPeriod = document.createTextNode(current.period as string);
+              const factPeriod = document.createTextNode(
+                current.period as string
+              );
               node.querySelector(`[fact-period]`)?.appendChild(factPeriod);
               node.removeAttribute(`fact-period`);
               // add the fact value
               const factValue = document.createTextNode(
-                current.isHtml ? `Click To See This Fact` : current.value as string
+                current.isHtml
+                  ? `Click To See This Fact`
+                  : (current.value as string)
               );
               node.querySelector(`[fact-value]`)?.appendChild(factValue);
               node.removeAttribute(`fact-value`);
               // add the fact quick info
-              const factQuickInfoText = `${current.isCustom ? `C` : ``} ${current.dimensions ? `D` : ``
-                } ${current.isHidden ? `A` : ``}`.trim();
+              const factQuickInfoText = `${current.isCustom ? `C` : ``} ${
+                current.dimensions ? `D` : ``
+              } ${current.isHidden ? `A` : ``}`.trim();
               const factQuickInfo = document.createTextNode(
                 factQuickInfoText.split(` `).join(` & `)
               );
-              node.querySelector(`[fact-quick-info]`)?.appendChild(factQuickInfo);
+              node
+                .querySelector(`[fact-quick-info]`)
+                ?.appendChild(factQuickInfo);
               node.removeAttribute(`fact-quick-info`);
               // add the fact count
               const factCount = document.createTextNode(
@@ -94,7 +104,6 @@ export class FactsMenuSingle extends HTMLElement {
           }
         });
       }
-
     } else {
       //this.logger.warn('Facts Menu NOT rendered');
     }
@@ -110,7 +119,10 @@ export class FactsMenuSingle extends HTMLElement {
         });
         current.classList.add(`selected`);
         const modal = document.createElement(`sec-modal-fact`);
-        modal.setAttribute(`fact-id`, current.getAttribute(`fact-id`) as string);
+        modal.setAttribute(
+          `fact-id`,
+          current.getAttribute(`fact-id`) as string
+        );
         document.querySelector(`#modal-container`)?.append(modal);
       });
     });

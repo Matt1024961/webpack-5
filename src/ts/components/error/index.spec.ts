@@ -1,16 +1,33 @@
-import { Error } from './';
 describe('Error Component', () => {
-  let component: Error;
-  // beforeEach(() => {
-  //   component = await fixture<Error>(html` <sec-error></sec-error> `);
-
-  // })
-  it('should Render', () => {
-    const dummyElement = document.createElement('sec-error');
-    document.getElementById = jasmine.createSpy('sec-error').and.returnValue(dummyElement);
-    console.log(dummyElement);
+  const COMPONENT_TAG = `sec-error`;
+  let element: HTMLElement;
+  beforeAll(() => {
+    element = document.createElement(COMPONENT_TAG);
+    element.setAttribute(`message`, `Unit Testing`);
+    document.body.append(element);
   });
-  it('Renders', () => {
-    expect(2).toEqual(2);
+
+  afterAll(() => {
+    document.querySelector(COMPONENT_TAG)?.remove();
+  });
+
+  describe('connectedCallback()', () => {
+    it('should render', () => {
+      expect(element).toBeTruthy();
+    });
+
+    it(`should have proper HTML Attribute`, () => {
+      expect(element.getAttribute(`message`)).toBe(`Unit Testing`);
+    });
+
+    it(`should have proper CSS classes`, () => {
+      expect(element.children[0].classList.toString()).toBe(
+        `alert alert-danger`
+      );
+    });
+
+    it(`should have proper message to user`, () => {
+      expect(element.textContent?.trim()).toBe(`Unit Testing`);
+    });
   });
 });

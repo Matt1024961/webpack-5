@@ -1,35 +1,33 @@
 module.exports = function (config) {
-  const tests = [{ pattern: '../src/ts/**/*.spec.+(ts|js)', type: `js` }];
-
+  const tests = [{ pattern: '../src/ts/**/*.+(ts|js)', type: `js` }];
   config.set({
     client: {
       jasmine: {
         random: false,
       },
     },
-    singleRun: true,
-    frameworks: ['jasmine', 'karma-typescript'],
+    frameworks: ['jasmine', 'webpack'],
     files: tests,
     preprocessors: {
-      '../src/ts/**/*.spec.+(ts|js)': ['karma-typescript'],
+      '../src/ts/**/*.+(ts|js)': ['webpack'],
     },
     mime: {
       'text/x-typescript': ['ts', 'tsx'],
     },
-    karmaTypescriptConfig: {
-      compilerOptions: {
-        module: 'commonjs',
-        target: 'ESNext'
-      },
-      tsconfig: './tsconfig.json',
-    },
+
     webpack: webpackConfig(),
     webpackMiddleware: {
       noInfo: true,
     },
     colors: true,
-    reporters: ['dots', 'progress', 'karma-typescript'],
-    browsers: ['Chrome'],
+    singleRun: false,
+    concurrency: Infinity,
+    failOnEmptyTestSuite: false,
+    autoWatch: true,
+    logLevel: config.LOG_INFO,
+    port: 9876,
+    reporters: ['dots', 'progress', 'kjhtml'],
+    browsers: ['Chrome', 'ChromeHeadless'],
   });
 };
 
@@ -40,7 +38,7 @@ function webpackConfig() {
   delete config.output;
   delete config.devServer;
   // delete config.module.rules;
-  //config.mode = `production`;
+  config.mode = `production`;
 
-  return config;
+  return config({ env: { copy: true }, argv: { mode: `production` } });
 }

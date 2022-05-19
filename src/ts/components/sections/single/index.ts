@@ -1,6 +1,5 @@
 import SectionsTable from '../../../indexedDB/sections';
 import { StoreUrl } from '../../../store/url';
-import { SectionsTable as SectionsTableType } from '../../../types/sections-table';
 import template from './template.html';
 
 export class SectionsMenuSingle extends HTMLElement {
@@ -47,17 +46,11 @@ export class SectionsMenuSingle extends HTMLElement {
           const contentSelector = node.querySelector(`[section-multiple]`);
 
           // sort the options before presenting to the user
-          sections[current].sort(
-            (a: any, b: any): -1 | 0 | 1 => {
-              const first = a.longName;
-              const second = b.longName;
-              return first < second
-                ? -1
-                : first > second
-                  ? 1
-                  : 0;
-            }
-          );
+          sections[current].sort((a: any, b: any): -1 | 0 | 1 => {
+            const first = a.longName;
+            const second = b.longName;
+            return first < second ? -1 : first > second ? 1 : 0;
+          });
           sections[current].forEach((nestedCurrent: any) => {
             const li = document.createElement(`li`);
             li.classList.add(`click`);

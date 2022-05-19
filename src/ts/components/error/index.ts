@@ -19,7 +19,9 @@ export class Error extends HTMLElement {
       if (selector) {
         const node = document.importNode(selector, true);
         node.removeAttribute(`template`);
-        const textToAdd = document.createTextNode(this.getAttribute(`message`) as string);
+        const textToAdd = document.createTextNode(
+          this.getAttribute(`message`) as string
+        );
         node.querySelector(`[error-text]`)?.appendChild(textToAdd);
         node.removeAttribute(`error-text`);
         this.append(node);
