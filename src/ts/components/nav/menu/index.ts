@@ -19,13 +19,15 @@ export class Menu extends HTMLElement {
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      const textToAdd = document.createTextNode(ConstantApplication.version);
-      node.querySelector(`[template-version]`).appendChild(textToAdd);
-      node.removeAttribute(`template-version`);
-      this.append(node);
-      storeLogger.info('Menu Button rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        const textToAdd = document.createTextNode(ConstantApplication.version);
+        node.querySelector(`[template-version]`)?.appendChild(textToAdd);
+        node.removeAttribute(`template-version`);
+        this.append(node);
+        storeLogger.info('Menu Button rendered');
+      }
     } else {
       storeLogger.error('Menu Button NOT rendered');
     }
@@ -35,7 +37,7 @@ export class Menu extends HTMLElement {
     const modal = this.querySelectorAll(`[modal]`);
     modal.forEach((current) => {
       current.addEventListener(`click`, () => {
-        this.modal(current.getAttribute(`modal`));
+        this.modal(current.getAttribute(`modal`) as string);
       });
     });
   }
@@ -44,12 +46,12 @@ export class Menu extends HTMLElement {
     switch (modalType) {
       case `information`: {
         const modal = document.createElement(`sec-modal-information`);
-        document.querySelector(`#modal-container`).append(modal);
+        document.querySelector(`#modal-container`)?.append(modal);
         break;
       }
       case `settings`: {
         const modal = document.createElement(`sec-modal-settings`);
-        document.querySelector(`#modal-container`).append(modal);
+        document.querySelector(`#modal-container`)?.append(modal);
         break;
       }
       default: {

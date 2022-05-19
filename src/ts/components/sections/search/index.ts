@@ -16,9 +16,11 @@ export class SectionsMenuSearch extends HTMLElement {
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      this.append(node);
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        this.append(node);
+      }
       //this.logger.info('More Filters Filter Bar rendered');
     } else {
       //this.logger.warn('More Filters NOT rendered');
@@ -61,9 +63,9 @@ export class SectionsMenuSearch extends HTMLElement {
     const checkedInputs = this.querySelectorAll(
       '[name="search-checks"]:checked'
     );
-    const searchOptions = Array.from(checkedInputs).map((checked) => {
-      return parseInt(checked.getAttribute(`value`), 10);
-    });
+    const searchOptions = Array.from(checkedInputs).map((checked: Element) => {
+      return parseInt(checked.getAttribute(`value`) as string, 10);
+    }).filter(Boolean);
     const storeFilter: StoreFilter = StoreFilter.getInstance();
     storeFilter.searchOptions = searchOptions;
   }
@@ -75,6 +77,6 @@ export class SectionsMenuSearch extends HTMLElement {
       this.querySelector(`[name="search-input"]`) as HTMLInputElement
     ).value = ``;
     const storeFilter: StoreFilter = StoreFilter.getInstance();
-    storeFilter.search = undefined;
+    storeFilter.search = null;
   }
 }

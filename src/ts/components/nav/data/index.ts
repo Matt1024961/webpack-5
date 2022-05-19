@@ -28,7 +28,7 @@ export class Data extends HTMLElement {
   reset() {
     const inputs = this.querySelectorAll('[name="data-radios"]');
     (inputs[0] as HTMLInputElement).checked = true;
-    this.querySelector(`.nav-link`).classList.remove(`text-warning`);
+    this.querySelector(`.nav-link`)?.classList.remove(`text-warning`);
     // the event will occur in ResetAllFilters
   }
 
@@ -37,10 +37,14 @@ export class Data extends HTMLElement {
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template`)) {
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      this.append(node);
-      //this.logger.info('Data Filter Bar rendered');
+      if (selector) {
+
+
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        this.append(node);
+        //this.logger.info('Data Filter Bar rendered');
+      }
     } else {
       //this.logger.warn('Data Filter NOT rendered');
     }
@@ -51,7 +55,7 @@ export class Data extends HTMLElement {
     if (inputs) {
       inputs.forEach((current) => {
         current.addEventListener(`change`, () => {
-          this.dataOptionChange(current.getAttribute(`value`));
+          this.dataOptionChange(current.getAttribute(`value`) as string);
         });
       });
     }
@@ -62,9 +66,9 @@ export class Data extends HTMLElement {
     const storeFilter: StoreFilter = StoreFilter.getInstance();
     storeFilter.data = option;
     if (option > 0) {
-      this.querySelector(`.nav-link`).classList.add(`text-warning`);
+      this.querySelector(`.nav-link`)?.classList.add(`text-warning`);
     } else {
-      this.querySelector(`.nav-link`).classList.remove(`text-warning`);
+      this.querySelector(`.nav-link`)?.classList.remove(`text-warning`);
     }
   }
 }

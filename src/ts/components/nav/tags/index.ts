@@ -28,7 +28,7 @@ export class Tags extends HTMLElement {
   reset() {
     const inputs = this.querySelectorAll('[name="tags-radios"]');
     (inputs[0] as HTMLInputElement).checked = true;
-    this.querySelector(`.nav-link`).classList.remove(`text-warning`);
+    this.querySelector(`.nav-link`)?.classList.remove(`text-warning`);
     // the event will occur in ResetAllFilters
   }
 
@@ -37,10 +37,12 @@ export class Tags extends HTMLElement {
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      this.append(node);
-      // this.logger.info('Tags Filter Bar rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        this.append(node);
+        // this.logger.info('Tags Filter Bar rendered');
+      }
     } else {
       // this.logger.warn('Tags Filter NOT rendered');
     }
@@ -51,7 +53,7 @@ export class Tags extends HTMLElement {
     if (radios) {
       radios.forEach((current) => {
         current.addEventListener(`change`, () => {
-          this.tagOptionChange(current.getAttribute(`value`));
+          this.tagOptionChange(current.getAttribute(`value`) as string);
         });
       });
     }
@@ -62,9 +64,9 @@ export class Tags extends HTMLElement {
     const storeFilter: StoreFilter = StoreFilter.getInstance();
     storeFilter.tags = option;
     if (option > 0) {
-      this.querySelector(`.nav-link`).classList.add(`text-warning`);
+      this.querySelector(`.nav-link`)?.classList.add(`text-warning`);
     } else {
-      this.querySelector(`.nav-link`).classList.remove(`text-warning`);
+      this.querySelector(`.nav-link`)?.classList.remove(`text-warning`);
     }
   }
 }

@@ -30,7 +30,7 @@ export class Links extends HTMLElement {
   }
 
   async update() {
-    if (!this.querySelector(`fieldset`).children.length) {
+    if (!this.querySelector(`fieldset`)?.children.length) {
       // we add the necessary radio options
       await this.updateContent();
     }
@@ -68,7 +68,7 @@ export class Links extends HTMLElement {
       div.append(label);
       li.append(div);
 
-      this.querySelector(`fieldset`).append(li);
+      this.querySelector(`fieldset`)?.append(li);
     });
   }
 
@@ -77,9 +77,11 @@ export class Links extends HTMLElement {
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template`)) {
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      this.append(node);
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        this.append(node);
+      }
     } else {
       //
     }
@@ -90,7 +92,7 @@ export class Links extends HTMLElement {
     if (inputs) {
       inputs.forEach((current) => {
         current.addEventListener(`change`, () => {
-          this.linkOptionChange(current.getAttribute(`value`));
+          this.linkOptionChange(current.getAttribute(`value`) as string);
         });
       });
     }
@@ -98,7 +100,7 @@ export class Links extends HTMLElement {
 
   linkOptionChange(input: string) {
     const moreFilters = document.querySelector(`sec-more-filters`);
-    moreFilters.setAttribute(`empty`, `true`);
+    moreFilters?.setAttribute(`empty`, `true`);
     const storeUrl: StoreUrl = StoreUrl.getInstance();
     if (storeUrl.filing !== input) {
       new FilingUrl(input);

@@ -16,10 +16,12 @@ export class ResetAllFilters extends HTMLElement {
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      this.append(node);
-      // this.logger.info('Tags Filter Bar rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        this.append(node);
+        // this.logger.info('Tags Filter Bar rendered');
+      }
     } else {
       // this.logger.warn('Tags Filter NOT rendered');
     }

@@ -18,10 +18,12 @@ export class Navbar extends HTMLElement {
       htmlDoc.querySelector(`[template]`)
     ) {
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      this.append(node);
-      //this.logger.info('Navigation Bar rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        this.append(node);
+        //this.logger.info('Navigation Bar rendered');
+      }
     } else {
       // this.logger.warn('Navigation Bar NOT rendered');
     }

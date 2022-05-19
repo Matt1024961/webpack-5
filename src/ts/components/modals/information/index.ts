@@ -40,7 +40,7 @@ export class Information extends BaseModal {
       for await (const current of valuesToGet) {
         const factValue = (
           (await db.getFactByTag(
-            current.getAttribute(`value`)
+            current.getAttribute(`value`) as string
           )) as FactsTableType
         ).value;
         const text = document.createTextNode(
@@ -50,11 +50,13 @@ export class Information extends BaseModal {
         current.removeAttribute(`value`);
       }
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      const carousel = this.querySelector(`[carousel-items]`);
-      carousel.append(node);
-      //this.logger.info('Data Filter Bar rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        const carousel = this.querySelector(`[carousel-items]`);
+        carousel?.append(node);
+        //this.logger.info('Data Filter Bar rendered');
+      }
     } else {
       //this.logger.warn('Data Filter NOT rendered');
     }
@@ -69,14 +71,14 @@ export class Information extends BaseModal {
       const totalFactsText = document.createTextNode(
         `${await db.getTotalFacts()}`
       );
-      totalFactsSelector.append(totalFactsText);
+      totalFactsSelector?.append(totalFactsText);
 
       // inline-version
       const inlineVersionSelector = htmlDoc.querySelector(`[inline-version]`);
       const inlineVersionText = document.createTextNode(
         `${ConstantApplication.version}`
       );
-      inlineVersionSelector.append(inlineVersionText);
+      inlineVersionSelector?.append(inlineVersionText);
 
       console.log(await db.getTotalFactsForModal());
 
@@ -91,11 +93,13 @@ export class Information extends BaseModal {
       //   current.removeAttribute(`value`);
       // }
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      const carousel = this.querySelector(`[carousel-items]`);
-      carousel.append(node);
-      //this.logger.info('Data Filter Bar rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        const carousel = this.querySelector(`[carousel-items]`);
+        carousel?.append(node);
+        //this.logger.info('Data Filter Bar rendered');
+      }
     } else {
       //this.logger.warn('Data Filter NOT rendered');
     }
@@ -108,7 +112,7 @@ export class Information extends BaseModal {
       for await (const current of valuesToGet) {
         const factValue = (
           (await db.getFactByTag(
-            current.getAttribute(`value`)
+            current.getAttribute(`value`) as string
           )) as FactsTableType
         ).value;
         const text = document.createTextNode(
@@ -118,11 +122,13 @@ export class Information extends BaseModal {
         current.removeAttribute(`value`);
       }
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      const carousel = this.querySelector(`[carousel-items]`);
-      carousel.append(node);
-      //this.logger.info('Data Filter Bar rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        const carousel = this.querySelector(`[carousel-items]`);
+        carousel?.append(node);
+        //this.logger.info('Data Filter Bar rendered');
+      }
     } else {
       //this.logger.warn('Data Filter NOT rendered');
     }
@@ -136,7 +142,7 @@ export class Information extends BaseModal {
       for await (const current of valuesToGet) {
         const factValue = (
           (await db.getFactByTag(
-            current.getAttribute(`value`)
+            current.getAttribute(`value`) as string
           )) as FactsTableType
         ).value;
         const text = document.createTextNode(
@@ -146,11 +152,13 @@ export class Information extends BaseModal {
         current.removeAttribute(`value`);
       }
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      const carousel = this.querySelector(`[carousel-items]`);
-      carousel.append(node);
-      //this.logger.info('Data Filter Bar rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        const carousel = this.querySelector(`[carousel-items]`);
+        carousel?.append(node);
+        //this.logger.info('Data Filter Bar rendered');
+      }
     } else {
       //this.logger.warn('Data Filter NOT rendered');
     }

@@ -50,10 +50,12 @@ export class Filing extends HTMLElement {
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      this.append(node);
-      this.logger.info('Filing Loading Screen rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        this.append(node);
+        this.logger.info('Filing Loading Screen rendered');
+      }
     } else {
       this.logger.warn('Filing Loading Screen rendered');
     }

@@ -24,19 +24,21 @@ export class Settings extends BaseModal {
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      const carousel = this.querySelector(`[carousel-items]`);
-      const db: SettingsTable = new SettingsTable();
-      const settings = await db.getSettingsData();
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        const carousel = this.querySelector(`[carousel-items]`);
+        const db: SettingsTable = new SettingsTable();
+        const settings = await db.getSettingsData();
 
-      carousel.append(node);
-      const allFacts = this.querySelector(
-        `[name="allFacts"]`
-      ) as HTMLSelectElement;
-      allFacts.value = settings.allFacts;
-      console.log(settings);
-      storeLogger.info('Settings Modal rendered');
+        carousel?.append(node);
+        const allFacts = this.querySelector(
+          `[name="allFacts"]`
+        ) as HTMLSelectElement;
+        allFacts.value = settings.allFacts;
+        console.log(settings);
+        storeLogger.info('Settings Modal rendered');
+      }
     } else {
       storeLogger.error('Settings Modal NOT rendered');
     }
@@ -59,7 +61,7 @@ export class Settings extends BaseModal {
     await db.updateAllFacts(input);
     this.toast(`Show All Facts Setting Updated`);
     const moreFilters = document.querySelector(`sec-more-filters`);
-    moreFilters.setAttribute(`empty`, `true`);
+    moreFilters?.setAttribute(`empty`, `true`);
     const storeFilter: StoreFilter = StoreFilter.getInstance();
     storeFilter.filterFacts();
     ConstantApplication.enableApplication();
@@ -72,8 +74,8 @@ export class Settings extends BaseModal {
       const span = document.createElement(`span`);
       const text = document.createTextNode(input);
       span.append(text);
-      content.firstElementChild.replaceWith(span);
-      const toast = new bootstrap.Toast(this.querySelector('#liveToast'));
+      content.firstElementChild?.replaceWith(span);
+      const toast = new bootstrap.Toast(this.querySelector('#liveToast') as Element);
       toast.show();
       storeLogger.info('Settings Modal Toast rendered');
     } else {

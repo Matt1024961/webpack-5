@@ -29,7 +29,7 @@ export class Fact extends BaseModal {
       'Additional Items',
     ]);
 
-    this.buildCarousel(newValue);
+    this.buildCarousel(newValue as string);
   }
 
   async buildCarousel(factId: string) {
@@ -49,8 +49,8 @@ export class Fact extends BaseModal {
       const valuesToGet = htmlDoc.querySelectorAll(`[value]`);
       for await (const current of valuesToGet) {
         if (
-          fact[current.getAttribute(`value`)] &&
-          fact[current.getAttribute(`value`)].length
+          fact[current.getAttribute(`value`) as string] &&
+          fact[current.getAttribute(`value`) as string].length
         ) {
           if (
             current.getAttribute(`value`) === `value` &&
@@ -79,7 +79,7 @@ export class Fact extends BaseModal {
               console.log(fact.htmlId);
               const parser = new DOMParser();
               const htmlDoc = parser.parseFromString(
-                fact[current.getAttribute(`value`)],
+                fact[current.getAttribute(`value`) as string],
                 `text/html`
               );
               const factContent = [...htmlDoc.querySelectorAll(`body > *`)];
@@ -95,7 +95,7 @@ export class Fact extends BaseModal {
               // div.append(htmlDoc.querySelectorAll(`body > *`));
             } else {
               const value = document.createTextNode(
-                `${fact[current.getAttribute(`value`)]}`
+                `${fact[current.getAttribute(`value`) as string]}`
               );
 
               div.append(value);
@@ -109,24 +109,26 @@ export class Fact extends BaseModal {
             // </div>
             button.append(text);
             th.append(button);
-            current.previousElementSibling.replaceWith(th);
+            current.previousElementSibling?.replaceWith(th);
           } else {
             const text = document.createTextNode(
-              `${fact[current.getAttribute(`value`)]}`
+              `${fact[current.getAttribute(`value`) as string]}`
             );
             current.append(text);
           }
           current.removeAttribute(`value`);
         } else {
-          ConstantApplication.removeChildNodes(current.parentElement);
+          ConstantApplication.removeChildNodes(current.parentElement as Element);
         }
       }
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      const carousel = this.querySelector(`[carousel-items]`);
-      carousel.append(node);
-      //this.logger.info('Data Filter Bar rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        const carousel = this.querySelector(`[carousel-items]`);
+        carousel?.append(node);
+        //this.logger.info('Data Filter Bar rendered');
+      }
     } else {
       //this.logger.warn('Data Filter NOT rendered');
     }
@@ -147,14 +149,16 @@ export class Fact extends BaseModal {
         const tdText = document.createTextNode(`${value}`);
         td.append(tdText);
         tr.append(td);
-        tbody.append(tr);
+        tbody?.append(tr);
       }
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      const carousel = this.querySelector(`[carousel-items]`);
-      carousel.append(node);
-      //this.logger.info('Data Filter Bar rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        const carousel = this.querySelector(`[carousel-items]`);
+        carousel?.append(node);
+        //this.logger.info('Data Filter Bar rendered');
+      }
     } else {
       //this.logger.warn('Data Filter NOT rendered');
     }
@@ -176,14 +180,16 @@ export class Fact extends BaseModal {
         const tdText = document.createTextNode(`${value}`);
         td.append(tdText);
         tr.append(td);
-        tbody.append(tr);
+        tbody?.append(tr);
       }
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      const carousel = this.querySelector(`[carousel-items]`);
-      carousel.append(node);
-      //this.logger.info('Data Filter Bar rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        const carousel = this.querySelector(`[carousel-items]`);
+        carousel?.append(node);
+        //this.logger.info('Data Filter Bar rendered');
+      }
     } else {
       //this.logger.warn('Data Filter NOT rendered');
     }

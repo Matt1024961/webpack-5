@@ -15,10 +15,12 @@ export class FactsMenu extends HTMLElement {
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      this.append(node);
-      //this.logger.info('Facts Menu rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        this.append(node);
+        //this.logger.info('Facts Menu rendered');
+      }
     } else {
       //this.logger.warn('Facts Menu NOT rendered');
     }
@@ -38,7 +40,7 @@ export class FactsMenu extends HTMLElement {
           const pagination = document.createElement(
             `sec-facts-menu-pagination`
           );
-          this.querySelector(`#facts-offcanvas .offcanvas-body`).append(
+          this.querySelector(`#facts-offcanvas .offcanvas-body`)?.append(
             pagination
           );
         }

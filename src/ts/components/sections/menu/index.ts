@@ -15,10 +15,12 @@ export class SectionsMenu extends HTMLElement {
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template`)) {
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      this.append(node);
-      //this.logger.info('Data Filter Bar rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        this.append(node);
+        //this.logger.info('Data Filter Bar rendered');
+      }
     } else {
       //this.logger.warn('Data Filter NOT rendered');
     }
@@ -28,13 +30,13 @@ export class SectionsMenu extends HTMLElement {
     const offcanvas = document.querySelector('#sections-offcanvas');
     if (offcanvas) {
       const tagsToAlter = [`sec-error`, `sec-warning`, `#filing-container`];
-      offcanvas.addEventListener('show.bs.offcanvas', function () {
+      offcanvas.addEventListener('show.bs.offcanvas',  () => {
         if (!document.querySelector(`sec-sections-menu-search`)) {
           // add <sec-facts-menu-pagination></sec-facts-menu-single>
           const search = document.createElement(
             `sec-sections-menu-search`
           );
-          this.querySelector(`#sections-offcanvas .offcanvas-body`).append(
+          this.querySelector(`#sections-offcanvas .offcanvas-body`)?.append(
             search
           );
         }

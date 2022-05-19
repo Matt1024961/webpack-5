@@ -66,10 +66,12 @@ export class MoreFilters extends HTMLElement {
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      this.append(node);
-      //this.logger.info('More Filters Filter Bar rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        this.append(node);
+        //this.logger.info('More Filters Filter Bar rendered');
+      }
     } else {
       //this.logger.warn('More Filters NOT rendered');
     }
@@ -116,7 +118,7 @@ export class MoreFilters extends HTMLElement {
           ) {
             return current.getAttribute(`value`);
           } else {
-            return parseInt(current.getAttribute(`value`), 10);
+            return parseInt(current.getAttribute(`value`) as string, 10);
           }
         }),
       };
@@ -144,8 +146,8 @@ export class MoreFilters extends HTMLElement {
       const checkAllBoxes =
         totalCheckBoxes.length === checkedCheckBoxes.length ? false : true;
 
-      totalCheckBoxes.forEach((checkbox: HTMLInputElement, index) => {
-        checkbox.checked = checkAllBoxes;
+      totalCheckBoxes.forEach((checkbox: Element, index) => {
+        (checkbox as HTMLInputElement).checked = checkAllBoxes;
         if (index === totalCheckBoxes.length - 1) {
           const event = new Event('change');
           checkbox.dispatchEvent(event);
@@ -177,10 +179,10 @@ export class MoreFilters extends HTMLElement {
       const text = document.createTextNode(`${filtersActive}`);
 
       span.append(text);
-      this.querySelector(`.nav-link`).append(span);
-      this.querySelector(`.nav-link`).classList.add(`text-warning`);
+      this.querySelector(`.nav-link`)?.append(span);
+      this.querySelector(`.nav-link`)?.classList.add(`text-warning`);
     } else {
-      this.querySelector(`.nav-link`).classList.remove(`text-warning`);
+      this.querySelector(`.nav-link`)?.classList.remove(`text-warning`);
       this.querySelector(`.nav-link [filter-count]`)?.remove();
     }
   }
@@ -210,8 +212,9 @@ export class MoreFilters extends HTMLElement {
     )) as Array<string>;
     const regex = new RegExp(/(\d{1,4}([.\-/])\d{1,2}([.\-/])\d{1,4})/g);
     const complexPeriods = periods.reduce(
-      (accumulator: { [key: string]: Array<string> }, current) => {
-        const date = new Date(current.match(regex)[0]).getFullYear();
+      (accumulator: { [key: string]: Array<string> }, current: string) => {
+        //if (current.match(regex)[0]) {
+        const date = new Date((current.match(regex) as Array<string>)[0]).getFullYear();
         // eslint-disable-next-line no-prototype-builtins
         if (!accumulator.hasOwnProperty(date)) {
           accumulator[date] = [current];
@@ -219,11 +222,12 @@ export class MoreFilters extends HTMLElement {
           accumulator[date].push(current);
         }
         return accumulator;
+        //}
       },
       {}
     );
     const periodCount = document.createTextNode(`${periods.length}`);
-    this.querySelector(`[period-count]`).firstElementChild.replaceWith(
+    this.querySelector(`[period-count]`)?.firstElementChild?.replaceWith(
       periodCount
     );
 
@@ -279,7 +283,7 @@ export class MoreFilters extends HTMLElement {
         div.append(input);
         div.append(a);
 
-        this.querySelector(`[period-options]`).append(div);
+        this.querySelector(`[period-options]`)?.append(div);
 
         const div2 = document.createElement(`div`);
         div2.classList.add(`accordion-collapse`);
@@ -326,7 +330,7 @@ export class MoreFilters extends HTMLElement {
         });
         div3.append(fieldset);
         div2.append(div3);
-        this.querySelector(`[period-options]`).append(div2);
+        this.querySelector(`[period-options]`)?.append(div2);
       });
   }
 
@@ -336,7 +340,7 @@ export class MoreFilters extends HTMLElement {
     )) as Array<string>;
 
     const balanceCount = document.createTextNode(`${filterBalance.length}`);
-    this.querySelector(`[balance-count]`).firstElementChild.replaceWith(
+    this.querySelector(`[balance-count]`)?.firstElementChild?.replaceWith(
       balanceCount
     );
 
@@ -369,7 +373,7 @@ export class MoreFilters extends HTMLElement {
       div.append(label);
       li.append(div);
 
-      this.querySelector(`[balance-options]`).append(li);
+      this.querySelector(`[balance-options]`)?.append(li);
     });
   }
 
@@ -379,7 +383,7 @@ export class MoreFilters extends HTMLElement {
     )) as Array<string>;
 
     const scaleCount = document.createTextNode(`${filterScale.length}`);
-    this.querySelector(`[scale-count]`).firstElementChild.replaceWith(
+    this.querySelector(`[scale-count]`)?.firstElementChild?.replaceWith(
       scaleCount
     );
     filterScale
@@ -414,7 +418,7 @@ export class MoreFilters extends HTMLElement {
         div.append(label);
         li.append(div);
 
-        this.querySelector(`[scale-options]`).append(li);
+        this.querySelector(`[scale-options]`)?.append(li);
       });
   }
 
@@ -434,7 +438,7 @@ export class MoreFilters extends HTMLElement {
       ),
     ];
     const membersCount = document.createTextNode(`${filterMembersSet.length}`);
-    this.querySelector(`[members-count]`).firstElementChild.replaceWith(
+    this.querySelector(`[members-count]`)?.firstElementChild?.replaceWith(
       membersCount
     );
     filterMembersSet.forEach((current, index) => {
@@ -471,7 +475,7 @@ export class MoreFilters extends HTMLElement {
       div.append(label);
       li.append(div);
 
-      this.querySelector(`[members-options]`).append(li);
+      this.querySelector(`[members-options]`)?.append(li);
     });
   }
 
@@ -492,7 +496,7 @@ export class MoreFilters extends HTMLElement {
     ];
 
     const axisCount = document.createTextNode(`${filterAxisSet.length}`);
-    this.querySelector(`[axis-count]`).firstElementChild.replaceWith(axisCount);
+    this.querySelector(`[axis-count]`)?.firstElementChild?.replaceWith(axisCount);
 
     filterAxisSet.forEach((current, index) => {
       const li = document.createElement(`li`);
@@ -528,7 +532,7 @@ export class MoreFilters extends HTMLElement {
       div.append(label);
       li.append(div);
 
-      this.querySelector(`[axis-options]`).append(li);
+      this.querySelector(`[axis-options]`)?.append(li);
     });
   }
 }

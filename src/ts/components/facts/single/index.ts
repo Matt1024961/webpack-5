@@ -23,7 +23,7 @@ export class FactsMenuSingle extends HTMLElement {
     oldValue: string | null,
     newValue: string | null
   ) {
-    this.pagination = JSON.parse(newValue);
+    this.pagination = JSON.parse(newValue as string);
     this.empty();
     await this.render();
     this.listeners();
@@ -47,52 +47,54 @@ export class FactsMenuSingle extends HTMLElement {
           if (current) {
             // select the [template]
             const selector = htmlDoc.querySelector(`[template]`);
-            const node = document.importNode(selector, true);
-            node.removeAttribute(`template`);
-            // add the fact id to the <a> tag
-            if (current && current.htmlId) {
-              node
-                .querySelector(`[fact-action]`)
-                .setAttribute(`fact-id`, current.htmlId);
-              node.removeAttribute(`[fact-name]`);
+            if (selector) {
+              const node = document.importNode(selector, true);
+              node.removeAttribute(`template`);
+              // add the fact id to the <a> tag
+              if (current && current.htmlId) {
+                node
+                  .querySelector(`[fact-action]`)
+                  ?.setAttribute(`fact-id`, current.htmlId);
+                node.removeAttribute(`[fact-name]`);
+              }
+              // add the fact name
+              const factName = document.createTextNode(current.standardLabel as string);
+              node.querySelector(`[fact-name]`)?.appendChild(factName);
+              node.removeAttribute(`fact-name`);
+              // add the fact period
+              const factPeriod = document.createTextNode(current.period as string);
+              node.querySelector(`[fact-period]`)?.appendChild(factPeriod);
+              node.removeAttribute(`fact-period`);
+              // add the fact value
+              const factValue = document.createTextNode(
+                current.isHtml ? `Click To See This Fact` : current.value as string
+              );
+              node.querySelector(`[fact-value]`)?.appendChild(factValue);
+              node.removeAttribute(`fact-value`);
+              // add the fact quick info
+              const factQuickInfoText = `${current.isCustom ? `C` : ``} ${current.dimensions ? `D` : ``
+                } ${current.isHidden ? `A` : ``}`.trim();
+              const factQuickInfo = document.createTextNode(
+                factQuickInfoText.split(` `).join(` & `)
+              );
+              node.querySelector(`[fact-quick-info]`)?.appendChild(factQuickInfo);
+              node.removeAttribute(`fact-quick-info`);
+              // add the fact count
+              const factCount = document.createTextNode(
+                `${this.pagination.start + index + 1}`
+              );
+              node.querySelector(`[fact-count]`)?.appendChild(factCount);
+              node.removeAttribute(`fact-count`);
+              this.append(node);
+            } else {
+              // console.log(current);
+              // console.log(index);
+              // console.log(array);
             }
-            // add the fact name
-            const factName = document.createTextNode(current.standardLabel);
-            node.querySelector(`[fact-name]`).appendChild(factName);
-            node.removeAttribute(`fact-name`);
-            // add the fact period
-            const factPeriod = document.createTextNode(current.period);
-            node.querySelector(`[fact-period]`).appendChild(factPeriod);
-            node.removeAttribute(`fact-period`);
-            // add the fact value
-            const factValue = document.createTextNode(
-              current.isHtml ? `Click To See This Fact` : current.value
-            );
-            node.querySelector(`[fact-value]`).appendChild(factValue);
-            node.removeAttribute(`fact-value`);
-            // add the fact quick info
-            const factQuickInfoText = `${current.isCustom ? `C` : ``} ${
-              current.dimensions ? `D` : ``
-            } ${current.isHidden ? `A` : ``}`.trim();
-            const factQuickInfo = document.createTextNode(
-              factQuickInfoText.split(` `).join(` & `)
-            );
-            node.querySelector(`[fact-quick-info]`).appendChild(factQuickInfo);
-            node.removeAttribute(`fact-quick-info`);
-            // add the fact count
-            const factCount = document.createTextNode(
-              `${this.pagination.start + index + 1}`
-            );
-            node.querySelector(`[fact-count]`).appendChild(factCount);
-            node.removeAttribute(`fact-count`);
-            this.append(node);
-          } else {
-            // console.log(current);
-            // console.log(index);
-            // console.log(array);
           }
         });
       }
+
     } else {
       //this.logger.warn('Facts Menu NOT rendered');
     }
@@ -108,8 +110,8 @@ export class FactsMenuSingle extends HTMLElement {
         });
         current.classList.add(`selected`);
         const modal = document.createElement(`sec-modal-fact`);
-        modal.setAttribute(`fact-id`, current.getAttribute(`fact-id`));
-        document.querySelector(`#modal-container`).append(modal);
+        modal.setAttribute(`fact-id`, current.getAttribute(`fact-id`) as string);
+        document.querySelector(`#modal-container`)?.append(modal);
       });
     });
   }

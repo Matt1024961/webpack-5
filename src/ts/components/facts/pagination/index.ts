@@ -44,25 +44,25 @@ export class FactsMenuPagination extends HTMLElement {
 
     if (this.pagination.page === 0) {
       this.querySelectorAll(`[prev-page], [first-page]`).forEach((current) => {
-        current.parentElement.classList.add(`disabled`);
-        current.parentElement.setAttribute(`disabled`, ``);
+        current.parentElement?.classList.add(`disabled`);
+        current.parentElement?.setAttribute(`disabled`, ``);
       });
     } else {
       this.querySelectorAll(`[prev-page], [first-page]`).forEach((current) => {
-        current.parentElement.classList.remove(`disabled`);
-        current.parentElement.removeAttribute(`disabled`);
+        current.parentElement?.classList.remove(`disabled`);
+        current.parentElement?.removeAttribute(`disabled`);
       });
     }
 
     if (this.pagination.totalPages === this.pagination.page + 1) {
       this.querySelectorAll(`[next-page], [last-page]`).forEach((current) => {
-        current.parentElement.classList.add(`disabled`);
-        current.parentElement.setAttribute(`disabled`, ``);
+        current.parentElement?.classList.add(`disabled`);
+        current.parentElement?.setAttribute(`disabled`, ``);
       });
     } else {
       this.querySelectorAll(`[next-page], [last-page]`).forEach((current) => {
-        current.parentElement.classList.remove(`disabled`);
-        current.parentElement.removeAttribute(`disabled`);
+        current.parentElement?.classList.remove(`disabled`);
+        current.parentElement?.removeAttribute(`disabled`);
       });
     }
   }
@@ -81,23 +81,25 @@ export class FactsMenuPagination extends HTMLElement {
       );
       this.pagination.totalPages = templateInfo.totalPages;
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      Array.from(Array(templateInfo.totalPages).keys()).forEach((current) => {
-        const option = document.createElement('option');
-        option.value = current.toString();
-        const optionText = document.createTextNode(`Page ${current + 1}`);
-        option.appendChild(optionText);
-        node.querySelector(`[select-template]`).appendChild(option);
-      });
-      this.append(node);
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        Array.from(Array(templateInfo.totalPages).keys()).forEach((current) => {
+          const option = document.createElement('option');
+          option.value = current.toString();
+          const optionText = document.createTextNode(`Page ${current + 1}`);
+          option.appendChild(optionText);
+          node.querySelector(`[select-template]`)?.appendChild(option);
+        });
+        this.append(node);
 
-      this.querySelector(`sec-facts-menu-single`).setAttribute(
-        `pagination`,
-        JSON.stringify(this.pagination)
-      );
-      this.updateTemplate();
-      //this.logger.info('Facts Menu rendered');
+        this.querySelector(`sec-facts-menu-single`)?.setAttribute(
+          `pagination`,
+          JSON.stringify(this.pagination)
+        );
+        this.updateTemplate();
+        //this.logger.info('Facts Menu rendered');
+      }
     } else {
       //this.logger.warn('Facts Menu NOT rendered');
     }
@@ -132,8 +134,8 @@ export class FactsMenuPagination extends HTMLElement {
             }
             //  console.log((currentlySelected.nextSibling as HTMLElement).classList.add(`selected`));
           } else {
-            console.log(document.querySelector(`[fact-id]`).classList);
-            document.querySelector(`[fact-id]`).classList.add(`selected`);
+            console.log(document.querySelector(`[fact-id]`)?.classList);
+            document.querySelector(`[fact-id]`)?.classList.add(`selected`);
           }
           // document.querySelectorAll(`[fact-id]`).forEach((nestedCurrent) => {
           //   nestedCurrent.classList.remove(`selected`);
@@ -146,7 +148,7 @@ export class FactsMenuPagination extends HTMLElement {
           this.pagination.page = 0;
 
           this.setAttribute(`pagination`, `${JSON.stringify(this.pagination)}`);
-          this.querySelector(`sec-facts-menu-single`).setAttribute(
+          this.querySelector(`sec-facts-menu-single`)?.setAttribute(
             `pagination`,
             `${JSON.stringify(this.pagination)}`
           );
@@ -157,7 +159,7 @@ export class FactsMenuPagination extends HTMLElement {
           this.pagination.page--;
 
           this.setAttribute(`pagination`, `${JSON.stringify(this.pagination)}`);
-          this.querySelector(`sec-facts-menu-single`).setAttribute(
+          this.querySelector(`sec-facts-menu-single`)?.setAttribute(
             `pagination`,
             `${JSON.stringify(this.pagination)}`
           );
@@ -168,7 +170,7 @@ export class FactsMenuPagination extends HTMLElement {
           this.pagination.page++;
 
           this.setAttribute(`pagination`, `${JSON.stringify(this.pagination)}`);
-          this.querySelector(`sec-facts-menu-single`).setAttribute(
+          this.querySelector(`sec-facts-menu-single`)?.setAttribute(
             `pagination`,
             `${JSON.stringify(this.pagination)}`
           );
@@ -178,7 +180,7 @@ export class FactsMenuPagination extends HTMLElement {
           this.pagination.end += this.pagination.amount;
           this.pagination.page = this.pagination.totalPages - 1;
           this.setAttribute(`pagination`, `${JSON.stringify(this.pagination)}`);
-          this.querySelector(`sec-facts-menu-single`).setAttribute(
+          this.querySelector(`sec-facts-menu-single`)?.setAttribute(
             `pagination`,
             `${JSON.stringify(this.pagination)}`
           );
@@ -186,14 +188,14 @@ export class FactsMenuPagination extends HTMLElement {
       });
     });
 
-    selectPage.addEventListener(`click`, () => {
+    selectPage?.addEventListener(`click`, () => {
       const newPage = parseInt((selectPage as HTMLInputElement).value);
       if (newPage !== this.pagination.page) {
         this.pagination.start += this.pagination.amount;
         this.pagination.end += this.pagination.amount;
         this.pagination.page = newPage;
         this.setAttribute(`pagination`, `${JSON.stringify(this.pagination)}`);
-        this.querySelector(`sec-facts-menu-single`).setAttribute(
+        this.querySelector(`sec-facts-menu-single`)?.setAttribute(
           `pagination`,
           `${JSON.stringify(this.pagination)}`
         );

@@ -40,10 +40,12 @@ export class Facts extends HTMLElement {
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      this.append(node);
-      //  this.logger.info('Facts Menu rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        this.append(node);
+        //  this.logger.info('Facts Menu rendered');
+      }
     } else {
       //  this.logger.warn('Facts Menu NOT rendered');
     }
@@ -55,20 +57,20 @@ export class Facts extends HTMLElement {
     icon.classList.add(`fa-spinner`);
     icon.classList.add(`fa-spin`);
 
-    this.querySelector(`[template-count]`).firstElementChild.replaceWith(icon);
+    this.querySelector(`[template-count]`)?.firstElementChild?.replaceWith(icon);
   }
 
   async updateFactsCount() {
     const storeFilter: StoreFilter = StoreFilter.getInstance();
     const factCount = storeFilter.getFactsCount();
     const textToAdd = document.createTextNode(
-      `${TransformationsNumber.simpleFormatting(factCount.toString())}`
+      `${TransformationsNumber.simpleFormatting(`${factCount}`)}`
     );
     const span = document.createElement(`span`);
 
     span.append(textToAdd);
 
-    this.querySelector(`[template-count]`).firstElementChild.replaceWith(span);
+    this.querySelector(`[template-count]`)?.firstElementChild?.replaceWith(span);
   }
 
   listeners(): void {

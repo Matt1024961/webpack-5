@@ -28,10 +28,12 @@ export class Root extends HTMLElement {
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template`)) {
       const selector = htmlDoc.querySelector(`[template]`);
-      const node = document.importNode(selector, true);
-      node.removeAttribute(`template`);
-      this.append(node);
-      storeLogger.info('Root Application rendered');
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        this.append(node);
+        storeLogger.info('Root Application rendered');
+      }
     } else {
       storeLogger.error('Root Application NOT rendered');
     }

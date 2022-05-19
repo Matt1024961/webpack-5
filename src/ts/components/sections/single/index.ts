@@ -47,16 +47,18 @@ export class SectionsMenuSingle extends HTMLElement {
           const contentSelector = node.querySelector(`[section-multiple]`);
 
           // sort the options before presenting to the user
-          sections[current] = sections[current].sort(
-            (a: SectionsTableType, b: SectionsTableType) => {
-              return a.longName < b.longName
+          sections[current].sort(
+            (a: any, b: any): -1 | 0 | 1 => {
+              const first = a.longName;
+              const second = b.longName;
+              return first < second
                 ? -1
-                : a.longName > b.longName
-                ? 1
-                : 0;
+                : first > second
+                  ? 1
+                  : 0;
             }
           );
-          sections[current].forEach((nestedCurrent: SectionsTableType) => {
+          sections[current].forEach((nestedCurrent: any) => {
             const li = document.createElement(`li`);
             li.classList.add(`click`);
             li.classList.add(`list-group-item`);
@@ -78,7 +80,7 @@ export class SectionsMenuSingle extends HTMLElement {
             const text = document.createTextNode(nestedCurrent.shortName);
             li.append(text);
 
-            contentSelector.append(li);
+            contentSelector?.append(li);
             //node.append(content);
           });
 
