@@ -12,5 +12,4 @@ To convey an ERROR has occured in the IXViewer to the User.
 [message] - string, this is the content that will explain the error to the User.
 
 ## Additional:
-
-When this component is used, the application will be disabled if necessary.
+When this component is used, the application will be disabled if necessary, which is more than likely.

@@ -20,7 +20,7 @@ module.exports = function (config) {
       noInfo: true,
     },
     colors: true,
-    singleRun: false,
+    singleRun: true,
     concurrency: Infinity,
     failOnEmptyTestSuite: false,
     autoWatch: true,
@@ -38,7 +38,7 @@ function webpackConfig() {
   delete config.output;
   delete config.devServer;
   // delete config.module.rules;
-  config.mode = `production`;
+  config.mode = `development`;
 
-  return config({ env: { copy: true }, argv: { mode: `production` } });
+  return config({ env: { copy: true }, argv: { mode: `development` } });
 }
