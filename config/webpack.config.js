@@ -9,7 +9,7 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const ESLintPlugin = require('eslint-webpack-plugin');
 
-module.exports = (env, argv = { mode: `production` }) => {
+module.exports = (env, argv) => {
   return {
     mode: argv.mode,
 
@@ -140,6 +140,13 @@ module.exports = (env, argv = { mode: `production` }) => {
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/i,
           type: `asset/resource`,
+        },
+        // load redux
+        {
+          test: /redux$/,
+          resolve: {
+            mainFields: ['module', 'main', 'unpkg'],
+          },
         },
       ],
     },

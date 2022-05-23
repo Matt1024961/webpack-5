@@ -1,7 +1,8 @@
 import 'bootstrap';
 import '@popperjs/core';
 import '../styles.scss';
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import  store  from './redux/index';
 import { DevelopmentNavbar } from './components/nav/development_navbar';
 import { Navbar } from './components/nav/navbar';
 import { Sections } from './components/nav/sections';
@@ -31,7 +32,10 @@ import { SectionsMenuSingle } from './components/sections/single';
 
 (() => {
   const storeLogger: StoreLogger = StoreLogger.getInstance();
-
+  store.subscribe
+  //console.log(store);
+  //const reduxStore = store();
+  //console.log(reduxStore);
   storeLogger.info(`Application Begin`);
   // here we hadd all custom HTML components
   customElements.define('sec-root', Root);
