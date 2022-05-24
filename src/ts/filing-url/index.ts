@@ -7,6 +7,11 @@ import { WarningClass } from '../warning';
 import { StoreFilter } from '../store/filter';
 import Database from '../indexedDB/facts';
 import SettingsTable from '../indexedDB/settings';
+import { actions as factActions, allActiveCount, allFacts } from '../redux/reducers/facts';
+//import { actions as filtersActions } from '../redux/reducers/filters';
+
+import store from '../redux';
+
 export class FilingUrl {
   constructor(input = ``) {
     if (input) {
@@ -36,9 +41,8 @@ export class FilingUrl {
 
     let filingURLLog = `Filing URL Data: `;
     Object.keys(storeUrl).forEach((current: string) => {
-      filingURLLog += `\n\t ${current}: ${
-        storeUrl[current as keyof typeof storeUrl]
-      }`;
+      filingURLLog += `\n\t ${current}: ${storeUrl[current as keyof typeof storeUrl]
+        }`;
     });
     storeLogger.info(filingURLLog);
     storeLogger.info(`Filing URL Complete`);
@@ -128,6 +132,12 @@ export class FilingUrl {
       });
       const enableapplication = { data: false, xhtml: false };
       worker.onmessage = async (event) => {
+
+        store.dispatch(factActions.factsAddMany(event.data.all[1].facts));
+        //store.dispatch(filtersActions.filtersAddMany(event.data.all[1].filters));
+        console.log(allFacts());
+        console.log(allActiveCount());
+
         if (event.data.all) {
           if (event.data.all[1].error) {
             const warning = new WarningClass();
@@ -254,3 +264,4 @@ export class FilingUrl {
     }
   }
 }
+

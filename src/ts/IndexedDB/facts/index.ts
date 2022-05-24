@@ -7,6 +7,8 @@ import { FactsTable as FactsTableType } from '../../types/facts-table';
 import { allFilters } from '../../types/filter';
 import SettingsTable from '../settings';
 import FilingSpecific from '../filing-specific';
+//import store from '../../redux';
+//import { actions } from '../../redux/reducers/facts';
 export default class FactsTable extends FilingSpecific {
   async clearFactsTable(): Promise<void> {
     await this.table('facts').clear();
@@ -23,6 +25,8 @@ export default class FactsTable extends FilingSpecific {
   }
 
   async parseFactData(input: DataJSON, xhtmlUrl: string) {
+    //store.dispatch(actions.factsAddMany(input.facts));
+
     const db: SettingsTable = new SettingsTable();
     const settings = await db.getSettingsData();
     xhtmlUrl = xhtmlUrl?.split('/')?.slice(1).pop()?.split(`?`)[0] as string;
@@ -85,13 +89,13 @@ export default class FactsTable extends FilingSpecific {
           dimensions:
             tempDimension.value && tempDimension.key
               ? {
-                  concept: current.dimensions.concept,
-                  period: current.dimensions.period,
-                  lang: current.dimensions.language,
-                  unit: current.dimensions.unit,
-                  value: tempDimension.value,
-                  key: tempDimension.key,
-                }
+                concept: current.dimensions.concept,
+                period: current.dimensions.period,
+                lang: current.dimensions.language,
+                unit: current.dimensions.unit,
+                value: tempDimension.value,
+                key: tempDimension.key,
+              }
               : null,
           references: input['ixv:references'][current['ixv:factReferences']],
           contextref: current['ixv:contextref'],

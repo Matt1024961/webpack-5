@@ -116,9 +116,9 @@ export class StoreFilter {
   }
 
   public getFactsCount() {
-    if (this.highlight.length) {
+    if (this.highlight?.length) {
       return this.highlight.length;
-    } else if (this.active.length) {
+    } else if (this.active?.length) {
       return this.active.length;
     } else {
       // we have a pretty serious error
