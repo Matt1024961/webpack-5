@@ -1,26 +1,25 @@
-import SectionsTable from '../../../indexedDB/sections';
+import { SectionsTable as SectionsTableType } from '../../../types/sections-table';
 import { StoreUrl } from '../../../store/url';
 import template from './template.html';
+import { getAllsections } from '../../../redux/reducers/sections';
 
 export class SectionsMenuSingle extends HTMLElement {
   constructor() {
     super();
   }
 
-  async connectedCallback() {
-    await this.render();
+  connectedCallback() {
+    this.render();
     this.listeners();
   }
 
-  async render() {
+  render() {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       // get all sections data
       const storeUrl: StoreUrl = StoreUrl.getInstance();
-      const db: SectionsTable = new SectionsTable(storeUrl.dataURL);
-      const sections = this.simplifySectionsData(await db.getSections());
-
+      const sections = this.simplifySectionsData(getAllsections());
       const selector = htmlDoc.querySelector(`[template]`);
       if (selector) {
         Object.keys(sections).forEach((current, index) => {
@@ -74,31 +73,31 @@ export class SectionsMenuSingle extends HTMLElement {
             li.append(text);
 
             contentSelector?.append(li);
-            //node.append(content);
           });
 
           node.removeAttribute(`template`);
           this.append(node);
         });
       }
-      // node.removeAttribute(`template`);
-      // this.append(node);
     } else {
       //this.logger.warn('Facts Menu NOT rendered');
     }
   }
 
-  simplifySectionsData(input: any[]) {
+  simplifySectionsData(input: Array<SectionsTableType>) {
     return input.reduce(
-      (accumulator: { [key: string]: Array<string> }, current) => {
+      (accumulator: { [key: string]: Array<unknown> }, current) => {
         if (
-          Object.prototype.hasOwnProperty.call(accumulator, current.groupType)
+          Object.prototype.hasOwnProperty.call(
+            accumulator,
+            current.groupType as string
+          )
         ) {
-          accumulator[current.groupType].push(current);
+          accumulator[current.groupType as string].push(current);
         } else {
-          accumulator[current.groupType] = [];
+          accumulator[current.groupType as string] = [];
 
-          accumulator[current.groupType].push(current);
+          accumulator[current.groupType as string].push(current);
         }
         return accumulator;
       },

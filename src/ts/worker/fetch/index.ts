@@ -1,6 +1,7 @@
 import { PeriodConstant } from '../../constants/period';
 import { TransformationsConstant } from '../../constants/transformations';
 import { DataJSON } from '../../types/data-json';
+import { SectionsTable } from '../../types/sections-table';
 
 const fetchXhtml = async (url: string) => {
   return fetch(url)
@@ -33,7 +34,7 @@ const fetchData = async (url: string, xhtmlUrl: string) => {
       }
     })
     .then(async (data: DataJSON) => {
-      return prepareDataForStore(data, xhtmlUrl)
+      return prepareDataForStore(data, xhtmlUrl);
       // await sectionsTable.parseSectionsData(data);
       // return await factsTable.parseFactData(data, xhtmlUrl)
       return data;
@@ -62,17 +63,18 @@ self.onmessage = async ({ data }) => {
   }
 };
 function prepareDataForStore(data: DataJSON, xhtmlUrl: string): any {
-  const returnObject: { facts: Array<any>, sections: Array<any> } = {
+  const returnObject: { facts: Array<any>; sections: Array<any> } = {
     facts: [],
     sections: [],
   };
 
   returnObject.facts = fillFacts(data, xhtmlUrl);
+  returnObject.sections = fillSections(data);
   return returnObject;
 }
 
 function fillFacts(input: DataJSON, xhtmlUrl: string): Array<any> {
-  const arrayToBulkInsert: Array<any> = []
+  const arrayToBulkInsert: Array<any> = [];
   const customTags = Object.keys(input['ixv:extensionNamespaces']);
   for (const current of input.facts) {
     const tempDimension: {
@@ -127,13 +129,13 @@ function fillFacts(input: DataJSON, xhtmlUrl: string): Array<any> {
         dimensions:
           tempDimension.value && tempDimension.key
             ? {
-              concept: current.dimensions.concept,
-              period: current.dimensions.period,
-              lang: current.dimensions.language,
-              unit: current.dimensions.unit,
-              value: tempDimension.value,
-              key: tempDimension.key,
-            }
+                concept: current.dimensions.concept,
+                period: current.dimensions.period,
+                lang: current.dimensions.language,
+                unit: current.dimensions.unit,
+                value: tempDimension.value,
+                key: tempDimension.key,
+              }
             : null,
         references: input['ixv:references'][current['ixv:factReferences']],
         contextref: current['ixv:contextref'],
@@ -156,11 +158,10 @@ function fillFacts(input: DataJSON, xhtmlUrl: string): Array<any> {
           ? input['ixv:ixdsFiles'][current[`ixv:files`]]
           : xhtmlUrl,
         order: orderCount++,
-        highlight: false,
-        active: true
+        isHighlight: false,
+        isActive: true,
       };
       arrayToBulkInsert.push(factToPutIntoDB);
-
     } else {
       // todo figure out what to do with these?
       // console.log(current.value);
@@ -169,3 +170,54 @@ function fillFacts(input: DataJSON, xhtmlUrl: string): Array<any> {
   return arrayToBulkInsert;
 }
 
+const fillSections = (input: DataJSON) => {
+  const arrayToBulkInsert: Array<SectionsTable> = [];
+  let count = 0;
+  for (const current of input['ixv:edgarRendererReports']) {
+    let groupType: string | null = ``;
+    switch (current[`ixv:groupType`]) {
+      case `document`: {
+        groupType = `Document & Entity Information`;
+        break;
+      }
+      case `statement`: {
+        groupType = `Financial Statements`;
+        break;
+      }
+      case `disclosure`: {
+        groupType = `Notes to the Financial Statements`;
+        break;
+      }
+      case `RR_Summaries`: {
+        groupType = `RR Summaries`;
+        break;
+      }
+      default: {
+        groupType = null;
+      }
+    }
+    const contextRef = current[`ixv:uniqueAnchor`]
+      ? current[`ixv:uniqueAnchor`][`contextRef`]
+      : null;
+    const name = current[`ixv:uniqueAnchor`]
+      ? current[`ixv:uniqueAnchor`][`name`]
+      : null;
+    const sectionToPutIntoDB: SectionsTable = {
+      id: count++,
+      reportFile: current['ixv:reportFile'],
+      longName: current[`ixv:longName`],
+      shortName: current[`ixv:shortName`],
+      groupType: groupType,
+      subGroup: current[`ixv:subGroupType`],
+      baseRef: current[`ixv:uniqueAnchor`]
+        ? current[`ixv:uniqueAnchor`][`baseRef`]
+        : null,
+      contextRef: contextRef,
+      name: name,
+    };
+    if (sectionToPutIntoDB.groupType) {
+      arrayToBulkInsert.push(sectionToPutIntoDB);
+    }
+  }
+  return arrayToBulkInsert;
+};

@@ -1,7 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import counterSlice from './reducers';
 import factsReducer from './reducers/facts';
-//import filtersReducer from './reducers/filters';
+import filtersReducer, { listenerMiddleware } from './reducers/filters';
+import sectionsReducer from './reducers/sections';
 import settingsReducer from './reducers/user-settings';
 
 const store = configureStore({
@@ -10,15 +11,18 @@ const store = configureStore({
     example: counterSlice,
     settings: settingsReducer,
     facts: factsReducer,
-    //filters: filtersReducer,
+    filters: filtersReducer,
+    sections: sectionsReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    immutableCheck: { warnAfter: 512 },
-    serializableCheck: { warnAfter: 512 },
-  })
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: { warnAfter: 512 },
+      serializableCheck: { warnAfter: 512 },
+    }).prepend(listenerMiddleware.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-export default store;
 
+export type AppDispatch = typeof store.dispatch;
+
+export default store;

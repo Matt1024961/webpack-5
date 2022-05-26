@@ -1,6 +1,6 @@
 import { ConstantApplication } from '../../../constants/application';
-import FactsTable from '../../../indexedDB/facts';
-import { StoreUrl } from '../../../store/url';
+//import FactsTable from '../../../indexedDB/facts';
+//import { StoreUrl } from '../../../store/url';
 import { FactsTable as FactsTableType } from '../../../types/facts-table';
 import { BaseModal } from '../base-modal';
 import page1 from './template-page-1.html';
@@ -28,21 +28,22 @@ export class Fact extends BaseModal {
       'Files',
       'Additional Items',
     ]);
-
-    this.buildCarousel(newValue as string);
+    console.log(name, oldValue, newValue);
+    //this.buildCarousel(newValue as string);
   }
 
-  async buildCarousel(factId: string) {
-    const storeUrl: StoreUrl = StoreUrl.getInstance();
-    const db: FactsTable = new FactsTable(storeUrl.dataURL);
-    const fact = (await db.getFactById(factId)) as FactsTableType;
-    await this.page1(fact);
-    await this.page2(fact);
-    await this.page3(fact);
-    //await this.page4(fact);
-  }
+  // async buildCarousel(factId: string) {
+  //   const storeUrl: StoreUrl = StoreUrl.getInstance();
+  //   //const db: FactsTable = new FactsTable(storeUrl.dataURL);
+  //   //const fact = (await db.getFactById(factId)) as FactsTableType;
+  //   const fact: Array<FactsTableType> = [];
+  //   await this.page1(fact);
+  //   await this.page2(fact);
+  //   await this.page3(fact);
+  //   //await this.page4(fact);
+  // }
 
-  async page1(fact: FactsTableType) {
+  async page1(fact: FactsTableType | unknown) {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(page1, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
@@ -118,7 +119,9 @@ export class Fact extends BaseModal {
           }
           current.removeAttribute(`value`);
         } else {
-          ConstantApplication.removeChildNodes(current.parentElement as Element);
+          ConstantApplication.removeChildNodes(
+            current.parentElement as Element
+          );
         }
       }
       const selector = htmlDoc.querySelector(`[template]`);
@@ -134,7 +137,7 @@ export class Fact extends BaseModal {
     }
   }
 
-  async page2(fact: FactsTableType) {
+  async page2(fact: FactsTableType | unknown) {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(page2, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
@@ -164,7 +167,7 @@ export class Fact extends BaseModal {
     }
   }
 
-  async page3(fact: FactsTableType) {
+  async page3(fact: FactsTableType | unknown) {
     console.log(fact.references);
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(page3, `text/html`);
@@ -195,7 +198,7 @@ export class Fact extends BaseModal {
     }
   }
 
-  async page4(fact: FactsTableType) {
+  async page4(fact: FactsTableType | unknown) {
     console.log(fact);
     console.log(page4);
   }

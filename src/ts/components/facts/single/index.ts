@@ -1,5 +1,7 @@
 import { ConstantApplication } from '../../../constants/application';
-import { StoreFilter } from '../../../store/filter';
+import { getFactPagination } from '../../../redux/reducers/facts';
+//import { StoreFilter } from '../../../store/filter';
+import { StoreUrl } from '../../../store/url';
 import { FactsTable } from '../../../types/facts-table';
 import template from './template.html';
 
@@ -31,18 +33,24 @@ export class FactsMenuSingle extends HTMLElement {
 
   empty() {
     ConstantApplication.removeChildNodes(this);
-    // this.innerHTML = ``;
   }
 
   async render() {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
-      const storeFilter: StoreFilter = StoreFilter.getInstance();
-      const facts = await storeFilter.getFactsPagination(
+      //const storeFilter: StoreFilter = StoreFilter.getInstance();
+      const storeUrl: StoreUrl = StoreUrl.getInstance();
+      const facts = getFactPagination(
+        storeUrl.filing,
         this.pagination.start,
         this.pagination.end
       );
+      // const facts = await storeFilter.getFactsPagination(
+      //   this.pagination.start,
+      //   this.pagination.end
+      // );
+
       if (facts) {
         (facts as Array<FactsTable>).forEach((current, index) => {
           if (current) {

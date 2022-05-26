@@ -1,4 +1,8 @@
-import Database from '../../indexedDB/facts';
+//import Database from '../../indexedDB/facts';
+import store from '../../redux';
+//import store from '../../redux';
+import { actions, getAllFacts } from '../../redux/reducers/facts';
+import { getAllFilters, getIsFilterActive } from '../../redux/reducers/filters';
 import { search as searchType } from '../../types/filter';
 import { searchOptions as searchOptionType } from '../../types/filter';
 import { data as dataType } from '../../types/filter';
@@ -77,7 +81,7 @@ export class StoreFilter {
   public async filterFacts() {
     const start = performance.now();
     document.querySelector(`sec-facts`)?.setAttribute(`loading`, ``);
-    if (this.isFilterActive()) {
+    if (getIsFilterActive().isActive) {
       document
         .querySelector(`sec-reset-all-filters`)
         ?.classList.remove(`d-none`);
@@ -92,13 +96,13 @@ export class StoreFilter {
       );
       worker.postMessage({
         url: storeUrl.dataURL,
-        allFilters: this.getAllFilters(),
-        isFilterActive: this.isFilterActive(),
+        allFilters: getAllFilters(),
+        isFilterActive: getIsFilterActive().isActive,
+        allFacts: getAllFacts(),
       });
       worker.onmessage = async (event) => {
-        if (event) {
-          this.active = event.data.all.active;
-          this.highlight = event.data.all.highlight;
+        if (event && event.data) {
+          store.dispatch(actions.factsUpsertAll(event.data.facts));
           document.querySelector(`sec-facts`)?.setAttribute(`update-count`, ``);
           const attributes = new Attributes();
           attributes.setProperAttribute();
@@ -140,17 +144,6 @@ export class StoreFilter {
       totalPages: Math.ceil(currentFacts / amount),
       currentPage: start * amount,
     };
-  }
-
-  async getFactsPagination(start: number, end: number) {
-    const storeUrl: StoreUrl = StoreUrl.getInstance();
-
-    const db: Database = new Database(storeUrl.dataURL);
-    if (this.search) {
-      return await db.getPagination(this.highlight, start, end);
-    } else {
-      return await db.getPagination(this.active, start, end);
-    }
   }
 
   public get search() {

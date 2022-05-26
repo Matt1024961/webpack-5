@@ -1,5 +1,5 @@
 export type FactsTable = {
-  htmlId?: string;
+  id?: string;
   tag?: string;
   period?: string;
   axes?: unknown;
@@ -8,10 +8,11 @@ export type FactsTable = {
   scale?: number | null;
   decimals?: unknown;
   files?: string | null;
-  order?: number;
+  order: number;
   balance?: string;
   value?: string;
   dimensions?: unknown;
+  dimensionsValue?: Array<string>;
   contextref?: unknown;
   isHidden?: unknown;
   isHtml?: number;
@@ -20,7 +21,9 @@ export type FactsTable = {
   isText?: number;
   isCustom?: number;
   standardLabel?: string;
-  labels?: unknown;
+  labels: Array<string>;
   calculations?: unknown;
-  references?: unknown;
+  references?: Array<string>;
+  isActive: boolean;
+  isHighlight: boolean;
 };

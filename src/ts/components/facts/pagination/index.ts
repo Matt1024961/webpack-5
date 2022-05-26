@@ -1,6 +1,8 @@
 import { ConstantApplication } from '../../../constants/application';
-import { StoreFilter } from '../../../store/filter';
-import { StoreUrl } from '../../../store/url';
+import { getFactPaginationInfo } from '../../../redux/reducers/facts';
+// import { StoreUrl } from '../../../store/url';
+// import { StoreFilter } from '../../../store/filter';
+// import { StoreUrl } from '../../../store/url';
 
 import template from './template.html';
 
@@ -71,14 +73,18 @@ export class FactsMenuPagination extends HTMLElement {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
-      const storeUrl: StoreUrl = StoreUrl.getInstance();
-      const storeFilter: StoreFilter = StoreFilter.getInstance();
-      const templateInfo = await storeFilter.getFactPaginationData(
-        storeUrl.filing,
+      const templateInfo = getFactPaginationInfo(
         this.pagination.start,
         this.pagination.end,
         this.pagination.amount
       );
+
+      // const templateInfo = await storeFilter.getFactPaginationData(
+      //   storeUrl.filing,
+      //   this.pagination.start,
+      //   this.pagination.end,
+      //   this.pagination.amount
+      // );
       this.pagination.totalPages = templateInfo.totalPages;
       const selector = htmlDoc.querySelector(`[template]`);
       if (selector) {
@@ -106,7 +112,6 @@ export class FactsMenuPagination extends HTMLElement {
   }
 
   listeners() {
-    // const form = this.querySelector('form');
     const paginationButtons = this.querySelectorAll(
       `#facts-menu-pagination-form a`
     );

@@ -2,7 +2,9 @@ import 'bootstrap';
 import '@popperjs/core';
 import '../styles.scss';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import  store  from './redux/index';
+import store from './redux/index';
+import { actions as filterActions } from './redux/reducers/filters';
+import { actions as settingsActions } from './redux/reducers/user-settings';
 import { DevelopmentNavbar } from './components/nav/development_navbar';
 import { Navbar } from './components/nav/navbar';
 import { Sections } from './components/nav/sections';
@@ -32,11 +34,39 @@ import { SectionsMenuSingle } from './components/sections/single';
 
 (() => {
   const storeLogger: StoreLogger = StoreLogger.getInstance();
-  store.subscribe
-  //console.log(store);
-  //const reduxStore = store();
-  //console.log(reduxStore);
   storeLogger.info(`Application Begin`);
+
+  store.dispatch(
+    filterActions.filtersInit({
+      id: 1,
+      search: null,
+      searchOptions: null,
+      data: undefined,
+      tags: undefined,
+      moreFilters: {
+        periods: [],
+        measures: [],
+        axis: [],
+        members: [],
+        scale: [],
+        balance: [],
+      },
+      filingUrl: ``,
+    })
+  );
+  
+  store.dispatch(
+    settingsActions.settingsInit({
+      id: 1,
+      hoverInfo: 1,
+      position: `top`,
+      active: `#FF6600`,
+      highlight: `#FFD700`,
+      selected: `#003768`,
+      hover: `rgba(255,0,0,0.3)`,
+      allFacts: 0,
+    })
+  );
   // here we hadd all custom HTML components
   customElements.define('sec-root', Root);
   customElements.define('sec-navbar', Navbar);

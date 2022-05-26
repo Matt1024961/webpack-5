@@ -1,4 +1,5 @@
 export type SettingsTable = {
+  id: number;
   hoverInfo: 1 | 0;
   position: `top` | `center`;
   active: string;

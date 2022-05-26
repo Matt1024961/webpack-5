@@ -1,6 +1,5 @@
 import * as bootstrap from 'bootstrap';
 import { ConstantApplication } from '../../../constants/application';
-import SettingsTable from '../../../indexedDB/settings';
 import { StoreFilter } from '../../../store/filter';
 import { StoreLogger } from '../../../store/logger';
 import { BaseModal } from '../base-modal';
@@ -28,15 +27,14 @@ export class Settings extends BaseModal {
         const node = document.importNode(selector, true);
         node.removeAttribute(`template`);
         const carousel = this.querySelector(`[carousel-items]`);
-        const db: SettingsTable = new SettingsTable();
-        const settings = await db.getSettingsData();
+        //const db: SettingsTable = new SettingsTable();
+        //const settings = await db.getSettingsData();
 
         carousel?.append(node);
-        const allFacts = this.querySelector(
-          `[name="allFacts"]`
-        ) as HTMLSelectElement;
-        allFacts.value = settings.allFacts;
-        console.log(settings);
+        // const allFacts = this.querySelector(
+        //   `[name="allFacts"]`
+        // ) as HTMLSelectElement;
+        //allFacts.value = settings.allFacts;
         storeLogger.info('Settings Modal rendered');
       }
     } else {

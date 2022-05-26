@@ -1,11 +1,17 @@
-import Database from '../../../indexedDB/facts';
 import { ErrorClass } from '../../../error';
-import { StoreFilter } from '../../../store/filter';
 import { Scale } from '../../../store/scale';
-import { StoreUrl } from '../../../store/url';
 import { moreFilters } from '../../../types/filter';
-import template from './template.html';
 import { ConstantApplication } from '../../../constants/application';
+import { actions, getAllFilters } from '../../../redux/reducers/filters';
+import store from '../../../redux';
+import {
+  getUniqueAxis,
+  getUniqueBalances,
+  getUniqueMembers,
+  getUniquePeriods,
+  getUniqueScales,
+} from '../../../redux/reducers/facts';
+import template from './template.html';
 
 export class MoreFilters extends HTMLElement {
   private populated = false;
@@ -58,7 +64,6 @@ export class MoreFilters extends HTMLElement {
     this.populated = false;
     this.render();
     this.listeners();
-    //this.querySelector(`.nav-link`).classList.remove(`disabled`);
   }
 
   render() {
@@ -103,7 +108,6 @@ export class MoreFilters extends HTMLElement {
       { name: `scale-options`, key: `scale` },
       { name: `balance-options`, key: `balance` },
     ];
-    const storeFilter: StoreFilter = StoreFilter.getInstance();
     const found = optionNames.find((element) => element.name === name);
     if (found) {
       const userSelectedCheckBoxes = {
@@ -122,11 +126,18 @@ export class MoreFilters extends HTMLElement {
           }
         }),
       };
+
       const updatedFilter = Object.assign(
-        storeFilter.moreFilters,
+        {},
+        getAllFilters()?.moreFilters,
         userSelectedCheckBoxes
       );
-      storeFilter.moreFilters = updatedFilter;
+      store.dispatch(
+        actions.filtersUpdate({
+          id: 1,
+          changes: { moreFilters: updatedFilter },
+        })
+      );
       this.updateNotification(updatedFilter);
     } else if (name === `periods-year-options`) {
       const totalCheckBoxes = Array.from(
@@ -188,13 +199,11 @@ export class MoreFilters extends HTMLElement {
   }
 
   async populateDropdownOptions() {
-    const storeUrl: StoreUrl = StoreUrl.getInstance();
-    const db: Database = new Database(storeUrl.dataURL);
-    await this.populatePeriods(db, storeUrl);
-    await this.populateAxes(db, storeUrl);
-    await this.populateMembers(db, storeUrl);
-    await this.populateScale(db, storeUrl);
-    await this.populateBalance(db, storeUrl);
+    this.populatePeriods();
+    this.populateAxes();
+    this.populateMembers();
+    this.populateScale();
+    this.populateBalance();
     this.populated = true;
     const checkboxes = this.querySelectorAll('input[type=checkbox]');
     if (checkboxes) {
@@ -206,15 +215,15 @@ export class MoreFilters extends HTMLElement {
     }
   }
 
-  async populatePeriods(db: Database, storeUrl: StoreUrl) {
-    const periods = (await db.getAllUniquePeriods(
-      storeUrl.filing
-    )) as Array<string>;
+  populatePeriods() {
+    const periods = getUniquePeriods();
     const regex = new RegExp(/(\d{1,4}([.\-/])\d{1,2}([.\-/])\d{1,4})/g);
     const complexPeriods = periods.reduce(
       (accumulator: { [key: string]: Array<string> }, current: string) => {
         //if (current.match(regex)[0]) {
-        const date = new Date((current.match(regex) as Array<string>)[0]).getFullYear();
+        const date = new Date(
+          (current.match(regex) as Array<string>)[0]
+        ).getFullYear();
         // eslint-disable-next-line no-prototype-builtins
         if (!accumulator.hasOwnProperty(date)) {
           accumulator[date] = [current];
@@ -334,10 +343,8 @@ export class MoreFilters extends HTMLElement {
       });
   }
 
-  async populateBalance(db: Database, storeUrl: StoreUrl) {
-    const filterBalance = (await db.getAllUniqueBalances(
-      storeUrl.filing
-    )) as Array<string>;
+  populateBalance() {
+    const filterBalance = getUniqueBalances();
 
     const balanceCount = document.createTextNode(`${filterBalance.length}`);
     this.querySelector(`[balance-count]`)?.firstElementChild?.replaceWith(
@@ -377,10 +384,8 @@ export class MoreFilters extends HTMLElement {
     });
   }
 
-  async populateScale(db: Database, storeUrl: StoreUrl) {
-    const filterScale = (await db.getAllUniqueScales(
-      storeUrl.filing
-    )) as Array<string>;
+  populateScale() {
+    const filterScale = getUniqueScales();
 
     const scaleCount = document.createTextNode(`${filterScale.length}`);
     this.querySelector(`[scale-count]`)?.firstElementChild?.replaceWith(
@@ -422,21 +427,9 @@ export class MoreFilters extends HTMLElement {
       });
   }
 
-  async populateMembers(db: Database, storeUrl: StoreUrl) {
-    const filterMembers = (await db.getAllUniqueMembers(
-      storeUrl.filing
-    )) as unknown as Array<Array<string>>;
-    // we remove any possible duplicates, flatten the array, remove the prefix (us-gaap, etc.) and sort
-    const filterMembersSet = [
-      ...new Set(
-        filterMembers
-          .flat()
-          .map((current) => {
-            return current;
-          })
-          .sort()
-      ),
-    ];
+  populateMembers() {
+    const filterMembersSet = getUniqueMembers();
+
     const membersCount = document.createTextNode(`${filterMembersSet.length}`);
     this.querySelector(`[members-count]`)?.firstElementChild?.replaceWith(
       membersCount
@@ -479,24 +472,13 @@ export class MoreFilters extends HTMLElement {
     });
   }
 
-  async populateAxes(db: Database, storeUrl: StoreUrl) {
-    const filterAxis = (await db.getAllUniqueAxes(
-      storeUrl.filing
-    )) as unknown as Array<Array<string>>;
-    // we remove any possible duplicates, flatten the array, remove the prefix (us-gaap, etc.) and sort
-    const filterAxisSet = [
-      ...new Set(
-        filterAxis
-          .flat()
-          .map((current) => {
-            return current;
-          })
-          .sort()
-      ),
-    ];
+  populateAxes() {
+    const filterAxisSet = getUniqueAxis();
 
     const axisCount = document.createTextNode(`${filterAxisSet.length}`);
-    this.querySelector(`[axis-count]`)?.firstElementChild?.replaceWith(axisCount);
+    this.querySelector(`[axis-count]`)?.firstElementChild?.replaceWith(
+      axisCount
+    );
 
     filterAxisSet.forEach((current, index) => {
       const li = document.createElement(`li`);

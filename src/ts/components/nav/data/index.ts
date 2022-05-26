@@ -1,4 +1,6 @@
-import { StoreFilter } from '../../../store/filter';
+import store from '../../../redux';
+import { actions } from '../../../redux/reducers/filters';
+//import { StoreFilter } from '../../../store/filter';
 import template from './template.html';
 
 export class Data extends HTMLElement {
@@ -38,8 +40,6 @@ export class Data extends HTMLElement {
     if (htmlDoc.querySelector(`[template`)) {
       const selector = htmlDoc.querySelector(`[template]`);
       if (selector) {
-
-
         const node = document.importNode(selector, true);
         node.removeAttribute(`template`);
         this.append(node);
@@ -63,8 +63,7 @@ export class Data extends HTMLElement {
 
   dataOptionChange(input: string) {
     const option = parseInt(input, 10);
-    const storeFilter: StoreFilter = StoreFilter.getInstance();
-    storeFilter.data = option;
+    store.dispatch(actions.filtersUpdate({ id: 1, changes: { data: option } }));
     if (option > 0) {
       this.querySelector(`.nav-link`)?.classList.add(`text-warning`);
     } else {

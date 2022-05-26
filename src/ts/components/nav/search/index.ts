@@ -1,4 +1,5 @@
-import { StoreFilter } from '../../../store/filter';
+import store from '../../../redux';
+import { actions } from '../../../redux/reducers/filters';
 import template from './template.html';
 
 export class Search extends HTMLElement {
@@ -55,8 +56,12 @@ export class Search extends HTMLElement {
     event.stopPropagation();
     this.searchOptionChange();
     const searchInput = form.elements['search-input'];
-    const storeFilter: StoreFilter = StoreFilter.getInstance();
-    storeFilter.search = searchInput.value as string;
+    store.dispatch(
+      actions.filtersUpdate({
+        id: 1,
+        changes: { search: searchInput.value },
+      })
+    );
   }
 
   searchOptionChange() {
@@ -66,8 +71,13 @@ export class Search extends HTMLElement {
     const searchOptions = Array.from(checkedInputs).map((checked) => {
       return parseInt(checked.getAttribute(`value`) as string, 10);
     });
-    const storeFilter: StoreFilter = StoreFilter.getInstance();
-    storeFilter.searchOptions = searchOptions;
+
+    store.dispatch(
+      actions.filtersUpdate({
+        id: 1,
+        changes: { searchOptions: searchOptions },
+      })
+    );
   }
 
   searchClear(form: HTMLFormElement, event: Event) {
@@ -76,7 +86,13 @@ export class Search extends HTMLElement {
     (
       this.querySelector(`[name="search-input"]`) as HTMLInputElement
     ).value = ``;
-    const storeFilter: StoreFilter = StoreFilter.getInstance();
-    storeFilter.search = null;
+    store.dispatch(
+      actions.filtersUpdate({
+        id: 1,
+        changes: { search: null },
+      })
+    );
+    // const storeFilter: StoreFilter = StoreFilter.getInstance();
+    // storeFilter.search = null;
   }
 }

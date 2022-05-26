@@ -5,12 +5,13 @@ import { StoreUrl } from '../store/url';
 import { StoreXhtml } from '../store/xhtml';
 import { WarningClass } from '../warning';
 import { StoreFilter } from '../store/filter';
-import Database from '../indexedDB/facts';
-import SettingsTable from '../indexedDB/settings';
-import { actions as factActions, allActiveCount, allFacts } from '../redux/reducers/facts';
-//import { actions as filtersActions } from '../redux/reducers/filters';
-
 import store from '../redux';
+import {
+  actions as factActions,
+  getMultiFiling,
+} from '../redux/reducers/facts';
+
+import { actions as sectionsActions } from '../redux/reducers/sections';
 
 export class FilingUrl {
   constructor(input = ``) {
@@ -41,8 +42,9 @@ export class FilingUrl {
 
     let filingURLLog = `Filing URL Data: `;
     Object.keys(storeUrl).forEach((current: string) => {
-      filingURLLog += `\n\t ${current}: ${storeUrl[current as keyof typeof storeUrl]
-        }`;
+      filingURLLog += `\n\t ${current}: ${
+        storeUrl[current as keyof typeof storeUrl]
+      }`;
     });
     storeLogger.info(filingURLLog);
     storeLogger.info(`Filing URL Complete`);
@@ -115,8 +117,6 @@ export class FilingUrl {
   beginFetch() {
     const storeLogger: StoreLogger = StoreLogger.getInstance();
     const storeUrl: StoreUrl = StoreUrl.getInstance();
-    const settingsTable: SettingsTable = new SettingsTable();
-    settingsTable.setSettingsData();
     storeLogger.info(`Begin Fetch of Both XHTML and JSON on Web Worker`);
 
     if (window.Worker) {
@@ -132,11 +132,10 @@ export class FilingUrl {
       });
       const enableapplication = { data: false, xhtml: false };
       worker.onmessage = async (event) => {
-
         store.dispatch(factActions.factsAddMany(event.data.all[1].facts));
-        //store.dispatch(filtersActions.filtersAddMany(event.data.all[1].filters));
-        console.log(allFacts());
-        console.log(allActiveCount());
+        store.dispatch(
+          sectionsActions.sectionsAddMany(event.data.all[1].sections)
+        );
 
         if (event.data.all) {
           if (event.data.all[1].error) {
@@ -147,9 +146,7 @@ export class FilingUrl {
             storeFilter.active = event.data.all[1].active;
             storeFilter.highlight = event.data.all[1].highlight;
 
-            const storeUrl: StoreUrl = StoreUrl.getInstance();
-            const db: Database = new Database(storeUrl.dataURL);
-            if (await db.isMultiFiling()) {
+            if (getMultiFiling().length > 1) {
               const links = document.querySelector(`sec-links`);
               if (links) {
                 links.classList.remove(`d-none`);
@@ -264,4 +261,3 @@ export class FilingUrl {
     }
   }
 }
-

@@ -17,7 +17,7 @@ body {
   padding-right: 15px;
 }
 
-#filing-container > body {
+#filing-container * {
   font-family: unset;
   font-size: unset;
   font-weight: unset;
@@ -43,8 +43,7 @@ body {
 }
 
 [active-fact] {
-  border-top: 2px red solid !important;
-  border-bottom: 2px red solid !important;
+  box-shadow: inset 0px 2px 0px red, inset 0px -2px 0px red;
 
   &:hover {
     background-color: rgba(255, 0, 0, 0.3) !important;
@@ -226,7 +225,7 @@ body {
   overflow: auto;
 }
 
-.content-visibility *  {
+.content-visibility * {
   content-visibility: auto;
 }
 

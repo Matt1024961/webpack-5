@@ -5,6 +5,7 @@ export type allFilters = {
   tags: tags;
   moreFilters: moreFilters;
   filingUrl: string;
+  id: number;
 };
 export type search = null | string | RegExp;
 

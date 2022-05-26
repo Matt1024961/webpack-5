@@ -1,4 +1,5 @@
 export type SectionsTable = {
+  id: number;
   reportFile: string;
   longName: string;
   shortName: string;

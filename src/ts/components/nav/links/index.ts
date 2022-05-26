@@ -1,5 +1,6 @@
-import Database from '../../../indexedDB/facts';
+//import Database from '../../../indexedDB/facts';
 import { FilingUrl } from '../../../filing-url';
+import { getMultiFiling } from '../../../redux/reducers/facts';
 import { StoreUrl } from '../../../store/url';
 import template from './template.html';
 
@@ -39,8 +40,7 @@ export class Links extends HTMLElement {
 
   async updateContent() {
     const storeUrl: StoreUrl = StoreUrl.getInstance();
-    const db: Database = new Database(storeUrl.dataURL);
-    const files = (await db.isMultiFiling(true)) as Array<string>;
+    const files = getMultiFiling();
     files.forEach((current) => {
       const li = document.createElement(`li`);
       li.classList.add(`my-1`);

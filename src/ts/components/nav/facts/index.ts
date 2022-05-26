@@ -1,7 +1,6 @@
 import { TransformationsNumber } from '../../../constants/transformations/number';
-import { StoreFilter } from '../../../store/filter';
 import template from './template.html';
-
+import { getFactCount } from '../../../redux/reducers/facts';
 export class Facts extends HTMLElement {
   static get observedAttributes() {
     return [`update-count`, `loading`, `reset`];
@@ -57,12 +56,13 @@ export class Facts extends HTMLElement {
     icon.classList.add(`fa-spinner`);
     icon.classList.add(`fa-spin`);
 
-    this.querySelector(`[template-count]`)?.firstElementChild?.replaceWith(icon);
+    this.querySelector(`[template-count]`)?.firstElementChild?.replaceWith(
+      icon
+    );
   }
 
   async updateFactsCount() {
-    const storeFilter: StoreFilter = StoreFilter.getInstance();
-    const factCount = storeFilter.getFactsCount();
+    const factCount = getFactCount();
     const textToAdd = document.createTextNode(
       `${TransformationsNumber.simpleFormatting(`${factCount}`)}`
     );
@@ -70,7 +70,9 @@ export class Facts extends HTMLElement {
 
     span.append(textToAdd);
 
-    this.querySelector(`[template-count]`)?.firstElementChild?.replaceWith(span);
+    this.querySelector(`[template-count]`)?.firstElementChild?.replaceWith(
+      span
+    );
   }
 
   listeners(): void {
