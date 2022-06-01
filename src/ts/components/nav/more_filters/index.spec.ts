@@ -14,5 +14,13 @@ describe('Navbar More Filters Component', () => {
     it('should render', () => {
       expect(element).toBeTruthy();
     });
+
+    it('should render navbar button', () => {
+      expect(element.querySelector(`#more-filters-button`)).toBeTruthy();
+    });
+
+    it('should render accordion items', () => {
+      expect(element.querySelectorAll(`.accordion-item`).length).toBe(5);
+    });
   });
 });

@@ -13,12 +13,13 @@
 // https://on.cypress.io/introduction-to-cypress
 
 describe('Inline XBRL Viewer', () => {
-  beforeEach(() => {
+  before(() => {
     // Cypress starts out with a blank slate for each test
     // so we must tell it to visit our website with the `cy.visit()` command.
     // Since we want to visit the same URL at the start of all our tests,
     // we include it in our beforeEach function so that it runs before each test
-    cy.visit('http://localhost:3000/');
+    cy.visit('http://localhost:3000/?doc=/assets/example-1/aapl-20211225.htm');
+    cy.wait(3000);
   });
 
   it('Renders Navbar', () => {
@@ -60,42 +61,51 @@ describe('Inline XBRL Viewer', () => {
       .contains('Facts');
   });
 
-  it('Menu Dropdown is disabled', () => {
-    cy.get('#navbar-container #menu-button').should('have.class', 'disabled');
+  it('Menu Dropdown is enabled', () => {
+    cy.get('#navbar-container #menu-button').should(
+      'have.not.class',
+      'disabled'
+    );
   });
 
-  it('Sections button is disabled', () => {
+  it('Sections button is enabled', () => {
     cy.get('#navbar-container #sections-button').should(
-      'have.class',
+      'have.not.class',
       'disabled'
     );
   });
 
-  it('Entire Search Bar is disabled', () => {
+  it('Entire Search Bar is enabled', () => {
     cy.get('#navbar-container #global-search fieldset').should(
-      'have.attr',
+      'have.not.attr',
       'disabled'
     );
   });
 
-  it('Data Dropdown is disabled', () => {
-    cy.get('#navbar-container #data-button').should('have.class', 'disabled');
-  });
-
-  it('Tags Dropdown is disabled', () => {
-    cy.get('#navbar-container #tags-button').should('have.class', 'disabled');
-  });
-
-  it('More Filters Dropdown is disabled', () => {
-    cy.get('#navbar-container #more-filters-button').should(
-      'have.class',
+  it('Data Dropdown is enabled', () => {
+    cy.get('#navbar-container #data-button').should(
+      'have.not.class',
       'disabled'
     );
   });
 
-  it('More Filters Dropdown is disabled', () => {
+  it('Tags Dropdown is enabled', () => {
+    cy.get('#navbar-container #tags-button').should(
+      'have.not.class',
+      'disabled'
+    );
+  });
+
+  it('More Filters Dropdown is enabled', () => {
     cy.get('#navbar-container #more-filters-button').should(
-      'have.class',
+      'have.not.class',
+      'disabled'
+    );
+  });
+
+  it('More Filters Dropdown is enabled', () => {
+    cy.get('#navbar-container #more-filters-button').should(
+      'have.not.class',
       'disabled'
     );
   });
@@ -108,25 +118,10 @@ describe('Inline XBRL Viewer', () => {
     cy.get('#navbar-container #links-button').should('be.hidden');
   });
 
-  it('Facts button is disabled', () => {
-    cy.get('#navbar-container #facts-button').should('have.class', 'disabled');
-  });
-
-  it('Error Banner is present x2', () => {
-    cy.get('#error-container .alert-danger').should('have.length', 2);
-  });
-
-  it('1st Error Banner gives correct information', () => {
-    cy.get('#error-container .alert-danger')
-      .eq(0)
-      .contains(
-        'Inline XBRL requires a URL param (doc | file) that correlates to a Financial Report.'
-      );
-  });
-
-  it('2nd Error Banner gives correct information', () => {
-    cy.get('#error-container .alert-danger')
-      .eq(1)
-      .contains('Inline XBRL is not usable in this state.');
+  it('Facts button is enabled', () => {
+    cy.get('#navbar-container #facts-button').should(
+      'have.not.class',
+      'disabled'
+    );
   });
 });

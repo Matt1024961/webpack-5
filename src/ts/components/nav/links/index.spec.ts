@@ -14,5 +14,9 @@ describe('Navbar Links Component', () => {
     it('should render', () => {
       expect(element).toBeTruthy();
     });
+
+    it('should render navbar button', () => {
+      expect(element.querySelector(`#links-button`)).toBeTruthy();
+    });
   });
 });

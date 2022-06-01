@@ -9,7 +9,8 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const ESLintPlugin = require('eslint-webpack-plugin');
 
-module.exports = (env, argv) => {
+module.exports = (env = { copy: true }, argv = { mode: `production` }) => {
+  console.log(argv.mode);
   return {
     mode: argv.mode,
 
@@ -38,6 +39,7 @@ module.exports = (env, argv) => {
             patterns: [{ from: 'src/assets', to: 'assets' }],
           })
         : false,
+
       new PurgeCSSPlugin({
         paths: glob.sync(`${path.join(__dirname, '../src')}/**/*`, {
           nodir: true,
@@ -154,9 +156,7 @@ module.exports = (env, argv) => {
     resolve: {
       extensions: [`.ts`, `.js`, '.scss'],
     },
-
     devtool: argv.mode === `production` ? `source-map` : `inline-source-map`,
-
     devServer: {
       // open: true,
       compress: true,

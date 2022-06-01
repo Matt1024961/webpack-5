@@ -1,18 +1,22 @@
-// describe('Navbar Component', () => {
-//   const COMPONENT_TAG = `sec-navbar`;
-//   let element: HTMLElement;
-//   beforeAll(() => {
-//     element = document.createElement(COMPONENT_TAG);
-//     document.body.append(element);
-//   });
+describe('Navbar Component', () => {
+  const COMPONENT_TAG = `sec-navbar`;
+  let element: HTMLElement;
+  beforeAll(() => {
+    element = document.createElement(COMPONENT_TAG);
+    document.body.append(element);
+  });
 
-//   afterAll(() => {
-//     document.querySelector(COMPONENT_TAG)?.remove();
-//   });
+  afterAll(() => {
+    document.querySelector(COMPONENT_TAG)?.remove();
+  });
 
-//   describe('connectedCallback()', () => {
-//     it('should render', () => {
-//       expect(element).toBeTruthy();
-//     });
-//   });
-// });
+  describe('connectedCallback()', () => {
+    it('should render', () => {
+      expect(element).toBeTruthy();
+    });
+
+    it('should render navbar items', () => {
+      expect(element.querySelector(`ul`)?.children.length).toBe(8);
+    });
+  });
+});

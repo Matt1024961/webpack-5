@@ -1,4 +1,4 @@
-describe('Facts Pagination Component', () => {
+describe('Filing Component', () => {
   const COMPONENT_TAG = `sec-filing`;
   let element: HTMLElement;
   beforeAll(() => {
