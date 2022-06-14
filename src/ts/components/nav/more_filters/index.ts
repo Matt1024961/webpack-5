@@ -2,7 +2,7 @@ import { ErrorClass } from '../../../error';
 import { Scale } from '../../../store/scale';
 import { moreFilters } from '../../../types/filter';
 import { ConstantApplication } from '../../../constants/application';
-import { actions, getAllFilters } from '../../../redux/reducers/filters';
+import { actions, getAllFactFilters } from '../../../redux/reducers/filters';
 import store from '../../../redux';
 import {
   getUniqueAxis,
@@ -129,7 +129,7 @@ export class MoreFilters extends HTMLElement {
 
       const updatedFilter = Object.assign(
         {},
-        getAllFilters()?.moreFilters,
+        getAllFactFilters()?.moreFilters,
         userSelectedCheckBoxes
       );
       store.dispatch(

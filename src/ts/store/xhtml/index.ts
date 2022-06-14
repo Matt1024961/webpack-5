@@ -1,6 +1,7 @@
 import { StoreUrl } from '../url';
 
 export class StoreXhtml {
+
   private _node!: HTMLBodyElement;
   private static instance: StoreXhtml;
   private constructor() {
@@ -30,6 +31,7 @@ export class StoreXhtml {
       let node = document.importNode(temp, true);
       node = this.updateHref(node);
       node = this.updateSrc(node);
+      node = this.addTabIndex(node);
       this._node = node;
     }
   }
@@ -66,6 +68,13 @@ export class StoreXhtml {
         // update src to absolute url
         current.setAttribute(`src`, `${storeUrl.baseURL}${src}`);
       }
+    });
+    return node;
+  }
+
+  addTabIndex(node: HTMLBodyElement): HTMLBodyElement {
+    Array.from(node.querySelectorAll(`[contextref]`)).forEach(current => {
+      current.setAttribute(`tabindex`, `10`);
     });
     return node;
   }

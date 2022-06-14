@@ -27,7 +27,13 @@ module.exports = function (config) {
     },
     colors: true,
     reporters: ['dots', 'progress', 'kjhtml'],
-    browsers: ['Chrome', `ChromeHeadless`],
+    browsers: [
+      'Chrome',
+      //`ChromeHeadless`,
+      //`Firefox`,
+      //`Opera`,
+      //`Safari`
+    ],
   });
 };
 

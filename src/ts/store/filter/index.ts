@@ -1,32 +1,12 @@
-//import Database from '../../indexedDB/facts';
 import store from '../../redux';
-//import store from '../../redux';
-import { actions, getAllFacts } from '../../redux/reducers/facts';
-import { getAllFilters, getIsFilterActive } from '../../redux/reducers/filters';
-import { search as searchType } from '../../types/filter';
-import { searchOptions as searchOptionType } from '../../types/filter';
-import { data as dataType } from '../../types/filter';
-import { tags as tagsType } from '../../types/filter';
-import { moreFilters as moreFiltersType } from '../../types/filter';
+import { actions as factsActions, getAllFacts } from '../../redux/reducers/facts';
+import { getAllFactFilters, getAllSectionFilters, getIsFilterActive } from '../../redux/reducers/filters';
+import { actions as sectionsActions, getAllSections } from '../../redux/reducers/sections';
 import { Attributes } from '../attributes';
 import { StoreLogger } from '../logger';
 import { StoreUrl } from '../url';
 
 export class StoreFilter {
-  private _search!: searchType;
-  private _searchOptions!: searchOptionType;
-  private _data: dataType;
-  private _tags: tagsType;
-  private _moreFilters: moreFiltersType = {
-    periods: [],
-    measures: [],
-    axis: [],
-    members: [],
-    scale: [],
-    balance: [],
-  };
-  private _active!: Array<string>;
-  private _highlight!: Array<string>;
   private static instance: StoreFilter;
 
   private constructor() {
@@ -78,7 +58,7 @@ export class StoreFilter {
     );
   }
 
-  public async filterFacts() {
+  public filterFacts() {
     const start = performance.now();
     document.querySelector(`sec-facts`)?.setAttribute(`loading`, ``);
     if (getIsFilterActive().isActive) {
@@ -96,13 +76,13 @@ export class StoreFilter {
       );
       worker.postMessage({
         url: storeUrl.dataURL,
-        allFilters: getAllFilters(),
+        allFilters: getAllFactFilters(),
         isFilterActive: getIsFilterActive().isActive,
         allFacts: getAllFacts(),
       });
       worker.onmessage = async (event) => {
         if (event && event.data) {
-          store.dispatch(actions.factsUpsertAll(event.data.facts));
+          store.dispatch(factsActions.factsUpsertAll(event.data.facts));
           document.querySelector(`sec-facts`)?.setAttribute(`update-count`, ``);
           const attributes = new Attributes();
           attributes.setProperAttribute();
@@ -119,111 +99,36 @@ export class StoreFilter {
     }
   }
 
-  public getFactsCount() {
-    if (this.highlight?.length) {
-      return this.highlight.length;
-    } else if (this.active?.length) {
-      return this.active.length;
+  public filterSections() {
+    const start = performance.now();
+    const storeUrl: StoreUrl = StoreUrl.getInstance();
+    console.log()
+    if (window.Worker) {
+      const worker = new Worker(
+        new URL('./../../worker/sections/index', import.meta.url),
+        { name: `sections` }
+      );
+      worker.postMessage({
+        url: storeUrl.filing,
+        allSections: getAllSections(),
+        allFilters: getAllSectionFilters()
+      });
+      worker.onmessage = async (event) => {
+        if (event && event.data) {
+          store.dispatch(sectionsActions.sectionsUpsertAll(event.data.sections));
+          document.querySelector(`sec-sections-menu-single`)?.setAttribute(`reset`, `true`);
+          const stop = performance.now();
+          const storeLogger: StoreLogger = StoreLogger.getInstance();
+          storeLogger.info(
+            `Filtering Sections took ${(stop - start).toFixed(2)} milliseconds.`
+          );
+        }
+        worker.terminate();
+      };
     } else {
-      // we have a pretty serious error
-      console.error(`DEAR MATT, investigate how this happened?`);
+      // no worker!
     }
+
   }
 
-  async getFactPaginationData(
-    _input: string,
-    start: number,
-    end: number,
-    amount: number
-  ) {
-    const currentFacts = this.getFactsCount() as number;
-    return {
-      total: currentFacts,
-      start: start,
-      end: end,
-      totalPages: Math.ceil(currentFacts / amount),
-      currentPage: start * amount,
-    };
-  }
-
-  public get search() {
-    return this._search;
-  }
-
-  public set search(input: searchType) {
-    if (input) {
-      input = (input as string).replace(/[\\{}()[\]^$+*?.]/g, '\\$&');
-      const inputArray = input
-        .replace(/ and /gi, ` & `)
-        .replace(/ or /gi, ` | `)
-        .split(` `);
-
-      if (inputArray.length > 1) {
-        input = inputArray.reduce((accumulator, current) => {
-          if (current === `|`) {
-            return `${accumulator}${current}`;
-          } else if (current === `&`) {
-            return accumulator;
-          } else {
-            return `${accumulator}(?=.*${current})`;
-          }
-        }, `^`);
-      }
-      this._search = input;
-    } else {
-      this._search = null;
-    }
-    this.filterFacts();
-  }
-
-  public get searchOptions() {
-    return this._searchOptions;
-  }
-
-  public set searchOptions(input: searchOptionType) {
-    this._searchOptions = input;
-  }
-
-  public get data() {
-    return this._data;
-  }
-
-  public set data(input: dataType) {
-    this._data = input;
-    this.filterFacts();
-  }
-
-  public get tags() {
-    return this._tags;
-  }
-
-  public set tags(input: tagsType) {
-    this._tags = input;
-    this.filterFacts();
-  }
-
-  public get moreFilters() {
-    return this._moreFilters;
-  }
-
-  public set moreFilters(input: moreFiltersType) {
-    this._moreFilters = input;
-    this.filterFacts();
-  }
-
-  public get active() {
-    return this._active;
-  }
-
-  public set active(input: Array<string>) {
-    this._active = input;
-  }
-
-  public get highlight() {
-    return this._highlight;
-  }
-
-  public set highlight(input: Array<string>) {
-    this._highlight = input;
-  }
 }

@@ -1,8 +1,10 @@
 import { ConstantApplication } from '../../../constants/application';
+import { enterFactsToStore } from '../../../redux/test-helpers/facts';
 describe('Facts Single Component', () => {
-  const COMPONENT_TAG = `sec-facts-single`;
+  const COMPONENT_TAG = `sec-facts-menu-single`;
   let element: HTMLElement;
   beforeAll(() => {
+    enterFactsToStore();
     element = document.createElement(COMPONENT_TAG);
     element.setAttribute(
       `pagination`,
@@ -21,3 +23,4 @@ describe('Facts Single Component', () => {
     });
   });
 });
+

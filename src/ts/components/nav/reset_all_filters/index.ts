@@ -1,5 +1,5 @@
 // import { StoreFilter } from '../../../store/filter';
-import { resetAllFilters } from '../../../redux/reducers/filters';
+import { resetAllFactFilters } from '../../../redux/reducers/filters';
 import template from './template.html';
 
 export class ResetAllFilters extends HTMLElement {
@@ -47,6 +47,6 @@ export class ResetAllFilters extends HTMLElement {
       .querySelector(`sec-facts-menu-pagination`)
       ?.setAttribute(`reset`, `true`);
     //storeFilter.resetAllFilters();
-    resetAllFilters();
+    resetAllFactFilters();
   }
 }

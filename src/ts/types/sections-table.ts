@@ -8,4 +8,5 @@ export type SectionsTable = {
   contextRef: string | null;
   name: string | null;
   baseRef: string | null;
+  isActive: boolean;
 };

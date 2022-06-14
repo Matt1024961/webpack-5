@@ -1,4 +1,7 @@
-import { StoreFilter } from '../../../store/filter';
+import { ConstantApplication } from '../../../constants/application';
+import store from '../../../redux';
+import { getMultiFiling } from '../../../redux/reducers/facts';
+import { actions } from '../../../redux/reducers/filters';
 import template from './template.html';
 
 export class SectionsMenuSearch extends HTMLElement {
@@ -9,6 +12,8 @@ export class SectionsMenuSearch extends HTMLElement {
   connectedCallback() {
     this.render();
     this.listeners();
+    ConstantApplication.setElementFocus(this.querySelector(`[name="sections-input"]`));
+
   }
 
   render() {
@@ -20,6 +25,11 @@ export class SectionsMenuSearch extends HTMLElement {
         const node = document.importNode(selector, true);
         node.removeAttribute(`template`);
         this.append(node);
+        if (getMultiFiling().length > 1) {
+          Array.from(this.querySelectorAll(`.d-none`)).forEach((current) => {
+            current.classList.remove(`d-none`)
+          });
+        }
       }
       //this.logger.info('More Filters Filter Bar rendered');
     } else {
@@ -29,7 +39,7 @@ export class SectionsMenuSearch extends HTMLElement {
 
   listeners(): void {
     const form = this.querySelector('#sections-search') as HTMLFormElement;
-    const inputs = this.querySelectorAll('[name="search-checks"]');
+    const inputs = this.querySelectorAll('[name="sections-checks"], [name="sections-radios"]');
     const clearButton = this.querySelector(`[name="clear-button"]`);
     if (form) {
       form.addEventListener('submit', (event) => {
@@ -54,29 +64,43 @@ export class SectionsMenuSearch extends HTMLElement {
     event.preventDefault();
     event.stopPropagation();
     this.searchOptionChange();
-    const searchInput = form.elements['search-input'];
-    const storeFilter: StoreFilter = StoreFilter.getInstance();
-    storeFilter.search = searchInput.value as string;
+    const searchInput = form.elements['sections-input'];
+    store.dispatch(
+      actions.sectionsUpdate({
+        id: 1,
+        changes: { sections: searchInput.value }
+      })
+    );
+
   }
 
   searchOptionChange() {
     const checkedInputs = this.querySelectorAll(
-      '[name="search-checks"]:checked'
+      '[name="sections-checks"]:checked, [name="sections-radios"]:checked'
     );
     const searchOptions = Array.from(checkedInputs).map((checked: Element) => {
       return parseInt(checked.getAttribute(`value`) as string, 10);
-    }).filter(Boolean);
-    const storeFilter: StoreFilter = StoreFilter.getInstance();
-    storeFilter.searchOptions = searchOptions;
+    });
+    store.dispatch(
+      actions.sectionsOptionsUpdate({
+        id: 1,
+        changes: { sectionsOptions: searchOptions },
+      })
+    );
   }
 
   searchClear(form: HTMLFormElement, event: Event) {
     event.preventDefault();
     event.stopPropagation();
     (
-      this.querySelector(`[name="search-input"]`) as HTMLInputElement
+      this.querySelector(`[name="sections-input"]`) as HTMLInputElement
     ).value = ``;
-    const storeFilter: StoreFilter = StoreFilter.getInstance();
-    storeFilter.search = null;
+
+    store.dispatch(
+      actions.sectionsUpdate({
+        id: 1,
+        changes: { sections: null },
+      })
+    );
   }
 }

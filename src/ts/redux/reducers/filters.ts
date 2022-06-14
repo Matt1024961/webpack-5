@@ -16,7 +16,11 @@ export const filtersSlice = createSlice({
   reducers: {
     filtersInit: filtersAdapter.addOne,
     filtersUpdate: filtersAdapter.updateOne,
+    filtersOptionsUpdate: filtersAdapter.updateOne,
     filtersReset: filtersAdapter.upsertOne,
+    sectionsUpdate: filtersAdapter.updateOne,
+    sectionsOptionsUpdate: filtersAdapter.updateOne,
+    sectionsReset: filtersAdapter.upsertOne,
   },
 });
 
@@ -47,12 +51,28 @@ export const getIsFilterActive = () => {
   };
 };
 
-export const getAllFilters = () => {
-  return filtersSelector.selectById(store.getState(), 1);
+export const getAllFactFilters = () => {
+  const factFilters = { ...filtersSelector.selectById(store.getState(), 1) };
+  delete factFilters.sections;
+  delete factFilters.sectionsOptions;
+  delete factFilters.id;
+  return factFilters;
 };
 
-export const resetAllFilters = () => {
-  const currentFilters = getAllFilters();
+export const getAllSectionFilters = () => {
+  const sectionFilters = { ...filtersSelector.selectById(store.getState(), 1) };
+  delete sectionFilters.data;
+  delete sectionFilters.filingUrl;
+  delete sectionFilters.moreFilters;
+  delete sectionFilters.search;
+  delete sectionFilters.searchOptions;
+  delete sectionFilters.tags;
+  delete sectionFilters.id;
+  return sectionFilters;
+};
+
+export const resetAllFactFilters = () => {
+  const currentFilters = getAllFactFilters();
   store.dispatch(
     actions.filtersReset({
       id: 1,
@@ -60,6 +80,8 @@ export const resetAllFilters = () => {
       searchOptions: currentFilters?.searchOptions
         ? currentFilters.searchOptions
         : null,
+      sections: currentFilters?.sections ? currentFilters.sections : null,
+      sectionsOptions: currentFilters?.sectionsOptions ? currentFilters.sectionsOptions : null,
       data: undefined,
       tags: undefined,
       moreFilters: {
@@ -70,20 +92,29 @@ export const resetAllFilters = () => {
         scale: [],
         balance: [],
       },
-      filingUrl: ``,
+      filingUrl: currentFilters?.filingUrl ? currentFilters.filingUrl : ``,
     })
   );
   return filtersSelector.selectById(store.getState(), 1);
 };
+
 export const getMoreFilters = () => {
   return filtersSelector.selectById(store.getState(), 1);
 };
 
-export const listenerMiddleware = createListenerMiddleware();
-listenerMiddleware.startListening({
+export const effect1 = createListenerMiddleware();
+effect1.startListening({
   matcher: isAnyOf(actions.filtersUpdate, actions.filtersReset),
   effect: async () => {
     const storeFilter: StoreFilter = StoreFilter.getInstance();
     storeFilter.filterFacts();
-  },
+  }
+});
+export const effect2 = createListenerMiddleware();
+effect2.startListening({
+  matcher: isAnyOf(actions.sectionsUpdate, actions.sectionsReset),
+  effect: async () => {
+    const storeFilter: StoreFilter = StoreFilter.getInstance();
+    storeFilter.filterSections();
+  }
 });

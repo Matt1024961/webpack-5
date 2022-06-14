@@ -14,9 +14,9 @@ import {
 import { actions as sectionsActions } from '../redux/reducers/sections';
 
 export class FilingUrl {
-  constructor(input = ``) {
+  constructor(input = ``, callback: unknown = null) {
     if (input) {
-      this.changeFiling(input);
+      this.changeFiling(input, callback);
     } else {
       this.init();
     }
@@ -42,21 +42,20 @@ export class FilingUrl {
 
     let filingURLLog = `Filing URL Data: `;
     Object.keys(storeUrl).forEach((current: string) => {
-      filingURLLog += `\n\t ${current}: ${
-        storeUrl[current as keyof typeof storeUrl]
-      }`;
+      filingURLLog += `\n\t ${current}: ${storeUrl[current as keyof typeof storeUrl]
+        }`;
     });
     storeLogger.info(filingURLLog);
     storeLogger.info(`Filing URL Complete`);
   }
 
-  changeFiling(input: string): void {
+  changeFiling(input: string, callback: unknown): void {
     const storeUrl: StoreUrl = StoreUrl.getInstance();
     storeUrl.fullURL = storeUrl.fullURL.replace(storeUrl.filing, input);
     storeUrl.filing = input;
     storeUrl.filingURL =
       storeUrl.filingURL.split(`/`).slice(0, -1).join(`/`) + `/${input}`;
-    this.beginPartialFetch();
+    this.beginPartialFetch(callback);
   }
 
   absoluteURL(input: string): string {
@@ -154,7 +153,7 @@ export class FilingUrl {
               }
             }
             const factContainer = document.querySelector(
-              `#facts-container sec-facts`
+              `sec-facts`
             );
             if (factContainer) {
               factContainer.setAttribute(`update-count`, ``);
@@ -197,7 +196,7 @@ export class FilingUrl {
     }
   }
 
-  beginPartialFetch() {
+  beginPartialFetch(callback: unknown) {
     this.resetApplication();
     const storeLogger: StoreLogger = StoreLogger.getInstance();
     const storeUrl: StoreUrl = StoreUrl.getInstance();
@@ -232,6 +231,7 @@ export class FilingUrl {
             const linksContainer = document.querySelector(
               `#navbar-container sec-links`
             );
+            const sectionsContainer = document.querySelector(`sec-sections-menu-single`)
 
             if (linksContainer) {
               linksContainer.setAttribute(`update`, `true`);
@@ -239,12 +239,16 @@ export class FilingUrl {
             if (filingContainer) {
               filingContainer.setAttribute(`update`, `true`);
             }
+            if (sectionsContainer) {
+              sectionsContainer.setAttribute(`update`, `true`);
+            }
             ConstantApplication.enableApplication();
             window.history.pushState(
               `Next Link`,
               `Inline XBRL Viewer`,
               storeUrl.fullURL
             );
+            callback();
           }
         }
       };

@@ -1,4 +1,4 @@
-import { ConstantDatabaseFilters } from '../../constants/database-filters';
+import { ConstantFactsFilters } from '../../constants/fact-filters';
 import { FactsTable } from '../../types/facts-table';
 import { allFilters } from '../../types/filter';
 
@@ -18,7 +18,7 @@ const filterAllFacts = (
       let highlightFact = 0;
 
       if (!highlightFact && allFilters.searchOptions?.includes(0) && fact.tag) {
-        highlightFact = ConstantDatabaseFilters.searchFactName(regex, fact.tag);
+        highlightFact = ConstantFactsFilters.searchFactName(regex, fact.tag);
       }
 
       if (
@@ -26,7 +26,7 @@ const filterAllFacts = (
         allFilters.searchOptions?.includes(1) &&
         fact.value
       ) {
-        highlightFact = ConstantDatabaseFilters.searchFactContent(
+        highlightFact = ConstantFactsFilters.searchFactContent(
           regex,
           fact.value
         );
@@ -37,7 +37,7 @@ const filterAllFacts = (
         allFilters.searchOptions?.includes(2) &&
         fact.labels
       ) {
-        highlightFact = ConstantDatabaseFilters.searchFactLabels(
+        highlightFact = ConstantFactsFilters.searchFactLabels(
           regex,
           fact.labels
         );
@@ -49,7 +49,7 @@ const filterAllFacts = (
         fact.labels
       ) {
         // this is technically 'Documentation'
-        highlightFact = ConstantDatabaseFilters.searchFactDefinition(
+        highlightFact = ConstantFactsFilters.searchFactDefinition(
           regex,
           fact.labels
         );
@@ -60,7 +60,7 @@ const filterAllFacts = (
         allFilters.searchOptions?.includes(4) &&
         fact.dimensionsValue
       ) {
-        highlightFact = ConstantDatabaseFilters.searchFactDimensions(
+        highlightFact = ConstantFactsFilters.searchFactDimensions(
           regex,
           fact.dimensionsValue
         );
@@ -71,7 +71,7 @@ const filterAllFacts = (
         allFilters.searchOptions?.includes(5) &&
         fact.references
       ) {
-        highlightFact = ConstantDatabaseFilters.searchFactReferenceOptions(
+        highlightFact = ConstantFactsFilters.searchFactReferenceOptions(
           regex,
           fact.references,
           `Topic`
@@ -83,7 +83,7 @@ const filterAllFacts = (
         allFilters.searchOptions?.includes(6) &&
         fact.references
       ) {
-        highlightFact = ConstantDatabaseFilters.searchFactReferenceOptions(
+        highlightFact = ConstantFactsFilters.searchFactReferenceOptions(
           regex,
           fact.references,
           `SubTopic`
@@ -95,7 +95,7 @@ const filterAllFacts = (
         allFilters.searchOptions?.includes(7) &&
         fact.references
       ) {
-        highlightFact = ConstantDatabaseFilters.searchFactReferenceOptions(
+        highlightFact = ConstantFactsFilters.searchFactReferenceOptions(
           regex,
           fact.references,
           `Paragraph`
@@ -107,7 +107,7 @@ const filterAllFacts = (
         allFilters.searchOptions?.includes(8) &&
         fact.references
       ) {
-        highlightFact = ConstantDatabaseFilters.searchFactReferenceOptions(
+        highlightFact = ConstantFactsFilters.searchFactReferenceOptions(
           regex,
           fact.references,
           `Publisher`
@@ -119,7 +119,7 @@ const filterAllFacts = (
         allFilters.searchOptions?.includes(9) &&
         fact.references
       ) {
-        highlightFact = ConstantDatabaseFilters.searchFactReferenceOptions(
+        highlightFact = ConstantFactsFilters.searchFactReferenceOptions(
           regex,
           fact.references,
           `Section`
@@ -137,43 +137,43 @@ const filterAllFacts = (
       let activateFact = 0;
 
       if (!activateFact && allFilters.data) {
-        activateFact = ConstantDatabaseFilters.dataRadio(allFilters.data, fact);
+        activateFact = ConstantFactsFilters.dataRadio(allFilters.data, fact);
       }
 
       if (!activateFact && allFilters.tags) {
-        activateFact = ConstantDatabaseFilters.tagsRadio(allFilters.tags, fact);
+        activateFact = ConstantFactsFilters.tagsRadio(allFilters.tags, fact);
       }
 
       if (!activateFact && allFilters.moreFilters.axis.length) {
-        activateFact = ConstantDatabaseFilters.axisCheck(
+        activateFact = ConstantFactsFilters.axisCheck(
           allFilters.moreFilters.axis,
           fact
         );
       }
 
       if (!activateFact && allFilters.moreFilters.balance.length) {
-        activateFact = ConstantDatabaseFilters.balanceCheck(
+        activateFact = ConstantFactsFilters.balanceCheck(
           allFilters.moreFilters.balance,
           fact
         );
       }
 
       if (!activateFact && allFilters.moreFilters.members.length) {
-        activateFact = ConstantDatabaseFilters.membersCheck(
+        activateFact = ConstantFactsFilters.membersCheck(
           allFilters.moreFilters.members,
           fact
         );
       }
 
       if (!activateFact && allFilters.moreFilters.periods.length) {
-        activateFact = ConstantDatabaseFilters.periodsCheck(
+        activateFact = ConstantFactsFilters.periodsCheck(
           allFilters.moreFilters.periods,
           fact
         );
       }
 
       if (!activateFact && allFilters.moreFilters.scale.length) {
-        activateFact = ConstantDatabaseFilters.scaleCheck(
+        activateFact = ConstantFactsFilters.scaleCheck(
           allFilters.moreFilters.scale,
           fact
         );

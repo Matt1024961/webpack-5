@@ -1,6 +1,6 @@
 import { FactsTable } from '../../types/facts-table';
 
-export const ConstantDatabaseFilters = {
+export const ConstantFactsFilters = {
   searchFactName: (regex: RegExp, factName: string): 0 | 1 => {
     return (regex as RegExp).test(factName) ? 1 : 0;
   },

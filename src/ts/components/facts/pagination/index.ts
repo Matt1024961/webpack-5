@@ -1,8 +1,5 @@
 import { ConstantApplication } from '../../../constants/application';
 import { getFactPaginationInfo } from '../../../redux/reducers/facts';
-// import { StoreUrl } from '../../../store/url';
-// import { StoreFilter } from '../../../store/filter';
-// import { StoreUrl } from '../../../store/url';
 
 import template from './template.html';
 
@@ -16,7 +13,7 @@ export class FactsMenuPagination extends HTMLElement {
   }
 
   async connectedCallback() {
-    await this.render();
+    this.render();
     this.listeners();
   }
 
@@ -34,7 +31,7 @@ export class FactsMenuPagination extends HTMLElement {
     if (name === `reset` && newValue) {
       this.innerHTML = ``;
       this.pagination = ConstantApplication.factMenuPagination;
-      await this.render();
+       this.render();
       this.listeners();
       this.removeAttribute(`reset`);
     }
@@ -69,7 +66,7 @@ export class FactsMenuPagination extends HTMLElement {
     }
   }
 
-  async render() {
+   render() {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
@@ -78,13 +75,6 @@ export class FactsMenuPagination extends HTMLElement {
         this.pagination.end,
         this.pagination.amount
       );
-
-      // const templateInfo = await storeFilter.getFactPaginationData(
-      //   storeUrl.filing,
-      //   this.pagination.start,
-      //   this.pagination.end,
-      //   this.pagination.amount
-      // );
       this.pagination.totalPages = templateInfo.totalPages;
       const selector = htmlDoc.querySelector(`[template]`);
       if (selector) {
@@ -137,15 +127,11 @@ export class FactsMenuPagination extends HTMLElement {
             } else {
               //
             }
-            //  console.log((currentlySelected.nextSibling as HTMLElement).classList.add(`selected`));
           } else {
             console.log(document.querySelector(`[fact-id]`)?.classList);
             document.querySelector(`[fact-id]`)?.classList.add(`selected`);
           }
-          // document.querySelectorAll(`[fact-id]`).forEach((nestedCurrent) => {
-          //   nestedCurrent.classList.remove(`selected`);
-          // });
-          // current.classList.add(`selected`);
+
         } else if (current.hasAttribute(`first-page`)) {
           //
           this.pagination.start = 0;

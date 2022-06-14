@@ -10,6 +10,7 @@ export class Menu extends HTMLElement {
   connectedCallback() {
     this.render();
     this.listeners();
+    ConstantApplication.setElementFocus(this.querySelector(`#menu-button`));
   }
 
   render() {

@@ -20,5 +20,10 @@ describe('Facts Menu Component', () => {
         `offcanvas offcanvas-end`
       );
     });
+
+    it(`should have proper title`, () => {
+      expect(element.querySelector(`#facts-offcanvas-label`)?.textContent?.trim()).toBe(`Facts`);
+    });
+
   });
 });

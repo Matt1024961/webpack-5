@@ -1,122 +1,82 @@
 <div template>
   <form class="d-flex" id="sections-search" autocomplete="off">
-    <fieldset class="w-100">
+    <fieldset class="w-100 px-1">
       <div class="input-group dropdown">
-        <button class="btn btn-sec" id="search-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-sec" id="sections-dropdown" type="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
           <i class="fas fa-cog"></i>
         </button>
-        <ul class="dropdown-menu" aria-labelledby="search-dropdown">
+        <ul class="dropdown-menu" aria-labelledby="sections-dropdown">
           <fieldset class="px-1">
-            <!-- Include Fact Name -->
             <li>
               <div class="form-check">
-                <input checked name="search-checks" class="form-check-input" type="checkbox" value="0"
-                  id="search-radio-0" />
-                <label class="form-check-label" for="search-radio-0">
-                  Include Fact Name
+                <input checked name="sections-checks" class="form-check-input" type="checkbox" value="0"
+                  id="sections-check-0" />
+                <label class="form-check-label" for="sections-check-0">
+                  Include Short Name
                 </label>
               </div>
             </li>
-            <!-- Include Fact Content -->
             <li>
               <div class="form-check">
-                <input checked name="search-checks" class="form-check-input" type="checkbox" value="1"
-                  id="search-radio-1" />
-                <label class="form-check-label" for="search-radio-1">
-                  Include Fact Content
+                <input name="sections-checks" class="form-check-input" type="checkbox" value="1"
+                  id="sections-check-1" />
+                <label class="form-check-label" for="sections-check-1">
+                  Include Long Name
                 </label>
               </div>
             </li>
-            <!-- Include Fact Labels -->
             <li>
               <div class="form-check">
-                <input checked name="search-checks" class="form-check-input" type="checkbox" value="2"
-                  id="search-radio-2" />
-                <label class="form-check-label" for="search-radio-2">
-                  Include Labels
+                <input name="sections-checks" class="form-check-input" type="checkbox" value="2"
+                  id="sections-check-2" />
+                <label class="form-check-label" for="sections-check-2">
+                  Include Report File
                 </label>
               </div>
             </li>
-            <!-- Include Fact Definitions -->
-            <li>
-              <div class="form-check">
-                <input name="search-checks" class="form-check-input" type="checkbox" value="3" id="search-radio-3" />
-                <label class="form-check-label" for="search-radio-3">
-                  Include Definitions
-                </label>
-              </div>
-            </li>
-            <!-- Include Fact Dimensions -->
-            <li>
-              <div class="form-check">
-                <input name="search-checks" class="form-check-input" type="checkbox" value="4" id="search-radio-4" />
-                <label class="form-check-label" for="search-radio-4">
-                  Include Dimensions
-                </label>
-              </div>
-            </li>
-            <div class="bg-light border p-1">
-              <span class="dropdown-item-text">Reference Options</span>
-              <!-- Include Topic -->
+            <div class="d-none bg-light border p-1">
+              <span class="dropdown-item-text">Filing Options</span>
               <li>
                 <div class="form-check">
-                  <input name="search-checks" class="form-check-input" type="checkbox" value="5" id="search-radio-5" />
-                  <label class="form-check-label" for="search-radio-5">
-                    Include Topic
+                  <input checked name="sections-radios" class="form-check-input" type="radio" value="3"
+                    id="sections-radio-3" />
+                  <label class="form-check-label" for="sections-radio-3">
+                    Search in All
                   </label>
                 </div>
               </li>
-              <!-- Include Sub-Topic -->
               <li>
                 <div class="form-check">
-                  <input name="search-checks" class="form-check-input" type="checkbox" value="6" id="search-radio-6" />
-                  <label class="form-check-label" for="search-radio-6">
-                    Include Sub-Topic
+                  <input name="sections-radios" class="form-check-input" type="radio" value="4" id="sections-radio-4" />
+                  <label class="form-check-label" for="sections-radio-4">
+                    Search in Internal Sections Only
                   </label>
                 </div>
               </li>
-              <!-- Include Paragraph -->
               <li>
                 <div class="form-check">
-                  <input name="search-checks" class="form-check-input" type="checkbox" value="7" id="search-radio-7" />
-                  <label class="form-check-label" for="search-radio-7">
-                    Include Paragraph
-                  </label>
-                </div>
-              </li>
-              <!-- Include Publisher -->
-              <li>
-                <div class="form-check">
-                  <input name="search-checks" class="form-check-input" type="checkbox" value="8" id="search-radio-8" />
-                  <label class="form-check-label" for="search-radio-8">
-                    Include Publisher
-                  </label>
-                </div>
-              </li>
-              <!-- Include Sections -->
-              <li>
-                <div class="form-check">
-                  <input name="search-checks" class="form-check-input" type="checkbox" value="9" id="search-radio-9" />
-                  <label class="form-check-label" for="search-radio-9">
-                    Include Section
+                  <input name="sections-radios" class="form-check-input" type="radio" value="5" id="sections-radio-5" />
+                  <label class="form-check-label" for="sections-radio-5">
+                    Search in External Sections Only
                   </label>
                 </div>
               </li>
             </div>
-            <!-- Match Case -->
             <li>
               <div class="form-check">
-                <input name="search-checks" class="form-check-input" type="checkbox" value="10" id="search-radio-10" />
-                <label class="form-check-label" for="search-radio-10">
+                <input name="sections-checks" class="form-check-input" type="checkbox" value="6"
+                  id="sections-check-6" />
+                <label class="form-check-label" for="sections-check-6">
                   Match Case
                 </label>
               </div>
             </li>
           </fieldset>
         </ul>
-        <input type="text" class="form-control" name="search-input" placeholder="Search Sections"
-          aria-label="Example text with button addon" aria-describedby="button-addon1" />
-        <button class="btn btn-sec" type="reset" name="clear-button">
+        <input type="text" class="form-control" name="sections-input" placeholder="Search Sections"
+          aria-label="Example text with button addon" aria-describedby="button-addon1" tabindex="-1" />
+        <button class="btn btn-sec" type="reset" name="clear-button" tabindex="-1">
           <i class="fas fa-times-circle"></i>
         </button>
         <button class="btn btn-sec" type="submit">

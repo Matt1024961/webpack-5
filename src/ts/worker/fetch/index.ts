@@ -129,13 +129,13 @@ function fillFacts(input: DataJSON, xhtmlUrl: string): Array<any> {
         dimensions:
           tempDimension.value && tempDimension.key
             ? {
-                concept: current.dimensions.concept,
-                period: current.dimensions.period,
-                lang: current.dimensions.language,
-                unit: current.dimensions.unit,
-                value: tempDimension.value,
-                key: tempDimension.key,
-              }
+              concept: current.dimensions.concept,
+              period: current.dimensions.period,
+              lang: current.dimensions.language,
+              unit: current.dimensions.unit,
+              value: tempDimension.value,
+              key: tempDimension.key,
+            }
             : null,
         references: input['ixv:references'][current['ixv:factReferences']],
         contextref: current['ixv:contextref'],
@@ -214,6 +214,7 @@ const fillSections = (input: DataJSON) => {
         : null,
       contextRef: contextRef,
       name: name,
+      isActive: true,
     };
     if (sectionToPutIntoDB.groupType) {
       arrayToBulkInsert.push(sectionToPutIntoDB);

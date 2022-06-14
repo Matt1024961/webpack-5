@@ -12,6 +12,7 @@ export const ConstantApplication = {
       .querySelectorAll(`#navbar-container .nav-link`)
       .forEach((current) => {
         current.classList.remove(`disabled`);
+        current.removeAttribute(`disabled`);
       });
     document.querySelectorAll(`#global-search fieldset`).forEach((current) => {
       current.removeAttribute(`disabled`);
@@ -32,6 +33,15 @@ export const ConstantApplication = {
   removeChildNodes: (parent: Element) => {
     while (parent.firstChild) {
       parent.removeChild(parent.firstChild);
+    }
+  },
+
+  setElementFocus: (element: HTMLElement | null) => {
+    if (element) {
+      setTimeout(() => {
+        element.focus();
+      });
+
     }
   }
 };

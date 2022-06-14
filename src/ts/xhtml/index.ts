@@ -27,16 +27,18 @@ export class Xhtml {
       0,
       storeUrl.filingURL.lastIndexOf('/')
     );
-    // console.log(src);
     node.querySelectorAll(`[href]`).forEach((current) => {
       this.fixURL(current);
     });
     node.querySelectorAll(`[src]`).forEach((current) => {
       const currentSRC = current.getAttribute(`src`);
       current.setAttribute(`src`, `${src}/${currentSRC}`);
-
-      //this.fixURL(current);
     });
+    console.log(node);
+    // Array.from(node.querySelectorAll(`[contextref]`)).forEach((current) => {
+    //   console.log(current);
+    //   current.setAttribute(`tabindex`, `-1`);
+    // })
     return node;
   }
 

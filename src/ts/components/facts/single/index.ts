@@ -1,6 +1,5 @@
 import { ConstantApplication } from '../../../constants/application';
 import { getFactPagination } from '../../../redux/reducers/facts';
-//import { StoreFilter } from '../../../store/filter';
 import { StoreUrl } from '../../../store/url';
 import { FactsTable } from '../../../types/facts-table';
 import template from './template.html';
@@ -20,14 +19,14 @@ export class FactsMenuSingle extends HTMLElement {
     //
   }
 
-  async attributeChangedCallback(
+   attributeChangedCallback(
     name: string,
     oldValue: string | null,
     newValue: string | null
   ) {
     this.pagination = JSON.parse(newValue as string);
     this.empty();
-    await this.render();
+    this.render();
     this.listeners();
   }
 
@@ -35,21 +34,16 @@ export class FactsMenuSingle extends HTMLElement {
     ConstantApplication.removeChildNodes(this);
   }
 
-  async render() {
+   render() {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
-      //const storeFilter: StoreFilter = StoreFilter.getInstance();
       const storeUrl: StoreUrl = StoreUrl.getInstance();
       const facts = getFactPagination(
         storeUrl.filing,
         this.pagination.start,
         this.pagination.end
       );
-      // const facts = await storeFilter.getFactsPagination(
-      //   this.pagination.start,
-      //   this.pagination.end
-      // );
 
       if (facts) {
         (facts as Array<FactsTable>).forEach((current, index) => {
@@ -87,9 +81,8 @@ export class FactsMenuSingle extends HTMLElement {
               node.querySelector(`[fact-value]`)?.appendChild(factValue);
               node.removeAttribute(`fact-value`);
               // add the fact quick info
-              const factQuickInfoText = `${current.isCustom ? `C` : ``} ${
-                current.dimensions ? `D` : ``
-              } ${current.isHidden ? `A` : ``}`.trim();
+              const factQuickInfoText = `${current.isCustom ? `C` : ``} ${current.dimensions ? `D` : ``
+                } ${current.isHidden ? `A` : ``}`.trim();
               const factQuickInfo = document.createTextNode(
                 factQuickInfoText.split(` `).join(` & `)
               );

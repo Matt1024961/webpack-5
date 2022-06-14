@@ -1,36 +1,30 @@
 <li template class="nav-item mr-1">
-  <a
-    id="menu-button"
-    class="nav-link disabled"
-    href="#"
-    role="button"
-    data-bs-toggle="dropdown"
-    disabled
-  >
+  <a id="menu-button" class="nav-link disabled" href="#" role="button" data-bs-toggle="dropdown" accesskey="1"
+    tabindex="1" disabled>
     <i class="nav-loading fas fa-bars" title="Menu"></i>
     <span>Menu</span>
   </a>
-  <ul id="menu-dropdown" class="dropdown-menu">
+  <ul id="menu-dropdown" class="dropdown-menu" aria-labelledby="menu-button">
     <li>
-      <a class="dropdown-item" href="#" modal="information"> Information </a>
+      <a class="dropdown-item" href="#" modal="information" tabindex="1"> Information </a>
     </li>
     <li>
-      <a class="dropdown-item" href="#">Save XBRL Instance</a>
+      <a class="dropdown-item" href="#" tabindex="1">Save XBRL Instance</a>
     </li>
     <li>
-      <a class="dropdown-item" href="#">Save XBRL Zip File</a>
+      <a class="dropdown-item" href="#" tabindex="1">Save XBRL Zip File</a>
     </li>
     <li>
-      <a class="dropdown-item" href="#">Open as HTML</a>
+      <a class="dropdown-item" href="#" tabindex="1">Open as HTML</a>
     </li>
     <li>
-      <a class="dropdown-item" href="#" modal="settings"> Settings </a>
+      <a class="dropdown-item" href="#" modal="settings" tabindex="1"> Settings </a>
     </li>
     <li>
-      <a class="dropdown-item" href="#">Help</a>
+      <a class="dropdown-item" href="#" tabindex="1">Help</a>
     </li>
     <li>
-      <a class="dropdown-item" href="#" template-version>Version: </a>
+      <a class="dropdown-item" href="#" template-version tabindex="1">Version: </a>
     </li>
   </ul>
 </li>

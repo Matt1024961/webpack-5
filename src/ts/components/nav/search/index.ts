@@ -73,7 +73,7 @@ export class Search extends HTMLElement {
     });
 
     store.dispatch(
-      actions.filtersUpdate({
+      actions.filtersOptionsUpdate({
         id: 1,
         changes: { searchOptions: searchOptions },
       })
