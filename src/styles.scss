@@ -37,7 +37,7 @@ body {
   --bs-body-color: unset;
   box-sizing: unset;
 
-  > * {
+  >* {
     box-sizing: unset !important;
   }
 }
@@ -54,6 +54,7 @@ body {
 [active-fact-block] {
   border-left: 2px red solid !important;
   border-right: 2px red solid !important;
+
   &:hover {
     background-color: rgba(255, 0, 0, 0.3) !important;
     cursor: pointer !important;
@@ -67,6 +68,7 @@ body {
   border-left: 0.75rem solid $sec-color;
   border-bottom: 0.5rem solid transparent;
 }
+
 .block-indicator-right {
   right: 0;
   width: 5px;
@@ -108,8 +110,7 @@ body {
   &:hover {
     color: $white;
     cursor: pointer !important;
-    background: linear-gradient($white, $white) bottom 5px center/ 90% 1px
-      no-repeat;
+    background: linear-gradient($white, $white) bottom 5px center/ 90% 1px no-repeat;
   }
 
   &:visited {
@@ -150,12 +151,12 @@ body {
   color: $black;
 
   &:hover {
-    border-color: $black !important;
+    border-color: $black  !important;
     color: $black;
   }
 
   &.selected {
-    border-color: $sec-color !important;
+    border-color: $sec-color  !important;
     border-width: 5px !important;
   }
 }
@@ -206,6 +207,13 @@ body {
   left: 35vw;
   width: 30vw;
   height: 50vh;
+  padding-right: 0 !important;
+}
+
+.modal-dialog {
+  max-width: 30vw;
+  height: 50vh;
+  margin: 0 !important;
 }
 
 .modal-actions {
@@ -237,12 +245,12 @@ body {
   }
 
   a.active {
-    background-color: $sec-color !important;
+    background-color: $sec-color  !important;
     padding: 1px;
   }
 
   a:not(.active) {
-    background-color: $white !important;
+    background-color: $white  !important;
     border: 1px solid $sec-color;
   }
 
@@ -268,9 +276,11 @@ body {
   width: 100%;
   max-width: 100%;
 }
+
 .partial.collapsing {
   height: 40px !important;
 }
+
 .partial.show {
   height: auto;
 }

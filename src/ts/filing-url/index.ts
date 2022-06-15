@@ -13,6 +13,8 @@ import {
 
 import { actions as sectionsActions } from '../redux/reducers/sections';
 
+import { actions as infoActions } from '../redux/reducers/form-information';
+
 export class FilingUrl {
   constructor(input = ``, callback: unknown = null) {
     if (input) {
@@ -131,10 +133,15 @@ export class FilingUrl {
       });
       const enableapplication = { data: false, xhtml: false };
       worker.onmessage = async (event) => {
+
         store.dispatch(factActions.factsAddMany(event.data.all[1].facts));
+
         store.dispatch(
           sectionsActions.sectionsAddMany(event.data.all[1].sections)
         );
+
+        store.dispatch(infoActions.infoInit(event.data.all[1].info));
+
 
         if (event.data.all) {
           if (event.data.all[1].error) {

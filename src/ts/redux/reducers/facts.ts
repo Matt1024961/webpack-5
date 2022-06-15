@@ -145,3 +145,8 @@ export const getMultiFiling = (): Array<string> => {
     ...new Set(allFacts.map((element) => element.files).filter(Boolean)),
   ] as Array<string>;
 };
+
+export const getFactByTag = (tag: string): any => {
+  const allFacts = getAllFacts();
+  return allFacts.filter((element: any) => element.tag === tag);
+}

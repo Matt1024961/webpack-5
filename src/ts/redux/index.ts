@@ -4,6 +4,7 @@ import factsReducer from './reducers/facts';
 import filtersReducer, { effect1, effect2 } from './reducers/filters';
 import sectionsReducer from './reducers/sections';
 import settingsReducer from './reducers/user-settings';
+import infoReducer from './reducers/form-information';
 
 const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
@@ -13,6 +14,7 @@ const store = configureStore({
     facts: factsReducer,
     filters: filtersReducer,
     sections: sectionsReducer,
+    info: infoReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
