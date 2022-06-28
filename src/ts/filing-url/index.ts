@@ -133,7 +133,6 @@ export class FilingUrl {
       });
       const enableapplication = { data: false, xhtml: false };
       worker.onmessage = async (event) => {
-
         store.dispatch(factActions.factsAddMany(event.data.all[1].facts));
 
         store.dispatch(

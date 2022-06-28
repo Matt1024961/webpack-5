@@ -10,7 +10,6 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = (env = { copy: true }, argv = { mode: `production` }) => {
-  console.log(argv.mode);
   return {
     mode: argv.mode,
 
@@ -36,8 +35,8 @@ module.exports = (env = { copy: true }, argv = { mode: `production` }) => {
 
       env.copy
         ? new CopyPlugin({
-            patterns: [{ from: 'src/assets', to: 'assets' }],
-          })
+          patterns: [{ from: 'src/assets', to: 'assets' }],
+        })
         : false,
 
       new PurgeCSSPlugin({
@@ -52,41 +51,41 @@ module.exports = (env = { copy: true }, argv = { mode: `production` }) => {
 
       argv.mode === `production`
         ? new WorkboxPlugin.GenerateSW({
-            // these options encourage the ServiceWorkers to get in there fast
-            // and not allow any straggling "old" SWs to hang around
-            disableDevLogs: true,
-            clientsClaim: true,
-            skipWaiting: true,
-            cleanupOutdatedCaches: true,
-            inlineWorkboxRuntime: true,
-            maximumFileSizeToCacheInBytes: 6000000,
-            exclude: [`assets`],
-            mode: argv.mode,
-            ignoreURLParametersMatching: [/^\d+$/],
-            runtimeCaching: [
-              {
-                urlPattern: /\.(?:min.js|min.css)$/,
-                // Apply a network-first strategy.
-                handler: 'StaleWhileRevalidate',
-                options: {
-                  // Use a custom cache name.
-                  cacheName: 'application',
+          // these options encourage the ServiceWorkers to get in there fast
+          // and not allow any straggling "old" SWs to hang around
+          disableDevLogs: true,
+          clientsClaim: true,
+          skipWaiting: true,
+          cleanupOutdatedCaches: true,
+          inlineWorkboxRuntime: true,
+          maximumFileSizeToCacheInBytes: 6000000,
+          exclude: [`assets`],
+          mode: argv.mode,
+          ignoreURLParametersMatching: [/^\d+$/],
+          runtimeCaching: [
+            {
+              urlPattern: /\.(?:min.js|min.css)$/,
+              // Apply a network-first strategy.
+              handler: 'StaleWhileRevalidate',
+              options: {
+                // Use a custom cache name.
+                cacheName: 'application',
+              },
+            },
+            {
+              urlPattern: /\.(?:htm|json|png|jpg|jpeg|svg)$/,
+              // Apply a network-first strategy.
+              handler: 'StaleWhileRevalidate',
+              options: {
+                // Use a custom cache name.
+                cacheName: 'filing',
+                expiration: {
+                  maxEntries: 100,
                 },
               },
-              {
-                urlPattern: /\.(?:htm|json|png|jpg|jpeg|svg)$/,
-                // Apply a network-first strategy.
-                handler: 'StaleWhileRevalidate',
-                options: {
-                  // Use a custom cache name.
-                  cacheName: 'filing',
-                  expiration: {
-                    maxEntries: 100,
-                  },
-                },
-              },
-            ],
-          })
+            },
+          ],
+        })
         : false,
     ].filter(Boolean),
 
