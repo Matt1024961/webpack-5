@@ -1,19 +1,93 @@
 <div template>
   <form>
     <div class="row m-3">
-      <label for="inputEmail" class="col-sm-3 col-form-label"
-        >Show All Facts?</label
-      >
+      <label class="col-sm-3 col-form-label"> Show All Facts. </label>
       <div class="col-sm-9">
         <select class="form-select" aria-label="Show all Facts" name="allFacts">
-          <option value="0">Only show Facts for this File</option>
-          <option value="1">Show all Facts for all Filing(s)</option>
+          <option value="false">Only show Facts for this File</option>
+          <option value="true">Show all Facts for all Filing(s)</option>
         </select>
 
-        <div id="passwordHelpBlock" class="form-text">
+        <div class="form-text">
           Something to give the user more information on what the above
           option(s) entail.
         </div>
+      </div>
+    </div>
+
+    <div class="row m-3">
+      <label class="col-sm-3 col-form-label">
+        Hover over Fact for quick information.
+      </label>
+      <div class="col-sm-9">
+        <select
+          class="form-select"
+          aria-label="Hover over Fact for quick information"
+          name="hoverInfo"
+        >
+          <option value="true">On</option>
+          <option value="false">Off</option>
+        </select>
+
+        <div class="form-text">
+          Something to give the user more information on what the above
+          option(s) entail.
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-3">
+      <label class="col-sm-3 col-form-label"> Auto Scrolling Position. </label>
+      <div class="col-sm-9">
+        <select
+          class="form-select"
+          aria-label="Auto Scrolling Position"
+          name="position"
+        >
+          <option value="top">Top</option>
+          <option value="center">Center</option>
+        </select>
+
+        <div class="form-text">
+          Something to give the user more information on what the above
+          option(s) entail.
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-3">
+      <label class="col-sm-3 col-form-label">
+        <span active-fact>Tagged Data</span>
+      </label>
+      <div class="col-sm-9">
+        <div id="tagged-data"></div>
+      </div>
+    </div>
+
+    <div class="row m-3">
+      <label class="col-sm-3 col-form-label">
+        <span highlight-fact>Search Results</span>
+      </label>
+      <div class="col-sm-9">
+        <div id="search-results"></div>
+      </div>
+    </div>
+
+    <div class="row m-3">
+      <label class="col-sm-3 col-form-label">
+        <span selected-fact>Selected Fact</span>
+      </label>
+      <div class="col-sm-9">
+        <div id="selected-fact"></div>
+      </div>
+    </div>
+
+    <div class="row m-3">
+      <label class="col-sm-3 col-form-label">
+        <span fact-shading-only> Tag Shading (on hover) </span>
+      </label>
+      <div class="col-sm-9">
+        <div id="tag-shading"></div>
       </div>
     </div>
   </form>

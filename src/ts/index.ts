@@ -54,19 +54,8 @@ import { SectionsMenuSingle } from './components/sections/single';
       filingUrl: ``,
     })
   );
-  
-  store.dispatch(
-    settingsActions.settingsInit({
-      id: 1,
-      hoverInfo: 1,
-      position: `top`,
-      active: `#FF6600`,
-      highlight: `#FFD700`,
-      selected: `#003768`,
-      hover: `rgba(255,0,0,0.3)`,
-      allFacts: 0,
-    })
-  );
+
+  store.dispatch(settingsActions.settingsInit());
   // here we hadd all custom HTML components
   customElements.define('sec-root', Root);
   customElements.define('sec-navbar', Navbar);

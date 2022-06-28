@@ -1,12 +1,12 @@
+// import { ConstantApplication } from '../../../constants/application';
 import { ConstantApplication } from '../../../constants/application';
-//import FactsTable from '../../../indexedDB/facts';
-//import { StoreUrl } from '../../../store/url';
+import { getFactByID } from '../../../redux/reducers/facts';
 import { FactsTable as FactsTableType } from '../../../types/facts-table';
 import { BaseModal } from '../base-modal';
 import page1 from './template-page-1.html';
 import page2 from './template-page-2.html';
 import page3 from './template-page-3.html';
-import page4 from './template-page-4.html';
+ import page4 from './template-page-4.html';
 
 export class Fact extends BaseModal {
   static get observedAttributes() {
@@ -22,165 +22,109 @@ export class Fact extends BaseModal {
     oldValue: string | null,
     newValue: string | null
   ) {
-    BaseModal.prototype.init.call(this, [
-      'Company and Document',
-      'Tags',
-      'Files',
-      'Additional Items',
-    ]);
-    console.log(name, oldValue, newValue);
-    //this.buildCarousel(newValue as string);
+    if (name === `fact-id` && newValue) {
+      BaseModal.prototype.init.call(this, [
+        'Company and Document',
+        'Tags',
+        'Files',
+        'Additional Items',
+      ]);
+      const fact = getFactByID(newValue as string);
+      console.log(fact);
+      this.page1(fact as FactsTableType);
+      this.page2(fact as FactsTableType);
+      this.page3(fact as FactsTableType);
+      this.page4(fact as FactsTableType);
+      this.removeAttribute(`fact-id`);
+    }
   }
 
-  // async buildCarousel(factId: string) {
-  //   const storeUrl: StoreUrl = StoreUrl.getInstance();
-  //   //const db: FactsTable = new FactsTable(storeUrl.dataURL);
-  //   //const fact = (await db.getFactById(factId)) as FactsTableType;
-  //   const fact: Array<FactsTableType> = [];
-  //   await this.page1(fact);
-  //   await this.page2(fact);
-  //   await this.page3(fact);
-  //   //await this.page4(fact);
-  // }
-
-  async page1(fact: FactsTableType | unknown) {
+  page1(fact: FactsTableType) {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(page1, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
-      const valuesToGet = htmlDoc.querySelectorAll(`[value]`);
-      for await (const current of valuesToGet) {
-        if (
-          fact[current.getAttribute(`value`) as string] &&
-          fact[current.getAttribute(`value`) as string].length
-        ) {
-          if (
-            current.getAttribute(`value`) === `value` &&
-            (fact.isHtml || fact.isText)
-          ) {
-            const th = document.createElement(`th`);
-
-            const button = document.createElement(`button`);
-            button.classList.add(`btn`);
-            button.classList.add(`btn-primary`);
-            button.classList.add(`btn-sm`);
-            button.type = `button`;
-            button.setAttribute(`data-bs-toggle`, `collapse`);
-            button.setAttribute(`data-bs-target`, `#collapseValue`);
-            button.setAttribute(`aria-expanded`, `false`);
-            button.setAttribute(`aria-controls`, `collapseValue`);
-
-            const text = document.createTextNode(`Fact`);
-
-            const div = document.createElement(`div`);
-            div.id = `collapseValue`;
-            div.classList.add(`partial`);
-            div.classList.add(`collapse`);
-
-            if (fact.isHtml) {
-              console.log(fact.htmlId);
-              const parser = new DOMParser();
-              const htmlDoc = parser.parseFromString(
-                fact[current.getAttribute(`value`) as string],
-                `text/html`
-              );
-              const factContent = [...htmlDoc.querySelectorAll(`body > *`)];
-              console.log(factContent);
-              factContent.forEach((current) => {
-                div.append(current);
-              });
-              //console.log(htmlDoc.querySelectorAll(`body > *`));
-              // const value = document.createTextNode(
-              //   `${fact[current.getAttribute(`value`)]}`
-              // );
-
-              // div.append(htmlDoc.querySelectorAll(`body > *`));
-            } else {
-              const value = document.createTextNode(
-                `${fact[current.getAttribute(`value`) as string]}`
-              );
-
-              div.append(value);
-            }
-            current.append(div);
-
-            // <div class="collapse" id="collapseExample">
-            //   <div class="card card-body">
-            //      Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-            //   </div>
-            // </div>
-            button.append(text);
-            th.append(button);
-            current.previousElementSibling?.replaceWith(th);
-          } else {
-            const text = document.createTextNode(
-              `${fact[current.getAttribute(`value`) as string]}`
-            );
-            current.append(text);
-          }
-          current.removeAttribute(`value`);
+      const valuesToGet = Array.from(htmlDoc.querySelectorAll(`[value]`));
+      valuesToGet.forEach((current) => {
+        //
+        if (fact[current.getAttribute(`value`) as string]) {
+          const text = document.createTextNode(
+            `${fact[current.getAttribute(`value`) as string]}`
+          );
+          current.append(text);
         } else {
           ConstantApplication.removeChildNodes(
             current.parentElement as Element
           );
         }
-      }
+        current.removeAttribute(`value`);
+      });
       const selector = htmlDoc.querySelector(`[template]`);
       if (selector) {
         const node = document.importNode(selector, true);
         node.removeAttribute(`template`);
         const carousel = this.querySelector(`[carousel-items]`);
         carousel?.append(node);
-        //this.logger.info('Data Filter Bar rendered');
       }
     } else {
       //this.logger.warn('Data Filter NOT rendered');
     }
   }
 
-  async page2(fact: FactsTableType | unknown) {
+  page2(fact: FactsTableType) {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(page2, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
-      const tbody = htmlDoc.querySelector(`tbody`);
-      for await (const [key, value] of fact.labels as Array<Array<string>>) {
-        const tr = document.createElement(`tr`);
-        const th = document.createElement(`th`);
-        const thText = document.createTextNode(`${key}`);
-        th.append(thText);
-        tr.append(th);
-        const td = document.createElement(`td`);
-        const tdText = document.createTextNode(`${value}`);
-        td.append(tdText);
-        tr.append(td);
-        tbody?.append(tr);
-      }
+      const valuesToGet = Array.from(htmlDoc.querySelectorAll(`[value]`));
+      valuesToGet.forEach((current) => {
+        //
+        if (fact[current.getAttribute(`value`) as string]) {
+          const text = document.createTextNode(
+            `${fact[current.getAttribute(`value`) as string]}`
+          );
+          current.append(text);
+        } else {
+          ConstantApplication.removeChildNodes(
+            current.parentElement as Element
+          );
+        }
+        current.removeAttribute(`value`);
+      });
       const selector = htmlDoc.querySelector(`[template]`);
       if (selector) {
         const node = document.importNode(selector, true);
         node.removeAttribute(`template`);
         const carousel = this.querySelector(`[carousel-items]`);
         carousel?.append(node);
-        //this.logger.info('Data Filter Bar rendered');
       }
     } else {
       //this.logger.warn('Data Filter NOT rendered');
     }
   }
 
-  async page3(fact: FactsTableType | unknown) {
+  page3(fact: FactsTableType) {
     console.log(fact.references);
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(page3, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       const tbody = htmlDoc.querySelector(`tbody`);
-      for await (const [key, value] of fact.labels as Array<Array<string>>) {
+      if (fact.references) {
+        for (const [key, value] of fact.references) {
+          const tr = document.createElement(`tr`);
+          const th = document.createElement(`th`);
+          const thText = document.createTextNode(`${key}`);
+          th.append(thText);
+          tr.append(th);
+          const td = document.createElement(`td`);
+          const tdText = document.createTextNode(`${value}`);
+          td.append(tdText);
+          tr.append(td);
+          tbody?.append(tr);
+        }
+      } else {
+        //<tr class="reboot"><td class="reboot">No Data.</td></tr>
         const tr = document.createElement(`tr`);
-        const th = document.createElement(`th`);
-        const thText = document.createTextNode(`${key}`);
-        th.append(thText);
-        tr.append(th);
         const td = document.createElement(`td`);
-        const tdText = document.createTextNode(`${value}`);
+        const tdText = document.createTextNode(`No Data.`);
         td.append(tdText);
         tr.append(td);
         tbody?.append(tr);
@@ -198,7 +142,7 @@ export class Fact extends BaseModal {
     }
   }
 
-  async page4(fact: FactsTableType | unknown) {
+  page4(fact: FactsTableType) {
     console.log(fact);
     console.log(page4);
   }

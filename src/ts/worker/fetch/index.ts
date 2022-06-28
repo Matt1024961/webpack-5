@@ -65,7 +65,11 @@ self.onmessage = async ({ data }) => {
   }
 };
 function prepareDataForStore(data: DataJSON, xhtmlUrl: string): any {
-  const returnObject: { facts: Array<any>; sections: Array<any>; info: FormInformationTable | any } = {
+  const returnObject: {
+    facts: Array<any>;
+    sections: Array<any>;
+    info: FormInformationTable | any;
+  } = {
     facts: [],
     sections: [],
     info: {},
@@ -134,19 +138,18 @@ function fillFacts(input: DataJSON, xhtmlUrl: string): Array<any> {
         dimensions:
           tempDimension.value && tempDimension.key
             ? {
-              concept: current.dimensions.concept,
-              period: current.dimensions.period,
-              lang: current.dimensions.language,
-              unit: current.dimensions.unit,
-              value: tempDimension.value,
-              key: tempDimension.key,
-            }
+                concept: current.dimensions.concept,
+                period: current.dimensions.period,
+                lang: current.dimensions.language,
+                unit: current.dimensions.unit,
+                value: tempDimension.value,
+                key: tempDimension.key,
+              }
             : null,
         references: input['ixv:references'][current['ixv:factReferences']],
         contextref: current['ixv:contextref'],
         isHidden: current['ixv:hidden'] ? 1 : 0,
         standardLabel: current['ixv:standardLabel'],
-        labels: input['ixv:labels'][current['ixv:factLabels']],
         calculations: current['ixv:factCalculations'][1],
         isNegative: current['ixv:isnegativesonly'] ? 1 : 0,
         isNumeric: current['ixv:isnumeric'] ? 1 : 0,
@@ -166,6 +169,19 @@ function fillFacts(input: DataJSON, xhtmlUrl: string): Array<any> {
         isHighlight: false,
         isActive: true,
       };
+
+      const labelsFlat = [
+        input['ixv:labels'][current['ixv:factLabels']].flat(),
+      ].flat();
+      const obj = {};
+      for (let index = 0; index < labelsFlat.length; index++) {
+        if (index % 2 == 0) {
+          const key = labelsFlat[index].toLowerCase().replace(/\s+/g, '-');
+          const value = labelsFlat[index + 1];
+          obj[key] = value;
+        }
+      }
+      Object.assign(factToPutIntoDB, obj);
       arrayToBulkInsert.push(factToPutIntoDB);
     } else {
       // todo figure out what to do with these?
@@ -238,62 +254,110 @@ const fillFormInfo = (input: DataJSON) => {
     primary: {
       standard: input[`ixv:instanceInfo`].keyStandard,
       standardPerc: `${Math.round(
-        (input[`ixv:instanceInfo`].keyStandard / (input[`ixv:instanceInfo`].keyStandard + input[`ixv:instanceInfo`].keyCustom)
-        ) * 100)}%`,
+        (input[`ixv:instanceInfo`].keyStandard /
+          (input[`ixv:instanceInfo`].keyStandard +
+            input[`ixv:instanceInfo`].keyCustom)) *
+          100
+      )}%`,
       custom: input[`ixv:instanceInfo`].keyCustom,
       customPerc: `${Math.round(
         (input[`ixv:instanceInfo`].keyCustom /
-          (input[`ixv:instanceInfo`].keyStandard + input[`ixv:instanceInfo`].keyCustom)
-        ) * 100)}%`,
-      total: input[`ixv:instanceInfo`].keyStandard + input[`ixv:instanceInfo`].keyCustom,
+          (input[`ixv:instanceInfo`].keyStandard +
+            input[`ixv:instanceInfo`].keyCustom)) *
+          100
+      )}%`,
+      total:
+        input[`ixv:instanceInfo`].keyStandard +
+        input[`ixv:instanceInfo`].keyCustom,
     },
 
     axis: {
       standard: input[`ixv:instanceInfo`].axisStandard,
       standardPerc: `${Math.round(
-        input[`ixv:instanceInfo`].axisStandard /
-        (input[`ixv:instanceInfo`].axisStandard + input[`ixv:instanceInfo`].axisCustom)
-        * 100)}%`,
+        (input[`ixv:instanceInfo`].axisStandard /
+          (input[`ixv:instanceInfo`].axisStandard +
+            input[`ixv:instanceInfo`].axisCustom)) *
+          100
+      )}%`,
       custom: input[`ixv:instanceInfo`].axisCustom,
       customPerc: `${Math.round(
-        input[`ixv:instanceInfo`].axisCustom /
-        (input[`ixv:instanceInfo`].axisStandard + input[`ixv:instanceInfo`].axisCustom)
-        * 100)}%`,
-      total: input[`ixv:instanceInfo`].axisStandard + input[`ixv:instanceInfo`].axisCustom,
+        (input[`ixv:instanceInfo`].axisCustom /
+          (input[`ixv:instanceInfo`].axisStandard +
+            input[`ixv:instanceInfo`].axisCustom)) *
+          100
+      )}%`,
+      total:
+        input[`ixv:instanceInfo`].axisStandard +
+        input[`ixv:instanceInfo`].axisCustom,
     },
 
     member: {
       standard: input[`ixv:instanceInfo`].memberStandard,
       standardPerc: `${Math.round(
-        input[`ixv:instanceInfo`].memberStandard /
-        (input[`ixv:instanceInfo`].memberStandard + input[`ixv:instanceInfo`].memberCustom)
-        * 100)}%`,
+        (input[`ixv:instanceInfo`].memberStandard /
+          (input[`ixv:instanceInfo`].memberStandard +
+            input[`ixv:instanceInfo`].memberCustom)) *
+          100
+      )}%`,
       custom: input[`ixv:instanceInfo`].memberCustom,
       customPerc: `${Math.round(
-        input[`ixv:instanceInfo`].memberCustom /
-        (input[`ixv:instanceInfo`].memberStandard + input[`ixv:instanceInfo`].memberCustom)
-        * 100)}%`,
-      total: input[`ixv:instanceInfo`].memberStandard + input[`ixv:instanceInfo`].memberCustom,
+        (input[`ixv:instanceInfo`].memberCustom /
+          (input[`ixv:instanceInfo`].memberStandard +
+            input[`ixv:instanceInfo`].memberCustom)) *
+          100
+      )}%`,
+      total:
+        input[`ixv:instanceInfo`].memberStandard +
+        input[`ixv:instanceInfo`].memberCustom,
     },
 
     total: {
-      standard: input[`ixv:instanceInfo`].keyStandard + input[`ixv:instanceInfo`].axisStandard + input[`ixv:instanceInfo`].memberStandard,
+      standard:
+        input[`ixv:instanceInfo`].keyStandard +
+        input[`ixv:instanceInfo`].axisStandard +
+        input[`ixv:instanceInfo`].memberStandard,
       standardPerc: `${Math.round(
-        (input[`ixv:instanceInfo`].keyStandard + input[`ixv:instanceInfo`].axisStandard + input[`ixv:instanceInfo`].memberStandard) /
-        (input[`ixv:instanceInfo`].keyStandard + input[`ixv:instanceInfo`].keyCustom + input[`ixv:instanceInfo`].axisStandard + input[`ixv:instanceInfo`].axisCustom + input[`ixv:instanceInfo`].memberStandard + input[`ixv:instanceInfo`].memberCustom)
-        * 100)}%`,
-      custom: input[`ixv:instanceInfo`].keyCustom + input[`ixv:instanceInfo`].axisCustom + input[`ixv:instanceInfo`].memberCustom,
+        ((input[`ixv:instanceInfo`].keyStandard +
+          input[`ixv:instanceInfo`].axisStandard +
+          input[`ixv:instanceInfo`].memberStandard) /
+          (input[`ixv:instanceInfo`].keyStandard +
+            input[`ixv:instanceInfo`].keyCustom +
+            input[`ixv:instanceInfo`].axisStandard +
+            input[`ixv:instanceInfo`].axisCustom +
+            input[`ixv:instanceInfo`].memberStandard +
+            input[`ixv:instanceInfo`].memberCustom)) *
+          100
+      )}%`,
+      custom:
+        input[`ixv:instanceInfo`].keyCustom +
+        input[`ixv:instanceInfo`].axisCustom +
+        input[`ixv:instanceInfo`].memberCustom,
       customPerc: `${Math.round(
-        (input[`ixv:instanceInfo`].keyCustom + input[`ixv:instanceInfo`].axisCustom + input[`ixv:instanceInfo`].memberCustom) /
-        (input[`ixv:instanceInfo`].keyStandard + input[`ixv:instanceInfo`].keyCustom + input[`ixv:instanceInfo`].axisStandard + input[`ixv:instanceInfo`].axisCustom + input[`ixv:instanceInfo`].memberStandard + input[`ixv:instanceInfo`].memberCustom)
-        * 100)}%`,
-      total: input[`ixv:instanceInfo`].keyStandard + input[`ixv:instanceInfo`].keyCustom + input[`ixv:instanceInfo`].axisStandard + input[`ixv:instanceInfo`].axisCustom + input[`ixv:instanceInfo`].memberStandard + input[`ixv:instanceInfo`].memberCustom,
+        ((input[`ixv:instanceInfo`].keyCustom +
+          input[`ixv:instanceInfo`].axisCustom +
+          input[`ixv:instanceInfo`].memberCustom) /
+          (input[`ixv:instanceInfo`].keyStandard +
+            input[`ixv:instanceInfo`].keyCustom +
+            input[`ixv:instanceInfo`].axisStandard +
+            input[`ixv:instanceInfo`].axisCustom +
+            input[`ixv:instanceInfo`].memberStandard +
+            input[`ixv:instanceInfo`].memberCustom)) *
+          100
+      )}%`,
+      total:
+        input[`ixv:instanceInfo`].keyStandard +
+        input[`ixv:instanceInfo`].keyCustom +
+        input[`ixv:instanceInfo`].axisStandard +
+        input[`ixv:instanceInfo`].axisCustom +
+        input[`ixv:instanceInfo`].memberStandard +
+        input[`ixv:instanceInfo`].memberCustom,
     },
-
 
     inlineDocument: input[`ixv:instanceInfo`].dts.inline.local,
 
-    schema: input[`ixv:instanceInfo`].dts.schema.local.concat(input[`ixv:instanceInfo`].dts.schema.remote),
+    schema: input[`ixv:instanceInfo`].dts.schema.local.concat(
+      input[`ixv:instanceInfo`].dts.schema.remote
+    ),
 
     label: input[`ixv:instanceInfo`].dts.labelLink.local,
 
@@ -305,4 +369,4 @@ const fillFormInfo = (input: DataJSON) => {
 
     taxonomy: input[`ixv:instanceInfo`].hidden,
   };
-}
+};

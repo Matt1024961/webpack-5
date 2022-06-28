@@ -1,7 +1,17 @@
 import store from '../../redux';
-import { actions as factsActions, getAllFacts } from '../../redux/reducers/facts';
-import { getAllFactFilters, getAllSectionFilters, getIsFilterActive } from '../../redux/reducers/filters';
-import { actions as sectionsActions, getAllSections } from '../../redux/reducers/sections';
+import {
+  actions as factsActions,
+  getAllFacts,
+} from '../../redux/reducers/facts';
+import {
+  getAllFactFilters,
+  getAllSectionFilters,
+  getIsFilterActive,
+} from '../../redux/reducers/filters';
+import {
+  actions as sectionsActions,
+  getAllSections,
+} from '../../redux/reducers/sections';
 import { Attributes } from '../attributes';
 import { StoreLogger } from '../logger';
 import { StoreUrl } from '../url';
@@ -84,8 +94,7 @@ export class StoreFilter {
         if (event && event.data) {
           store.dispatch(factsActions.factsUpsertAll(event.data.facts));
           document.querySelector(`sec-facts`)?.setAttribute(`update-count`, ``);
-          const attributes = new Attributes();
-          attributes.setProperAttribute();
+          new Attributes(false);
           const stop = performance.now();
           const storeLogger: StoreLogger = StoreLogger.getInstance();
           storeLogger.info(
@@ -102,7 +111,7 @@ export class StoreFilter {
   public filterSections() {
     const start = performance.now();
     const storeUrl: StoreUrl = StoreUrl.getInstance();
-    console.log()
+    console.log();
     if (window.Worker) {
       const worker = new Worker(
         new URL('./../../worker/sections/index', import.meta.url),
@@ -111,12 +120,16 @@ export class StoreFilter {
       worker.postMessage({
         url: storeUrl.filing,
         allSections: getAllSections(),
-        allFilters: getAllSectionFilters()
+        allFilters: getAllSectionFilters(),
       });
       worker.onmessage = async (event) => {
         if (event && event.data) {
-          store.dispatch(sectionsActions.sectionsUpsertAll(event.data.sections));
-          document.querySelector(`sec-sections-menu-single`)?.setAttribute(`reset`, `true`);
+          store.dispatch(
+            sectionsActions.sectionsUpsertAll(event.data.sections)
+          );
+          document
+            .querySelector(`sec-sections-menu-single`)
+            ?.setAttribute(`reset`, `true`);
           const stop = performance.now();
           const storeLogger: StoreLogger = StoreLogger.getInstance();
           storeLogger.info(
@@ -128,7 +141,5 @@ export class StoreFilter {
     } else {
       // no worker!
     }
-
   }
-
 }

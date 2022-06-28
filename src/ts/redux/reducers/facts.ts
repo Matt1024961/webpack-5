@@ -1,7 +1,6 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 import type { RootState } from '..';
 import store from '..';
-// import { ConstantDatabaseFilters } from '../../constants/database-filters';
 import { FactsTable } from '../../types/facts-table';
 import { getIsFilterActive } from './filters';
 
@@ -27,6 +26,10 @@ export const factsSelector = factsAdapter.getSelectors<RootState>(
 export const getAllFacts = () => {
   return factsSelector.selectAll(store.getState());
 };
+
+export const getFactByID = (id: string) => {
+  return factsSelector.selectById(store.getState(), id);
+}
 
 export const allActiveFactsCount = () => {
   return factsSelector.selectAll(store.getState()).filter((element: any) => {

@@ -65,8 +65,8 @@ export class Filing extends HTMLElement {
     const storeXhtml: StoreXhtml = StoreXhtml.getInstance();
     this.replaceChildren(storeXhtml.node);
     this.logger.info(`Filing rendered`);
-    const attributes = new Attributes();
-    attributes.setProperAttribute();
+    new Attributes(true);
+    //attributes.setProperAttribute();
   }
 
   listeners() {

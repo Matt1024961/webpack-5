@@ -37,28 +37,52 @@ body {
   --bs-body-color: unset;
   box-sizing: unset;
 
-  >* {
+  > * {
     box-sizing: unset !important;
   }
 }
 
 [active-fact] {
-  box-shadow: inset 0px 2px 0px red, inset 0px -2px 0px red;
+  box-shadow: inset 0px 2px 0px var(--tagged-data),
+    inset 0px -2px 0px var(--tagged-data);
 
   &:hover {
-    background-color: rgba(255, 0, 0, 0.3) !important;
+    background-color: var(--tag-shading) !important;
     cursor: pointer !important;
   }
 }
 
 [active-fact-block] {
-  border-left: 2px red solid !important;
-  border-right: 2px red solid !important;
+  border-left: 2px var(--tag-shading) solid !important;
+  border-right: 2px var(--tag-shading) solid !important;
 
   &:hover {
-    background-color: rgba(255, 0, 0, 0.3) !important;
+    background-color: var(--tag-shading) !important;
     cursor: pointer !important;
   }
+}
+
+[highlight-fact] {
+  background-color: var(--search-results) !important;
+  cursor: pointer !important;
+  &:hover {
+    background-color: var(--tag-shading) !important;
+    cursor: pointer !important;
+  }
+}
+
+[selected-fact] {
+  box-shadow: inset 0px 2px 0px var(--selected-fact),
+    inset 0px -2px 0px var(--selected-fact);
+
+  &:hover {
+    background-color: var(--tag-shading) !important;
+    cursor: pointer !important;
+  }
+}
+
+[fact-shading-only] {
+  background-color: var(--tag-shading) !important;
 }
 
 .block-indicator-left {
@@ -75,21 +99,6 @@ body {
   border-top: 0.5rem solid transparent;
   border-right: 0.75rem solid $sec-color;
   border-bottom: 0.5rem solid transparent;
-}
-
-[active-filtered-fact] {
-  border-top: 2px green solid !important;
-  border-bottom: 2px green solid !important;
-
-  &:hover {
-    background-color: rgba(255, 0, 0, 0.3) !important;
-    cursor: pointer !important;
-  }
-}
-
-[highlight-fact] {
-  background-color: yellow !important;
-  cursor: pointer !important;
 }
 
 .navbar-sec {
@@ -110,7 +119,8 @@ body {
   &:hover {
     color: $white;
     cursor: pointer !important;
-    background: linear-gradient($white, $white) bottom 5px center/ 90% 1px no-repeat;
+    background: linear-gradient($white, $white) bottom 5px center/ 90% 1px
+      no-repeat;
   }
 
   &:visited {
@@ -151,12 +161,12 @@ body {
   color: $black;
 
   &:hover {
-    border-color: $black  !important;
+    border-color: $black !important;
     color: $black;
   }
 
   &.selected {
-    border-color: $sec-color  !important;
+    border-color: $sec-color !important;
     border-width: 5px !important;
   }
 }
@@ -245,12 +255,12 @@ body {
   }
 
   a.active {
-    background-color: $sec-color  !important;
+    background-color: $sec-color !important;
     padding: 1px;
   }
 
   a:not(.active) {
-    background-color: $white  !important;
+    background-color: $white !important;
     border: 1px solid $sec-color;
   }
 

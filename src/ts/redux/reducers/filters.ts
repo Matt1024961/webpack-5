@@ -110,6 +110,7 @@ effect1.startListening({
     storeFilter.filterFacts();
   }
 });
+
 export const effect2 = createListenerMiddleware();
 effect2.startListening({
   matcher: isAnyOf(actions.sectionsUpdate, actions.sectionsReset),
