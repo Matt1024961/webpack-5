@@ -34,9 +34,9 @@ effect1.startListening({
   effect: async () => {
     const settings = {
       id: 1,
-      hoverInfo: localStorage.getItem('#hoverInfo') === 'true' ? true : false,
-      position: localStorage.getItem('#position') === `top` ? `top` : `center`,
-      allFacts: localStorage.getItem('#allFacts') === 'true' ? true : false,
+      hoverInfo: localStorage.getItem('hoverInfo') === `true` ? true : false,
+      position: localStorage.getItem('position') === `top` ? `top` : `center`,
+      allFacts: localStorage.getItem('allFacts') === `true` ? true : false,
       '#tagged-data': localStorage.getItem('#tagged-data') || `#FF6600FF`,
       '#search-results': localStorage.getItem('#search-results') || `#FFD700FF`,
       '#selected-fact': localStorage.getItem(`#selected-fact`) || `#003768FF`,

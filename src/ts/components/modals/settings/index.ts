@@ -1,13 +1,14 @@
-import * as bootstrap from 'bootstrap';
-import Picker from 'vanilla-picker';
+import * as bootstrap from "bootstrap";
+import Picker from "vanilla-picker";
+import { ConstantApplication } from "../../../constants/application";
 //import { ConstantApplication } from '../../../constants/application';
-import store from '../../../redux';
-import { actions, getSettings } from '../../../redux/reducers/user-settings';
+import store from "../../../redux";
+import { actions, getSettings } from "../../../redux/reducers/user-settings";
 //import { StoreFilter } from '../../../store/filter';
-import { StoreLogger } from '../../../store/logger';
-import { SettingsTable } from '../../../types/settings-table';
-import { BaseModal } from '../base-modal';
-import template from './template.html';
+import { StoreLogger } from "../../../../logger";
+import { SettingsTable } from "../../../types/settings-table";
+import { BaseModal } from "../base-modal";
+import template from "./template.html";
 
 export class Settings extends BaseModal {
   constructor() {
@@ -15,7 +16,7 @@ export class Settings extends BaseModal {
   }
 
   async connectedCallback() {
-    BaseModal.prototype.init.call(this, ['Settings']);
+    BaseModal.prototype.init.call(this, ["Settings"]);
 
     this.page1();
 
@@ -35,10 +36,10 @@ export class Settings extends BaseModal {
         carousel?.append(node);
         this.colorPickerSetup();
         this.inputSetup();
-        storeLogger.info('Settings Modal rendered');
+        storeLogger.info("Settings Modal rendered");
       }
     } else {
-      storeLogger.error('Settings Modal NOT rendered');
+      storeLogger.error("Settings Modal NOT rendered");
     }
   }
 
@@ -130,9 +131,24 @@ export class Settings extends BaseModal {
     const updatedSettings = { ...settings };
     selectInputs.forEach((current) => {
       current.addEventListener(`change`, (event) => {
+        if (current.getAttribute(`name`) === `allFacts`) {
+          ConstantApplication.disableApplication();
+          const moreFilters = document.querySelector(`sec-more-filters`);
+          moreFilters?.setAttribute(`empty`, `true`);
+          // const storeFilter: StoreFilter = StoreFilter.getInstance();
+          // storeFilter.filterFacts();
+          ConstantApplication.enableApplication();
+        }
         updatedSettings[current.getAttribute(`name`) as string] = (
           event.target as HTMLSelectElement
         ).value;
+        Object.keys(updatedSettings).forEach((current) => {
+          if (updatedSettings[current] === `true`) {
+            updatedSettings[current] = true;
+          } else if (updatedSettings[current] === `false`) {
+            updatedSettings[current] = false;
+          }
+        });
         store.dispatch(actions.settingsUpdate(updatedSettings));
         this.toast(
           `${current.getAttribute(`aria-label`)} option has been saved.`
@@ -161,12 +177,12 @@ export class Settings extends BaseModal {
       span.append(text);
       content.firstElementChild?.replaceWith(span);
       const toast = new bootstrap.Toast(
-        this.querySelector('#liveToast') as Element
+        this.querySelector("#liveToast") as Element
       );
       toast.show();
-      storeLogger.info('Settings Modal Toast rendered');
+      storeLogger.info("Settings Modal Toast rendered");
     } else {
-      storeLogger.error('Settings Modal NOT rendered');
+      storeLogger.error("Settings Modal NOT rendered");
     }
   }
 }

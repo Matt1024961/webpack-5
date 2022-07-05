@@ -5,20 +5,20 @@ import { FormInformationTable } from '../../types/form-information';
 
 const infoAdapter = createEntityAdapter<FormInformationTable>({});
 export const infoSlice = createSlice({
-    name: 'filters',
-    initialState: infoAdapter.getInitialState(),
-    reducers: {
-        infoInit: infoAdapter.addOne,
-    },
+  name: 'filters',
+  initialState: infoAdapter.getInitialState(),
+  reducers: {
+    infoInit: infoAdapter.addOne,
+  },
 });
 export const { actions } = infoSlice;
 export const infoReducer = (state: RootState) => state.info;
 export default infoSlice.reducer;
 
 export const infoSelector = infoAdapter.getSelectors<RootState>(
-    (state) => state.info
+  (state) => state.info
 );
 
 export const getFormInformation = () => {
-    return infoSelector.selectById(store.getState(),1);
-  };
+  return infoSelector.selectById(store.getState(), 1);
+};

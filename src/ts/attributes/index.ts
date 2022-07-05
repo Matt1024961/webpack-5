@@ -1,4 +1,4 @@
-import { getAllFacts } from '../../redux/reducers/facts';
+import { getAllFacts } from '../redux/reducers/facts';
 
 export class Attributes {
   constructor(doBothActions: boolean) {

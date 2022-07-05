@@ -2,7 +2,11 @@ import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 import type { RootState } from '..';
 import store from '..';
 import { FactsTable } from '../../types/facts-table';
+import { FilingURL } from '../../types/filing-url';
+import { SettingsTable } from '../../types/settings-table';
 import { getIsFilterActive } from './filters';
+import { getURLs } from './url';
+import { getSettings } from './user-settings';
 
 const factsAdapter = createEntityAdapter<FactsTable>({
   sortComparer: (a, b) => a.order - b.order,
@@ -29,7 +33,33 @@ export const getAllFacts = () => {
 
 export const getFactByID = (id: string) => {
   return factsSelector.selectById(store.getState(), id);
-}
+};
+
+export const setFilteredFacts = (input: {
+  highlight: Array<string>;
+  active: Array<string>;
+  isFilterActive: boolean;
+}) => {
+  return getAllFacts().map(({ ...current }) => {
+    const highlight = input.highlight.includes(current.id as string);
+    if (highlight) {
+      current.isHighlight = true;
+    } else {
+      current.isHighlight = false;
+    }
+    if (input.isFilterActive) {
+      const active = input.active.includes(current.id as string);
+      if (active) {
+        current.isActive = true;
+      } else {
+        current.isActive = false;
+      }
+    } else {
+      current.isActive = true;
+    }
+    return current;
+  });
+};
 
 export const allActiveFactsCount = () => {
   return factsSelector.selectAll(store.getState()).filter((element: any) => {
@@ -37,39 +67,56 @@ export const allActiveFactsCount = () => {
   }).length;
 };
 
-export const factsCount = () => {
-  return factsSelector.selectAll(store.getState()).length;
-};
-
 export const getFactCount = () => {
+  const filing = (getURLs() as FilingURL).filing;
+  const settings = getSettings();
   const allFilters = getIsFilterActive();
   return factsSelector.selectAll(store.getState()).filter((element: any) => {
-    if (allFilters.isHighlight) {
-      return element.isHighlight;
-    } else {
-      return element.isActive;
+    if ((settings as SettingsTable).allFacts) {
+      if (allFilters.isHighlight) {
+        return element.isHighlight;
+      } else {
+        return element.isActive;
+      }
+    } else if (element.files.endsWith(filing)) {
+      if (allFilters.isHighlight) {
+        return element.isHighlight;
+      } else {
+        return element.isActive;
+      }
     }
   }).length;
 };
 
-export const getFactPagination = (
-  input: string,
-  start: number,
-  end: number
-) => {
+export const getFactPagination = (start: number, end: number) => {
+  const filing = (getURLs() as FilingURL).filing;
+  const settings = getSettings();
   const allFilters = getIsFilterActive();
   return factsSelector
     .selectAll(store.getState())
     .map((element: any) => {
       if (allFilters.isHighlight) {
-        if (element.files.endsWith(input) && element.isHighlight) {
+        if ((settings as SettingsTable).allFacts) {
+          if (element.isHighlight) {
+            return element;
+          }
+        } else {
+          if (element.files.endsWith(filing) && element.isHighlight) {
+            return element;
+          }
+        }
+      }
+      if ((settings as SettingsTable).allFacts) {
+        if (element.isActive) {
+          return element;
+        }
+      } else {
+        if (element.files.endsWith(filing) && element.isActive) {
           return element;
         }
       }
-      if (element.files.endsWith(input) && element.isActive) {
-        return element;
-      }
     })
+    .filter(Boolean)
     .slice(start, end + 1);
 };
 
@@ -152,4 +199,4 @@ export const getMultiFiling = (): Array<string> => {
 export const getFactByTag = (tag: string): any => {
   const allFacts = getAllFacts();
   return allFacts.filter((element: any) => element.tag === tag);
-}
+};

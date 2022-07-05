@@ -74,7 +74,7 @@ const prepareDataForStore = (data: DataJSON, xhtmlUrl: string): any => {
   returnObject.info = fillFormInfo(data);
 
   return returnObject;
-}
+};
 
 const fillFacts = (input: DataJSON, xhtmlUrl: string): Array<any> => {
   const arrayToBulkInsert: Array<any> = [];
@@ -132,13 +132,13 @@ const fillFacts = (input: DataJSON, xhtmlUrl: string): Array<any> => {
         dimensions:
           tempDimension.value && tempDimension.key
             ? {
-              concept: current.dimensions.concept,
-              period: current.dimensions.period,
-              lang: current.dimensions.language,
-              unit: current.dimensions.unit,
-              value: tempDimension.value,
-              key: tempDimension.key,
-            }
+                concept: current.dimensions.concept,
+                period: current.dimensions.period,
+                lang: current.dimensions.language,
+                unit: current.dimensions.unit,
+                value: tempDimension.value,
+                key: tempDimension.key,
+              }
             : null,
         references: input['ixv:references'][current['ixv:factReferences']],
         contextref: current['ixv:contextref'],
@@ -183,7 +183,7 @@ const fillFacts = (input: DataJSON, xhtmlUrl: string): Array<any> => {
     }
   }
   return arrayToBulkInsert;
-}
+};
 
 const fillSections = (input: DataJSON) => {
   const arrayToBulkInsert: Array<SectionsTable> = [];
@@ -240,8 +240,12 @@ const fillSections = (input: DataJSON) => {
 
 const fillFormInfo = (input: DataJSON) => {
   if (input[`ixv:instanceInfo`]) {
-    const flattened = ConstantApplication.flattenObject(input[`ixv:instanceInfo`]);
-    console.log(flattened);
+    const flattened: any = ConstantApplication.flattenObject(
+      input[`ixv:instanceInfo`]
+    );
+    flattened.schema = flattened[`dts.schema.local`].concat(
+      flattened[`dts.schema.remote`]
+    );
     return {
       id: 1,
 
@@ -254,14 +258,14 @@ const fillFormInfo = (input: DataJSON) => {
           (input[`ixv:instanceInfo`].keyStandard /
             (input[`ixv:instanceInfo`].keyStandard +
               input[`ixv:instanceInfo`].keyCustom)) *
-          100
+            100
         )}%`,
         custom: input[`ixv:instanceInfo`].keyCustom,
         customPerc: `${Math.round(
           (input[`ixv:instanceInfo`].keyCustom /
             (input[`ixv:instanceInfo`].keyStandard +
               input[`ixv:instanceInfo`].keyCustom)) *
-          100
+            100
         )}%`,
         total:
           input[`ixv:instanceInfo`].keyStandard +
@@ -274,14 +278,14 @@ const fillFormInfo = (input: DataJSON) => {
           (input[`ixv:instanceInfo`].axisStandard /
             (input[`ixv:instanceInfo`].axisStandard +
               input[`ixv:instanceInfo`].axisCustom)) *
-          100
+            100
         )}%`,
         custom: input[`ixv:instanceInfo`].axisCustom,
         customPerc: `${Math.round(
           (input[`ixv:instanceInfo`].axisCustom /
             (input[`ixv:instanceInfo`].axisStandard +
               input[`ixv:instanceInfo`].axisCustom)) *
-          100
+            100
         )}%`,
         total:
           input[`ixv:instanceInfo`].axisStandard +
@@ -294,14 +298,14 @@ const fillFormInfo = (input: DataJSON) => {
           (input[`ixv:instanceInfo`].memberStandard /
             (input[`ixv:instanceInfo`].memberStandard +
               input[`ixv:instanceInfo`].memberCustom)) *
-          100
+            100
         )}%`,
         custom: input[`ixv:instanceInfo`].memberCustom,
         customPerc: `${Math.round(
           (input[`ixv:instanceInfo`].memberCustom /
             (input[`ixv:instanceInfo`].memberStandard +
               input[`ixv:instanceInfo`].memberCustom)) *
-          100
+            100
         )}%`,
         total:
           input[`ixv:instanceInfo`].memberStandard +
@@ -323,7 +327,7 @@ const fillFormInfo = (input: DataJSON) => {
               input[`ixv:instanceInfo`].axisCustom +
               input[`ixv:instanceInfo`].memberStandard +
               input[`ixv:instanceInfo`].memberCustom)) *
-          100
+            100
         )}%`,
         custom:
           input[`ixv:instanceInfo`].keyCustom +
@@ -339,7 +343,7 @@ const fillFormInfo = (input: DataJSON) => {
               input[`ixv:instanceInfo`].axisCustom +
               input[`ixv:instanceInfo`].memberStandard +
               input[`ixv:instanceInfo`].memberCustom)) *
-          100
+            100
         )}%`,
         total:
           input[`ixv:instanceInfo`].keyStandard +
@@ -349,12 +353,12 @@ const fillFormInfo = (input: DataJSON) => {
           input[`ixv:instanceInfo`].memberStandard +
           input[`ixv:instanceInfo`].memberCustom,
       },
+      ...flattened,
+      // inlineDocument: input[`ixv:instanceInfo`].dts.inline.local,
 
-      inlineDocument: input[`ixv:instanceInfo`].dts.inline.local,
-
-      schema: input[`ixv:instanceInfo`].dts.schema.local.concat(
-        input[`ixv:instanceInfo`].dts.schema.remote
-      ),
+      // schema: input[`ixv:instanceInfo`].dts.schema.local.concat(
+      //   input[`ixv:instanceInfo`].dts.schema.remote
+      // )
 
       label: input[`ixv:instanceInfo`].dts.labelLink.local,
 

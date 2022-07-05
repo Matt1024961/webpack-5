@@ -1,8 +1,8 @@
 //import { Attributes } from '../../store/attributes';
 import { ConstantApplication } from '../../constants/application';
-import { Attributes } from '../../store/attributes';
-import { StoreLogger } from '../../store/logger';
-import { StoreXhtml } from '../../store/xhtml';
+import { Attributes } from '../../attributes';
+import { StoreLogger } from '../../../logger';
+import { StoreXhtml } from '../../xhtml';
 import template from './template.html';
 
 export class Filing extends HTMLElement {

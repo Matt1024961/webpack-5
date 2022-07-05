@@ -1,7 +1,6 @@
 import 'bootstrap';
 import '@popperjs/core';
 import '../styles.scss';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import store from './redux/index';
 import { actions as filterActions } from './redux/reducers/filters';
 import { actions as settingsActions } from './redux/reducers/user-settings';
@@ -20,7 +19,7 @@ import { Facts } from './components/nav/facts';
 import { FactsMenu } from './components/facts/menu';
 import { FactsMenuSingle } from './components/facts/single';
 import { FactsMenuPagination } from './components/facts/pagination';
-import { StoreLogger } from './store/logger';
+import { StoreLogger } from '../logger';
 import { Warning } from './components/warning';
 import { Error } from './components/error';
 import { Filing } from './components/filing';
@@ -52,6 +51,8 @@ import { SectionsMenuSingle } from './components/sections/single';
         balance: [],
       },
       filingUrl: ``,
+      sections: null,
+      sectionsOptions: null
     })
   );
 
@@ -87,9 +88,11 @@ import { SectionsMenuSingle } from './components/sections/single';
   // end all the modals
 
   if (process.env.NODE_ENV !== 'production') {
+
     // we are in development mode
     customElements.define(`sec-dev-navbar`, DevelopmentNavbar);
   } else {
+
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker

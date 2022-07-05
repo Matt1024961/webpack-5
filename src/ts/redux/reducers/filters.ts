@@ -3,15 +3,24 @@ import {
   createEntityAdapter,
   createListenerMiddleware,
   isAnyOf,
-} from '@reduxjs/toolkit';
-import type { RootState } from '..';
-import store from '..';
-import { StoreFilter } from '../../store/filter';
-import { allFilters } from '../../types/filter';
+} from "@reduxjs/toolkit";
+import type { RootState } from "..";
+import store from "..";
+import { FilingURL } from "../../types/filing-url";
+import { allFilters } from "../../types/filter";
+import {
+  actions as factsActions,
+  getAllFacts,
+  setFilteredFacts,
+} from "../../redux/reducers/facts";
+import { getURLs } from "./url";
+import { Attributes } from "../../attributes";
+import { StoreLogger } from "../../../logger";
+import { actions as sectionsActions, getAllSections } from "./sections";
 
 const filtersAdapter = createEntityAdapter<allFilters>({});
 export const filtersSlice = createSlice({
-  name: 'filters',
+  name: "filters",
   initialState: filtersAdapter.getInitialState(),
   reducers: {
     filtersInit: filtersAdapter.addOne,
@@ -81,7 +90,9 @@ export const resetAllFactFilters = () => {
         ? currentFilters.searchOptions
         : null,
       sections: currentFilters?.sections ? currentFilters.sections : null,
-      sectionsOptions: currentFilters?.sectionsOptions ? currentFilters.sectionsOptions : null,
+      sectionsOptions: currentFilters?.sectionsOptions
+        ? currentFilters.sectionsOptions
+        : null,
       data: undefined,
       tags: undefined,
       moreFilters: {
@@ -106,16 +117,84 @@ export const effect1 = createListenerMiddleware();
 effect1.startListening({
   matcher: isAnyOf(actions.filtersUpdate, actions.filtersReset),
   effect: async () => {
-    const storeFilter: StoreFilter = StoreFilter.getInstance();
-    storeFilter.filterFacts();
-  }
+    const start = performance.now();
+    document.querySelector(`sec-facts`)?.setAttribute(`loading`, ``);
+    if (getIsFilterActive().isActive) {
+      document
+        .querySelector(`sec-reset-all-filters`)
+        ?.classList.remove(`d-none`);
+    } else {
+      document.querySelector(`sec-reset-all-filters`)?.classList.add(`d-none`);
+    }
+    const dataURL = (getURLs() as FilingURL).dataURL;
+    if (window.Worker) {
+      const worker = new Worker(
+        new URL("./../../worker/filter/index", import.meta.url),
+        { name: `filter` }
+      );
+      worker.postMessage({
+        url: dataURL,
+        allFilters: getAllFactFilters(),
+        isFilterActive: getIsFilterActive().isActive,
+        allFacts: getAllFacts(),
+      });
+      worker.onmessage = async (event) => {
+        if (event && event.data) {
+          const facts = setFilteredFacts(event.data.facts);
+          store.dispatch(factsActions.factsUpsertAll(facts));
+
+          document.querySelector(`sec-facts`)?.setAttribute(`update-count`, ``);
+          new Attributes(false);
+          const stop = performance.now();
+          const storeLogger: StoreLogger = StoreLogger.getInstance();
+          storeLogger.info(
+            `Filtering Facts took ${(stop - start).toFixed(2)} milliseconds.`
+          );
+        }
+        worker.terminate();
+      };
+    } else {
+      // no worker!
+    }
+    //}
+  },
 });
 
 export const effect2 = createListenerMiddleware();
 effect2.startListening({
   matcher: isAnyOf(actions.sectionsUpdate, actions.sectionsReset),
   effect: async () => {
-    const storeFilter: StoreFilter = StoreFilter.getInstance();
-    storeFilter.filterSections();
-  }
+    const start = performance.now();
+    const filing = (getURLs() as FilingURL).filing;
+    console.log();
+    if (window.Worker) {
+      const worker = new Worker(
+        new URL("./../../worker/sections/index", import.meta.url),
+        { name: `sections` }
+      );
+      worker.postMessage({
+        url: filing,
+        allSections: getAllSections(),
+        allFilters: getAllSectionFilters(),
+      });
+      worker.onmessage = async (event) => {
+        if (event && event.data) {
+          store.dispatch(
+            sectionsActions.sectionsUpsertAll(event.data.sections)
+          );
+          document
+            .querySelector(`sec-sections-menu-single`)
+            ?.setAttribute(`reset`, `true`);
+          const stop = performance.now();
+          const storeLogger: StoreLogger = StoreLogger.getInstance();
+          storeLogger.info(
+            `Filtering Sections took ${(stop - start).toFixed(2)} milliseconds.`
+          );
+        }
+        worker.terminate();
+      };
+    } else {
+      // no worker!
+    }
+  },
 });

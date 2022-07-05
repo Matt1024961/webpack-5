@@ -1,6 +1,5 @@
 import { ConstantApplication } from '../../../constants/application';
 import { getFactPagination } from '../../../redux/reducers/facts';
-import { StoreUrl } from '../../../store/url';
 import { FactsTable } from '../../../types/facts-table';
 import template from './template.html';
 
@@ -19,7 +18,7 @@ export class FactsMenuSingle extends HTMLElement {
     //
   }
 
-   attributeChangedCallback(
+  attributeChangedCallback(
     name: string,
     oldValue: string | null,
     newValue: string | null
@@ -34,13 +33,11 @@ export class FactsMenuSingle extends HTMLElement {
     ConstantApplication.removeChildNodes(this);
   }
 
-   render() {
+  render() {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
-      const storeUrl: StoreUrl = StoreUrl.getInstance();
       const facts = getFactPagination(
-        storeUrl.filing,
         this.pagination.start,
         this.pagination.end
       );
@@ -81,8 +78,9 @@ export class FactsMenuSingle extends HTMLElement {
               node.querySelector(`[fact-value]`)?.appendChild(factValue);
               node.removeAttribute(`fact-value`);
               // add the fact quick info
-              const factQuickInfoText = `${current.isCustom ? `C` : ``} ${current.dimensions ? `D` : ``
-                } ${current.isHidden ? `A` : ``}`.trim();
+              const factQuickInfoText = `${current.isCustom ? `C` : ``} ${
+                current.dimensions ? `D` : ``
+              } ${current.isHidden ? `A` : ``}`.trim();
               const factQuickInfo = document.createTextNode(
                 factQuickInfoText.split(` `).join(` & `)
               );

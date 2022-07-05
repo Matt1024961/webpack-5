@@ -1,5 +1,5 @@
 import { ConstantApplication } from '../../../constants/application';
-import { StoreLogger } from '../../../store/logger';
+import { StoreLogger } from '../../../../logger';
 import template from './template.html';
 
 export class Menu extends HTMLElement {

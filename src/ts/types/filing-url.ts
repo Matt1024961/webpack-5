@@ -1,4 +1,9 @@
 export type FilingURL = {
+  id: number;
+  // baseURL: `http://localhost:3000/assets/example-4/`
+  baseURL: string | null;
+  // fullURL: 'http://localhost:3000/?doc=/assets/example-4/clx-20210630.htm'
+  fullURL: string | null;
   // filingURL: `/assets/example-1/fy19clx10k.htm`
   filingURL: string | null;
   //filing: `fy19clx10k.htm`

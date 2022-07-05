@@ -1,17 +1,17 @@
-import { ErrorClass } from '../../../error';
-import { Scale } from '../../../store/scale';
-import { moreFilters } from '../../../types/filter';
-import { ConstantApplication } from '../../../constants/application';
-import { actions, getAllFactFilters } from '../../../redux/reducers/filters';
-import store from '../../../redux';
+import { ErrorClass } from "../../../error";
+import { Scale } from "../../../constants/transformations/scale";
+import { moreFilters } from "../../../types/filter";
+import { ConstantApplication } from "../../../constants/application";
+import { actions, getAllFactFilters } from "../../../redux/reducers/filters";
+import store from "../../../redux";
 import {
   getUniqueAxis,
   getUniqueBalances,
   getUniqueMembers,
   getUniquePeriods,
   getUniqueScales,
-} from '../../../redux/reducers/facts';
-import template from './template.html';
+} from "../../../redux/reducers/facts";
+import template from "./template.html";
 
 export class MoreFilters extends HTMLElement {
   private populated = false;
@@ -84,7 +84,7 @@ export class MoreFilters extends HTMLElement {
 
   listeners(): void {
     const moreFiltersButton = this.querySelector(`#more-filters-button`);
-    const dropdowns = document.querySelector('#more-filters-dropdown');
+    const dropdowns = document.querySelector("#more-filters-dropdown");
     if (moreFiltersButton) {
       moreFiltersButton.addEventListener(`show.bs.dropdown`, () => {
         if (!this.populated) {
@@ -160,7 +160,7 @@ export class MoreFilters extends HTMLElement {
       totalCheckBoxes.forEach((checkbox: Element, index) => {
         (checkbox as HTMLInputElement).checked = checkAllBoxes;
         if (index === totalCheckBoxes.length - 1) {
-          const event = new Event('change');
+          const event = new Event("change");
           checkbox.dispatchEvent(event);
         }
       });
@@ -205,7 +205,7 @@ export class MoreFilters extends HTMLElement {
     this.populateScale();
     this.populateBalance();
     this.populated = true;
-    const checkboxes = this.querySelectorAll('input[type=checkbox]');
+    const checkboxes = this.querySelectorAll("input[type=checkbox]");
     if (checkboxes) {
       checkboxes.forEach((current) => {
         current.addEventListener(`change`, () => {

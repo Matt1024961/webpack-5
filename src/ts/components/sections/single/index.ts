@@ -1,10 +1,11 @@
 import { SectionsTable as SectionsTableType } from '../../../types/sections-table';
-import { StoreUrl } from '../../../store/url';
 import template from './template.html';
 import { getAllActiveSections } from '../../../redux/reducers/sections';
 import { ConstantApplication } from '../../../constants/application';
-import * as  bootstrap from 'bootstrap';
+import * as bootstrap from 'bootstrap';
 import { FilingUrl } from '../../../filing-url';
+import { getURLs } from '../../../redux/reducers/url';
+import { FilingURL } from '../../../types/filing-url';
 
 export class SectionsMenuSingle extends HTMLElement {
   static get observedAttributes() {
@@ -25,9 +26,6 @@ export class SectionsMenuSingle extends HTMLElement {
     newValue: string | null
   ) {
     if (name === `update` && newValue) {
-      //ConstantApplication.removeChildNodes(this);
-      // this.render();
-      //this.listeners();
       this.updateIcons();
       this.removeAttribute(`update`);
     }
@@ -45,7 +43,7 @@ export class SectionsMenuSingle extends HTMLElement {
     const htmlDoc = parser.parseFromString(template, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
       // get all sections data
-      const storeUrl: StoreUrl = StoreUrl.getInstance();
+      const filing = (getURLs() as FilingURL).filing;
       const sections = this.simplifySectionsData(getAllActiveSections());
       const selector = htmlDoc.querySelector(`[template]`);
       if (selector) {
@@ -89,10 +87,16 @@ export class SectionsMenuSingle extends HTMLElement {
             li.setAttribute(`contextRef`, nestedCurrent.contextRef as string);
             li.setAttribute(`baseref`, nestedCurrent.baseRef as string);
             li.setAttribute(`data-bs-toggle`, `popover`);
-            li.setAttribute(`title`, `Report File: ${nestedCurrent.reportFile}`);
-            li.setAttribute(`data-bs-content`, `Long Name: ${nestedCurrent.longName} <hr>Click to go to this section.`);
+            li.setAttribute(
+              `title`,
+              `Report File: ${nestedCurrent.reportFile}`
+            );
+            li.setAttribute(
+              `data-bs-content`,
+              `Long Name: ${nestedCurrent.longName} <hr>Click to go to this section.`
+            );
 
-            if (storeUrl.filing !== nestedCurrent.baseRef) {
+            if (filing !== nestedCurrent.baseRef) {
               const i = document.createElement(`i`);
               i.classList.add(`fas`);
               i.classList.add(`fa-external-link-alt`);
@@ -137,10 +141,10 @@ export class SectionsMenuSingle extends HTMLElement {
   }
 
   updateIcons() {
-    const storeUrl: StoreUrl = StoreUrl.getInstance();
-    this.querySelectorAll(`li`).forEach(current => {
+    const filing = (getURLs() as FilingURL).filing;
+    this.querySelectorAll(`li`).forEach((current) => {
       current.querySelector(`.fas`)?.remove();
-      if (current.getAttribute(`baseref`) !== storeUrl.filing) {
+      if (current.getAttribute(`baseref`) !== filing) {
         // we add the icon
         const i = document.createElement(`i`);
         i.classList.add(`fas`);
@@ -152,23 +156,37 @@ export class SectionsMenuSingle extends HTMLElement {
   }
 
   listeners() {
-    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
-    [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl, { trigger: `hover`, html: true }));
+    const popoverTriggerList = document.querySelectorAll(
+      '[data-bs-toggle="popover"]'
+    );
+    [...popoverTriggerList].map(
+      (popoverTriggerEl) =>
+        new bootstrap.Popover(popoverTriggerEl, {
+          trigger: `hover`,
+          html: true,
+        })
+    );
     const sections = this.querySelectorAll(`[name],[contextref]`);
     Array.from(sections).forEach((current) => {
       current.addEventListener(`click`, () => {
-        const storeUrl: StoreUrl = StoreUrl.getInstance();
-        if (storeUrl.filing !== current.getAttribute(`baseref`)) {
+        const filing = (getURLs() as FilingURL).filing;
+        if (filing !== current.getAttribute(`baseref`)) {
           new FilingUrl(current.getAttribute(`baseref`) as string, () => {
             setTimeout(() => {
-              const elementToStrollIntoView = document.querySelector(`#filing-container [name="${current.getAttribute(`name`)}"][contextref="${current.getAttribute(`contextref`)}"]`)
+              const elementToStrollIntoView = document.querySelector(
+                `#filing-container [name="${current.getAttribute(
+                  `name`
+                )}"][contextref="${current.getAttribute(`contextref`)}"]`
+              );
               elementToStrollIntoView?.scrollIntoView();
             });
-            // const elementToStrollIntoView = document.querySelector(`#filing-container [name="${current.getAttribute(`name`)}"][contextref="${current.getAttribute(`contextref`)}"]`)
-            // elementToStrollIntoView?.scrollIntoView();
           });
         } else {
-          const elementToStrollIntoView = document.querySelector(`#filing-container [name="${current.getAttribute(`name`)}"][contextref="${current.getAttribute(`contextref`)}"]`)
+          const elementToStrollIntoView = document.querySelector(
+            `#filing-container [name="${current.getAttribute(
+              `name`
+            )}"][contextref="${current.getAttribute(`contextref`)}"]`
+          );
           elementToStrollIntoView?.scrollIntoView();
         }
       });

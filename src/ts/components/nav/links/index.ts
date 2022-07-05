@@ -1,7 +1,8 @@
 //import Database from '../../../indexedDB/facts';
 import { FilingUrl } from '../../../filing-url';
 import { getMultiFiling } from '../../../redux/reducers/facts';
-import { StoreUrl } from '../../../store/url';
+import { getURLs } from '../../../redux/reducers/url';
+import { FilingURL } from '../../../types/filing-url';
 import template from './template.html';
 
 export class Links extends HTMLElement {
@@ -39,7 +40,7 @@ export class Links extends HTMLElement {
   }
 
   async updateContent() {
-    const storeUrl: StoreUrl = StoreUrl.getInstance();
+    const urls = getURLs() as FilingURL;
     const files = getMultiFiling();
     files.forEach((current) => {
       const li = document.createElement(`li`);
@@ -53,7 +54,7 @@ export class Links extends HTMLElement {
       input.setAttribute(`name`, `link-radios`);
       input.setAttribute(`type`, `radio`);
       input.setAttribute(`value`, `${current}`);
-      if (storeUrl.filing === current) {
+      if (urls.filing === current) {
         input.setAttribute(`checked`, ``);
       }
 
@@ -101,8 +102,8 @@ export class Links extends HTMLElement {
   linkOptionChange(input: string) {
     const moreFilters = document.querySelector(`sec-more-filters`);
     moreFilters?.setAttribute(`empty`, `true`);
-    const storeUrl: StoreUrl = StoreUrl.getInstance();
-    if (storeUrl.filing !== input) {
+    const urls = getURLs() as FilingURL;
+    if (urls.filing !== input) {
       new FilingUrl(input);
     }
   }

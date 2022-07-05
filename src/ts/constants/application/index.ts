@@ -1,5 +1,7 @@
 export const ConstantApplication = {
+  
   version: `3.0.0`,
+
   factMenuPagination: {
     start: 0,
     end: 9,
@@ -7,6 +9,7 @@ export const ConstantApplication = {
     page: 0,
     totalPages: 0,
   },
+
   enableApplication: () => {
     document
       .querySelectorAll(`#navbar-container .nav-link`)
@@ -41,23 +44,31 @@ export const ConstantApplication = {
       setTimeout(() => {
         element.focus();
       });
-
     }
   },
 
-  flattenObject: (obj: { [x: string]: any; }, prefix = '') => {
-    if (Array.isArray(obj)) {
-      return 
-      console.log(prefix);
-      console.log(obj);
-    } else {
-
-      return Object.keys(obj).reduce((acc, k) => {
-        const pre = prefix.length ? prefix + '.' : '';
-        if (typeof obj[k] === 'object') Object.assign(acc, ConstantApplication.flattenObject(obj[k], pre + k));
-        else acc[pre + k] = obj[k];
-        return acc;
-      }, {})
-    }
-  }
+  flattenObject: (obj: { [x: string]: any }, prefix = '') => {
+    // if (Array.isArray(obj)) {
+    //   return;
+    //   console.log(prefix);
+    //   console.log(obj);
+    // } else {
+    return Object.keys(obj).reduce((acc, k) => {
+      const pre = prefix.length ? prefix + '.' : '';
+      if (typeof obj[k] === 'object') {
+        if (Array.isArray(obj[k])) {
+          acc[pre + k] = obj[k];
+        } else {
+          Object.assign(
+            acc,
+            ConstantApplication.flattenObject(obj[k], pre + k)
+          );
+        }
+      } else {
+        acc[pre + k] = obj[k];
+      }
+      return acc;
+    }, {});
+    //}
+  },
 };

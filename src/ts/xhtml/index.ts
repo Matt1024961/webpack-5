@@ -1,67 +1,81 @@
-import { StoreUrl } from '../store/url';
+import { getURLs } from '../redux/reducers/url';
+import { FilingURL } from '../types/filing-url';
 
-export class Xhtml {
-  private url: string;
-  constructor(url: string) {
-    this.url = url;
+export class StoreXhtml {
+  private _node!: HTMLBodyElement;
+  private static instance: StoreXhtml;
+  private constructor() {
+    //
   }
 
-  init(xhtml: string) {
-    // we set the xhtml string to a nodelist
+  public static getInstance(): StoreXhtml {
+    if (!StoreXhtml.instance) {
+      StoreXhtml.instance = new StoreXhtml();
+    }
+    return StoreXhtml.instance;
+  }
+
+  public get node() {
+    return this._node;
+  }
+  public set node(input) {
+    // we set the xhtml string to a HTMLBodyElement
     const parser = new DOMParser();
-    const htmlDoc = parser.parseFromString(xhtml, `application/xhtml+xml`);
+    const htmlDoc = parser.parseFromString(
+      input as unknown as string,
+      `text/html`
+    );
 
     const temp = htmlDoc.querySelector(`body`);
     if (temp) {
       let node = document.importNode(temp, true);
-      // we now fix the XHTML
-      node = this.fixXhtml(node);
-      // we now update the XHTML
-      return node;
+      node = this.updateHref(node);
+      node = this.updateSrc(node);
+      node = this.addTabIndex(node);
+      this._node = node;
     }
   }
 
-  fixXhtml(node: HTMLBodyElement): HTMLBodyElement {
-    const storeUrl: StoreUrl = StoreUrl.getInstance();
-    const src = storeUrl.filingURL.substring(
-      0,
-      storeUrl.filingURL.lastIndexOf('/')
-    );
-    node.querySelectorAll(`[href]`).forEach((current) => {
-      this.fixURL(current);
-    });
-    node.querySelectorAll(`[src]`).forEach((current) => {
-      const currentSRC = current.getAttribute(`src`);
-      current.setAttribute(`src`, `${src}/${currentSRC}`);
-    });
+  updateHref(node: HTMLBodyElement): HTMLBodyElement {
     console.log(node);
-    // Array.from(node.querySelectorAll(`[contextref]`)).forEach((current) => {
-    //   console.log(current);
-    //   current.setAttribute(`tabindex`, `-1`);
-    // })
+    const baseURL = (getURLs() as FilingURL).baseURL;
+    node.querySelectorAll(`[href]`).forEach((current) => {
+      const href = current.getAttribute(`href`);
+      current.setAttribute(`tabiindex`, `-1`);
+      if (
+        href &&
+        (href.startsWith(`#`) ||
+          href.startsWith(`http://`) ||
+          href.startsWith(`https://`))
+      ) {
+        // these are an anchor tag
+        // OR
+        // these are already an absolute value
+      } else {
+        // update href to absolute url
+        current.setAttribute(`href`, `${baseURL}${href}`);
+      }
+    });
     return node;
   }
 
-  fixURL(current: Element): void {
-    const href = current.getAttribute(`href`);
-    if (href && href.startsWith(`http`)) {
-      // console.log(href);
-      current.setAttribute(`tabiindex`, `-1`);
-    }
+  updateSrc(node: HTMLBodyElement): HTMLBodyElement {
+    const baseURL = (getURLs() as FilingURL).baseURL;
+    node.querySelectorAll(`[src]`).forEach((current) => {
+      const src = current.getAttribute(`src`);
+      if (src && (src.startsWith(`http://`) || src.startsWith(`https://`))) {
+        // these are already an absolute value
+      } else {
+        // update src to absolute url
+        current.setAttribute(`src`, `${baseURL}${src}`);
+      }
+    });
+    return node;
   }
 
-  updateXhtml(node: HTMLBodyElement): HTMLBodyElement {
-    node.querySelectorAll(`[contextRef]`).forEach((current) => {
-      // we wrap every fact in: <span class="active-fact"><FACT></FACT></span>
-      const wrapper = document.createElement(`span`);
-      wrapper.classList.add(`active-fact`);
-      current.parentNode?.appendChild(wrapper);
-      wrapper.appendChild(current);
-      // add all event listeners
-      current.addEventListener(`click`, (event) => {
-        console.log(event);
-        console.log(this);
-      });
+  addTabIndex(node: HTMLBodyElement): HTMLBodyElement {
+    Array.from(node.querySelectorAll(`[contextref]`)).forEach((current) => {
+      current.setAttribute(`tabindex`, `10`);
     });
     return node;
   }

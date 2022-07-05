@@ -1,5 +1,5 @@
 import { Tooltip } from 'bootstrap';
-import { StoreLogger } from '../../store/logger';
+import { StoreLogger } from '../../../logger';
 import template from './template.html';
 
 export class Warning extends HTMLElement {
