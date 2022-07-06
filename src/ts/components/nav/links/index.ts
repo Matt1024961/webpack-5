@@ -1,9 +1,10 @@
-//import Database from '../../../indexedDB/facts';
-import { FilingUrl } from '../../../filing-url';
-import { getMultiFiling } from '../../../redux/reducers/facts';
-import { getURLs } from '../../../redux/reducers/url';
-import { FilingURL } from '../../../types/filing-url';
-import template from './template.html';
+import { FilingUrl } from "../../../filing-url";
+// import { getMultiFiling } from "../../../redux/reducers/facts";
+import { getFormInformation } from "../../../redux/reducers/form-information";
+import { getURLs } from "../../../redux/reducers/url";
+import { FilingURL } from "../../../types/filing-url";
+import { FormInformationTable } from "../../../types/form-information";
+import template from "./template.html";
 
 export class Links extends HTMLElement {
   static get observedAttributes() {
@@ -41,8 +42,9 @@ export class Links extends HTMLElement {
 
   async updateContent() {
     const urls = getURLs() as FilingURL;
-    const files = getMultiFiling();
-    files.forEach((current) => {
+    const data = getFormInformation() as FormInformationTable;
+    const files = data[`dts.inline.local`];
+    files.forEach((current: string) => {
       const li = document.createElement(`li`);
       li.classList.add(`my-1`);
 

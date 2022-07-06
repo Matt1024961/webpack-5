@@ -1,13 +1,11 @@
-//import { ConstantApplication } from '../../../constants/application';
-//import { FactsTable as FactsTableType } from '../../../types/facts-table';
-import { getFactByTag } from '../../../redux/reducers/facts';
-import { getFormInformation } from '../../../redux/reducers/form-information';
-import { FormInformationTable } from '../../../types/form-information';
-import { BaseModal } from '../base-modal';
-import page1 from './template-page-1.html';
-import page2 from './template-page-2.html';
-import page3 from './template-page-3.html';
-import page4 from './template-page-4.html';
+import { getFactByTag } from "../../../redux/reducers/facts";
+import { getFormInformation } from "../../../redux/reducers/form-information";
+import { FormInformationTable } from "../../../types/form-information";
+import { BaseModal } from "../base-modal";
+import page1 from "./template-page-1.html";
+import page2 from "./template-page-2.html";
+import page3 from "./template-page-3.html";
+import page4 from "./template-page-4.html";
 export class Information extends BaseModal {
   constructor() {
     super();
@@ -15,10 +13,10 @@ export class Information extends BaseModal {
 
   connectedCallback() {
     BaseModal.prototype.init.call(this, [
-      'Company and Document',
-      'Tags',
-      'Files',
-      'Additional Items',
+      "Company and Document",
+      "Tags",
+      "Files",
+      "Additional Items",
     ]);
 
     this.buildCarousel();
@@ -38,9 +36,11 @@ export class Information extends BaseModal {
     if (htmlDoc.querySelector(`[template]`)) {
       const valuesToGet = Array.from(htmlDoc.querySelectorAll(`[value]`));
       valuesToGet.forEach((current) => {
-        const factValue = getFactByTag(current.getAttribute(`value`) as string)[0]?.value;
+        const factValue = getFactByTag(
+          current.getAttribute(`value`) as string
+        )[0]?.value;
         const text = document.createTextNode(
-          `${factValue ? factValue : 'No Information.'}`
+          `${factValue ? factValue : "No Information."}`
         );
         current.append(text);
         current.removeAttribute(`value`);
@@ -63,16 +63,18 @@ export class Information extends BaseModal {
       const valuesToGet = Array.from(htmlDoc.querySelectorAll(`[value]`));
       valuesToGet.forEach((current) => {
         if (current.getAttribute(`value`)?.includes(`.`)) {
-          const valueArray = (current.getAttribute(`value`) as string).split(`.`);
+          const valueArray = (current.getAttribute(`value`) as string).split(
+            `.`
+          );
           const value = input[valueArray[0]][valueArray[1]];
           const text = document.createTextNode(
-            `${value ? value : 'No Information.'}`
+            `${value ? value : "No Information."}`
           );
           current.append(text);
         } else {
           const value = input[current.getAttribute(`value`) as string];
           const text = document.createTextNode(
-            `${value ? value : 'No Information.'}`
+            `${value ? value : "No Information."}`
           );
           current.append(text);
         }
@@ -100,7 +102,7 @@ export class Information extends BaseModal {
           value.forEach((currentValue: string, index) => {
             if (index === 0) {
               const text = document.createTextNode(
-                `${currentValue ? currentValue : 'No Information.'}`
+                `${currentValue ? currentValue : "No Information."}`
               );
               current.append(text);
             } else {
@@ -108,7 +110,7 @@ export class Information extends BaseModal {
               const th = document.createElement(`th`);
               const td = document.createElement(`td`);
               const text = document.createTextNode(
-                `${currentValue ? currentValue : 'No Information.'}`
+                `${currentValue ? currentValue : "No Information."}`
               );
               td.append(text);
               tr.append(th);

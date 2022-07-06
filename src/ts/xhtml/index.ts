@@ -1,5 +1,5 @@
-import { getURLs } from '../redux/reducers/url';
-import { FilingURL } from '../types/filing-url';
+import { getURLs } from "../redux/reducers/url";
+import { FilingURL } from "../types/filing-url";
 
 export class StoreXhtml {
   private _node!: HTMLBodyElement;
@@ -37,7 +37,6 @@ export class StoreXhtml {
   }
 
   updateHref(node: HTMLBodyElement): HTMLBodyElement {
-    console.log(node);
     const baseURL = (getURLs() as FilingURL).baseURL;
     node.querySelectorAll(`[href]`).forEach((current) => {
       const href = current.getAttribute(`href`);

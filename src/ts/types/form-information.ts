@@ -1,51 +1,53 @@
 export type FormInformationTable = {
-    id: number;
-    totalFacts: number;
-    version: string;
+  id: number;
+  totalFacts: number;
+  version: string;
 
-    primary: {
-        standard: number;
-        standardPerc: string;
-        custom: number;
-        customPerc: string;
-        total: number;
-    };
-    axis: {
-        standard: number;
-        standardPerc: string;
-        custom: number;
-        customPerc: string;
-        total: number;
-    };
-    member: {
-        standard: number;
-        standardPerc: string;
-        custom: number;
-        customPerc: string;
-        total: number;
-    };
+  primary: {
+    standard: number;
+    standardPerc: string;
+    custom: number;
+    customPerc: string;
+    total: number;
+  };
+  axis: {
+    standard: number;
+    standardPerc: string;
+    custom: number;
+    customPerc: string;
+    total: number;
+  };
+  member: {
+    standard: number;
+    standardPerc: string;
+    custom: number;
+    customPerc: string;
+    total: number;
+  };
 
-    total: {
-        standard: number;
-        stardardPerc: string;
-        custom: number;
-        customPerc: string;
-        total: number;
-    };
+  total: {
+    standard: number;
+    stardardPerc: string;
+    custom: number;
+    customPerc: string;
+    total: number;
+  };
 
-    inlineDocument: Array<string>;
+  "dts.inline.local": Array<string>;
 
-    schema: Array<string>;
+  inlineDocument: Array<string>;
 
-    label: Array<string>;
+  schema: Array<string>;
 
-    calculation: Array<string>;
+  label: Array<string>;
 
-    presentation: Array<string>;
+  calculation: Array<string>;
 
-    definition: Array<string>;
+  presentation: Array<string>;
 
-    taxonomy: {
-        [key: string]: string;
-    }
+  definition: Array<string>;
+
+  taxonomy: {
+    [key: string]: string;
+  };
 };

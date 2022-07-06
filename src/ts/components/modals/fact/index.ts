@@ -1,12 +1,11 @@
-// import { ConstantApplication } from '../../../constants/application';
-import { ConstantApplication } from '../../../constants/application';
-import { getFactByID } from '../../../redux/reducers/facts';
-import { FactsTable as FactsTableType } from '../../../types/facts-table';
-import { BaseModal } from '../base-modal';
-import page1 from './template-page-1.html';
-import page2 from './template-page-2.html';
-import page3 from './template-page-3.html';
- import page4 from './template-page-4.html';
+import { ConstantApplication } from "../../../constants/application";
+import { getFactByID } from "../../../redux/reducers/facts";
+import { FactsTable as FactsTableType } from "../../../types/facts-table";
+import { BaseModal } from "../base-modal";
+import page1 from "./template-page-1.html";
+import page2 from "./template-page-2.html";
+import page3 from "./template-page-3.html";
+import page4 from "./template-page-4.html";
 
 export class Fact extends BaseModal {
   static get observedAttributes() {
@@ -24,10 +23,10 @@ export class Fact extends BaseModal {
   ) {
     if (name === `fact-id` && newValue) {
       BaseModal.prototype.init.call(this, [
-        'Company and Document',
-        'Tags',
-        'Files',
-        'Additional Items',
+        "Company and Document",
+        "Tags",
+        "Files",
+        "Additional Items",
       ]);
       const fact = getFactByID(newValue as string);
       console.log(fact);
@@ -121,7 +120,6 @@ export class Fact extends BaseModal {
           tbody?.append(tr);
         }
       } else {
-        //<tr class="reboot"><td class="reboot">No Data.</td></tr>
         const tr = document.createElement(`tr`);
         const td = document.createElement(`td`);
         const tdText = document.createTextNode(`No Data.`);
