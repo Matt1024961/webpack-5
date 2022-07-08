@@ -10,6 +10,7 @@ export class BaseModal extends HTMLElement {
   }
 
   init(modalTitles: Array<string> = []) {
+    this.removeAllModals();
     this.render(modalTitles);
     this.listeners(modalTitles);
   }
@@ -123,5 +124,10 @@ export class BaseModal extends HTMLElement {
     document.addEventListener('mouseup', function () {
       inDrag = false;
     });
+  }
+
+  removeAllModals(): void {
+    ConstantApplication.removeChildNodes(document.querySelector(`#modal-container`) as Element);
+    console.log(`clear em!`);
   }
 }

@@ -51,10 +51,10 @@ export class FactsMenuSingle extends HTMLElement {
               const node = document.importNode(selector, true);
               node.removeAttribute(`template`);
               // add the fact id to the <a> tag
-              if (current && current.htmlId) {
+              if (current && current.id) {
                 node
                   .querySelector(`[fact-action]`)
-                  ?.setAttribute(`fact-id`, current.htmlId);
+                  ?.setAttribute(`fact-id`, current.id);
                 node.removeAttribute(`[fact-name]`);
               }
               // add the fact name
@@ -78,9 +78,8 @@ export class FactsMenuSingle extends HTMLElement {
               node.querySelector(`[fact-value]`)?.appendChild(factValue);
               node.removeAttribute(`fact-value`);
               // add the fact quick info
-              const factQuickInfoText = `${current.isCustom ? `C` : ``} ${
-                current.dimensions ? `D` : ``
-              } ${current.isHidden ? `A` : ``}`.trim();
+              const factQuickInfoText = `${current.isCustom ? `C` : ``} ${current.dimensions ? `D` : ``
+                } ${current.isHidden ? `A` : ``}`.trim();
               const factQuickInfo = document.createTextNode(
                 factQuickInfoText.split(` `).join(` & `)
               );
@@ -116,6 +115,10 @@ export class FactsMenuSingle extends HTMLElement {
         this.querySelectorAll(`[fact-id]`).forEach((nestedCurrent) => {
           nestedCurrent.classList.remove(`selected`);
         });
+        ConstantApplication.removeAllAttributes(Array.from(document.querySelectorAll(`[selected-fact]`)), `selected-fact`)
+
+
+
         current.classList.add(`selected`);
         const modal = document.createElement(`sec-modal-fact`);
         modal.setAttribute(
@@ -123,6 +126,10 @@ export class FactsMenuSingle extends HTMLElement {
           current.getAttribute(`fact-id`) as string
         );
         document.querySelector(`#modal-container`)?.append(modal);
+        //console.log(document.querySelector(`#${current.getAttribute(`fact-id`)}`));
+        const fact = document.querySelector(`#${current.getAttribute(`fact-id`)}`) as Element;
+        fact?.setAttribute(`selected-fact`, ``);
+        fact.scrollIntoView({ block: `center` });
       });
     });
   }

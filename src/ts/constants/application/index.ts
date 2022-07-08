@@ -33,6 +33,14 @@ export const ConstantApplication = {
     });
   },
 
+  removeClassFromAll: (array: Array<Element>, className: string) => {
+    array.forEach((current) => { current.classList.remove(className) });
+  },
+
+  removeAllAttributes: (array: Array<Element>, attribute: string) => {
+    array.forEach((current) => { current.removeAttribute(attribute) });
+  },
+
   removeChildNodes: (parent: Element) => {
     while (parent.firstChild) {
       parent.removeChild(parent.firstChild);
