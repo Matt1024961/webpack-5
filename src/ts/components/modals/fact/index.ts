@@ -29,7 +29,6 @@ export class Fact extends BaseModal {
         "Additional Items",
       ]);
       const fact = getFactByID(newValue as string);
-      console.log(fact);
       this.page1(fact as FactsTableType);
       this.page2(fact as FactsTableType);
       this.page3(fact as FactsTableType);
@@ -44,8 +43,23 @@ export class Fact extends BaseModal {
     if (htmlDoc.querySelector(`[template]`)) {
       const valuesToGet = Array.from(htmlDoc.querySelectorAll(`[value]`));
       valuesToGet.forEach((current) => {
-        //
-        if (fact[current.getAttribute(`value`) as string]) {
+        if (
+          (current.getAttribute(`value`) as string) === `value` &&
+          fact[current.getAttribute(`value`) as string]
+        ) {
+          if (fact.isHtml) {
+            const factHTML = parser.parseFromString(
+              fact.value as string,
+              `text/html`
+            );
+            current.append(factHTML.querySelector(`body`) as Node);
+          } else {
+            const text = document.createTextNode(
+              `${fact[current.getAttribute(`value`) as string]}`
+            );
+            current.append(text);
+          }
+        } else if (fact[current.getAttribute(`value`) as string]) {
           const text = document.createTextNode(
             `${fact[current.getAttribute(`value`) as string]}`
           );
@@ -101,7 +115,6 @@ export class Fact extends BaseModal {
   }
 
   page3(fact: FactsTableType) {
-    console.log(fact.references);
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(page3, `text/html`);
     if (htmlDoc.querySelector(`[template]`)) {
@@ -141,7 +154,31 @@ export class Fact extends BaseModal {
   }
 
   page4(fact: FactsTableType) {
-    console.log(fact);
-    console.log(page4);
+    const parser = new DOMParser();
+    const htmlDoc = parser.parseFromString(page4, `text/html`);
+    if (htmlDoc.querySelector(`[template]`)) {
+      const valuesToGet = Array.from(htmlDoc.querySelectorAll(`[value]`));
+      valuesToGet.forEach((current) => {
+        if (fact[current.getAttribute(`value`) as string]) {
+          const text = document.createTextNode(
+            `${fact[current.getAttribute(`value`) as string]}`
+          );
+          current.append(text);
+        } else {
+          const text = document.createTextNode(`N/A`);
+          current.append(text);
+        }
+        current.removeAttribute(`value`);
+      });
+      const selector = htmlDoc.querySelector(`[template]`);
+      if (selector) {
+        const node = document.importNode(selector, true);
+        node.removeAttribute(`template`);
+        const carousel = this.querySelector(`[carousel-items]`);
+        carousel?.append(node);
+      }
+    } else {
+      //this.logger.warn('Data Filter NOT rendered');
+    }
   }
 }

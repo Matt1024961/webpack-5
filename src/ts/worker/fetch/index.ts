@@ -1,9 +1,9 @@
-import { ConstantApplication } from '../../constants/application';
-import { PeriodConstant } from '../../constants/period';
-import { TransformationsConstant } from '../../constants/transformations';
-import { DataJSON } from '../../types/data-json';
-import { FormInformationTable } from '../../types/form-information';
-import { SectionsTable } from '../../types/sections-table';
+import { ConstantApplication } from "../../constants/application";
+import { PeriodConstant } from "../../constants/period";
+import { TransformationsConstant } from "../../constants/transformations";
+import { DataJSON } from "../../types/data-json";
+import { FormInformationTable } from "../../types/form-information";
+import { SectionsTable } from "../../types/sections-table";
 
 self.onmessage = async ({ data }) => {
   if (data.data && data.xhtml) {
@@ -78,7 +78,7 @@ const prepareDataForStore = (data: DataJSON, xhtmlUrl: string): any => {
 
 const fillFacts = (input: DataJSON, xhtmlUrl: string): Array<any> => {
   const arrayToBulkInsert: Array<any> = [];
-  const customTags = Object.keys(input['ixv:extensionNamespaces']);
+  const customTags = Object.keys(input["ixv:extensionNamespaces"]);
   for (const current of input.facts) {
     const tempDimension: {
       key?: Array<string | number>;
@@ -100,34 +100,50 @@ const fillFacts = (input: DataJSON, xhtmlUrl: string): Array<any> => {
         tempDimension.key = dimensionKeys;
       }
     }
-    if (current['ixv:factAttributes']) {
+    const type = current[`ixv:conceptType`]
+      ? input[`ixv:conceptTypes`][current[`ixv:conceptType`]]
+          .split(`:`)[1]
+          .replace(/([A-Z])/g, " $1")
+          .replace(/^./, (str: string) => str.toUpperCase())
+      : null;
+
+    // console.log(current["ixv:factCalculations"][1]);
+    // const calculations = {
+    //   balance: current["ixv:factCalculations"][1]
+    //     ? current["ixv:factCalculations"][1]
+    //     : null,
+    // };
+
+    // console.log(calculations);
+
+    if (current["ixv:factAttributes"]) {
       let orderCount = 0;
       const factToPutIntoDB = {
         // everything located in ixv:factAttributes
-        tag: current['ixv:factAttributes'][0][1],
-        isHtml: current['ixv:factAttributes'][2][1] ? 1 : 0,
+        tag: current["ixv:factAttributes"][0][1],
+        isHtml: current["ixv:factAttributes"][2][1] ? 1 : 0,
         period: PeriodConstant.getPeriod(
-          input['ixv:filterPeriods'][current['ixv:factAttributes'][3][1]]
+          input["ixv:filterPeriods"][current["ixv:factAttributes"][3][1]]
         ),
-        axes: current['ixv:factAttributes'][4][1].length
-          ? current['ixv:factAttributes'][4][1]
+        axes: current["ixv:factAttributes"][4][1].length
+          ? current["ixv:factAttributes"][4][1]
           : null,
-        members: current['ixv:factAttributes'][5][1].length
-          ? current['ixv:factAttributes'][5][1]
+        members: current["ixv:factAttributes"][5][1].length
+          ? current["ixv:factAttributes"][5][1]
           : null,
-        measure: current['ixv:factAttributes'][6][1],
-        scale: current['ixv:factAttributes'][7][1]
-          ? parseInt(current['ixv:factAttributes'][7][1], 10)
+        measure: current["ixv:factAttributes"][6][1],
+        scale: current["ixv:factAttributes"][7][1]
+          ? parseInt(current["ixv:factAttributes"][7][1], 10)
           : null,
-        decimals: current['ixv:factAttributes'][8][1],
-        balance: current['ixv:factAttributes'][9][1],
+        decimals: current["ixv:factAttributes"][8][1],
+        balance: current["ixv:factAttributes"][9][1],
         // END everything located in ixv:factAttributes
 
         id: current.id,
         value: TransformationsConstant.getTransformation(
           current.value,
           current.decimals,
-          current['ixv:format']
+          current["ixv:format"]
         ),
         dimensions:
           tempDimension.value && tempDimension.key
@@ -140,14 +156,14 @@ const fillFacts = (input: DataJSON, xhtmlUrl: string): Array<any> => {
                 key: tempDimension.key,
               }
             : null,
-        references: input['ixv:references'][current['ixv:factReferences']],
-        contextref: current['ixv:contextref'],
-        isHidden: current['ixv:hidden'] ? 1 : 0,
-        standardLabel: current['ixv:standardLabel'],
-        calculations: current['ixv:factCalculations'][1],
-        isNegative: current['ixv:isnegativesonly'] ? 1 : 0,
-        isNumeric: current['ixv:isnumeric'] ? 1 : 0,
-        isText: current['ixv:istextonly'] ? 1 : 0,
+        references: input["ixv:references"][current["ixv:factReferences"]],
+        contextref: current["ixv:contextref"],
+        isHidden: current["ixv:hidden"] ? 1 : 0,
+        standardLabel: current["ixv:standardLabel"],
+        calculations: current["ixv:factCalculations"][1],
+        isNegative: current["ixv:isnegativesonly"] ? 1 : 0,
+        isNumeric: current["ixv:isnumeric"] ? 1 : 0,
+        isText: current["ixv:istextonly"] ? 1 : 0,
         isCustom: customTags.includes(
           current[`ixv:factAttributes`][0][1].substr(
             0,
@@ -157,20 +173,20 @@ const fillFacts = (input: DataJSON, xhtmlUrl: string): Array<any> => {
           ? 1
           : 0,
         files: current[`ixv:files`]
-          ? input['ixv:ixdsFiles'][current[`ixv:files`]]
+          ? input["ixv:ixdsFiles"][current[`ixv:files`]]
           : xhtmlUrl,
+        type: type,
         order: orderCount++,
         isHighlight: false,
         isActive: true,
       };
-
       const labelsFlat = [
-        input['ixv:labels'][current['ixv:factLabels']].flat(),
+        input["ixv:labels"][current["ixv:factLabels"]].flat(),
       ].flat();
       const obj = {};
       for (let index = 0; index < labelsFlat.length; index++) {
         if (index % 2 == 0) {
-          const key = labelsFlat[index].toLowerCase().replace(/\s+/g, '-');
+          const key = labelsFlat[index].toLowerCase().replace(/\s+/g, "-");
           const value = labelsFlat[index + 1];
           obj[key] = value;
         }
@@ -188,7 +204,7 @@ const fillFacts = (input: DataJSON, xhtmlUrl: string): Array<any> => {
 const fillSections = (input: DataJSON) => {
   const arrayToBulkInsert: Array<SectionsTable> = [];
   let count = 0;
-  for (const current of input['ixv:edgarRendererReports']) {
+  for (const current of input["ixv:edgarRendererReports"]) {
     let groupType: string | null = ``;
     switch (current[`ixv:groupType`]) {
       case `document`: {
@@ -219,7 +235,7 @@ const fillSections = (input: DataJSON) => {
       : null;
     const sectionToPutIntoDB: SectionsTable = {
       id: count++,
-      reportFile: current['ixv:reportFile'],
+      reportFile: current["ixv:reportFile"],
       longName: current[`ixv:longName`],
       shortName: current[`ixv:shortName`],
       groupType: groupType,

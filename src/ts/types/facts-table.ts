@@ -24,6 +24,7 @@ export type FactsTable = {
   labels: Array<string>;
   calculations?: unknown;
   references?: Array<string>;
+  type?: string;
   isActive: boolean;
   isHighlight: boolean;
 };

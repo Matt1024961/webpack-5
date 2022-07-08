@@ -1,6 +1,6 @@
 import { ErrorClass } from '../error';
 import { ConstantApplication } from '../constants/application';
-import { StoreLogger } from '../../logger';
+import { StoreLogger } from '../logger';
 import { StoreXhtml } from '../xhtml';
 import { WarningClass } from '../warning';
 // import { StoreFilter } from '../store/filter';

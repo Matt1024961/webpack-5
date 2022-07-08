@@ -1,4 +1,4 @@
-import { getAllFacts } from '../redux/reducers/facts';
+import { getAllFacts } from "../redux/reducers/facts";
 
 export class Attributes {
   constructor(doBothActions: boolean) {
@@ -12,7 +12,6 @@ export class Attributes {
 
   listeners() {
     document.addEventListener(`scroll`, () => {
-      console.log(`scroll`);
       this.setProperAttribute();
     });
 
@@ -24,7 +23,7 @@ export class Attributes {
           event.stopPropagation();
           this.removeAttributes(`selected-fact`);
           element.setAttribute(`selected-fact`, ``);
-          
+
           const modal = document.createElement(`sec-modal-fact`);
           modal.setAttribute(`fact-id`, element.getAttribute(`id`) as string);
           document.querySelector(`#modal-container`)?.append(modal);
@@ -46,7 +45,11 @@ export class Attributes {
           element as HTMLElement,
           isfactHidden as boolean
         );
+
+        this.findNestedFacts(element);
+
         if (inViewport) {
+          // console.log(element);
           if (isFactActive) {
             if (isFactBlock) {
               const element = document.getElementById(fact.id as string);
@@ -100,6 +103,25 @@ export class Attributes {
         (window.innerHeight || document.documentElement.clientHeight) &&
       rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
+  };
+
+  findNestedFacts = (element: Element) => {
+    const possibleNestedFacts = Array.from(
+      element.querySelectorAll(`[contextref] *`)
+    );
+    possibleNestedFacts.forEach((current) => {
+      if (!element.hasAttribute(`nested-fact-parent`)) {
+        element.setAttribute(
+          `nested-fact-parent`,
+          `${current.querySelectorAll(`[contextref] *`).length}`
+        );
+      }
+
+      if (!current.hasAttribute(`nested-fact-child`)) {
+        current.setAttribute(`nested-fact-child`, ``);
+        //console.log(`nested`);
+      }
+    });
   };
 
   removeAttributes = (input: string) => {

@@ -1,11 +1,9 @@
 import * as bootstrap from "bootstrap";
 import Picker from "vanilla-picker";
 import { ConstantApplication } from "../../../constants/application";
-//import { ConstantApplication } from '../../../constants/application';
 import store from "../../../redux";
 import { actions, getSettings } from "../../../redux/reducers/user-settings";
-//import { StoreFilter } from '../../../store/filter';
-import { StoreLogger } from "../../../../logger";
+import { StoreLogger } from "../../../logger";
 import { SettingsTable } from "../../../types/settings-table";
 import { BaseModal } from "../base-modal";
 import template from "./template.html";
@@ -50,6 +48,13 @@ export class Settings extends BaseModal {
         id: `#tagged-data`,
         name: `Tagged Data`,
         color: settings?.[`#tagged-data`],
+        reset: `#FF6600FF`,
+        alpha: false,
+      },
+      {
+        id: `#nested-fact-parent`,
+        name: `Nested Fact Parent`,
+        color: settings?.[`#nested-fact-parent`],
         reset: `#FF6600FF`,
         alpha: false,
       },

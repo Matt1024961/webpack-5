@@ -1,18 +1,18 @@
 export type DataJSON = {
   documentInfo: documentInfo;
   facts: Array<facts>;
-  'ixv:edgarRendererReports': Array<edgarRendererReports>;
-  'ixv:entity': entity;
-  'ixv:filterAxis': filterAxis;
-  'ixv:filterBalance': filterBalance;
-  'ixv:filterMembers': filterMembers;
-  'ixv:filterPeriods': filterPeriods;
-  'ixv:filterScale': filterScale;
-  'ixv:filterUnits': filterUnits;
-  'ixv:labels': labels;
-  'ixv:references': references;
-  'ixv:ixdsFiles': ixdsFiles;
-  'ixv:extensionNamespaces': {
+  "ixv:edgarRendererReports": Array<edgarRendererReports>;
+  "ixv:entity": entity;
+  "ixv:filterAxis": filterAxis;
+  "ixv:filterBalance": filterBalance;
+  "ixv:filterMembers": filterMembers;
+  "ixv:filterPeriods": filterPeriods;
+  "ixv:filterScale": filterScale;
+  "ixv:filterUnits": filterUnits;
+  "ixv:labels": labels;
+  "ixv:references": references;
+  "ixv:ixdsFiles": ixdsFiles;
+  "ixv:extensionNamespaces": {
     [key: string]: string;
   };
 };
@@ -20,13 +20,13 @@ export type DataJSON = {
 export type documentInfo = {
   documentType: string;
   features: {
-    'xbrl:conicalValues': boolean;
+    "xbrl:conicalValues": boolean;
   };
   linkGroups: {
     ftGrp_default: string;
   };
   linkTypes: {
-    'ftTyp_fact-footnote': string;
+    "ftTyp_fact-footnote": string;
   };
   namespaces: {
     cik: string;
@@ -37,7 +37,7 @@ export type documentInfo = {
     iso4217: string;
     ixv: string;
     srt: string;
-    'us-gaap': string;
+    "us-gaap": string;
     xbrl: string;
     xbrli: string;
   };
@@ -52,18 +52,19 @@ export type facts = {
     language?: string;
   };
   id: string;
-  'ixv:contextref': string;
-  'ixv:factAttributes': Array<Array<string>>;
-  'ixv:factCalculations': Array<string>;
-  'ixv:factLabels': number;
-  'ixv:files': number;
-  'ixv:standardLabel': string;
-  'ixv:hidden': boolean;
-  'ixv:factReferences': number;
-  'ixv:isnumeric': boolean;
-  'ixv:istextonly': boolean;
-  'ixv:isnegativesonly': boolean;
-  'ixv:format': string;
+  "ixv:contextref": string;
+  "ixv:factAttributes": Array<Array<string>>;
+  "ixv:factCalculations": Array<string>;
+  "ixv:factLabels": number;
+  "ixv:files": number;
+  "ixv:standardLabel": string;
+  "ixv:hidden": boolean;
+  "ixv:factReferences": number;
+  "ixv:isnumeric": boolean;
+  "ixv:istextonly": boolean;
+  "ixv:isnegativesonly": boolean;
+  "ixv:format": string;
+  "ixv:conceptType": string;
   decimals: number | null;
   value: string;
   active: null | boolean;
@@ -72,16 +73,16 @@ export type facts = {
 };
 
 export type edgarRendererReports = {
-  'ixv:role': string;
-  'ixv:longName': string;
-  'ixv:shortName': string;
-  'ixv:groupType': string;
-  'ixv:subGroupType': string;
-  'ixv:firstAnchor': {
-    'ixv:ancestors'?: string[] | null;
-    'ixv:facts'?: number[] | null;
+  "ixv:role": string;
+  "ixv:longName": string;
+  "ixv:shortName": string;
+  "ixv:groupType": string;
+  "ixv:subGroupType": string;
+  "ixv:firstAnchor": {
+    "ixv:ancestors"?: string[] | null;
+    "ixv:facts"?: number[] | null;
   };
-  'ixv:uniqueAnchor': {
+  "ixv:uniqueAnchor": {
     contextRef: string;
     name: string;
     unitRef?: null;

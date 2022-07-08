@@ -19,7 +19,7 @@ import { Facts } from './components/nav/facts';
 import { FactsMenu } from './components/facts/menu';
 import { FactsMenuSingle } from './components/facts/single';
 import { FactsMenuPagination } from './components/facts/pagination';
-import { StoreLogger } from '../logger';
+import { StoreLogger } from './logger';
 import { Warning } from './components/warning';
 import { Error } from './components/error';
 import { Filing } from './components/filing';

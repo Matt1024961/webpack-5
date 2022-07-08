@@ -1,7 +1,7 @@
 import * as bootstrap from 'bootstrap';
 import { ConstantApplication } from '../../../constants/application';
 
-import { StoreLogger } from '../../../../logger';
+import { StoreLogger } from '../../../logger';
 import template from './template.html';
 
 export class BaseModal extends HTMLElement {

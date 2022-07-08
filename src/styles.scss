@@ -1,8 +1,8 @@
-@import '~bootstrap';
+@import "~bootstrap";
 
-$fa-font-path: '~@fortawesome/fontawesome-free/webfonts/';
-@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
-@import '~@fortawesome/fontawesome-free/scss/solid.scss';
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts/";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
 
 $navbar-height: 45px;
 $sec-color: #003768;
@@ -55,7 +55,21 @@ body {
 [active-fact-block] {
   border-left: 2px var(--tag-shading) solid !important;
   border-right: 2px var(--tag-shading) solid !important;
+  display: block;
+  &:hover {
+    background-color: var(--tag-shading) !important;
+    cursor: pointer !important;
+  }
+}
 
+[nested-fact-parent] {
+  box-shadow: 0px 4px 0px var(--nested-fact-parent),
+    0px -4px 0px var(--nested-fact-parent);
+
+  &[selected-fact] {
+    box-shadow: 0px 4px 0px var(--nested-fact-parent),
+      0px -4px 0px var(--nested-fact-parent);
+  }
   &:hover {
     background-color: var(--tag-shading) !important;
     cursor: pointer !important;
@@ -244,7 +258,7 @@ body {
 }
 
 .content-visibility * {
-  content-visibility: auto;
+  //content-visibility: auto;
 }
 
 .carousel-indicators {

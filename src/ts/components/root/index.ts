@@ -1,4 +1,4 @@
-import { StoreLogger } from '../../../logger';
+import { StoreLogger } from '../../logger';
 import template from './template.html';
 
 export class Root extends HTMLElement {

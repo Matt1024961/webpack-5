@@ -15,7 +15,7 @@ import {
 } from "../../redux/reducers/facts";
 import { getURLs } from "./url";
 import { Attributes } from "../../attributes";
-import { StoreLogger } from "../../../logger";
+import { StoreLogger } from "../../logger";
 import { actions as sectionsActions, getAllSections } from "./sections";
 
 const filtersAdapter = createEntityAdapter<allFilters>({});

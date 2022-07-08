@@ -1,7 +1,7 @@
 //import { Attributes } from '../../store/attributes';
 import { ConstantApplication } from '../../constants/application';
 import { Attributes } from '../../attributes';
-import { StoreLogger } from '../../../logger';
+import { StoreLogger } from '../../logger';
 import { StoreXhtml } from '../../xhtml';
 import template from './template.html';
 
