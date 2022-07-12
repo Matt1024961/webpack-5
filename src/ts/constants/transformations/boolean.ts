@@ -1,8 +1,8 @@
 export const TransformationsBoolean = {
     booleanFalse: () => {
-        return `False`;
+        return `false`;
     },
     booleanTrue: () => {
-        return `True`;
+        return `true`;
     }
 };

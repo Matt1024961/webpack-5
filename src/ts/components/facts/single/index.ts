@@ -112,12 +112,10 @@ export class FactsMenuSingle extends HTMLElement {
 
     facts.forEach((current) => {
       current.addEventListener(`click`, () => {
-        this.querySelectorAll(`[fact-id]`).forEach((nestedCurrent) => {
-          nestedCurrent.classList.remove(`selected`);
-        });
-        ConstantApplication.removeAllAttributes(Array.from(document.querySelectorAll(`[selected-fact]`)), `selected-fact`)
 
+        ConstantApplication.removeClassFromAeeay(Array.from(this.querySelectorAll(`[fact-id]`)), `selected`);
 
+        ConstantApplication.removeAllAttributesFromArray(Array.from(document.querySelectorAll(`[selected-fact]`)), `selected-fact`)
 
         current.classList.add(`selected`);
         const modal = document.createElement(`sec-modal-fact`);
@@ -126,7 +124,6 @@ export class FactsMenuSingle extends HTMLElement {
           current.getAttribute(`fact-id`) as string
         );
         document.querySelector(`#modal-container`)?.append(modal);
-        //console.log(document.querySelector(`#${current.getAttribute(`fact-id`)}`));
         const fact = document.querySelector(`#${current.getAttribute(`fact-id`)}`) as Element;
         fact?.setAttribute(`selected-fact`, ``);
         fact.scrollIntoView({ block: `center` });

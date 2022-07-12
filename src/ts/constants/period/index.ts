@@ -1,4 +1,5 @@
 import moment from 'moment';
+
 export const PeriodConstant = {
   getPeriod: (input: string) => {
     if (input.includes(`/`)) {

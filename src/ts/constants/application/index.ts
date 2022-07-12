@@ -33,11 +33,11 @@ export const ConstantApplication = {
     });
   },
 
-  removeClassFromAll: (array: Array<Element>, className: string) => {
+  removeClassFromAeeay: (array: Array<Element>, className: string) => {
     array.forEach((current) => { current.classList.remove(className) });
   },
 
-  removeAllAttributes: (array: Array<Element>, attribute: string) => {
+  removeAllAttributesFromArray: (array: Array<Element>, attribute: string) => {
     array.forEach((current) => { current.removeAttribute(attribute) });
   },
 
