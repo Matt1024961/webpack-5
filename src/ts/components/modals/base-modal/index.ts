@@ -1,21 +1,28 @@
-import * as bootstrap from 'bootstrap';
-import { ConstantApplication } from '../../../constants/application';
+import * as bootstrap from "bootstrap";
+import { ConstantApplication } from "../../../constants/application";
 
-import { StoreLogger } from '../../../logger';
-import template from './template.html';
+import { StoreLogger } from "../../../logger";
+import template from "./template.html";
 
 export class BaseModal extends HTMLElement {
   constructor() {
     super();
   }
 
-  init(modalTitles: Array<string> = []) {
+  init(
+    modalTitles: Array<string> = [],
+    nested: false | Array<{ current: boolean; id: string }> = false
+  ) {
     this.removeAllModals();
-    this.render(modalTitles);
-    this.listeners(modalTitles);
+    this.render(modalTitles, nested);
+    this.listeners(modalTitles, nested);
   }
 
-  render(modalTitles: Array<string> = []) {
+  render(
+    modalTitles: Array<string> = [],
+    nested: false | Array<{ current: boolean; id: string }> = false
+  ) {
+    console.log(nested);
     const storeLogger: StoreLogger = StoreLogger.getInstance();
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(template, `text/html`);
@@ -41,18 +48,24 @@ export class BaseModal extends HTMLElement {
             indicatorLinks?.append(a);
           });
         }
-        storeLogger.info('Base Modal rendered');
+        storeLogger.info("Base Modal rendered");
       }
     } else {
-      storeLogger.error('Base Modal NOT rendered');
+      storeLogger.error("Base Modal NOT rendered");
     }
   }
 
-  listeners(modalTitles: Array<string> = []) {
-    const thisModal = new bootstrap.Modal(this.querySelector(`#sec-modal`) as Element, {
-      backdrop: false,
-      keyboard: true,
-    });
+  listeners(
+    modalTitles: Array<string> = [],
+    nested: false | Array<{ current: boolean; id: string }> = false
+  ) {
+    const thisModal = new bootstrap.Modal(
+      this.querySelector(`#sec-modal`) as Element,
+      {
+        backdrop: false,
+        keyboard: true,
+      }
+    );
     thisModal.show();
 
     const modalCarousel = this.querySelector(`#modal-carousel`);
@@ -62,30 +75,33 @@ export class BaseModal extends HTMLElement {
     const modalTitle = this.querySelector(`[sec-modal-title]`);
 
     const span = document.createElement(`span`);
-    const modalTitleText = document.createTextNode(modalTitles[0]);
+    const modalTitleText = document.createTextNode(
+      nested
+        ? `Nested Facts ${nested.findIndex((element) => element.current) + 1}/${
+            nested.length
+          }`
+        : modalTitles[0]
+    );
     span.append(modalTitleText);
     modalTitle?.firstElementChild?.replaceWith(span);
 
-    modalCarousel?.addEventListener(
-      'slide.bs.carousel',
-      (event: any) => {
-        const oldActiveIndicator = this.querySelector(
-          `[data-bs-slide-to="${event.from as number}"]`
-        );
-        const newActiveIndicator = this.querySelector(
-          `[data-bs-slide-to="${event.to as number}"]`
-        );
+    modalCarousel?.addEventListener("slide.bs.carousel", (event: any) => {
+      const oldActiveIndicator = this.querySelector(
+        `[data-bs-slide-to="${event.from as number}"]`
+      );
+      const newActiveIndicator = this.querySelector(
+        `[data-bs-slide-to="${event.to as number}"]`
+      );
 
-        oldActiveIndicator?.classList.remove(`active`);
-        newActiveIndicator?.classList.add(`active`);
+      oldActiveIndicator?.classList.remove(`active`);
+      newActiveIndicator?.classList.add(`active`);
 
-        const span = document.createElement(`span`);
-        const modalTitleText = document.createTextNode(modalTitles[event.to]);
-        span?.append(modalTitleText);
+      const span = document.createElement(`span`);
+      const modalTitleText = document.createTextNode(modalTitles[event.to]);
+      span?.append(modalTitleText);
 
-        modalTitle?.firstElementChild?.replaceWith(span);
-      }
-    );
+      modalTitle?.firstElementChild?.replaceWith(span);
+    });
 
     modalClose?.addEventListener(`click`, () => {
       thisModal.hide();
@@ -105,7 +121,7 @@ export class BaseModal extends HTMLElement {
     let objInitLeft: number, objInitTop: number;
     let inDrag = false;
 
-    elementToClick.addEventListener('mousedown', (event) => {
+    elementToClick.addEventListener("mousedown", (event) => {
       inDrag = true;
       objInitLeft = elementToDrag.offsetLeft;
       objInitTop = elementToDrag.offsetTop;
@@ -113,21 +129,23 @@ export class BaseModal extends HTMLElement {
       dragStartY = event.pageY;
     });
 
-    document.addEventListener('mousemove', (event) => {
+    document.addEventListener("mousemove", (event) => {
       if (!inDrag) {
         return;
       }
-      elementToDrag.style.left = objInitLeft + event.pageX - dragStartX + 'px';
-      elementToDrag.style.top = objInitTop + event.pageY - dragStartY + 'px';
+      elementToDrag.style.left = objInitLeft + event.pageX - dragStartX + "px";
+      elementToDrag.style.top = objInitTop + event.pageY - dragStartY + "px";
     });
 
-    document.addEventListener('mouseup', function () {
+    document.addEventListener("mouseup", function () {
       inDrag = false;
     });
   }
 
   removeAllModals(): void {
-    ConstantApplication.removeChildNodes(document.querySelector(`#modal-container`) as Element);
+    ConstantApplication.removeChildNodes(
+      document.querySelector(`#modal-container`) as Element
+    );
     console.log(`clear em!`);
   }
 }

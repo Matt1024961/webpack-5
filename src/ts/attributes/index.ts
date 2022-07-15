@@ -14,23 +14,26 @@ export class Attributes {
     document.addEventListener(`scroll`, () => {
       this.setProperAttribute();
     });
-
-    const allFacts = getAllFacts();
+    const allFacts = Array.from(document.querySelectorAll(`[fact]`));
     allFacts.forEach((fact) => {
       const element = document.getElementById(fact.id as string);
       if (element) {
         element.addEventListener(`click`, (event) => {
           event.stopPropagation();
+          event.preventDefault();
           this.removeAttributes(`selected-fact`);
           element.setAttribute(`selected-fact`, ``);
-
-          const modal = document.createElement(`sec-modal-fact`);
+          const modal = document.createElement(
+            `sec-modal-fact${
+              element.hasAttribute(`nested-fact-parent`) ? `-nested` : ``
+            }`
+          );
           modal.setAttribute(`fact-id`, element.getAttribute(`id`) as string);
           document.querySelector(`#modal-container`)?.append(modal);
         });
       }
     });
-  }
+  };
 
   setProperAttribute = () => {
     const allFacts = getAllFacts();
@@ -45,9 +48,8 @@ export class Attributes {
           element as HTMLElement,
           isfactHidden as boolean
         );
-
-
         if (inViewport) {
+          element.setAttribute(`fact`, ``);
           this.findNestedFacts(element);
           if (isFactActive) {
             if (isFactBlock) {
@@ -88,7 +90,7 @@ export class Attributes {
         }
       }
     });
-  }
+  };
 
   isInViewPort = (element: Element, isHidden: boolean) => {
     if (isHidden) {
@@ -99,7 +101,7 @@ export class Attributes {
       rect.top >= 0 &&
       rect.left >= 0 &&
       rect.bottom <=
-      (window.innerHeight || document.documentElement.clientHeight) &&
+        (window.innerHeight || document.documentElement.clientHeight) &&
       rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
   };
@@ -118,7 +120,7 @@ export class Attributes {
 
       if (!current.hasAttribute(`nested-fact-child`)) {
         current.setAttribute(`nested-fact-child`, ``);
-        console.log(`nested`);
+        //console.log(`nested`);
       }
     });
   };
