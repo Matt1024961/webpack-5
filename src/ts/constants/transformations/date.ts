@@ -21,6 +21,8 @@ export const TransformationsDate = {
     [2, 20, 1],
   ],
 
+  getGregorianHindiMonthNumber: {},
+
   getSakaToGregorian: (year: number, month: number, day: number) => {
     if (!year && !month && !day) {
       return null;
@@ -153,5 +155,177 @@ export const TransformationsDate = {
       return result.format(`--MM-DD`);
     }
     return "Format Error: Date Day Month";
+  },
+
+  dateDayMonthDk: (input: string) => {
+    if (input) {
+      const regex =
+        /^\s*([0-9]{1,2})[^0-9]+(jan|feb|mar|apr|maj|jun|jul|aug|sep|okt|nov|dec)([A-Za-z]*)([.]*)\s*$/i;
+      const result = regex.exec(input);
+      if (result && result.length === 5) {
+        const month = result[2];
+        const day = result[1];
+        const monthEnd = result[3];
+        const monthPer = result[4];
+
+        if (
+          ((!monthEnd && !monthPer) ||
+            (!monthEnd && monthPer) ||
+            (monthEnd && !monthPer)) &&
+          `01` <= day &&
+          day <= `${moment(month, `MMM`).daysInMonth()}`
+        ) {
+          const dateResult = moment(`${day}-${month}`, `DD-MMM`);
+          if (!dateResult.isValid()) {
+            return `Format Error: Date Day Month DK`;
+          }
+          return dateResult.format(`--MM-DD`);
+        }
+      }
+    }
+    return "Format Error: Date Day Month DK";
+  },
+
+  dateDayMonthEn: (input: string) => {
+    if (input) {
+      const regex =
+        /^\s*([0-9]{1,2})[^0-9]+(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC|JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER)\s*$/;
+      const result = regex.exec(input);
+      if (result) {
+        const month = result[2];
+        const day = result[1];
+        const dateResult = moment(`${day}-${month}`, `DD-MMM`);
+        if (!dateResult.isValid()) {
+          return `Format Error: Date Day Month EN`;
+        }
+        return dateResult.format(`--MM-DD`);
+      }
+    }
+    return `Format Error: Date Day Month EN`;
+  },
+
+  dateDayMonthYear: (input: string) => {
+    if (input) {
+      const regex =
+        /^\s*([0-9]{1,2})[^0-9]+([0-9]{1,2})[^0-9]+([0-9]{4}|[0-9]{1,2})\s*$/;
+      const result = regex.exec(input);
+      if (result) {
+        const dateResult = moment(
+          input,
+          [
+            "DD MM YY",
+            "DD.MM.YYYY",
+            "DD.MM.Y",
+            "DD.MM.YY",
+            "D.M.YY",
+            "D.M.YYYY",
+            "DD/MM/YY",
+            "DD/MM/YYYY",
+          ],
+          true
+        );
+
+        if (!dateResult.isValid()) {
+          return `Format Error: Date Day Month Year`;
+        }
+
+        if (dateResult.year().toString().length === 1) {
+          dateResult.year(2000 + dateResult.year());
+        }
+
+        if (dateResult.year().toString().length === 2) {
+          dateResult.year(2000 + dateResult.year());
+        }
+
+        if (
+          dateResult.year().toString().length === 3 &&
+          result[3].length === 3
+        ) {
+          return `Format Error: Date Day Month Year`;
+        }
+        return dateResult.format(`YYYY-MM-DD`);
+      }
+    }
+    return `Format Error: Date Day Month Year`;
+  },
+
+  dateDayMonthYearDk: (input: string) => {
+    if (input) {
+      const regex =
+        /^\s*([0-9]{1,2})[^0-9]+(jan|feb|mar|apr|maj|jun|jul|aug|sep|okt|nov|dec)([A-Za-z]*)([.]*)[^0-9]*([0-9]{4}|[0-9]{1,2})\s*$/i;
+      const result = regex.exec(input);
+      if (result) {
+        const year = result[5];
+        const day = result[1];
+        const month = moment().month(result[2]).format(`M`);
+        const monthEnd = result[3];
+        const monthPer = result[4];
+
+        if (
+          (month && ((!monthEnd && !monthPer) || (!monthEnd && monthPer))) ||
+          (monthEnd && !monthPer)
+        ) {
+          const dateResult = moment(`${day}-${month}-${year}`, `DD-M-YYYY`);
+          if (!dateResult.isValid()) {
+            return `Format Error: Date Day Month Year DK`;
+          }
+
+          if (dateResult.year().toString().length === 1) {
+            dateResult.year(2000 + dateResult.year());
+          }
+
+          if (dateResult.year().toString().length === 2) {
+            dateResult.year(2000 + dateResult.year());
+          }
+
+          return dateResult.format(`YYYY-MM-DD`);
+        }
+      }
+    }
+    return `Format Error: Date Day Month Year DK`;
+  },
+
+  dateDayMonthYearEn: (input: string) => {
+    if (input) {
+      const regex =
+        /^\s*([0-9]{1,2})[^0-9]+(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC|JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER)[^0-9]+([0-9]{4}|[0-9]{1,2})\s*$/;
+      const result = regex.exec(input);
+      if (result) {
+        const year = result[5];
+        const day = result[1];
+        const month = result[2];
+        const dateResult = moment(`${day}-${month}-${year}`, `DD-MMM-Y`);
+        if (!dateResult.isValid()) {
+          return `Format Error: Date Day Month Year EN`;
+        }
+        if (dateResult.year().toString().length === 1) {
+          dateResult.year(2000 + dateResult.year());
+        }
+
+        if (dateResult.year().toString().length === 2) {
+          dateResult.year(2000 + dateResult.year());
+        }
+        return dateResult.format(`YYYY-MM-DD`);
+      }
+    }
+    return `Format Error: Date Day Month Year EN`;
+  },
+
+  dateDayMonthYearIn: (input: string) => {
+    if (input) {
+      const regex =
+        /^\s*([0-9\u0966-\u096F]{1,2})\s([\u0966-\u096F]{2}|[^\s0-9\u0966-\u096F]+)\s([0-9\u0966-\u096F]{2}|[0-9\u0966-\u096F]{4})\s*$/;
+      const result = regex.exec(input);
+      if(result) {
+        const year = TransformationsNumber.getDevanagariDigitsToNormal(result[3]);
+        let month;
+        if() {
+
+        } else {
+
+        }
+      }
+    }
+    return `Format Error (date value): Date Day Month Year IN`;
   },
 };
