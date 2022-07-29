@@ -102,9 +102,9 @@ const fillFacts = (input: DataJSON, xhtmlUrl: string): Array<any> => {
     }
     const type = current[`ixv:conceptType`]
       ? input[`ixv:conceptTypes`][current[`ixv:conceptType`]]
-          .split(`:`)[1]
-          .replace(/([A-Z])/g, " $1")
-          .replace(/^./, (str: string) => str.toUpperCase())
+        .split(`:`)[1]
+        .replace(/([A-Z])/g, " $1")
+        .replace(/^./, (str: string) => str.toUpperCase())
       : null;
 
     // console.log(current["ixv:factCalculations"][1]);
@@ -143,18 +143,19 @@ const fillFacts = (input: DataJSON, xhtmlUrl: string): Array<any> => {
         value: TransformationsConstant.getTransformation(
           current.value,
           current.decimals,
-          current["ixv:format"]
+          current["ixv:format"],
+          current.id
         ),
         dimensions:
           tempDimension.value && tempDimension.key
             ? {
-                concept: current.dimensions.concept,
-                period: current.dimensions.period,
-                lang: current.dimensions.language,
-                unit: current.dimensions.unit,
-                value: tempDimension.value,
-                key: tempDimension.key,
-              }
+              concept: current.dimensions.concept,
+              period: current.dimensions.period,
+              lang: current.dimensions.language,
+              unit: current.dimensions.unit,
+              value: tempDimension.value,
+              key: tempDimension.key,
+            }
             : null,
         references: input["ixv:references"][current["ixv:factReferences"]],
         contextref: current["ixv:contextref"],
@@ -274,14 +275,14 @@ const fillFormInfo = (input: DataJSON) => {
           (input[`ixv:instanceInfo`].keyStandard /
             (input[`ixv:instanceInfo`].keyStandard +
               input[`ixv:instanceInfo`].keyCustom)) *
-            100
+          100
         )}%`,
         custom: input[`ixv:instanceInfo`].keyCustom,
         customPerc: `${Math.round(
           (input[`ixv:instanceInfo`].keyCustom /
             (input[`ixv:instanceInfo`].keyStandard +
               input[`ixv:instanceInfo`].keyCustom)) *
-            100
+          100
         )}%`,
         total:
           input[`ixv:instanceInfo`].keyStandard +
@@ -294,14 +295,14 @@ const fillFormInfo = (input: DataJSON) => {
           (input[`ixv:instanceInfo`].axisStandard /
             (input[`ixv:instanceInfo`].axisStandard +
               input[`ixv:instanceInfo`].axisCustom)) *
-            100
+          100
         )}%`,
         custom: input[`ixv:instanceInfo`].axisCustom,
         customPerc: `${Math.round(
           (input[`ixv:instanceInfo`].axisCustom /
             (input[`ixv:instanceInfo`].axisStandard +
               input[`ixv:instanceInfo`].axisCustom)) *
-            100
+          100
         )}%`,
         total:
           input[`ixv:instanceInfo`].axisStandard +
@@ -314,14 +315,14 @@ const fillFormInfo = (input: DataJSON) => {
           (input[`ixv:instanceInfo`].memberStandard /
             (input[`ixv:instanceInfo`].memberStandard +
               input[`ixv:instanceInfo`].memberCustom)) *
-            100
+          100
         )}%`,
         custom: input[`ixv:instanceInfo`].memberCustom,
         customPerc: `${Math.round(
           (input[`ixv:instanceInfo`].memberCustom /
             (input[`ixv:instanceInfo`].memberStandard +
               input[`ixv:instanceInfo`].memberCustom)) *
-            100
+          100
         )}%`,
         total:
           input[`ixv:instanceInfo`].memberStandard +
@@ -343,7 +344,7 @@ const fillFormInfo = (input: DataJSON) => {
               input[`ixv:instanceInfo`].axisCustom +
               input[`ixv:instanceInfo`].memberStandard +
               input[`ixv:instanceInfo`].memberCustom)) *
-            100
+          100
         )}%`,
         custom:
           input[`ixv:instanceInfo`].keyCustom +
@@ -359,7 +360,7 @@ const fillFormInfo = (input: DataJSON) => {
               input[`ixv:instanceInfo`].axisCustom +
               input[`ixv:instanceInfo`].memberStandard +
               input[`ixv:instanceInfo`].memberCustom)) *
-            100
+          100
         )}%`,
         total:
           input[`ixv:instanceInfo`].keyStandard +

@@ -8,7 +8,8 @@ export const TransformationsConstant = {
   getTransformation: (
     input: string,
     _decimals: number | null,
-    format: string
+    format: string,
+    factId: string,
   ) => {
     const formatArray = format ? format.split(`:`) : [null, null];
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -188,13 +189,21 @@ export const TransformationsConstant = {
         if (formatArray[1]?.toLowerCase() === current) {
           if (transformationsObject[current]) {
             // eslint-disable-next-line @typescript-eslint/ban-types
-            return (transformationsObject[current] as Function).call(
+            const transformedValue = (transformationsObject[current] as Function).call(
               this,
               input
             );
+            if (transformedValue.startsWith(`Format Error`)) {
+              console.group(`Format Error`);
+              console.error(`Error Message:`, transformedValue);
+              console.info(`Fact Value:`, input);
+              console.info(`Transform Value:`, current);
+              console.info(`Fact ID:`, factId);
+              console.groupEnd();
+            }
+            return transformedValue;
           } else {
-            // console.warn(`${current} transformation not found!`);
-            // console.log(input);
+            console.warn(`${current} transformation not found!`);
           }
         }
       });
